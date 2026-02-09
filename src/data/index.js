@@ -1,7 +1,4 @@
-import technologies from "./technologies.js";
-import { services } from "./services.js";
+import technologies from "./technologies.json";
+import services from "./services.json";
 
-export default {
-    "technologies": technologies,
-    "services": services,
-}
+export { technologies, services };

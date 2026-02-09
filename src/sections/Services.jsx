@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {CheckCircle, Check, Code, Cpu, Globe, MessageCircle, FileText, Wrench} from "lucide-react";
-import { services } from "../data/services";
+import { services } from "../data";
 
 export default function Services() {
     const [flippedCard, setFlippedCard] = useState(null);

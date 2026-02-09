@@ -1,0 +1,21 @@
+[
+    { "name": "PHP", "icon": "/icons/php_logo.svg" },
+    { "name": "Laravel", "icon": "/icons/laravel_logo.svg" },
+    { "name": "Python", "icon": "/icons/python_logo.svg" },
+    { "name": "MySQL", "icon": "/icons/mysql_logo.png" },
+    { "name": "AWS", "icon": "/icons/aws_logo.svg" },
+    { "name": "JavaScript", "icon": "/icons/javascript_logo.svg" },
+    { "name": "Vue.js", "icon": "/icons/vue_logo.svg" },
+    { "name": "React", "icon": "/icons/react_logo.svg" },
+    { "name": "Node.js", "icon": "/icons/nodejs_logo.svg" },
+    { "name": "CSS3", "icon": "/icons/css_logo.svg" },
+    { "name": "Tailwind CSS", "icon": "/icons/tailwind_logo.svg" },
+    { "name": "Angular", "icon": "/icons/angular_logo.svg" },
+    { "name": "Kotlin", "icon": "/icons/kotlin_logo.svg" },
+    { "name": "Spring Boot", "icon": "/icons/spring_logo.svg" },
+    { "name": "Woocommerce", "icon": "/icons/woocommerce_logo.svg" },
+    { "name": "Prestashop", "icon": "/icons/prestashop_logo.svg" },
+    { "name": "Magento", "icon": "/icons/magento_logo.svg" },
+    { "name": "Shopify", "icon": "/icons/shopify_logo.svg" },
+    { "name": "Entre otros", "icon": null }
+]
