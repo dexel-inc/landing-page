@@ -103,7 +103,7 @@ export default function Contact() {
             className="min-h-screen flex items-center justify-center py-24 px-6 relative overflow-hidden"
         >
             <div className="absolute inset-0 bg-gradient-to-b from-[#050505] z-0"></div>
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[50vw] h-[50vh] bg-blue-900/20 blur-[120px] rounded-full pointer-events-none z-0"></div>
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[50vw] h-[50vh] pointer-events-none z-0"></div>
 
             <div className="max-w-5xl w-full flex flex-col md:flex-row items-center justify-between gap-16 relative z-10">
                 <div className="max-w-md text-left">
