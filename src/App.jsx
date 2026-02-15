@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Code, Send} from "lucide-react";
 import {Canvas, useFrame} from "@react-three/fiber";
 import {PointMaterial, Points} from "@react-three/drei";
 import * as random from 'maath/random/dist/maath-random.esm';
@@ -7,6 +6,7 @@ import Logo from "./icons/logo.jsx";
 import Stack from "./sections/Stack.jsx";
 import Services from "./sections/Services.jsx";
 import Contact from "./sections/Contact.jsx";
+import Footer from "./sections/Footer.jsx";
 
 
 function ParticleObject() {
@@ -127,28 +127,7 @@ export default function DexelLanding() {
                 <Contact />
                 <Services />
                 <Stack id="stack" />
-
-                {/* FOOTER */}
-                <footer className="border-t border-zinc-900/80 bg-[#050505] py-12 text-center justify-center align-middle flex flex-col relative z-10">
-                    <div className="mb-6 text-xl font-bold tracking-[0.2em] text-gray-300 flex justify-center align-middle">
-                        <Logo className="w-30 h-30" viewBox="0 0 324 210" />
-                    </div>
-                    <div className="flex justify-center gap-8 mb-8 text-gray-500 text-sm tracking-widest uppercase">
-                        <a href="#" className="hover:text-white transition">
-                            Linkedin
-                        </a>
-                        <a href="#" className="hover:text-white transition">
-                            Github
-                        </a>
-                        <a href="#" className="hover:text-white transition">
-                            Twitter
-                        </a>
-                    </div>
-                    <p className="text-zinc-600 text-xs font-mono">
-                        &copy; {new Date().getFullYear()} DEXEL DIGITAL EXCELLENCE. Todos los
-                        derechos reservados.
-                    </p>
-                </footer>
+                <Footer />
             </main>
         </div>
     );
