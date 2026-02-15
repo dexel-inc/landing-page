@@ -16,7 +16,7 @@ export default function Services() {
 
     return (
         <section className="min-h-screen flex items-center justify-center py-24 relative">
-            <div className="absolute inset-0 bg-gradient-to-b via-black/80 to-[#050505] z-0"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-black/80 to-[#050505] z-0"></div>
 
             <div className="max-w-6xl w-full px-6 relative z-10">
                 <div className="mb-16 text-center">
