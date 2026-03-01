@@ -89,19 +89,19 @@ export default function Contact({ copy }) {
   return (
     <section
       id="contacto"
-      className="min-h-screen flex items-center justify-center py-24 px-6 relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center py-16 md:py-24 px-4 md:px-6 relative overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-b from-slate-100 via-white to-slate-100 dark:from-[#050505] dark:via-black/80 dark:to-[#050505] z-0"></div>
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[50vw] h-[50vh] pointer-events-none z-0"></div>
 
-      <div className="max-w-5xl w-full flex flex-col md:flex-row items-center justify-between gap-16 relative z-10">
+      <div className="max-w-5xl w-full flex flex-col md:flex-row items-center justify-between gap-10 md:gap-16 relative z-10">
         <div className="max-w-md text-left">
-          <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight tracking-tighter text-slate-900 dark:text-white">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black mb-6 md:mb-8 leading-tight tracking-tighter text-slate-900 dark:text-white">
             {copy.titleStart}
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-slate-700 dark:from-blue-400 dark:to-white">{copy.titleHighlight}</span>
           </h2>
-          <p className="text-slate-600 dark:text-gray-400 mb-10 text-lg leading-relaxed font-light">{copy.description}</p>
+          <p className="text-slate-600 dark:text-gray-400 mb-8 md:mb-10 text-base md:text-lg leading-relaxed font-light">{copy.description}</p>
           <div className="flex flex-col gap-4 text-sm text-slate-500 dark:text-gray-500 font-mono">
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
@@ -118,7 +118,7 @@ export default function Contact({ copy }) {
           </div>
         </div>
 
-        <div className="w-full md:w-auto">
+        <div className="w-full md:w-auto max-w-md">
           <ChatbotForm copy={copy.chat} />
         </div>
       </div>

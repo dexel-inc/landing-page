@@ -40,6 +40,7 @@ export const messages = {
     },
     services: {
       title: "Nuestros Servicios",
+      badge: "Servicios Dexel",
       subtitle: "Soluciones digitales adaptadas a tus necesidades",
       serviceLabel: "Servicio",
       cta: "Ver detalles",
@@ -270,6 +271,7 @@ export const messages = {
     },
     services: {
       title: "Our Services",
+      badge: "Dexel Services",
       subtitle: "Digital solutions tailored to your needs",
       serviceLabel: "Service",
       cta: "View details",
