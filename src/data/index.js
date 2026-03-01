@@ -1,4 +1,4 @@
 import technologies from "./technologies.json";
-import services from "./services.json";
+import routes from "./routes.js";
 
-export { technologies, services };
+export { technologies, routes };
