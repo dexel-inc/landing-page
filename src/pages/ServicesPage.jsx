@@ -34,8 +34,8 @@ export default function ServicesPage({ copy }) {
   };
 
   return (
-    <main className="pt-32 md:pt-28 pb-16 md:pb-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-white to-slate-100 dark:from-[#050505] dark:via-black/80 dark:to-[#050505] z-0"></div>
+    <main id="services" className="pt-32 md:pt-28 pb-16 md:pb-24 relative overflow-hidden">
+      <div className="absolute inset-0 bg-linear-to-b from-slate-50 via-white to-slate-100 dark:from-[#050505] dark:via-black/80 dark:to-[#050505] z-0"></div>
       <div className="absolute -top-20 -left-16 w-80 h-80 rounded-full bg-blue-500/20 dark:bg-blue-600/20 blur-3xl pointer-events-none z-0"></div>
       <div className="absolute top-1/3 -right-24 w-96 h-96 rounded-full bg-cyan-400/20 dark:bg-cyan-500/10 blur-3xl pointer-events-none z-0"></div>
 
@@ -80,7 +80,7 @@ export default function ServicesPage({ copy }) {
                     <ul className="space-y-3 mb-8">
                       {service.features.map((feature, featureIndex) => (
                         <li key={featureIndex} className="flex items-start gap-3 bg-slate-50 dark:bg-zinc-900/60 border border-slate-200 dark:border-zinc-800 rounded-xl px-3 py-2">
-                          <Check size={18} className="text-blue-500 dark:text-blue-300 mt-0.5 flex-shrink-0" />
+                          <Check size={18} className="text-blue-500 dark:text-blue-300 mt-0.5 shrink-0" />
                           <span className="text-slate-600 dark:text-gray-300">{feature}</span>
                         </li>
                       ))}
@@ -97,7 +97,7 @@ export default function ServicesPage({ copy }) {
                   </div>
 
                   <div className="w-full md:w-1/2">
-                    <div className="h-full min-h-[320px] rounded-2xl overflow-hidden border border-slate-200 dark:border-zinc-800 bg-slate-100 dark:bg-zinc-900/70 relative">
+                    <div className="h-full min-h-80 rounded-2xl overflow-hidden border border-slate-200 dark:border-zinc-800 bg-slate-100 dark:bg-zinc-900/70 relative">
                       {service.image ? (
                         <img
                           src={service.image}
@@ -107,7 +107,7 @@ export default function ServicesPage({ copy }) {
                         />
                       ) : null}
 
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-black/20 to-black/65 dark:from-black/15 dark:via-black/45 dark:to-black/85"></div>
+                      <div className="absolute inset-0 bg-linear-to-br from-white/30 via-black/20 to-black/65 dark:from-black/15 dark:via-black/45 dark:to-black/85"></div>
 
                       <div className="absolute inset-0 p-4 md:p-6 flex items-end justify-between">
                         <div>

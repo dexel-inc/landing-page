@@ -15,7 +15,7 @@ export default function Footer({
         <div className="w-full text-xl md:text-7xl font-bold">
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-black leading-tight tracking-tighter">{copy.title}</h2>
         </div>
-        <div className="w-full max-w-[220px] pt-3 md:pt-0">
+        <div className="w-full max-w-55 pt-3 md:pt-0">
           <Button
             as="a"
             href={whatsappLink}

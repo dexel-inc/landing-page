@@ -11,6 +11,7 @@ import { useI18n } from "./i18n/I18nContext.jsx";
 import { Link, useRouter } from "./router/RouterContext.jsx";
 import { routes } from "./data/index.js";
 import { useTheme } from "./theme/ThemeContext.jsx";
+import { updateSeo } from "./seo/updateSeo.js";
 
 function ParticleObject() {
   const ref = useRef({});
@@ -148,7 +149,7 @@ function RouteContent() {
 
 export default function DexelLanding() {
   const { path } = useRouter();
-  const { copy } = useI18n();
+  const { copy, locale } = useI18n();
 
   useEffect(() => {
     let ticking = false;
@@ -167,16 +168,8 @@ export default function DexelLanding() {
   }, []);
 
   useEffect(() => {
-    const routeTitle =
-      path === "/servicios"
-        ? copy.nav.services
-        : path === "/contacto"
-          ? copy.nav.contact
-          : copy.nav.home;
-
-    document.title =
-      path === "/" ? copy.meta.homeTitle : `${copy.meta.brand} | ${routeTitle}`;
-  }, [path, copy]);
+    updateSeo({ path, copy, locale });
+  }, [path, copy, locale]);
 
   return (
     <div className="bg-slate-50 dark:bg-[#050505] min-h-screen text-slate-900 dark:text-white font-sans selection:bg-blue-200 dark:selection:bg-blue-900/30 selection:text-slate-900 dark:selection:text-white transition-colors duration-300">
@@ -188,7 +181,7 @@ export default function DexelLanding() {
 
       <div className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center text-slate-300 dark:text-white">
         <Logo className="opacity-30 dark:opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-slate-50 dark:from-black/30 dark:to-[#050505]" />
+        <div className="absolute inset-0 bg-linear-to-b from-white/20 via-transparent to-slate-50 dark:from-black/30 dark:to-[#050505]" />
       </div>
 
       <Navbar />

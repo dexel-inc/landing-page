@@ -3,6 +3,16 @@ export const messages = {
     meta: {
       brand: "Dexel",
       homeTitle: "Dexel - Desarrollo de software a la medida",
+      homeDescription:
+        "Dexel desarrolla software a la medida para empresas: páginas web, sitios corporativos, aplicaciones web, automatización y consultoría tecnológica.",
+      servicesTitle: "Dexel | Servicios de desarrollo de software",
+      servicesDescription:
+        "Conoce los servicios de Dexel: páginas web, sitios web, aplicaciones web y soluciones técnicas para escalar tu negocio.",
+      contactTitle: "Dexel | Contacto y cotización de software",
+      contactDescription:
+        "Contáctanos para cotizar tu proyecto de software. Te ayudamos a diseñar y construir soluciones digitales alineadas a tus objetivos.",
+      siteName: "Dexel",
+      type: "website",
     },
     nav: {
       home: "Inicio",
@@ -21,25 +31,75 @@ export const messages = {
       title:
         "Donde la complejidad técnica se encuentra con el diseño elegante. Creamos ecosistemas digitales a la medida para personas o empresas que no aceptan límites.",
       scroll: "Scroll para hacer tu idea realidad",
+      h1: "Desarrollo de software a la medida para empresas",
+    },
+    homeSeo: {
+      title: "Soluciones digitales orientadas a resultados",
+      intro:
+        "En Dexel combinamos estrategia, diseño y tecnología para construir productos digitales rápidos, escalables y mantenibles.",
+      points: [
+        {
+          title: "Arquitectura sólida",
+          text: "Definimos bases técnicas claras para que tu producto pueda crecer sin deuda innecesaria.",
+        },
+        {
+          title: "Enfoque en negocio",
+          text: "Cada decisión de producto y desarrollo se conecta con objetivos medibles de tu empresa.",
+        },
+        {
+          title: "Ejecución ágil",
+          text: "Entregamos en ciclos iterativos con visibilidad constante de avances, riesgos y prioridades.",
+        },
+      ],
     },
     contact: {
       titleStart: "Iniciemos el",
       titleHighlight: "Proceso.",
       description:
         "Olvídese de los formularios estáticos. Interactúe directamente con nuestro núcleo de pre-análisis. Cuéntenos su problema técnico y obtenga una evaluación preliminar en tiempo real.",
-      averageResponseLabel: "Respuesta promedio:",
-      averageResponseValue: "Tiempo real",
-      engineeringAvailabilityLabel: "Disponibilidad de ingeniería:",
-      engineeringAvailabilityValue: "Alta",
       chat: {
-        status: "DEXEL_AI_CORE // ONLINE",
+        status: "DEXEL - ONLINE",
         placeholder: "Escriba su requerimiento...",
-        conversation: [
-          "Iniciando protocolo DEXEL... Detectando necesidades. ¿Cuál es el desafío de software más crítico que impide el crecimiento de su empresa hoy?",
-          "Análisis preliminar: Detectamos una oportunidad para optimización de arquitectura. ¿Buscan modernizar una plataforma existente o construir un ecosistema nuevo desde cero?",
-          "Comprendido. Nuestros ingenieros senior se especializan en ese tipo de despliegue. Por favor, ingrese un correo corporativo para recibir el pre-diagnóstico técnico.",
-          "Datos recibidos. El sistema ha agendado una revisión prioritaria. Un arquitecto de soluciones de Dexel le contactará en breve. Fin de la transmisión.",
-        ],
+          "whatsappButton": "Continuar en WhatsApp",
+          "flow": [
+            {
+              "bot": "👋 ¡Hola! Soy el asistente de DEXEL.\n\nEstoy aquí para ayudarte a dar el primer paso con tu proyecto. ¿Cuál es tu nombre o el nombre de tu empresa?",
+              "field": "nombre"
+            },
+            {
+              "bot": "¡Un placer, {{nombre}}! 😊\n\n¿A qué se dedica tu empresa o en qué industria operás?",
+              "field": "industria"
+            },
+            {
+              "bot": "Perfecto 👍\n\n¿Cuál es el principal problema o necesidad que querés resolver con software? Contámelo con tus palabras.",
+              "field": "problema"
+            },
+            {
+              "bot": "¡Muy claro! ¿Tenés alguna idea del tipo de solución que buscás?\n\nPor ejemplo: app mobile, sistema web, automatización, integración de herramientas, etc.",
+              "field": "solucion"
+            },
+            {
+              "bot": "Excelente 🚀\n\n¿En qué plazo aproximado necesitarías tener esto funcionando?",
+              "field": "plazo"
+            },
+            {
+              "bot": "¡Listo, {{nombre}}! Ya tengo todo lo que necesito. 🎉\n\nPreparé un resumen con tu información. Al presionar el botón vas a ser redirigido a WhatsApp para que nuestro equipo te contacte y arranquemos juntos.",
+              "field": null,
+              "isFinal": true
+            }
+          ],
+          "whatsappMessage": {
+            "header": "*Nuevo contacto desde el sitio — DEXEL*",
+            "intro": "¡Hola! Me comunico desde el sitio web con la siguiente información:",
+            "fields": {
+              "nombre": "*Nombre / Empresa:*",
+              "industria": "*Industria:*",
+              "problema": "*Problema a resolver:*",
+              "solucion": "*Tipo de solución buscada:*",
+              "plazo": "*Plazo estimado:*"
+            },
+            "outro": "Quedo a disposición para iniciar el proceso de toma de requerimientos."
+          }
       },
     },
     services: {
@@ -238,6 +298,16 @@ export const messages = {
     meta: {
       brand: "Dexel",
       homeTitle: "Dexel - Custom software development",
+      homeDescription:
+        "Dexel builds custom software for companies: landing pages, business websites, web applications, automation, and technology consulting.",
+      servicesTitle: "Dexel | Software development services",
+      servicesDescription:
+        "Explore Dexel services: web pages, websites, web applications, and technical solutions to scale your business.",
+      contactTitle: "Dexel | Contact and software quote",
+      contactDescription:
+        "Contact us to quote your software project. We help design and build digital solutions aligned with your business goals.",
+      siteName: "Dexel",
+      type: "website",
     },
     nav: {
       home: "Home",
@@ -256,25 +326,75 @@ export const messages = {
       title:
         "Where technical complexity meets elegant design. We build tailored digital ecosystems for people and companies that do not accept limits.",
       scroll: "Scroll to bring your idea to life",
+      h1: "Custom software development for companies",
+    },
+    homeSeo: {
+      title: "Digital solutions focused on outcomes",
+      intro:
+        "At Dexel, we combine strategy, design, and technology to build fast, scalable, and maintainable digital products.",
+      points: [
+        {
+          title: "Solid architecture",
+          text: "We define clear technical foundations so your product can grow without unnecessary technical debt.",
+        },
+        {
+          title: "Business-driven approach",
+          text: "Every product and engineering decision is tied to measurable business goals.",
+        },
+        {
+          title: "Agile execution",
+          text: "We deliver in iterative cycles with continuous visibility on progress, risks, and priorities.",
+        },
+      ],
     },
     contact: {
       titleStart: "Let's start the",
       titleHighlight: "Process.",
       description:
-        "Forget static forms. Interact directly with our pre-analysis core. Tell us your technical challenge and get a preliminary assessment in real time.",
-      averageResponseLabel: "Average response:",
-      averageResponseValue: "Real time",
-      engineeringAvailabilityLabel: "Engineering availability:",
-      engineeringAvailabilityValue: "High",
+          "Forget static forms. Interact directly with our pre-analysis core. Tell us your technical challenge and get a preliminary assessment in real time.",
       chat: {
-        status: "DEXEL_AI_CORE // ONLINE",
+        status: "DEXEL - ONLINE",
         placeholder: "Type your requirement...",
-        conversation: [
-          "Initializing DEXEL protocol... Detecting requirements. What software challenge is currently limiting your company growth?",
-          "Preliminary analysis: We detected an architecture optimization opportunity. Are you looking to modernize an existing platform or build a new ecosystem from scratch?",
-          "Understood. Our senior engineers specialize in this type of deployment. Please enter a corporate email to receive the technical pre-diagnosis.",
-          "Data received. The system has scheduled a priority review. A Dexel solutions architect will contact you shortly. End of transmission.",
+        "whatsappButton": "Continue on WhatsApp",
+        "flow": [
+          {
+            "bot": "👋 Hi! I'm DEXEL's assistant.\n\nI'm here to help you take the first step with your project. What's your name or your company's name?",
+            "field": "nombre"
+          },
+          {
+            "bot": "Great to meet you, {{nombre}}! 😊\n\nWhat does your company do or what industry do you operate in?",
+            "field": "industria"
+          },
+          {
+            "bot": "Perfect 👍\n\nWhat's the main problem or need you want to solve with software? Tell me in your own words.",
+            "field": "problema"
+          },
+          {
+            "bot": "Got it! Do you have any idea of the type of solution you're looking for?\n\nFor example: mobile app, web system, automation, tool integration, etc.",
+            "field": "solucion"
+          },
+          {
+            "bot": "Excellent 🚀\n\nIn what approximate timeframe would you need this up and running?",
+            "field": "plazo"
+          },
+          {
+            "bot": "All done, {{nombre}}! I have everything I need. 🎉\n\nI've prepared a summary with your information. By pressing the button you'll be redirected to WhatsApp so our team can contact you and we can get started together.",
+            "field": null,
+            "isFinal": true
+          }
         ],
+        "whatsappMessage": {
+          "header": "*New contact from the website — DEXEL*",
+          "intro": "Hello! I'm reaching out from the website with the following information:",
+          "fields": {
+            "nombre": "*Name / Company:*",
+            "industria": "*Industry:*",
+            "problema": "*Problem to solve:*",
+            "solucion": "*Type of solution sought:*",
+            "plazo": "*Estimated timeframe:*"
+          },
+          "outro": "I'm available to start the requirements gathering process."
+        },
       },
     },
     services: {
