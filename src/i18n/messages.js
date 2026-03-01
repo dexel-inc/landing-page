@@ -8,6 +8,9 @@ export const messages = {
       language: "Idioma",
       spanish: "ES",
       english: "EN",
+      theme: "Tema",
+      auto: "Auto",
+      themeToggle: "Cambiar tema",
     },
     hero: {
       badge: "Desarrollo de Software a la medida",
@@ -235,6 +238,9 @@ export const messages = {
       language: "Language",
       spanish: "ES",
       english: "EN",
+      theme: "Theme",
+      auto: "Auto",
+      themeToggle: "Toggle theme",
     },
     hero: {
       badge: "Custom Software Development",
