@@ -147,6 +147,9 @@ function RouteContent() {
 }
 
 export default function DexelLanding() {
+  const { path } = useRouter();
+  const { copy } = useI18n();
+
   useEffect(() => {
     let ticking = false;
 
@@ -162,6 +165,18 @@ export default function DexelLanding() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const routeTitle =
+      path === "/servicios"
+        ? copy.nav.services
+        : path === "/contacto"
+          ? copy.nav.contact
+          : copy.nav.home;
+
+    document.title =
+      path === "/" ? copy.meta.homeTitle : `${copy.meta.brand} | ${routeTitle}`;
+  }, [path, copy]);
 
   return (
     <div className="bg-slate-50 dark:bg-[#050505] min-h-screen text-slate-900 dark:text-white font-sans selection:bg-blue-200 dark:selection:bg-blue-900/30 selection:text-slate-900 dark:selection:text-white transition-colors duration-300">

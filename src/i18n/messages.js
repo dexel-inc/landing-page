@@ -1,5 +1,9 @@
 export const messages = {
   es: {
+    meta: {
+      brand: "Dexel",
+      homeTitle: "Dexel - Desarrollo de software a la medida",
+    },
     nav: {
       home: "Inicio",
       services: "Servicios",
@@ -231,6 +235,10 @@ export const messages = {
     },
   },
   en: {
+    meta: {
+      brand: "Dexel",
+      homeTitle: "Dexel - Custom software development",
+    },
     nav: {
       home: "Home",
       services: "Services",
