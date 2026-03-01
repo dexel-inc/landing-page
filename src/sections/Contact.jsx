@@ -33,10 +33,12 @@ const ChatbotForm = ({ copy }) => {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [done, setDone] = useState(false);
-  const bottomRef = useRef(null);
+  const chatContainerRef = useRef(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
   }, [history, isTyping]);
 
   const handleSend = () => {
@@ -83,7 +85,7 @@ const ChatbotForm = ({ copy }) => {
         </span>
         </div>
 
-        <div className="h-72 overflow-y-auto mb-6 space-y-4 pr-2 font-mono text-sm leading-relaxed">
+        <div className="h-72 overflow-y-auto mb-6 space-y-4 pr-2 font-mono text-sm leading-relaxed" ref={chatContainerRef}>
           {history.map((msg, idx) => (
               <div key={idx} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div
@@ -107,7 +109,6 @@ const ChatbotForm = ({ copy }) => {
                 </div>
               </div>
           )}
-          <div ref={bottomRef} />
         </div>
 
         {done ? (
