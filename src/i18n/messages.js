@@ -1,4 +1,6 @@
 import { auditCopy, servicesCopy } from "./services.js";
+import { consentCopy, notFoundCopy, privacyCopy } from "./legal.js";
+import { formatPrice } from "../config/pricing.js";
 
 export const messages = {
   es: {
@@ -15,7 +17,12 @@ export const messages = {
         "Le decimos qué procesos se pueden automatizar, cuántas horas al mes recuperaría y cuánto costaría cada implementación. Ocho entregables en 5 a 7 días hábiles.",
       contactTitle: "Dexel | Contacto y cotización de software",
       contactDescription:
-        "Contáctanos para cotizar tu proyecto de software. Te ayudamos a diseñar y construir soluciones digitales alineadas a tus objetivos.",
+        "Cuéntenos qué proceso le está consumiendo más tiempo y le decimos qué se puede automatizar. Respondemos en menos de 4 horas hábiles.",
+      privacyTitle: "Política de tratamiento de datos | Dexel",
+      privacyDescription:
+        "Qué datos recogemos en dexel-inc.com, para qué los usamos, con quién los compartimos y cómo ejercer sus derechos bajo la Ley 1581 de 2012.",
+      notFoundTitle: "Página no encontrada | Dexel",
+      notFoundDescription: "La página que busca no existe o cambió de dirección.",
       siteName: "Dexel",
       type: "website",
     },
@@ -36,9 +43,9 @@ export const messages = {
       badge: "Automatización · Integración · Software a la medida",
       title:
         "Automatizamos procesos, integramos sus sistemas y desarrollamos software a la medida. Somos cinco desarrolladores en Colombia con más de 6 años de experiencia.",
-      scroll: "Scroll para hacer tu idea realidad",
+      scroll: "Scroll para hacer su idea realidad",
       h1: "Software que le devuelve horas a su empresa",
-      primaryCta: "Solicitar auditoría de procesos",
+      primaryCta: `Solicitar auditoría de procesos — ${formatPrice("audit", "es")}`,
       secondaryCta: "Ver casos reales",
       responseTime: "Respondemos en menos de 4 horas hábiles",
     },
@@ -49,11 +56,11 @@ export const messages = {
       points: [
         {
           title: "Arquitectura sólida",
-          text: "Definimos bases técnicas claras para que tu producto pueda crecer sin deuda innecesaria.",
+          text: "Definimos bases técnicas claras para que su producto pueda crecer sin deuda innecesaria.",
         },
         {
           title: "Enfoque en negocio",
-          text: "Cada decisión de producto y desarrollo se conecta con objetivos medibles de tu empresa.",
+          text: "Cada decisión de producto y desarrollo se conecta con objetivos medibles de su empresa.",
         },
         {
           title: "Ejecución ágil",
@@ -110,7 +117,7 @@ export const messages = {
         ctaTitle: "¿Quiere ver estos casos con detalle?",
         ctaText:
           "En una llamada podemos mostrarle arquitectura, métricas y aprendizajes sin exponer datos de nuestros clientes.",
-        ctaButton: "Agendar una llamada",
+        ctaButton: "Agendar una llamada sin costo",
         // Caso bajo NDA con cifra real. Sin nombre de cliente, sin nombre de
         // herramienta y sin capturas: es todo lo que el acuerdo permite mostrar.
         featured: {
@@ -271,10 +278,12 @@ export const messages = {
         },
       ],
       pledgeTitle:
-        "Si el diagnóstico concluye que no necesita desarrollar nada, se lo decimos.",
+        "Si la auditoría concluye que no necesita desarrollar nada, se lo decimos.",
       pledgeText:
         "Preferimos perder un proyecto que entregar algo que no le sirva. Un cliente que resolvió su problema con dos semanas de integración vuelve; uno al que le vendimos seis meses innecesarios, no.",
-      cta: "Solicitar diagnóstico",
+      // Esta sección es la que más argumenta a favor de la auditoría, así que
+      // su botón lleva a comprarla, no a agendar la llamada gratuita.
+      cta: `Solicitar auditoría de procesos — ${formatPrice("audit", "es")}`,
     },
     process: {
       badge: "Cómo trabajamos",
@@ -284,11 +293,11 @@ export const messages = {
       phases: [
         {
           iconName: "Search",
-          title: "Diagnóstico",
+          title: "Llamada de discovery",
           duration: "30–45 min · sin costo",
           desc: "Escuchamos cómo funciona su operación hoy y dónde se pierde el tiempo. Sin vender nada todavía.",
           outputLabel: "Usted recibe",
-          output: "Un diagnóstico honesto de qué vale la pena automatizar y qué no.",
+          output: "Una lectura honesta de qué vale la pena automatizar y qué no.",
         },
         {
           iconName: "FileCheck2",
@@ -351,7 +360,7 @@ export const messages = {
           desc: "Repositorio a nombre de su empresa desde el primer commit. Nunca quedará secuestrado por su proveedor.",
         },
       ],
-      cta: "Agendar diagnóstico sin costo",
+      cta: "Agendar llamada de discovery sin costo",
     },
     contact: {
       titleStart: "Iniciemos el",
@@ -368,11 +377,11 @@ export const messages = {
           // son informativos y avanzan solos.
           "flow": [
             {
-              "bot": "👋 Hola, soy el asistente de DEXEL.\n\nPara ayudarte rápido necesito una sola cosa: ¿qué tarea o proceso le está quitando más tiempo a tu equipo hoy?",
+              "bot": "👋 Hola, soy el asistente de DEXEL.\n\nPara ayudarle rápido necesito una sola cosa: ¿qué tarea o proceso le está quitando más tiempo a su equipo hoy?",
               "field": "problema"
             },
             {
-              "bot": "Entendido. Ese tipo de proceso casi siempre se puede automatizar, total o parcialmente.\n\nPara darte una estimación con sentido y no una cifra al aire, me falta un dato:",
+              "bot": "Entendido. Ese tipo de proceso casi siempre se puede automatizar, total o parcialmente.\n\nPara darle una estimación con sentido y no una cifra al aire, me falta un dato:",
               "field": null
             },
             {
@@ -380,15 +389,15 @@ export const messages = {
               "field": "volumen"
             },
             {
-              "bot": "Perfecto, con eso ya puedo ubicarte. 📊\n\nUn proceso así normalmente se resuelve en implementaciones de 3 a 6 semanas, y la inversión se recupera con las horas que deja de gastar el equipo.\n\nEl diagnóstico detallado es gratuito, dura 30 minutos y de ahí sale el número exacto para tu caso.",
+              "bot": "Perfecto, con eso ya puedo ubicarlo. 📊\n\nUn proceso así normalmente se resuelve en implementaciones de 2 a 6 semanas, y la inversión se recupera con las horas que deja de gastar el equipo.\n\nEl siguiente paso es una llamada de discovery de 30 minutos, sin costo, donde confirmamos si la auditoría de procesos tiene sentido en su caso.",
               "field": null
             },
             {
-              "bot": "¿A nombre de quién preparamos el diagnóstico?",
+              "bot": "¿A nombre de quién agendamos la llamada?",
               "field": "nombre"
             },
             {
-              "bot": "Listo, {{nombre}}. 🎉\n\nArmé el resumen de lo que me contaste. Al presionar el botón pasás a WhatsApp con esa información ya escrita, y agendamos los 30 minutos.",
+              "bot": "Listo, {{nombre}}. 🎉\n\nArmé el resumen de lo que me contó. Al presionar el botón pasa a WhatsApp con esa información ya escrita, y agendamos los 30 minutos.",
               "field": null,
               "isFinal": true
             }
@@ -401,23 +410,28 @@ export const messages = {
               "problema": "*Proceso que consume más tiempo:*",
               "volumen": "*Personas y tiempo dedicado:*"
             },
-            "outro": "Quedo atento para agendar el diagnóstico de 30 minutos."
+            "outro": "Quedo atento para agendar la llamada de discovery de 30 minutos."
           }
       },
     },
     services: servicesCopy.es,
     audit: auditCopy.es,
+    privacy: privacyCopy.es,
+    notFound: notFoundCopy.es,
+    consent: consentCopy.es,
     stack: {
       title: "Stack tecnológico",
-      subtitle: "Herramientas de vanguardia para proyectos de calidad",
+      subtitle:
+        "Trabajamos con tecnologías estables y con comunidad activa. Nada experimental en producción.",
     },
     footer: {
-      title: "¿Qué estás esperando?",
-      contactButton: "Contáctanos",
+      title: "¿Qué está esperando?",
+      contactButton: "Contáctenos",
       responseTime: "Respondemos en menos de 4 horas hábiles",
       services: "Servicios",
       audit: "Auditoría de procesos",
-      contact: "Contáctanos",
+      contact: "Contáctenos",
+      privacy: "Privacidad",
       rights: "Todos los derechos reservados.",
       whatsappAria: "Abrir chat de WhatsApp",
       whatsappText: "Hola Dexel, quiero una cotización",
@@ -437,7 +451,12 @@ export const messages = {
         "We tell you which processes can be automated, how many hours a month you would get back, and what each implementation would cost. Eight deliverables in 5 to 7 business days.",
       contactTitle: "Dexel | Contact and software quote",
       contactDescription:
-        "Contact us to quote your software project. We help design and build digital solutions aligned with your business goals.",
+        "Tell us which process is eating the most time and we'll tell you what can be automated. We reply in under 4 business hours.",
+      privacyTitle: "Data protection policy | Dexel",
+      privacyDescription:
+        "What data we collect on dexel-inc.com, what we use it for, who we share it with, and how to exercise your rights under Colombian Law 1581 of 2012.",
+      notFoundTitle: "Page not found | Dexel",
+      notFoundDescription: "The page you're looking for doesn't exist or moved.",
       siteName: "Dexel",
       type: "website",
     },
@@ -460,7 +479,7 @@ export const messages = {
         "We automate processes, integrate your systems, and build custom software. Five developers based in Colombia with over 6 years of experience.",
       scroll: "Scroll to bring your idea to life",
       h1: "Software that gives your company its hours back",
-      primaryCta: "Request a process audit",
+      primaryCta: `Request a process audit — ${formatPrice("audit", "en")}`,
       secondaryCta: "See real cases",
       responseTime: "We reply in under 4 business hours",
     },
@@ -532,7 +551,7 @@ export const messages = {
         ctaTitle: "Want to see these cases in detail?",
         ctaText:
           "On a call we can walk you through architecture, metrics, and lessons learned without exposing any client data.",
-        ctaButton: "Book a call",
+        ctaButton: "Book a free call",
         featured: {
           sector: "Internal operation",
           redacted: [34, 26, 42],
@@ -689,10 +708,10 @@ export const messages = {
           desc: "Improvements nobody considered because nobody had looked at the whole process.",
         },
       ],
-      pledgeTitle: "If the assessment concludes you don't need to build anything, we'll say so.",
+      pledgeTitle: "If the audit concludes you don't need to build anything, we'll say so.",
       pledgeText:
         "We'd rather lose a project than deliver something that doesn't help. A client who solved their problem with a two-week integration comes back; one we sold six unnecessary months to does not.",
-      cta: "Request an assessment",
+      cta: `Request a process audit — ${formatPrice("audit", "en")}`,
     },
     process: {
       badge: "How we work",
@@ -702,11 +721,11 @@ export const messages = {
       phases: [
         {
           iconName: "Search",
-          title: "Discovery",
+          title: "Discovery call",
           duration: "30–45 min · free",
           desc: "We listen to how your operation works today and where time is lost. No selling yet.",
           outputLabel: "You get",
-          output: "An honest assessment of what's worth automating and what isn't.",
+          output: "An honest read on what's worth automating and what isn't.",
         },
         {
           iconName: "FileCheck2",
@@ -774,7 +793,7 @@ export const messages = {
       titleStart: "Let's start the",
       titleHighlight: "Process.",
       description:
-          "Forget static forms. Interact directly with our pre-analysis core. Tell us your technical challenge and get a preliminary assessment in real time.",
+          "Forget static forms. Interact directly with our pre-analysis core. Tell us your technical challenge and get a preliminary read in real time.",
       chat: {
         status: "DEXEL - ONLINE",
         placeholder: "Type your requirement...",
@@ -797,11 +816,11 @@ export const messages = {
             "field": "volumen"
           },
           {
-            "bot": "Perfect, that's enough to place you. 📊\n\nA process like this is usually solved with a 3 to 6 week implementation, and the investment pays back through the hours your team stops spending on it.\n\nThe detailed assessment is free, takes 30 minutes, and that's where the exact number for your case comes from.",
+            "bot": "Perfect, that's enough to place you. 📊\n\nA process like this is usually solved with a 2 to 6 week implementation, and the investment pays back through the hours your team stops spending on it.\n\nThe next step is a free 30-minute discovery call, where we confirm whether the process audit makes sense in your case.",
             "field": null
           },
           {
-            "bot": "Who should we prepare the assessment for?",
+            "bot": "Who should we book the call for?",
             "field": "nombre"
           },
           {
@@ -818,15 +837,19 @@ export const messages = {
             "problema": "*Process consuming the most time:*",
             "volumen": "*People and time spent:*"
           },
-          "outro": "Looking forward to booking the 30-minute assessment."
+          "outro": "Looking forward to booking the 30-minute discovery call."
         },
       },
     },
     services: servicesCopy.en,
     audit: auditCopy.en,
+    privacy: privacyCopy.en,
+    notFound: notFoundCopy.en,
+    consent: consentCopy.en,
     stack: {
       title: "Technology stack",
-      subtitle: "Cutting-edge tools for high-quality projects",
+      subtitle:
+        "We work with stable, well-supported technologies. Nothing experimental in production.",
     },
     footer: {
       title: "What are you waiting for?",
@@ -835,6 +858,7 @@ export const messages = {
       services: "Services",
       audit: "Process audit",
       contact: "Contact us",
+      privacy: "Privacy",
       rights: "All rights reserved.",
       whatsappAria: "Open WhatsApp chat",
       whatsappText: "Hi Dexel, I want a quote",

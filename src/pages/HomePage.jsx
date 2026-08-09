@@ -3,6 +3,7 @@ import { ArrowRight, Clock3 } from "lucide-react";
 import Logo from "../icons/logo.jsx";
 import Button from "../components/ui/Button.jsx";
 import { EVENTS, track } from "../analytics/track.js";
+import { INTENT, setIntent } from "../analytics/intent.js";
 import Advisory from "../sections/Advisory.jsx";
 import CaseStudies from "../sections/CaseStudies.jsx";
 import Contact from "../sections/Contact.jsx";
@@ -94,8 +95,28 @@ export default function HomePage({ copy }) {
           Casos → Servicios → Asesoría → Proceso → Stack → Contacto. */}
       <CaseStudies copy={copy.cases} />
       <Services copy={copy.services} />
-      <Advisory copy={copy.advisory} onNavigate={() => navigateTo(ROUTE_KEYS.CONTACT)} />
-      <Process copy={copy.process} onNavigate={() => navigateTo(ROUTE_KEYS.CONTACT)} />
+      {/* "Primero auditamos" es la sección que más argumenta a favor de la
+          auditoría: su botón lleva al producto pagado. El de la sección de
+          proceso lleva a la llamada gratuita, que es cosa distinta. */}
+      <Advisory
+        copy={copy.advisory}
+        onNavigate={() => {
+          track(EVENTS.SERVICE_DETAIL_VIEWED, {
+            service_id: "auditoria",
+            service_name: copy.audit.title,
+            location: "advisory",
+          });
+          navigateTo(ROUTE_KEYS.AUDIT);
+        }}
+      />
+      <Process
+        copy={copy.process}
+        onNavigate={() => {
+          setIntent({ type: INTENT.DISCOVERY, location: "process" });
+          track(EVENTS.CTA_CLICK, { location: "process", action: "discovery" });
+          navigateTo(ROUTE_KEYS.CONTACT);
+        }}
+      />
       <Team copy={copy.team} />
       <Stack copy={copy.stack} />
       <Contact copy={copy.contact} />

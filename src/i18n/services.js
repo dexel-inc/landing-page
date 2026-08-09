@@ -30,7 +30,7 @@ const es = {
   detailCta: "Ver qué incluye",
   cta: "Ver detalles",
   quoteCta: "Solicitar cotización",
-  auditCta: "Solicitar auditoría",
+  auditCta: `Solicitar auditoría — ${formatPrice("audit", "es")}`,
 
   items: [
     {
@@ -42,7 +42,7 @@ const es = {
       title: "Auditoría de procesos",
       price: formatPrice("audit", "es"),
       delivery: "5 a 7 días hábiles",
-      desc: "Revisamos cómo trabaja tu equipo hoy y te decimos exactamente qué procesos se pueden automatizar, cuántas horas al mes recuperarías y cuánto costaría cada implementación. Si concluimos que no necesitas construir nada, te lo decimos.",
+      desc: "Revisamos cómo trabaja su equipo hoy y le decimos exactamente qué procesos se pueden automatizar, cuántas horas al mes recuperaría y cuánto costaría cada implementación. Si concluimos que no necesita construir nada, se lo decimos.",
       forWho:
         "Equipos desde 8-10 personas, o empresas con varios procesos corriendo en paralelo.",
       deliverables: [
@@ -65,7 +65,7 @@ const es = {
       title: "Automatización e integración",
       price: formatPrice("automation", "es", { from: true }),
       delivery: "2 a 6 semanas",
-      desc: "Automatizamos los procesos manuales que consumen horas de tu equipo e integramos los sistemas que ya tienes para que dejen de necesitar que alguien copie datos entre ellos.",
+      desc: "Automatizamos los procesos manuales que consumen horas de su equipo e integramos los sistemas que ya tiene para que dejen de necesitar que alguien copie datos entre ellos.",
       forWho:
         "Equipos que copian datos entre sistemas, arman reportes a mano o digitan lo que llega por correo y WhatsApp.",
       deliverables: [
@@ -85,7 +85,7 @@ const es = {
       title: "Software a la medida",
       price: formatPrice("customSoftware", "es", { from: true }),
       delivery: "4 a 8 semanas",
-      desc: "Convertimos tu operación en un sistema. Aplicaciones web construidas alrededor de cómo trabaja tu empresa, no al revés.",
+      desc: "Convertimos su operación en un sistema. Aplicaciones web construidas alrededor de cómo trabaja su empresa, no al revés.",
       forWho:
         "Negocios que administran pedidos, inventario, clientes o procesos internos repartidos entre planillas y correos.",
       deliverables: [
@@ -116,25 +116,27 @@ const es = {
       ],
       tiers: [
         {
-          name: "Landing",
+          name: "Nivel Landing",
           price: formatPrice("webPresenceLanding", "es", { from: true }),
+          delivery: "5 a 7 días hábiles",
           items: [
-            "Página única",
+            "Página única enfocada en conversión",
             "Diseño sobre plantillas probadas",
-            "SEO básico",
-            "Formulario de contacto",
+            "Formulario de contacto conectado a WhatsApp",
+            "SEO básico y analítica",
             "Hosting y dominio por 1 año",
           ],
         },
         {
-          name: "Sitio completo",
+          name: "Nivel Sitio completo",
           price: formatPrice("webPresence", "es", { from: true }),
+          delivery: "2 a 4 semanas",
           items: [
             "Páginas múltiples con diseño propio",
-            "Panel de administración",
-            "SEO avanzado",
-            "Analítica integrada",
-            "Soporte 30 días",
+            "Panel para administrar el contenido usted mismo",
+            "SEO avanzado y analítica configurada",
+            "Soporte 30 días post-lanzamiento",
+            "Hosting y dominio por 1 año",
           ],
         },
       ],
@@ -254,24 +256,24 @@ const auditEs = {
       label: "Paso 1",
       title: "Recibe el informe",
       when: "Día 5-7",
-      text: "Con cifras concretas. Es suyo, lo pueda usar con nosotros o con cualquier otro proveedor.",
+      text: "Con cifras concretas. El informe es suyo: puede usarlo con nosotros o llevarlo a cualquier otro proveedor.",
     },
     {
       label: "Paso 2",
-      title: "Decide qué quiere implementar",
-      when: "Sin presión, sin plazo",
-      text: "Puede implementar todo, una parte, o nada. Si la auditoría concluye que no hace falta construir nada, lo decimos por escrito.",
+      title: "Decide qué implementar",
+      when: "Sin plazo",
+      text: "Puede implementar todo, una parte o nada. Si la auditoría concluye que no hace falta construir nada, se lo decimos por escrito.",
     },
     {
       label: "Paso 3",
-      title: "Propuesta cerrada en 48 horas",
+      title: "Propuesta cerrada",
       when: "48 horas",
       text: "Alcance cerrado, precio fijo y cronograma. Lo que no está escrito no está incluido, y lo decimos de frente.",
     },
     {
       label: "Paso 4",
-      title: `Los ${formatPrice("audit", "es")} se descuentan`,
-      when: "Dentro de 60 días",
+      title: `Se descuentan los ${formatPrice("audit", "es")}`,
+      when: "60 días",
       text: "Si decide avanzar dentro de los 60 días siguientes, el costo completo de la auditoría se descuenta del proyecto.",
     },
   ],
@@ -280,7 +282,7 @@ const auditEs = {
   scopeNote:
     "La auditoría tiene sentido a partir de 8-10 personas en el equipo o cuando hay varios procesos corriendo en paralelo. Si su operación es más pequeña, dígalo en la llamada de discovery y le ahorramos el gasto.",
 
-  cta: "Solicitar auditoría",
+  cta: `Solicitar auditoría — ${formatPrice("audit", "es")}`,
   backLabel: "Ver todos los servicios",
 };
 
@@ -300,7 +302,7 @@ const en = {
   detailCta: "See what's included",
   cta: "View details",
   quoteCta: "Request a quote",
-  auditCta: "Request the audit",
+  auditCta: `Request the audit — ${formatPrice("audit", "en")}`,
 
   items: [
     {
@@ -386,25 +388,27 @@ const en = {
       ],
       tiers: [
         {
-          name: "Landing",
+          name: "Landing tier",
           price: formatPrice("webPresenceLanding", "en", { from: true }),
+          delivery: "5 to 7 business days",
           items: [
-            "Single page",
+            "Single page focused on conversion",
             "Design built on proven templates",
-            "Basic SEO",
-            "Contact form",
+            "Contact form connected to WhatsApp",
+            "Basic SEO and analytics",
             "Hosting and domain for 1 year",
           ],
         },
         {
-          name: "Full site",
+          name: "Full site tier",
           price: formatPrice("webPresence", "en", { from: true }),
+          delivery: "2 to 4 weeks",
           items: [
             "Multiple pages with custom design",
-            "Admin panel",
-            "Advanced SEO",
-            "Analytics integration",
-            "30-day support",
+            "A panel to manage the content yourself",
+            "Advanced SEO and configured analytics",
+            "30 days of post-launch support",
+            "Hosting and domain for 1 year",
           ],
         },
       ],
@@ -524,24 +528,24 @@ const auditEn = {
       label: "Step 1",
       title: "You get the report",
       when: "Day 5-7",
-      text: "With concrete numbers. It's yours, whether you use it with us or with any other vendor.",
+      text: "With concrete numbers. The report is yours: use it with us or take it to any other vendor.",
     },
     {
       label: "Step 2",
       title: "You decide what to implement",
-      when: "No pressure, no deadline",
+      when: "No deadline",
       text: "You can implement all of it, part of it, or none. If the audit concludes nothing needs to be built, we say so in writing.",
     },
     {
       label: "Step 3",
-      title: "Closed proposal in 48 hours",
+      title: "Closed proposal",
       when: "48 hours",
       text: "Closed scope, fixed price, and a schedule. What isn't written isn't included, and we say so up front.",
     },
     {
       label: "Step 4",
       title: `The ${formatPrice("audit", "en")} are credited back`,
-      when: "Within 60 days",
+      when: "60 days",
       text: "If you move forward within the following 60 days, the full cost of the audit comes off the project.",
     },
   ],
@@ -550,7 +554,7 @@ const auditEn = {
   scopeNote:
     "The audit makes sense from about 8-10 people on the team, or when several processes are running in parallel. If your operation is smaller, say so on the discovery call and we'll save you the expense.",
 
-  cta: "Request the audit",
+  cta: `Request the audit — ${formatPrice("audit", "en")}`,
   backLabel: "See all services",
 };
 
