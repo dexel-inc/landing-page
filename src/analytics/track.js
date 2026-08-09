@@ -1,68 +1,176 @@
 /**
  * Capa de medición agnóstica del proveedor.
  *
- * No carga ningún script por sí sola: envía los eventos a los proveedores que
- * ya estén presentes en la página (GTM/GA4 vía dataLayer, Meta Pixel vía fbq).
- * Así el sitio funciona igual con o sin herramientas de analítica cargadas, y
- * agregar un proveedor nuevo no obliga a tocar los componentes.
+ * Un solo `track()` alimenta a la vez GA4 (directo o vía GTM), el Meta Pixel
+ * del navegador y la Conversions API del lado servidor. Los componentes no
+ * saben qué herramientas hay instaladas, así que agregar o quitar una no
+ * obliga a tocar la interfaz.
  *
- * Para activarlos, definir en el .env del despliegue:
- *   VITE_GTM_ID=GTM-XXXXXXX
- *   VITE_META_PIXEL_ID=000000000000000
- * y llamar a initAnalytics() una vez al arrancar la app.
+ * Sin variables de entorno no se carga nada y `track()` no hace más que un
+ * `console.debug` en desarrollo: el sitio funciona igual con o sin analítica.
+ *
+ * Variables (ver `.env.example`):
+ *   VITE_GA4_ID           G-XXXXXXXXXX      Google Analytics 4 directo
+ *   VITE_GTM_ID           GTM-XXXXXXX       Google Tag Manager (alternativa a GA4)
+ *   VITE_META_PIXEL_ID    000000000000000   Meta Pixel del navegador
+ *   VITE_META_CAPI_ENDPOINT  /api/meta-capi Conversions API (lado servidor)
  */
 
 const isBrowser = typeof window !== "undefined";
 
-/** Eventos de conversión del sitio. Usar estas constantes, no strings sueltos. */
+/**
+ * Eventos del sitio. Los cuatro primeros son los de conversión: se nombran en
+ * PascalCase porque así se ven en el Administrador de Eventos de Meta y así se
+ * configuran las conversiones personalizadas.
+ */
 export const EVENTS = {
+  /** Conversión principal: alguien pidió la auditoría de procesos. */
+  AUDIT_REQUESTED: "AuditRequested",
+  /** Cotización de cualquier servicio que no sea la auditoría. */
+  QUOTE_REQUESTED: "QuoteRequested",
+  /** Vio el detalle de un servicio. Lleva `service_name` como parámetro. */
+  SERVICE_DETAIL_VIEWED: "ServiceDetailViewed",
+  /** Interactuó con el asistente conversacional. */
+  PROCESS_STARTED: "ProcessStarted",
+
+  // Eventos de apoyo: sirven para entender el recorrido, no para optimizar campañas.
+  PAGE_VIEW: "page_view",
   CTA_CLICK: "cta_click",
-  CHAT_STARTED: "chat_started",
   CHAT_COMPLETED: "chat_completed",
   WHATSAPP_OPENED: "whatsapp_opened",
   CASE_STUDY_VISITED: "case_study_visited",
   TEAM_PROFILE_CLICK: "team_profile_click",
 };
 
-/** Eventos que además reportamos a Meta como conversión (Lead). */
-const META_LEAD_EVENTS = new Set([EVENTS.CHAT_COMPLETED, EVENTS.WHATSAPP_OPENED]);
+/** Eventos de conversión: van a la Conversions API además del pixel. */
+const CONVERSION_EVENTS = new Set([
+  EVENTS.AUDIT_REQUESTED,
+  EVENTS.QUOTE_REQUESTED,
+  EVENTS.SERVICE_DETAIL_VIEWED,
+  EVENTS.PROCESS_STARTED,
+]);
+
+const env = (key) => (typeof import.meta !== "undefined" ? import.meta.env?.[key] : undefined);
 
 /**
- * Registra un evento de conversión.
+ * Identificador único por evento. El pixel y la Conversions API mandan el
+ * mismo `eventID`, que es lo que usa Meta para no contar dos veces la misma
+ * conversión cuando llega por los dos caminos.
+ */
+function newEventId() {
+  if (isBrowser && window.crypto?.randomUUID) return window.crypto.randomUUID();
+  return `evt_${Math.random().toString(36).slice(2)}${Date.now().toString(36)}`;
+}
+
+/** Envía la conversión al servidor. Nunca bloquea ni rompe la interacción. */
+function sendToConversionsApi(event, params, eventId) {
+  const endpoint = env("VITE_META_CAPI_ENDPOINT");
+  if (!endpoint) return;
+
+  const body = JSON.stringify({
+    event_name: event,
+    event_id: eventId,
+    event_source_url: window.location.href,
+    custom_data: params,
+  });
+
+  // `sendBeacon` sobrevive a que el usuario navegue justo después de convertir,
+  // que es exactamente cuando ocurren estos eventos.
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(endpoint, new Blob([body], { type: "application/json" }));
+    return;
+  }
+
+  fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body,
+    keepalive: true,
+  }).catch(() => {
+    /* la medición nunca debe romper la página */
+  });
+}
+
+/**
+ * Registra un evento en todos los proveedores configurados.
+ *
  * @param {string} event - una de las constantes de EVENTS
- * @param {Record<string, unknown>} [params] - contexto adicional (ubicación, servicio, etc.)
+ * @param {Record<string, unknown>} [params] - contexto (servicio, ubicación, idioma...)
  */
 export function track(event, params = {}) {
   if (!isBrowser) return;
 
-  const payload = { event, ...params };
+  const eventId = newEventId();
 
-  // GTM / GA4
+  // GA4 vía gtag (si está cargado) y GTM vía dataLayer. Los dos leen el mismo
+  // push, así que da igual cuál de los dos esté configurado.
   window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push(payload);
+  window.dataLayer.push({ event, ...params, event_id: eventId });
 
-  // Meta Pixel: los eventos de lead usan el evento estándar, el resto van como custom
+  if (typeof window.gtag === "function") {
+    window.gtag("event", event, { ...params, event_id: eventId });
+  }
+
   if (typeof window.fbq === "function") {
-    if (META_LEAD_EVENTS.has(event)) {
-      window.fbq("track", "Lead", params);
-    } else {
-      window.fbq("trackCustom", event, params);
-    }
+    window.fbq("trackCustom", event, params, { eventID: eventId });
   }
 
-  if (import.meta.env.DEV) {
-    console.debug("[analytics]", event, params);
+  if (CONVERSION_EVENTS.has(event)) {
+    sendToConversionsApi(event, params, eventId);
   }
+
+  if (env("DEV")) {
+    console.debug("[analytics]", event, params, eventId);
+  }
+}
+
+/** Vista de página. Se llama en cada cambio de ruta, no solo al cargar. */
+export function trackPageView({ path, locale, title }) {
+  if (!isBrowser) return;
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "page_view", {
+      page_path: path,
+      page_title: title,
+      page_location: window.location.href,
+      language: locale,
+    });
+  }
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: EVENTS.PAGE_VIEW, page_path: path, language: locale });
+
+  if (typeof window.fbq === "function") {
+    window.fbq("track", "PageView");
+  }
+}
+
+function injectScript(src) {
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = src;
+  document.head.appendChild(script);
+  return script;
+}
+
+function injectGa4(measurementId) {
+  injectScript(`https://www.googletagmanager.com/gtag/js?id=${measurementId}`);
+
+  window.dataLayer = window.dataLayer || [];
+  // gtag necesita `arguments`, así que no puede ser una función flecha.
+  window.gtag = function gtag() {
+    window.dataLayer.push(arguments);
+  };
+  window.gtag("js", new Date());
+  // El page_view lo mandamos nosotros en cada cambio de ruta: en una SPA el
+  // automático solo dispararía en la primera carga.
+  window.gtag("config", measurementId, { send_page_view: false });
 }
 
 function injectGtm(gtmId) {
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
-
-  const script = document.createElement("script");
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtm.js?id=${gtmId}`;
-  document.head.appendChild(script);
+  injectScript(`https://www.googletagmanager.com/gtm.js?id=${gtmId}`);
 }
 
 function injectMetaPixel(pixelId) {
@@ -85,19 +193,17 @@ function injectMetaPixel(pixelId) {
   })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
 
   window.fbq("init", pixelId);
-  window.fbq("track", "PageView");
 }
 
-/**
- * Carga los proveedores configurados por variables de entorno.
- * Sin variables definidas no hace nada: en desarrollo no se ensucian los datos.
- */
+/** Carga los proveedores configurados. Sin variables definidas no hace nada. */
 export function initAnalytics() {
   if (!isBrowser) return;
 
-  const gtmId = import.meta.env.VITE_GTM_ID;
-  const pixelId = import.meta.env.VITE_META_PIXEL_ID;
+  const ga4Id = env("VITE_GA4_ID");
+  const gtmId = env("VITE_GTM_ID");
+  const pixelId = env("VITE_META_PIXEL_ID");
 
+  if (ga4Id) injectGa4(ga4Id);
   if (gtmId) injectGtm(gtmId);
   if (pixelId) injectMetaPixel(pixelId);
 }
