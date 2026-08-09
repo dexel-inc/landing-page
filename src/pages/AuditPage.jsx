@@ -5,6 +5,7 @@ import Reveal from "../components/ui/Reveal.jsx";
 import { useRouter } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
 import { EVENTS, track } from "../analytics/track.js";
+import { INTENT, setIntent } from "../analytics/intent.js";
 
 /**
  * Detalle de la auditoría de procesos.
@@ -35,30 +36,40 @@ function Deliverable({ item, index }) {
   );
 }
 
+/**
+ * Un paso de la línea de tiempo.
+ *
+ * En pantallas anchas los cuatro pasos van en fila, como la sección de proceso:
+ * el recorrido completo se lee de un vistazo, que es justo lo que necesita ver
+ * alguien antes de pagar. En móvil la fila se convierte en columna y el
+ * conector pasa a ser vertical.
+ */
 function Step({ step, index, isLast }) {
   return (
-    <Reveal delay={index * 90} className="relative pl-10 md:pl-12 pb-8 last:pb-0">
-      {/* Línea de tiempo continua salvo en el último paso */}
+    <Reveal
+      delay={index * 90}
+      className="relative flex-1 flex gap-4 md:block pb-8 last:pb-0 md:pb-0"
+    >
+      {/* Conector: vertical en móvil, horizontal en escritorio. */}
       {!isLast && (
-        <span className="absolute left-[15px] md:left-[19px] top-9 bottom-0 w-px bg-linear-to-b from-blue-500/50 to-slate-200 dark:to-zinc-800" />
+        <span className="absolute left-[15px] top-10 bottom-0 w-px md:left-auto md:top-[19px] md:bottom-auto md:h-px md:w-full md:translate-x-6 bg-linear-to-b md:bg-linear-to-r from-blue-500/50 to-slate-200 dark:to-zinc-800" />
       )}
 
-      <span className="absolute left-0 top-0 grid place-items-center h-8 w-8 md:h-10 md:w-10 rounded-full border border-blue-400/50 bg-blue-500/10 text-xs md:text-sm font-bold tabular-nums text-blue-600 dark:text-blue-400">
+      <span className="relative z-10 shrink-0 grid place-items-center h-8 w-8 md:h-10 md:w-10 rounded-full border border-blue-400/50 bg-blue-500/10 dark:bg-blue-500/10 text-xs md:text-sm font-bold tabular-nums text-blue-600 dark:text-blue-400 md:mb-5">
         {index + 1}
       </span>
 
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2">
-        <h3 className="text-base md:text-xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
-          {step.title}
-        </h3>
-        <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-slate-500 dark:text-gray-500 border border-slate-200 dark:border-zinc-800 rounded-full px-2.5 py-0.5">
+      <div className="md:pr-6">
+        <span className="inline-block text-[10px] font-mono uppercase tracking-[0.15em] text-slate-500 dark:text-gray-500 border border-slate-200 dark:border-zinc-800 rounded-full px-2.5 py-0.5 mb-2">
           {step.when}
         </span>
-      </div>
 
-      <p className="text-sm md:text-base text-slate-600 dark:text-gray-400 leading-relaxed max-w-2xl">
-        {step.text}
-      </p>
+        <h3 className="text-base md:text-lg font-bold tracking-tight text-slate-900 dark:text-white leading-snug mb-2">
+          {step.title}
+        </h3>
+
+        <p className="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">{step.text}</p>
+      </div>
     </Reveal>
   );
 }
@@ -67,7 +78,8 @@ export default function AuditPage({ copy }) {
   const { navigateTo } = useRouter();
 
   const requestAudit = (location) => {
-    track(EVENTS.AUDIT_REQUESTED, { service_id: "auditoria", service_name: copy.title, location });
+    setIntent({ type: INTENT.AUDIT, service_id: "auditoria", service_name: copy.title, location });
+    track(EVENTS.CTA_CLICK, { service_id: "auditoria", service_name: copy.title, location });
     navigateTo(ROUTE_KEYS.CONTACT);
   };
 
@@ -155,7 +167,7 @@ export default function AuditPage({ copy }) {
 
       {/* Bloque B — Qué pasa después */}
       <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <Reveal className="mb-10 md:mb-12">
             <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">
               {copy.afterTitle}
@@ -166,7 +178,7 @@ export default function AuditPage({ copy }) {
             <div className="w-12 h-0.5 bg-blue-500 mt-4" />
           </Reveal>
 
-          <div>
+          <div className="flex flex-col md:flex-row md:gap-2">
             {copy.steps.map((step, i) => (
               <Step key={step.title} step={step} index={i} isLast={i === copy.steps.length - 1} />
             ))}
