@@ -63,6 +63,12 @@ export default function Footer({ whatsappNumber = SITE.whatsapp, copy }) {
             >
               {copy.contact}
             </Link>
+            <Link
+              to={ROUTE_KEYS.PRIVACY}
+              className="cursor-pointer text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
+            >
+              {copy.privacy}
+            </Link>
           </div>
         </div>
         <hr className="border-slate-300 dark:border-gray-300 opacity-20 dark:opacity-5" />

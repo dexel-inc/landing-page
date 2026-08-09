@@ -43,6 +43,10 @@ curl -s http://127.0.0.1:4173/es/servicios | grep -i auditoría
 | `src/i18n/messages.js` | Resto del copy (ES/EN) |
 | `src/seo/seo.js` | Metadatos y JSON-LD por página, sin tocar el DOM |
 | `src/analytics/track.js` | Capa de medición (GA4 + Meta Pixel + Conversions API) |
+| `src/analytics/intent.js` | Con qué intención llega alguien al formulario |
+| `src/consent/consent.js` | Consentimiento de cookies. Nada se envía sin él |
+| `src/i18n/legal.js` | Política de datos, 404 y banner de cookies |
+| `scripts/og-card.template.html` | Fuente de `public/img.png`, la tarjeta social 1200×630 |
 | `scripts/prerender.mjs` | Prerenderizado, sitemap y robots |
 | `api/meta-capi.js` | Conversions API de Meta (función serverless de Vercel) |
 
@@ -54,6 +58,7 @@ curl -s http://127.0.0.1:4173/es/servicios | grep -i auditoría
 | `/es/servicios` | `/en/services` |
 | `/es/servicios/auditoria` | `/en/services/process-audit` |
 | `/es/contacto` | `/en/contact` |
+| `/es/privacidad` | `/en/privacy` |
 
 `/` sirve el contenido en español con canónico a `/es`, para que los
 rastreadores encuentren HTML en la raíz. En el navegador se resuelve al idioma
@@ -72,12 +77,34 @@ Para repreciar la auditoría por mercado, cambiar `ACTIVE_MARKET` a `"us"`.
 
 Variables en `.env.example`. Eventos de conversión:
 
-| Evento | Cuándo |
-|---|---|
-| `AuditRequested` | CTA de la auditoría (home, `/servicios`, detalle) |
-| `QuoteRequested` | CTA de cotización de cualquier otro servicio |
-| `ServiceDetailViewed` | Se abre el detalle de un servicio (`service_name` como parámetro) |
-| `ProcessStarted` | Primera respuesta en el asistente conversacional |
+| Evento | Cuándo | Parámetros |
+|---|---|---|
+| `AuditRequested` | Entrega del formulario con intención de auditoría | `value`, `currency`, `locale`, `service_name` |
+| `QuoteRequested` | Entrega del formulario con intención de cotizar otro servicio | `service_name`, `locale` |
+| `DiscoveryBooked` | Entrega del formulario sin intención declarada, o desde la sección de proceso | `locale` |
+| `ServiceDetailViewed` | Se abre el detalle de un servicio | `service_name`, `locale` |
+| `ChatStarted` | Primer mensaje enviado al asistente | `locale` |
+
+La conversión se cuenta al entregar la conversación a WhatsApp, no al hacer
+clic: un clic no es una solicitud. El CTA solo declara la intención en
+`analytics/intent.js`, que es lo que decide cuál de los tres eventos sale.
 
 Cada evento lleva un `event_id` compartido entre el pixel del navegador y la
 Conversions API, que es lo que usa Meta para deduplicar.
+
+**Nada se envía sin consentimiento.** El pixel se inicializa con
+`fbq('consent','revoke')` y GA4 con el modo de consentimiento en `denied`; el
+banner los activa al aceptar. El visitante puede cambiar la decisión en
+`/es/privacidad`.
+
+## Tarjeta social
+
+`public/img.png` se genera desde `scripts/og-card.template.html`:
+
+```bash
+python3 -m http.server 4321 --directory scripts &
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless \
+  --window-size=1200,700 --screenshot=card.png --virtual-time-budget=4000 \
+  http://127.0.0.1:4321/og-card.template.html
+# recortar a 1200×630 y copiar a public/img.png
+```
