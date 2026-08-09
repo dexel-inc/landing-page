@@ -17,6 +17,7 @@ import Reveal from "../components/ui/Reveal.jsx";
 import { useRouter } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
 import { EVENTS, track } from "../analytics/track.js";
+import { INTENT, setIntent } from "../analytics/intent.js";
 
 const iconComponents = { ScanSearch, Zap, Cpu, Globe, Wrench };
 
@@ -135,7 +136,7 @@ function ServiceCard({ service, index, copy, onQuote, onDetail }) {
               <div className="space-y-4">
                 {service.tiers.map((tier) => (
                   <div key={tier.name}>
-                    <div className="flex items-baseline justify-between gap-2 mb-2">
+                    <div className="flex items-baseline justify-between gap-2 mb-1">
                       <p className="text-sm font-bold tracking-tight text-slate-900 dark:text-white">
                         {tier.name}
                       </p>
@@ -143,6 +144,12 @@ function ServiceCard({ service, index, copy, onQuote, onDetail }) {
                         {tier.price}
                       </p>
                     </div>
+                    {tier.delivery && (
+                      <p className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.12em] text-slate-400 dark:text-gray-600 mb-2">
+                        <Clock3 size={10} />
+                        {tier.delivery}
+                      </p>
+                    )}
                     <ul className="space-y-1">
                       {tier.items.map((item, i) => (
                         <li
@@ -180,12 +187,21 @@ export default function ServicesPage({ copy }) {
     });
   };
 
+  /**
+   * El clic no es la conversión: la conversión es completar el formulario. Aquí
+   * solo se declara con qué intención va el visitante, para que al entregar la
+   * conversación a WhatsApp se cuente `AuditRequested` o `QuoteRequested` según
+   * corresponda y no las dos como una sola cosa.
+   */
   const handleQuote = (service) => {
-    // La auditoría es la conversión principal de la campaña; el resto de
-    // servicios comparten un solo evento de cotización.
-    const event = service.featured ? EVENTS.AUDIT_REQUESTED : EVENTS.QUOTE_REQUESTED;
+    setIntent({
+      type: service.featured ? INTENT.AUDIT : INTENT.QUOTE,
+      service_id: service.id,
+      service_name: service.title,
+      location: "services_page",
+    });
 
-    track(event, {
+    track(EVENTS.CTA_CLICK, {
       service_id: service.id,
       service_name: service.title,
       location: "services_page",

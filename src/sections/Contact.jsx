@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Clock3, Code, Send } from "lucide-react";
 import { EVENTS, track } from "../analytics/track.js";
+import { INTENT, clearIntent, readIntent } from "../analytics/intent.js";
 
 import { SITE } from "../config/site.js";
 
@@ -94,7 +95,7 @@ const ChatbotForm = ({ copy }) => {
 
     // Primera respuesta del visitante: es el momento en que el asistente deja
     // de ser decoración y pasa a ser una conversación.
-    if (stepIndex === 0) track(EVENTS.PROCESS_STARTED, { location: "chatbot" });
+    if (stepIndex === 0) track(EVENTS.CHAT_STARTED, { location: "chatbot" });
 
     setData(newData);
     setHistory((prev) => [...prev, { role: "user", text: userMessage }]);
@@ -103,7 +104,33 @@ const ChatbotForm = ({ copy }) => {
     playFrom(stepIndex + 1, newData);
   };
 
+  /**
+   * Entrega a WhatsApp: es el envío real del formulario, así que aquí es donde
+   * se cuenta la conversión. El evento depende de con qué intención llegó el
+   * visitante —comprar la auditoría, cotizar otro servicio o agendar la llamada
+   * gratuita—; contarlas todas como lo mismo haría inservible la optimización
+   * de campaña.
+   */
   const handleWhatsApp = () => {
+    const intent = readIntent();
+    const shared = {
+      location: "chatbot",
+      service_id: intent?.service_id,
+      service_name: intent?.service_name,
+      entry: intent?.location,
+    };
+
+    if (intent?.type === INTENT.AUDIT) {
+      track(EVENTS.AUDIT_REQUESTED, shared);
+    } else if (intent?.type === INTENT.QUOTE) {
+      track(EVENTS.QUOTE_REQUESTED, shared);
+    } else {
+      // Sin intención declarada, la conversación abierta equivale a pedir la
+      // llamada de discovery, que es el paso gratuito por defecto.
+      track(EVENTS.DISCOVERY_BOOKED, { location: "chatbot" });
+    }
+
+    clearIntent();
     track(EVENTS.WHATSAPP_OPENED, { source: "chatbot" });
     const message = buildWhatsAppMessage(data, copy.whatsappMessage);
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;

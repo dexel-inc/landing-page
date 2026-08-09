@@ -5,6 +5,7 @@ import Reveal from "../components/ui/Reveal.jsx";
 import { useRouter } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
 import { EVENTS, track } from "../analytics/track.js";
+import { INTENT, setIntent } from "../analytics/intent.js";
 
 const iconComponents = { ScanSearch, Zap, Cpu, Globe, Wrench };
 
@@ -189,8 +190,17 @@ export default function Services({ copy }) {
   const featured = copy.items.find((item) => item.featured);
   const rest = copy.items.filter((item) => !item.featured);
 
-  const goToContact = (service, event) => {
-    track(event, { service_id: service.id, service_name: service.title, location: "home_services" });
+  // El clic declara intención; la conversión se cuenta al entregar el
+  // formulario a WhatsApp. Ver `analytics/intent.js`.
+  const goToContact = (service) => {
+    const payload = {
+      service_id: service.id,
+      service_name: service.title,
+      location: "home_services",
+    };
+
+    setIntent({ type: service.featured ? INTENT.AUDIT : INTENT.QUOTE, ...payload });
+    track(EVENTS.CTA_CLICK, payload);
     navigateTo(ROUTE_KEYS.CONTACT);
   };
 
@@ -229,7 +239,7 @@ export default function Services({ copy }) {
           <FeaturedService
             service={featured}
             copy={copy}
-            onQuote={() => goToContact(featured, EVENTS.AUDIT_REQUESTED)}
+            onQuote={() => goToContact(featured)}
             onDetail={() => {
               track(EVENTS.SERVICE_DETAIL_VIEWED, {
                 service_id: featured.id,

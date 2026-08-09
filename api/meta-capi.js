@@ -37,13 +37,16 @@ export default async function handler(request, response) {
     return response.status(405).json({ error: "Method not allowed" });
   }
 
-  const pixelId = process.env.META_PIXEL_ID;
+  // El id del pixel es público y no cambia; el token sí es una credencial. Con
+  // el valor por defecto, configurar la Conversions API se reduce a poner el
+  // token en Vercel.
+  const pixelId = process.env.META_PIXEL_ID || "1065161589428764";
   const accessToken = process.env.META_CAPI_ACCESS_TOKEN;
 
-  // Sin credenciales el endpoint responde 204 en vez de fallar: en previews y
-  // en local no hay token, y una conversión no medida no debe verse como un
-  // error en la consola del visitante.
-  if (!pixelId || !accessToken) {
+  // Sin token el endpoint responde 204 en vez de fallar: en previews y en local
+  // no lo hay, y una conversión no medida no debe verse como un error en la
+  // consola del visitante.
+  if (!accessToken) {
     return response.status(204).end();
   }
 
