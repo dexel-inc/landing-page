@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Bundle intermedio del prerenderizado
+dist-server
+
+# Artefactos de Playwright MCP
+.playwright-mcp
