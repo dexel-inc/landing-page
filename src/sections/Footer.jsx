@@ -3,12 +3,11 @@ import { Clock3 } from "lucide-react";
 import Logo from "../icons/logo.jsx";
 import Button from "../components/ui/Button.jsx";
 import { EVENTS, track } from "../analytics/track.js";
+import { Link } from "../router/RouterContext.jsx";
+import { ROUTE_KEYS } from "../router/routes.js";
+import { SITE } from "../config/site.js";
 
-export default function Footer({
-  whatsappNumber = "573135632235",
-  copy,
-  onNavigate,
-}) {
+export default function Footer({ whatsappNumber = SITE.whatsapp, copy }) {
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(copy.whatsappText)}`;
 
   return (
@@ -43,27 +42,27 @@ export default function Footer({
           <div className="md:mr-10 text-xl font-bold tracking-[0.2em] text-black dark:text-white flex flex-col align-middle">
             <Logo className="w-30 h-30" viewBox="0 0 324 210" />
           </div>
+          {/* Enlaces reales con href localizado: un rastreador tiene que poder
+              seguirlos sin ejecutar JavaScript. */}
           <div className="flex flex-col md:flex-row gap-6 md:text-start">
-            <a
-              href="/servicios"
-              onClick={(event) => {
-                event.preventDefault();
-                onNavigate("/servicios");
-              }}
+            <Link
+              to={ROUTE_KEYS.SERVICES}
               className="cursor-pointer text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
             >
               {copy.services}
-            </a>
-            <a
-              href="/contacto"
-              onClick={(event) => {
-                event.preventDefault();
-                onNavigate("/contacto");
-              }}
+            </Link>
+            <Link
+              to={ROUTE_KEYS.AUDIT}
+              className="cursor-pointer text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
+            >
+              {copy.audit}
+            </Link>
+            <Link
+              to={ROUTE_KEYS.CONTACT}
               className="cursor-pointer text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
             >
               {copy.contact}
-            </a>
+            </Link>
           </div>
         </div>
         <hr className="border-slate-300 dark:border-gray-300 opacity-20 dark:opacity-5" />

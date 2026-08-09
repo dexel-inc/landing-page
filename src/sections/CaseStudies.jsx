@@ -12,6 +12,8 @@ import Button from "../components/ui/Button.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
 import { useCountUp } from "../hooks/useCountUp.js";
 import { useInView } from "../hooks/useInView.js";
+import { useRouter } from "../router/RouterContext.jsx";
+import { ROUTE_KEYS } from "../router/routes.js";
 
 function Metric({ value, suffix, prefix, label, decimals = 0, delay = 0 }) {
   const [ref, inView] = useInView({ threshold: 0.4 });
@@ -142,6 +144,71 @@ function PublishedCase({ item, copy }) {
   );
 }
 
+/**
+ * Caso bajo NDA con cifra real. Va aparte de la grilla de tarjetas porque es
+ * el único que puede mostrar un número: el resultado manda, y meterlo entre
+ * cuatro tarjetas de alcance genérico lo desperdiciaría.
+ */
+function ConfidentialFeatured({ item, lockLabel }) {
+  return (
+    <Reveal className="group relative rounded-2xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 overflow-hidden mb-4 md:mb-5">
+      <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl" />
+
+      <div className="relative p-5 md:p-8 grid md:grid-cols-5 gap-6 md:gap-8 items-center">
+        <div className="md:col-span-2 text-center md:text-left">
+          <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400 mb-3">
+            {item.metricLabel}
+          </p>
+          <p className="text-2xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
+            {item.before}
+          </p>
+          <p className="my-1 text-blue-500 dark:text-blue-400 text-xl md:text-2xl leading-none">↓</p>
+          <p className="text-2xl md:text-4xl font-bold tracking-tight bg-linear-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent leading-tight">
+            {item.after}
+          </p>
+        </div>
+
+        <div className="md:col-span-3">
+          <div className="flex items-center justify-between gap-3 mb-4">
+            <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-slate-500 dark:text-gray-500 border border-slate-200 dark:border-zinc-800 rounded-full px-2 py-0.5">
+              {item.sector}
+            </span>
+            <Lock size={14} className="shrink-0 text-slate-400 dark:text-zinc-600" />
+          </div>
+
+          {/* Nombre censurado: bloques sólidos, nunca texto real oculto con CSS */}
+          <div className="flex items-center gap-1 mb-4" aria-label={lockLabel}>
+            {item.redacted.map((width, i) => (
+              <span
+                key={i}
+                className="h-3.5 rounded-[3px] bg-slate-300/90 dark:bg-zinc-700/90"
+                style={{ width: `${width}px` }}
+              />
+            ))}
+          </div>
+
+          <p className="text-sm md:text-base text-slate-600 dark:text-gray-300 leading-relaxed mb-4">
+            {item.scope}
+          </p>
+
+          <p className="text-xs text-slate-500 dark:text-gray-500 italic mb-4">{item.note}</p>
+
+          <div className="flex flex-wrap gap-1.5">
+            {item.stack.map((tech) => (
+              <span
+                key={tech}
+                className="text-[9px] font-mono uppercase tracking-wider text-slate-500 dark:text-gray-500 border border-slate-200 dark:border-zinc-800 rounded px-1.5 py-0.5"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
 function ConfidentialCard({ item, index, lockLabel }) {
   const [hovered, setHovered] = useState(false);
 
@@ -200,7 +267,9 @@ function ConfidentialCard({ item, index, lockLabel }) {
   );
 }
 
-export default function CaseStudies({ copy, onNavigate }) {
+export default function CaseStudies({ copy }) {
+  const { navigateTo } = useRouter();
+
   return (
     <section id="casos" className="py-16 md:py-24 relative">
       <div className="absolute inset-0 bg-linear-to-b from-slate-100 via-slate-50 to-slate-100 dark:from-[#050505] dark:via-black/60 dark:to-[#050505] z-0" />
@@ -241,6 +310,13 @@ export default function CaseStudies({ copy, onNavigate }) {
             </p>
           </Reveal>
 
+          {copy.confidential.featured && (
+            <ConfidentialFeatured
+              item={copy.confidential.featured}
+              lockLabel={copy.confidential.lockLabel}
+            />
+          )}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
             {copy.confidential.items.map((item, i) => (
               <ConfidentialCard
@@ -263,7 +339,7 @@ export default function CaseStudies({ copy, onNavigate }) {
                 </p>
               </div>
               <Button
-                onClick={() => onNavigate?.("/contacto")}
+                onClick={() => navigateTo(ROUTE_KEYS.CONTACT)}
                 variant="primary"
                 size="lg"
                 className="shrink-0 group/cta w-full md:w-auto"

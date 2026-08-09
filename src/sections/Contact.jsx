@@ -2,7 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import { Clock3, Code, Send } from "lucide-react";
 import { EVENTS, track } from "../analytics/track.js";
 
-const WHATSAPP_NUMBER = "573135632235";
+import { SITE } from "../config/site.js";
+
+const WHATSAPP_NUMBER = SITE.whatsapp;
 
 function interpolate(template, data) {
   return template.replace(/\{\{(\w+)}}/g, (_, key) => data[key] ?? "");
@@ -90,7 +92,9 @@ const ChatbotForm = ({ copy }) => {
         ? { ...data, [currentStep.field]: userMessage }
         : { ...data };
 
-    if (stepIndex === 0) track(EVENTS.CHAT_STARTED);
+    // Primera respuesta del visitante: es el momento en que el asistente deja
+    // de ser decoración y pasa a ser una conversación.
+    if (stepIndex === 0) track(EVENTS.PROCESS_STARTED, { location: "chatbot" });
 
     setData(newData);
     setHistory((prev) => [...prev, { role: "user", text: userMessage }]);
