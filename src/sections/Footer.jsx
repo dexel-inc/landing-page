@@ -1,6 +1,8 @@
 import React from "react";
+import { Clock3 } from "lucide-react";
 import Logo from "../icons/logo.jsx";
 import Button from "../components/ui/Button.jsx";
+import { EVENTS, track } from "../analytics/track.js";
 
 export default function Footer({
   whatsappNumber = "573135632235",
@@ -21,6 +23,7 @@ export default function Footer({
             href={whatsappLink}
             target="_blank"
             rel="noreferrer"
+            onClick={() => track(EVENTS.WHATSAPP_OPENED, { source: "footer" })}
             variant="primary"
             size="lg"
             className="w-full justify-center"
@@ -28,6 +31,12 @@ export default function Footer({
             {copy.contactButton}
           </Button>
         </div>
+        {copy.responseTime && (
+          <p className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 dark:text-gray-500 font-mono uppercase tracking-[0.12em]">
+            <Clock3 size={12} />
+            {copy.responseTime}
+          </p>
+        )}
       </div>
       <div className="flex flex-col w-full justify-center">
         <div className="flex my-2 flex-col gap-6 md:gap-8 md:flex-row items-center md:px-10 justify-between">
@@ -68,6 +77,7 @@ export default function Footer({
         target="_blank"
         rel="noreferrer"
         aria-label={copy.whatsappAria}
+        onClick={() => track(EVENTS.WHATSAPP_OPENED, { source: "floating_button" })}
         variant="primary"
         size="icon"
         className="fixed bottom-4 right-4 md:bottom-5 md:right-5 z-50 rounded-full h-12 w-12 md:h-16 md:w-16"

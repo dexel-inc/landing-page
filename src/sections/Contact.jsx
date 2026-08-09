@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Code, Send } from "lucide-react";
+import { Clock3, Code, Send } from "lucide-react";
+import { EVENTS, track } from "../analytics/track.js";
 
 const WHATSAPP_NUMBER = "573135632235";
 
@@ -7,17 +8,21 @@ function interpolate(template, data) {
   return template.replace(/\{\{(\w+)}}/g, (_, key) => data[key] ?? "");
 }
 
+/**
+ * Arma el mensaje de WhatsApp solo con los campos que el visitante llegó a
+ * responder, para que el flujo pueda cambiar sin romper este resumen.
+ */
 function buildWhatsAppMessage(data, waMsgCopy) {
   const { header, intro, fields, outro } = waMsgCopy;
+  const lines = Object.entries(fields)
+    .filter(([key]) => data[key])
+    .map(([key, label]) => `${label} ${data[key]}`);
+
   return `${header}
 
 ${intro}
 
-${fields.nombre} ${data.nombre}
-${fields.industria} ${data.industria}
-${fields.problema} ${data.problema}
-${fields.solucion} ${data.solucion}
-${fields.plazo} ${data.plazo}
+${lines.join("\n")}
 
 ${outro}`;
 }
@@ -41,6 +46,41 @@ const ChatbotForm = ({ copy }) => {
     }
   }, [history, isTyping]);
 
+  const timers = useRef([]);
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+
+  /**
+   * Muestra el paso `index` y, si ese paso no pide ningún dato y no es el
+   * final, encadena automáticamente el siguiente. Esto permite que el bot
+   * entregue valor (un rango, una estimación) antes de volver a preguntar.
+   */
+  const playFrom = (index, currentData) => {
+    if (index >= flow.length) return;
+
+    setIsTyping(true);
+    const step = flow[index];
+    const delay = index === 0 ? 0 : 900;
+
+    timers.current.push(
+      setTimeout(() => {
+        setIsTyping(false);
+        setHistory((prev) => [...prev, { role: "bot", text: interpolate(step.bot, currentData) }]);
+        setStepIndex(index);
+
+        if (step.isFinal) {
+          setDone(true);
+          track(EVENTS.CHAT_COMPLETED);
+          return;
+        }
+
+        // Paso informativo: sigue solo, sin esperar respuesta del visitante.
+        if (!step.field) {
+          timers.current.push(setTimeout(() => playFrom(index + 1, currentData), 700));
+        }
+      }, delay),
+    );
+  };
+
   const handleSend = () => {
     if (!input.trim() || isTyping || done) return;
 
@@ -50,27 +90,17 @@ const ChatbotForm = ({ copy }) => {
         ? { ...data, [currentStep.field]: userMessage }
         : { ...data };
 
+    if (stepIndex === 0) track(EVENTS.CHAT_STARTED);
+
     setData(newData);
     setHistory((prev) => [...prev, { role: "user", text: userMessage }]);
     setInput("");
-    setIsTyping(true);
 
-    const nextIndex = stepIndex + 1;
-
-    setTimeout(() => {
-      setIsTyping(false);
-
-      if (nextIndex < flow.length) {
-        const nextStep = flow[nextIndex];
-        const botText = interpolate(nextStep.bot, newData);
-        setHistory((prev) => [...prev, { role: "bot", text: botText }]);
-        setStepIndex(nextIndex);
-        if (nextStep.isFinal) setDone(true);
-      }
-    }, 1000);
+    playFrom(stepIndex + 1, newData);
   };
 
   const handleWhatsApp = () => {
+    track(EVENTS.WHATSAPP_OPENED, { source: "chatbot" });
     const message = buildWhatsAppMessage(data, copy.whatsappMessage);
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank", "noopener,noreferrer");
@@ -141,6 +171,13 @@ const ChatbotForm = ({ copy }) => {
                 <Send size={18} className="-ml-0.5 mt-0.5" />
               </button>
             </div>
+        )}
+
+        {copy?.responseTime && (
+            <p className="mt-3 flex items-center justify-center gap-1.5 text-[10px] text-slate-500 dark:text-gray-500 font-mono uppercase tracking-[0.12em]">
+              <Clock3 size={11} />
+              {copy.responseTime}
+            </p>
         )}
       </div>
   );

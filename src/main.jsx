@@ -5,6 +5,9 @@ import App from "./App.jsx";
 import { I18nProvider } from "./i18n/I18nContext.jsx";
 import { RouterProvider } from "./router/RouterContext.jsx";
 import { ThemeProvider } from "./theme/ThemeContext.jsx";
+import { initAnalytics } from "./analytics/track.js";
+
+initAnalytics();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

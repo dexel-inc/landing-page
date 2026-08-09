@@ -31,3 +31,28 @@ body {
   background: #050505;
   color: #f8fafc;
 }
+
+/* El navbar es fijo: los saltos por ancla deben dejar espacio bajo él */
+section[id] {
+  scroll-margin-top: 6rem;
+}
+
+/* Línea de escaneo de las tarjetas bajo acuerdo de confidencialidad */
+@keyframes dexel-scan {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(var(--dexel-scan-distance, 220px));
+  }
+}
+
+.animate-dexel-scan {
+  animation: dexel-scan 2.2s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-dexel-scan {
+    animation: none;
+  }
+}
