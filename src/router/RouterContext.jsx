@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import {
   DEFAULT_LOCALE,
+  LOCALES,
   ROOT_PATH,
   ROUTE_KEYS,
   detectBrowserLocale,
@@ -40,9 +41,18 @@ function resolveState(pathname) {
   const match = matchRoute(pathname);
 
   if (!match) {
-    // Ruta desconocida: caemos al inicio del idioma por defecto en vez de
-    // dejar la pantalla en blanco.
-    return { path: pathFor(ROUTE_KEYS.HOME, DEFAULT_LOCALE), locale: DEFAULT_LOCALE, routeKey: ROUTE_KEYS.HOME };
+    // Ruta desconocida: se muestra un 404 conservando la URL. Redirigir al
+    // inicio escondería el error y le diría al buscador que la página existe.
+    // El idioma sale del prefijo de la URL cuando lo hay (`/en/lo-que-sea`),
+    // y si no del navegador, para que el 404 no llegue siempre en español.
+    const prefix = normalizePathname(pathname).split("/")[1];
+    const locale = LOCALES.includes(prefix)
+      ? prefix
+      : isBrowser
+        ? detectBrowserLocale(navigator.languages ?? [navigator.language])
+        : DEFAULT_LOCALE;
+
+    return { path: normalizePathname(pathname), locale, routeKey: ROUTE_KEYS.NOT_FOUND };
   }
 
   // `/` sirve el contenido en español para que los rastreadores encuentren

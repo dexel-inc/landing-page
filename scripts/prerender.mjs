@@ -21,7 +21,7 @@ const serverEntry = pathToFileURL(join(root, "dist-server", "entry-server.js")).
 
 // Todo lo que necesita el prerenderizado sale del bundle de servidor, que ya
 // pasó por Vite y por tanto tiene resueltas las variables de entorno.
-const { render, buildSeo, allRoutes, SITE } = await import(serverEntry);
+const { render, buildSeo, allRoutes, SITE, ROUTE_KEYS, DEFAULT_LOCALE } = await import(serverEntry);
 
 const escapeAttr = (value) =>
   String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
@@ -34,8 +34,13 @@ function renderHead(seo) {
     `<title>${escapeAttr(seo.title)}</title>`,
     `<meta name="description" content="${escapeAttr(seo.description)}" />`,
     `<meta name="robots" content="${escapeAttr(seo.robots)}" />`,
-    `<link rel="canonical" href="${escapeAttr(seo.canonical)}" />`,
   ];
+
+  // El 404 no lleva canónico ni alternos: no es una página real y no debe
+  // reclamar ninguna URL como suya.
+  if (seo.alternates.length) {
+    tags.push(`<link rel="canonical" href="${escapeAttr(seo.canonical)}" />`);
+  }
 
   for (const alternate of seo.alternates) {
     tags.push(
@@ -51,9 +56,11 @@ function renderHead(seo) {
     tags.push(`<meta name="${escapeAttr(name)}" content="${escapeAttr(content)}" />`);
   }
 
-  tags.push(
-    `<script type="application/ld+json" id="dexel-structured-data">${escapeJsonLd(seo.jsonLd)}</script>`,
-  );
+  if (seo.jsonLd) {
+    tags.push(
+      `<script type="application/ld+json" id="dexel-structured-data">${escapeJsonLd(seo.jsonLd)}</script>`,
+    );
+  }
 
   return tags.map((tag) => `    ${tag}`).join("\n");
 }
@@ -73,20 +80,24 @@ if (!template.includes('<div id="root"></div>')) {
   );
 }
 
-const routes = allRoutes();
-const written = [];
+function renderDocument({ routeKey, locale, path, isRoot }) {
+  const seo = buildSeo({ routeKey, locale, isRoot });
+  const appHtml = render(path);
 
-for (const route of routes) {
-  const seo = buildSeo({ routeKey: route.routeKey, locale: route.locale, isRoot: route.isRoot });
-  const appHtml = render(route.path);
-
-  const html = template
+  return template
     .replace(/<html lang="[^"]*">/, `<html lang="${seo.lang}">`)
     // El <title> de la plantilla se quita antes de inyectar el de la ruta: dos
     // títulos en el mismo documento y el buscador elige el que no queremos.
     .replace(/\n?\s*<title>[\s\S]*?<\/title>/, "")
     .replace("</head>", `${renderHead(seo)}\n  </head>`)
     .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`);
+}
+
+const routes = allRoutes();
+const written = [];
+
+for (const route of routes) {
+  const html = renderDocument(route);
 
   const file = outputPath(route.path);
   await mkdir(dirname(file), { recursive: true });
@@ -95,6 +106,18 @@ for (const route of routes) {
   written.push(route.path);
   console.log(`  prerender  ${route.path.padEnd(26)} → ${file.replace(`${root}/`, "")}`);
 }
+
+// --- 404.html --------------------------------------------------------------
+// Vercel sirve este archivo, con estado 404 real, cuando ninguna ruta coincide.
+// Sale en español porque un archivo estático no puede saber el idioma; al
+// montar en el navegador, el router lo resuelve por la URL o por el navegador.
+const notFoundHtml = renderDocument({
+  routeKey: ROUTE_KEYS.NOT_FOUND,
+  locale: DEFAULT_LOCALE,
+  path: "/404",
+});
+await writeFile(join(distDir, "404.html"), notFoundHtml, "utf8");
+console.log("  prerender  404                        → dist/404.html");
 
 // --- sitemap.xml -----------------------------------------------------------
 // La raíz queda fuera: su contenido es el mismo que `/es` y su canónico apunta

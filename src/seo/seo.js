@@ -18,6 +18,8 @@ const META_KEY = {
   [ROUTE_KEYS.SERVICES]: "services",
   [ROUTE_KEYS.AUDIT]: "audit",
   [ROUTE_KEYS.CONTACT]: "contact",
+  [ROUTE_KEYS.PRIVACY]: "privacy",
+  [ROUTE_KEYS.NOT_FOUND]: "notFound",
 };
 
 function absolute(path) {
@@ -154,13 +156,17 @@ export function buildSeo({ routeKey, locale, isRoot = false }) {
   }));
   alternates.push({ hrefLang: "x-default", href: absolute(pathFor(routeKey, DEFAULT_LOCALE)) });
 
+  // Un 404 no debe indexarse ni declararse canónico de nada: si lo hace, el
+  // buscador termina guardando la página de error como si fuera contenido.
+  const isNotFound = routeKey === ROUTE_KEYS.NOT_FOUND;
+
   return {
     lang: locale,
     title,
     description,
     canonical,
-    alternates,
-    robots: "index,follow,max-image-preview:large",
+    alternates: isNotFound ? [] : alternates,
+    robots: isNotFound ? "noindex,follow" : "index,follow,max-image-preview:large",
     og: {
       "og:type": copy.meta.type,
       "og:site_name": copy.meta.siteName,
@@ -177,7 +183,7 @@ export function buildSeo({ routeKey, locale, isRoot = false }) {
       "twitter:description": description,
       "twitter:image": SITE.ogImage,
     },
-    jsonLd: buildJsonLd({ routeKey, locale, copy, title, description, canonical }),
+    jsonLd: isNotFound ? null : buildJsonLd({ routeKey, locale, copy, title, description, canonical }),
     isRoot,
   };
 }

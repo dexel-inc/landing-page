@@ -6,13 +6,16 @@ import Footer from "./sections/Footer.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import ServicesPage from "./pages/ServicesPage.jsx";
 import AuditPage from "./pages/AuditPage.jsx";
+import PrivacyPage from "./pages/PrivacyPage.jsx";
+import NotFoundPage from "./pages/NotFoundPage.jsx";
+import ConsentBanner from "./components/ConsentBanner.jsx";
 import Contact from "./sections/Contact.jsx";
 import { useI18n } from "./i18n/I18nContext.jsx";
 import { Link, useRouter } from "./router/RouterContext.jsx";
 import { ROUTE_KEYS } from "./router/routes.js";
 import { useTheme } from "./theme/ThemeContext.jsx";
 import { updateSeo } from "./seo/updateSeo.js";
-import { trackPageView } from "./analytics/track.js";
+import { setAnalyticsLocale, trackPageView } from "./analytics/track.js";
 
 // El fondo 3D se carga aparte: no existe durante el prerenderizado y tampoco
 // tiene por qué retrasar el primer contenido útil.
@@ -117,6 +120,10 @@ function RouteContent() {
       <ServicesPage copy={copy.services} />
     ) : routeKey === ROUTE_KEYS.AUDIT ? (
       <AuditPage copy={copy.audit} />
+    ) : routeKey === ROUTE_KEYS.PRIVACY ? (
+      <PrivacyPage copy={copy.privacy} />
+    ) : routeKey === ROUTE_KEYS.NOT_FOUND ? (
+      <NotFoundPage copy={copy.notFound} />
     ) : (
       <Contact copy={copy.contact} />
     );
@@ -131,6 +138,7 @@ function RouteContent() {
 
 export default function DexelLanding() {
   const { routeKey, locale, path } = useRouter();
+  const { copy } = useI18n();
 
   // El canvas solo existe en el navegador: en el prerenderizado no hay WebGL.
   // Como el cliente monta de cero en vez de hidratar, no hace falta esperar a
@@ -138,6 +146,9 @@ export default function DexelLanding() {
   const showParticles = typeof document !== "undefined";
 
   useEffect(() => {
+    // El idioma se inyecta antes de medir: el documento pide `locale` en todos
+    // los eventos, y ponerlo a mano en cada llamada se olvida tarde o temprano.
+    setAnalyticsLocale(locale);
     const seo = updateSeo({ routeKey, locale });
     trackPageView({ path, locale, title: seo?.title });
   }, [routeKey, locale, path]);
@@ -162,6 +173,8 @@ export default function DexelLanding() {
       <main className="relative z-10">
         <RouteContent />
       </main>
+
+      <ConsentBanner copy={copy.consent} />
     </div>
   );
 }

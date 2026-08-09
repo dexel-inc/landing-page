@@ -58,6 +58,13 @@ function upsertJsonLd(data) {
   const id = "dexel-structured-data";
   let script = document.head.querySelector(`script#${id}`);
 
+  // Sin datos estructurados —el 404— se quita el bloque de la ruta anterior en
+  // vez de dejarlo describiendo una página que ya no se está viendo.
+  if (!data) {
+    script?.remove();
+    return;
+  }
+
   if (!script) {
     script = document.createElement("script");
     script.id = id;
@@ -87,7 +94,7 @@ export function updateSeo({ routeKey, locale }) {
     upsertMeta("name", name, content);
   }
 
-  upsertCanonical(seo.canonical);
+  if (seo.alternates.length) upsertCanonical(seo.canonical);
   replaceAlternates(seo.alternates);
   upsertJsonLd(seo.jsonLd);
 

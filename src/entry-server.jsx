@@ -5,7 +5,7 @@ import { I18nProvider } from "./i18n/I18nContext.jsx";
 import { RouterProvider } from "./router/RouterContext.jsx";
 import { ThemeProvider } from "./theme/ThemeContext.jsx";
 import { buildSeo } from "./seo/seo.js";
-import { allRoutes } from "./router/routes.js";
+import { allRoutes, DEFAULT_LOCALE, ROUTE_KEYS } from "./router/routes.js";
 import { SITE } from "./config/site.js";
 
 /**
@@ -32,4 +32,4 @@ export function render(path) {
   );
 }
 
-export { buildSeo, allRoutes, SITE };
+export { buildSeo, allRoutes, SITE, ROUTE_KEYS, DEFAULT_LOCALE };

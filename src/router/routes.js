@@ -17,6 +17,9 @@ export const ROUTE_KEYS = {
   SERVICES: "services",
   AUDIT: "audit",
   CONTACT: "contact",
+  PRIVACY: "privacy",
+  /** No tiene URL propia: es lo que se muestra cuando ninguna ruta coincide. */
+  NOT_FOUND: "notFound",
 };
 
 /** Ruta canónica de cada página por idioma. */
@@ -26,12 +29,14 @@ export const PATHS = {
     services: "/es/servicios",
     audit: "/es/servicios/auditoria",
     contact: "/es/contacto",
+    privacy: "/es/privacidad",
   },
   en: {
     home: "/en",
     services: "/en/services",
     audit: "/en/services/process-audit",
     contact: "/en/contact",
+    privacy: "/en/privacy",
   },
 };
 
@@ -46,8 +51,10 @@ export const ROOT_PATH = "/";
 export const LEGACY_REDIRECTS = {
   "/servicios": PATHS.es.services,
   "/contacto": PATHS.es.contact,
+  "/privacidad": PATHS.es.privacy,
   "/services": PATHS.en.services,
   "/contact": PATHS.en.contact,
+  "/privacy": PATHS.en.privacy,
 };
 
 const lookup = new Map();
@@ -84,9 +91,13 @@ export function matchRoute(pathname) {
   return lookup.get(clean) ?? null;
 }
 
-/** URL de una página en un idioma. */
+/**
+ * URL de una página en un idioma. `notFound` no tiene URL propia, así que
+ * cambiar de idioma desde un 404 lleva al inicio en vez de a ninguna parte.
+ */
 export function pathFor(routeKey, locale) {
-  return PATHS[locale]?.[routeKey] ?? PATHS[DEFAULT_LOCALE][routeKey];
+  const paths = PATHS[locale] ?? PATHS[DEFAULT_LOCALE];
+  return paths[routeKey] ?? PATHS[DEFAULT_LOCALE][routeKey] ?? paths[ROUTE_KEYS.HOME];
 }
 
 /** Todas las URLs públicas, para prerenderizar y para el sitemap. */
