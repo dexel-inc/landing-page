@@ -1,106 +1,95 @@
-function upsertMeta(name, content, isProperty = false) {
-  const selector = isProperty ? `meta[property="${name}"]` : `meta[name="${name}"]`;
-  let element = document.head.querySelector(selector);
+import { buildSeo } from "./seo.js";
+
+/**
+ * Escribe en el `<head>` los metadatos de la página activa.
+ *
+ * Solo corre en el navegador y solo importa al navegar dentro de la SPA: el
+ * HTML que sirve el servidor ya viene con estas mismas etiquetas, generadas en
+ * el build a partir de `buildSeo`. Esta función las mantiene al día cuando el
+ * visitante cambia de ruta sin recargar.
+ */
+
+const MANAGED = "data-dexel-seo";
+
+function upsertMeta(attr, name, content) {
+  let element = document.head.querySelector(`meta[${attr}="${name}"]`);
+
   if (!element) {
     element = document.createElement("meta");
-    if (isProperty) {
-      element.setAttribute("property", name);
-    } else {
-      element.setAttribute("name", name);
-    }
+    element.setAttribute(attr, name);
+    element.setAttribute(MANAGED, "");
     document.head.appendChild(element);
   }
+
   element.setAttribute("content", content);
 }
 
-function upsertLink(rel, href) {
-  let element = document.head.querySelector(`link[rel="${rel}"]`);
+function upsertCanonical(href) {
+  let element = document.head.querySelector('link[rel="canonical"]');
+
   if (!element) {
     element = document.createElement("link");
-    element.setAttribute("rel", rel);
+    element.setAttribute("rel", "canonical");
+    element.setAttribute(MANAGED, "");
     document.head.appendChild(element);
   }
+
   element.setAttribute("href", href);
+}
+
+/**
+ * Los `hreflang` se reemplazan enteros en vez de actualizarse uno por uno:
+ * son pocos y así no queda ningún alterno de la ruta anterior colgando.
+ */
+function replaceAlternates(alternates) {
+  document.head.querySelectorAll('link[rel="alternate"]').forEach((node) => node.remove());
+
+  for (const alternate of alternates) {
+    const link = document.createElement("link");
+    link.setAttribute("rel", "alternate");
+    link.setAttribute("hreflang", alternate.hrefLang);
+    link.setAttribute("href", alternate.href);
+    link.setAttribute(MANAGED, "");
+    document.head.appendChild(link);
+  }
 }
 
 function upsertJsonLd(data) {
   const id = "dexel-structured-data";
-  let script = document.head.querySelector(`#${id}`);
+  let script = document.head.querySelector(`script#${id}`);
+
   if (!script) {
     script = document.createElement("script");
     script.id = id;
     script.type = "application/ld+json";
     document.head.appendChild(script);
   }
+
   script.textContent = JSON.stringify(data);
 }
 
-export function updateSeo({ path, copy, locale }) {
-  const origin = window.location.origin;
-  const normalizedPath = path === "/" ? "/" : path;
-  const canonicalUrl = `${origin}${normalizedPath}`;
+export function updateSeo({ routeKey, locale }) {
+  if (typeof document === "undefined") return;
 
-  const title =
-    path === "/servicios"
-      ? copy.meta.servicesTitle
-      : path === "/contacto"
-        ? copy.meta.contactTitle
-        : copy.meta.homeTitle;
+  const seo = buildSeo({ routeKey, locale });
 
-  const description =
-    path === "/servicios"
-      ? copy.meta.servicesDescription
-      : path === "/contacto"
-        ? copy.meta.contactDescription
-        : copy.meta.homeDescription;
+  document.title = seo.title;
+  document.documentElement.setAttribute("lang", seo.lang);
 
-  document.title = title;
-  document.documentElement.setAttribute("lang", locale);
+  upsertMeta("name", "description", seo.description);
+  upsertMeta("name", "robots", seo.robots);
 
-  upsertMeta("description", description);
-  upsertMeta("robots", "index,follow,max-image-preview:large");
+  for (const [property, content] of Object.entries(seo.og)) {
+    upsertMeta("property", property, content);
+  }
 
-  upsertMeta("og:type", copy.meta.type, true);
-  upsertMeta("og:site_name", copy.meta.siteName, true);
-  upsertMeta("og:title", title, true);
-  upsertMeta("og:description", description, true);
-  upsertMeta("og:url", canonicalUrl, true);
+  for (const [name, content] of Object.entries(seo.twitter)) {
+    upsertMeta("name", name, content);
+  }
 
-  upsertMeta("twitter:card", "summary_large_image");
-  upsertMeta("twitter:title", title);
-  upsertMeta("twitter:description", description);
+  upsertCanonical(seo.canonical);
+  replaceAlternates(seo.alternates);
+  upsertJsonLd(seo.jsonLd);
 
-  upsertLink("canonical", canonicalUrl);
-
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        name: copy.meta.brand,
-        url: origin,
-        logo: `${origin}/src/assets/dexelFavicon.ico`,
-      },
-      {
-        "@type": "WebSite",
-        name: copy.meta.siteName,
-        url: origin,
-        inLanguage: locale,
-        potentialAction: {
-          "@type": "SearchAction",
-          target: `${origin}/?q={search_term_string}`,
-          "query-input": "required name=search_term_string",
-        },
-      },
-      {
-        "@type": "WebPage",
-        name: title,
-        url: canonicalUrl,
-        description,
-        inLanguage: locale,
-      },
-    ],
-  };
-
-  upsertJsonLd(structuredData);
+  return seo;
 }
