@@ -1,0 +1,558 @@
+import { formatPrice } from "../config/pricing.js";
+
+/**
+ * Catálogo de servicios y detalle de la auditoría, en los dos idiomas.
+ *
+ * Vive fuera de `messages.js` por dos razones: es el contenido que más se
+ * itera, y es el único que tiene estructura propia (niveles, entregables,
+ * pasos) en vez de ser cadenas sueltas.
+ *
+ * Fuente única: tanto la sección de la home como la página `/servicios` leen
+ * de `items`. Antes había dos catálogos distintos —seis tarjetas en la home y
+ * cuatro líneas en la página— que ya se habían desincronizado entre sí.
+ *
+ * Ningún precio se escribe a mano aquí: todos salen de `config/pricing.js`.
+ */
+
+const es = {
+  title: "Nuestros servicios",
+  badge: "Servicios Dexel",
+  subtitle: "Empiece por donde más le duela: no hace falta contratar todo.",
+  intro:
+    "Cinco servicios. El primero mide, los demás construyen. Todos los precios están en dólares estadounidenses.",
+
+  featuredLabel: "Empiece por aquí",
+  serviceLabel: "Servicio",
+  forWhoLabel: "Para quién es",
+  deliveryLabel: "Tiempo de entrega",
+  deliverablesLabel: "Qué recibe",
+  tiersLabel: "Dos niveles",
+  detailCta: "Ver qué incluye",
+  cta: "Ver detalles",
+  quoteCta: "Solicitar cotización",
+  auditCta: "Solicitar auditoría",
+
+  items: [
+    {
+      id: "auditoria",
+      slug: "auditoria",
+      iconName: "ScanSearch",
+      featured: true,
+      badge: "Se descuenta 100% del proyecto",
+      title: "Auditoría de procesos",
+      price: formatPrice("audit", "es"),
+      delivery: "5 a 7 días hábiles",
+      desc: "Revisamos cómo trabaja tu equipo hoy y te decimos exactamente qué procesos se pueden automatizar, cuántas horas al mes recuperarías y cuánto costaría cada implementación. Si concluimos que no necesitas construir nada, te lo decimos.",
+      forWho:
+        "Equipos desde 8-10 personas, o empresas con varios procesos corriendo en paralelo.",
+      deliverables: [
+        "Mapa de sus procesos actuales, paso a paso",
+        "Matriz de oportunidades ordenada por impacto",
+        "Cuántas horas al mes consume cada proceso y cuánto cuestan",
+        "Un quick win identificado y presupuestado, con precio cerrado",
+        "Roadmap por fases: en qué orden conviene implementar",
+        "Revisión de las herramientas que ya paga",
+        "Riesgos operativos de la operación actual",
+        "Sesión de resultados en vivo con su equipo",
+      ],
+      ctaKey: "auditCta",
+      detailRouteKey: "audit",
+    },
+    {
+      id: "automatizacion",
+      slug: "automatizacion-e-integracion",
+      iconName: "Zap",
+      title: "Automatización e integración",
+      price: formatPrice("automation", "es", { from: true }),
+      delivery: "2 a 6 semanas",
+      desc: "Automatizamos los procesos manuales que consumen horas de tu equipo e integramos los sistemas que ya tienes para que dejen de necesitar que alguien copie datos entre ellos.",
+      forWho:
+        "Equipos que copian datos entre sistemas, arman reportes a mano o digitan lo que llega por correo y WhatsApp.",
+      deliverables: [
+        "Automatización de procesos operativos",
+        "Integración entre sistemas existentes",
+        "Automatización en WhatsApp Business",
+        "Bots de atención y respuesta automática",
+        "Sincronización de datos entre plataformas",
+        "Reportes que se generan solos",
+      ],
+      ctaKey: "quoteCta",
+    },
+    {
+      id: "software-medida",
+      slug: "software-a-la-medida",
+      iconName: "Cpu",
+      title: "Software a la medida",
+      price: formatPrice("customSoftware", "es", { from: true }),
+      delivery: "4 a 8 semanas",
+      desc: "Convertimos tu operación en un sistema. Aplicaciones web construidas alrededor de cómo trabaja tu empresa, no al revés.",
+      forWho:
+        "Negocios que administran pedidos, inventario, clientes o procesos internos repartidos entre planillas y correos.",
+      deliverables: [
+        "Panel para administrar su operación sin depender de nosotros",
+        "Base de datos diseñada para su flujo real",
+        "API propia para conectar con otros sistemas",
+        "Control de usuarios y permisos",
+        "Desplegado en la nube y listo para crecer",
+      ],
+      ctaKey: "quoteCta",
+    },
+    {
+      id: "presencia-web",
+      slug: "presencia-web",
+      iconName: "Globe",
+      title: "Presencia web",
+      price: formatPrice("webPresence", "es", { from: true }),
+      delivery: "5 días a 4 semanas",
+      desc: "Su empresa existiendo en internet, en dos niveles según lo que necesite resolver: una página única que convierta, o un sitio completo que su equipo pueda administrar.",
+      forWho:
+        "Empresas que todavía no tienen sitio, o que tienen uno que no pueden actualizar sin llamar a alguien.",
+      deliverables: [
+        "Sitio publicado y funcionando",
+        "Diseño responsivo para celular",
+        "SEO y analítica configuradas",
+        "Formulario de contacto conectado a WhatsApp",
+        "Hosting y dominio por 1 año",
+      ],
+      tiers: [
+        {
+          name: "Landing",
+          price: formatPrice("webPresenceLanding", "es", { from: true }),
+          items: [
+            "Página única",
+            "Diseño sobre plantillas probadas",
+            "SEO básico",
+            "Formulario de contacto",
+            "Hosting y dominio por 1 año",
+          ],
+        },
+        {
+          name: "Sitio completo",
+          price: formatPrice("webPresence", "es", { from: true }),
+          items: [
+            "Páginas múltiples con diseño propio",
+            "Panel de administración",
+            "SEO avanzado",
+            "Analítica integrada",
+            "Soporte 30 días",
+          ],
+        },
+      ],
+      ctaKey: "quoteCta",
+    },
+    {
+      id: "mantenimiento",
+      slug: "mantenimiento",
+      iconName: "Wrench",
+      title: "Mantenimiento",
+      price: formatPrice("maintenance", "es", { from: true, perMonth: true }),
+      delivery: "Mensual, sin permanencia",
+      desc: "Soporte continuo y actualizaciones para proyectos desarrollados por Dexel, garantizando su óptimo funcionamiento.",
+      forWho:
+        "Proyectos ya en producción que no pueden darse el lujo de caerse ni de quedarse quietos.",
+      deliverables: [
+        "Actualizaciones de seguridad",
+        "Corrección de bugs",
+        "Backups automáticos",
+        "Monitoreo de rendimiento",
+        "Soporte técnico prioritario",
+      ],
+      ctaKey: "quoteCta",
+    },
+  ],
+
+  faqTitle: "Preguntas frecuentes",
+  faqSubtitle: "Las dudas que nos hacen antes de contratar",
+  faqs: [
+    {
+      question: "¿La auditoría se descuenta de verdad?",
+      answer: `Sí, completa. Si decide avanzar con la implementación dentro de los 60 días siguientes a la entrega del informe, los ${formatPrice(
+        "audit",
+        "es",
+      )} se descuentan del precio del proyecto. Antes de la auditoría hay una llamada de discovery de 30 minutos sin costo, para confirmar que la auditoría tiene sentido en su caso.`,
+    },
+    {
+      question: "¿Y si la auditoría concluye que no necesito construir nada?",
+      answer:
+        "Se lo decimos por escrito, en el mismo informe. Es un resultado posible y no nos incomoda: el informe es suyo y le sirve igual, con nosotros o con cualquier otro proveedor. Preferimos perder un proyecto a venderle uno que no necesita.",
+    },
+    {
+      question: "¿De quién es el código que ustedes desarrollan?",
+      answer:
+        "Suyo, desde el primer commit. El repositorio queda a nombre de su empresa, no de Dexel. Si mañana decide trabajar con otro proveedor, se lleva todo sin pedirnos permiso.",
+    },
+    {
+      question: "¿Qué pasa si el alcance cambia a mitad del proyecto?",
+      answer:
+        "El precio se cierra antes de escribir la primera línea de código. Si aparece algo nuevo, lo cotizamos aparte y usted decide si entra ahora o después. Nunca le llega una factura con sorpresas.",
+    },
+    {
+      question: "¿Firman acuerdos de confidencialidad?",
+      answer:
+        "Sí, y los cumplimos. La mayor parte de nuestro trabajo son sistemas internos que no podemos mostrar públicamente, justamente por eso. Su proyecto recibiría la misma discreción.",
+    },
+    {
+      question: "¿Cuánto tiempo toma tener algo funcionando?",
+      answer:
+        "Depende del servicio: la auditoría de procesos en 5 a 7 días hábiles, presencia web entre 5 días y 4 semanas, una automatización o integración en 2 a 6 semanas, y software a la medida en 4 a 8 semanas. En todos los casos ve una demo funcionando cada viernes, no un informe de avance.",
+    },
+  ],
+};
+
+const auditEs = {
+  badge: "Producto de entrada",
+  title: "Auditoría de procesos",
+  subtitle:
+    "Antes de construir nada, medimos. Recibe cifras concretas sobre su propia operación: cuántas horas se van, en qué se van y cuánto costaría recuperarlas.",
+  priceLabel: "Precio",
+  price: formatPrice("audit", "es"),
+  deliveryLabel: "Entrega",
+  delivery: "5 a 7 días hábiles",
+  discountBadge: "Se descuenta 100% del proyecto",
+
+  deliverablesTitle: "Qué entregamos",
+  deliverablesIntro: "Ocho entregables, todos por escrito.",
+  deliverables: [
+    {
+      title: "Mapa de procesos actuales",
+      text: "Cómo funciona hoy su operación, paso a paso.",
+    },
+    {
+      title: "Matriz de oportunidades",
+      text: "Qué se puede automatizar, ordenado por impacto.",
+    },
+    {
+      title: "Cuantificación de horas",
+      text: "Cuántas horas al mes consume cada proceso y cuánto cuestan esas horas.",
+    },
+    {
+      title: "Quick win identificado y presupuestado",
+      text: "La automatización de mayor retorno y menor esfuerzo, con precio cerrado.",
+    },
+    {
+      title: "Roadmap por fases",
+      text: "En qué orden conviene implementar y por qué.",
+    },
+    {
+      title: "Revisión de herramientas que ya paga",
+      text: "Licencias subutilizadas, duplicadas o que se pisan entre sí.",
+    },
+    {
+      title: "Riesgos operativos",
+      text: "Procesos que dependen de una sola persona, respaldos, continuidad si algo falla.",
+    },
+    {
+      title: "Sesión de resultados",
+      text: "Presentación en vivo con su equipo, no un PDF enviado por correo.",
+    },
+  ],
+
+  afterTitle: "Qué pasa después de la auditoría",
+  afterIntro: "El camino completo, antes de que pague.",
+  steps: [
+    {
+      label: "Paso 1",
+      title: "Recibe el informe",
+      when: "Día 5-7",
+      text: "Con cifras concretas. Es suyo, lo pueda usar con nosotros o con cualquier otro proveedor.",
+    },
+    {
+      label: "Paso 2",
+      title: "Decide qué quiere implementar",
+      when: "Sin presión, sin plazo",
+      text: "Puede implementar todo, una parte, o nada. Si la auditoría concluye que no hace falta construir nada, lo decimos por escrito.",
+    },
+    {
+      label: "Paso 3",
+      title: "Propuesta cerrada en 48 horas",
+      when: "48 horas",
+      text: "Alcance cerrado, precio fijo y cronograma. Lo que no está escrito no está incluido, y lo decimos de frente.",
+    },
+    {
+      label: "Paso 4",
+      title: `Los ${formatPrice("audit", "es")} se descuentan`,
+      when: "Dentro de 60 días",
+      text: "Si decide avanzar dentro de los 60 días siguientes, el costo completo de la auditoría se descuenta del proyecto.",
+    },
+  ],
+
+  scopeTitle: "Cuándo tiene sentido",
+  scopeNote:
+    "La auditoría tiene sentido a partir de 8-10 personas en el equipo o cuando hay varios procesos corriendo en paralelo. Si su operación es más pequeña, dígalo en la llamada de discovery y le ahorramos el gasto.",
+
+  cta: "Solicitar auditoría",
+  backLabel: "Ver todos los servicios",
+};
+
+const en = {
+  title: "Our services",
+  badge: "Dexel Services",
+  subtitle: "Start wherever it hurts most: you don't have to buy all of it.",
+  intro:
+    "Five services. The first one measures, the rest build. All prices are in US dollars.",
+
+  featuredLabel: "Start here",
+  serviceLabel: "Service",
+  forWhoLabel: "Who it's for",
+  deliveryLabel: "Delivery time",
+  deliverablesLabel: "What you get",
+  tiersLabel: "Two tiers",
+  detailCta: "See what's included",
+  cta: "View details",
+  quoteCta: "Request a quote",
+  auditCta: "Request the audit",
+
+  items: [
+    {
+      id: "auditoria",
+      slug: "process-audit",
+      iconName: "ScanSearch",
+      featured: true,
+      badge: "100% credited toward your project",
+      title: "Process audit",
+      price: formatPrice("audit", "en"),
+      delivery: "5 to 7 business days",
+      desc: "We review how your team works today and tell you exactly which processes can be automated, how many hours a month you would get back, and what each implementation would cost. If we conclude you don't need to build anything, we say so.",
+      forWho:
+        "Teams of 8-10 people and up, or companies running several processes in parallel.",
+      deliverables: [
+        "A map of your current processes, step by step",
+        "An opportunity matrix ranked by impact",
+        "How many hours a month each process consumes, and what they cost",
+        "One quick win identified and budgeted, at a closed price",
+        "A phased roadmap: what to implement first and why",
+        "A review of the tools you already pay for",
+        "Operational risks in your current setup",
+        "A live results session with your team",
+      ],
+      ctaKey: "auditCta",
+      detailRouteKey: "audit",
+    },
+    {
+      id: "automatizacion",
+      slug: "automation-and-integration",
+      iconName: "Zap",
+      title: "Automation & integration",
+      price: formatPrice("automation", "en", { from: true }),
+      delivery: "2 to 6 weeks",
+      desc: "We automate the manual processes that eat your team's hours, and we integrate the systems you already have so nobody has to copy data between them anymore.",
+      forWho:
+        "Teams copying data between systems, building reports by hand, or retyping what arrives by email and WhatsApp.",
+      deliverables: [
+        "Operational process automation",
+        "Integration between existing systems",
+        "WhatsApp Business automation",
+        "Support and auto-reply bots",
+        "Data sync across platforms",
+        "Reports that generate themselves",
+      ],
+      ctaKey: "quoteCta",
+    },
+    {
+      id: "software-medida",
+      slug: "custom-software",
+      iconName: "Cpu",
+      title: "Custom software",
+      price: formatPrice("customSoftware", "en", { from: true }),
+      delivery: "4 to 8 weeks",
+      desc: "We turn your operation into a system. Web applications built around how your company actually works, not the other way around.",
+      forWho:
+        "Businesses managing orders, inventory, customers, or internal processes scattered across spreadsheets and email.",
+      deliverables: [
+        "A panel to run your operation without depending on us",
+        "A database designed for how you actually work",
+        "Your own API to connect with other systems",
+        "User and permission control",
+        "Deployed to the cloud and ready to grow",
+      ],
+      ctaKey: "quoteCta",
+    },
+    {
+      id: "presencia-web",
+      slug: "web-presence",
+      iconName: "Globe",
+      title: "Web presence",
+      price: formatPrice("webPresence", "en", { from: true }),
+      delivery: "5 days to 4 weeks",
+      desc: "Your company existing online, in two tiers depending on what you need to solve: a single page that converts, or a full site your team can manage.",
+      forWho:
+        "Companies with no site yet, or with one they can't update without calling someone.",
+      deliverables: [
+        "Site published and running",
+        "Responsive design for mobile",
+        "SEO and analytics configured",
+        "Contact form connected to WhatsApp",
+        "Hosting and domain for 1 year",
+      ],
+      tiers: [
+        {
+          name: "Landing",
+          price: formatPrice("webPresenceLanding", "en", { from: true }),
+          items: [
+            "Single page",
+            "Design built on proven templates",
+            "Basic SEO",
+            "Contact form",
+            "Hosting and domain for 1 year",
+          ],
+        },
+        {
+          name: "Full site",
+          price: formatPrice("webPresence", "en", { from: true }),
+          items: [
+            "Multiple pages with custom design",
+            "Admin panel",
+            "Advanced SEO",
+            "Analytics integration",
+            "30-day support",
+          ],
+        },
+      ],
+      ctaKey: "quoteCta",
+    },
+    {
+      id: "mantenimiento",
+      slug: "maintenance",
+      iconName: "Wrench",
+      title: "Maintenance",
+      price: formatPrice("maintenance", "en", { from: true, perMonth: true }),
+      delivery: "Monthly, no lock-in",
+      desc: "Continuous support and updates for projects built by Dexel, keeping them running the way they should.",
+      forWho:
+        "Projects already in production that can't afford to go down or to stand still.",
+      deliverables: [
+        "Security updates",
+        "Bug fixes",
+        "Automated backups",
+        "Performance monitoring",
+        "Priority technical support",
+      ],
+      ctaKey: "quoteCta",
+    },
+  ],
+
+  faqTitle: "Frequently asked questions",
+  faqSubtitle: "What people ask us before signing",
+  faqs: [
+    {
+      question: "Is the audit really credited back?",
+      answer: `Yes, in full. If you move forward with implementation within 60 days of receiving the report, the ${formatPrice(
+        "audit",
+        "en",
+      )} come off the project price. Before the audit there's a free 30-minute discovery call to confirm the audit makes sense in your case.`,
+    },
+    {
+      question: "What if the audit concludes I don't need to build anything?",
+      answer:
+        "We say so in writing, in the report itself. It's a possible outcome and it doesn't bother us: the report is yours and it's useful either way, with us or with any other vendor. We'd rather lose a project than sell you one you don't need.",
+    },
+    {
+      question: "Who owns the code you write?",
+      answer:
+        "You do, from the first commit. The repository is in your company's name, not Dexel's. If you decide to work with another vendor tomorrow, you take everything without asking us.",
+    },
+    {
+      question: "What happens if the scope changes mid-project?",
+      answer:
+        "The price is closed before we write the first line of code. If something new comes up, we quote it separately and you decide whether it goes in now or later. You never get an invoice with surprises.",
+    },
+    {
+      question: "Do you sign non-disclosure agreements?",
+      answer:
+        "Yes, and we honor them. Most of our work is internal systems we can't show publicly, precisely for that reason. Your project would get the same discretion.",
+    },
+    {
+      question: "How long until something is working?",
+      answer:
+        "It depends on the service: the process audit in 5 to 7 business days, web presence between 5 days and 4 weeks, an automation or integration in 2 to 6 weeks, and custom software in 4 to 8 weeks. In every case you see a working demo every Friday, not a status report.",
+    },
+  ],
+};
+
+const auditEn = {
+  badge: "Entry product",
+  title: "Process audit",
+  subtitle:
+    "Before we build anything, we measure. You get concrete numbers about your own operation: how many hours are going out, where, and what it would cost to get them back.",
+  priceLabel: "Price",
+  price: formatPrice("audit", "en"),
+  deliveryLabel: "Delivery",
+  delivery: "5 to 7 business days",
+  discountBadge: "100% credited toward your project",
+
+  deliverablesTitle: "What we deliver",
+  deliverablesIntro: "Eight deliverables, all in writing.",
+  deliverables: [
+    {
+      title: "Map of current processes",
+      text: "How your operation works today, step by step.",
+    },
+    {
+      title: "Opportunity matrix",
+      text: "What can be automated, ranked by impact.",
+    },
+    {
+      title: "Hours quantified",
+      text: "How many hours a month each process consumes, and what those hours cost.",
+    },
+    {
+      title: "Quick win identified and budgeted",
+      text: "The automation with the highest return and lowest effort, at a closed price.",
+    },
+    {
+      title: "Phased roadmap",
+      text: "What order to implement in, and why.",
+    },
+    {
+      title: "Review of tools you already pay for",
+      text: "Underused licenses, duplicates, and tools that overlap with each other.",
+    },
+    {
+      title: "Operational risks",
+      text: "Processes that depend on a single person, backups, continuity if something fails.",
+    },
+    {
+      title: "Results session",
+      text: "A live presentation with your team, not a PDF sent by email.",
+    },
+  ],
+
+  afterTitle: "What happens after the audit",
+  afterIntro: "The whole path, before you pay.",
+  steps: [
+    {
+      label: "Step 1",
+      title: "You get the report",
+      when: "Day 5-7",
+      text: "With concrete numbers. It's yours, whether you use it with us or with any other vendor.",
+    },
+    {
+      label: "Step 2",
+      title: "You decide what to implement",
+      when: "No pressure, no deadline",
+      text: "You can implement all of it, part of it, or none. If the audit concludes nothing needs to be built, we say so in writing.",
+    },
+    {
+      label: "Step 3",
+      title: "Closed proposal in 48 hours",
+      when: "48 hours",
+      text: "Closed scope, fixed price, and a schedule. What isn't written isn't included, and we say so up front.",
+    },
+    {
+      label: "Step 4",
+      title: `The ${formatPrice("audit", "en")} are credited back`,
+      when: "Within 60 days",
+      text: "If you move forward within the following 60 days, the full cost of the audit comes off the project.",
+    },
+  ],
+
+  scopeTitle: "When it makes sense",
+  scopeNote:
+    "The audit makes sense from about 8-10 people on the team, or when several processes are running in parallel. If your operation is smaller, say so on the discovery call and we'll save you the expense.",
+
+  cta: "Request the audit",
+  backLabel: "See all services",
+};
+
+export const servicesCopy = { es, en };
+export const auditCopy = { es: auditEs, en: auditEn };

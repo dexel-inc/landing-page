@@ -1,41 +1,33 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { PointMaterial, Points } from "@react-three/drei";
+import React, { Suspense, lazy, useEffect } from "react";
 import { Moon, Sun } from "lucide-react";
-import * as random from "maath/random/dist/maath-random.esm";
 import Logo from "./icons/logo.jsx";
 import Button from "./components/ui/Button.jsx";
 import Footer from "./sections/Footer.jsx";
 import HomePage from "./pages/HomePage.jsx";
+import ServicesPage from "./pages/ServicesPage.jsx";
+import AuditPage from "./pages/AuditPage.jsx";
+import Contact from "./sections/Contact.jsx";
 import { useI18n } from "./i18n/I18nContext.jsx";
 import { Link, useRouter } from "./router/RouterContext.jsx";
-import { routes } from "./data/index.js";
+import { ROUTE_KEYS } from "./router/routes.js";
 import { useTheme } from "./theme/ThemeContext.jsx";
 import { updateSeo } from "./seo/updateSeo.js";
+import { trackPageView } from "./analytics/track.js";
 
-function ParticleObject() {
-  const ref = useRef({});
-  const [sphere] = useState(() => random.inSphere(new Float32Array(5000), { radius: 1.5 }));
-  const { theme } = useTheme();
+// El fondo 3D se carga aparte: no existe durante el prerenderizado y tampoco
+// tiene por qué retrasar el primer contenido útil.
+const ParticleField = lazy(() => import("./components/ParticleField.jsx"));
 
-  useFrame((state, delta) => {
-    ref.current.rotation.x -= delta / 10;
-    ref.current.rotation.y -= delta / 15;
-    ref.current.scale.set(1, 1, 1);
-    ref.current.material.color.set(theme === "dark" ? "#ffffff" : "#1e3a8a");
-  });
-
-  return (
-    <group rotation={[0, 0, Math.PI / 4]}>
-      <Points ref={ref} positions={sphere} stride={3} frustumCulled={false}>
-        <PointMaterial transparent size={0.005} sizeAttenuation={true} depthWrite={false} />
-      </Points>
-    </group>
-  );
-}
+const NAV_LINKS = [
+  { routeKey: ROUTE_KEYS.HOME, labelKey: "home" },
+  { routeKey: ROUTE_KEYS.SERVICES, labelKey: "services" },
+  { routeKey: ROUTE_KEYS.AUDIT, labelKey: "audit" },
+  { routeKey: ROUTE_KEYS.CONTACT, labelKey: "contact" },
+];
 
 function Navbar() {
-  const { copy, locale, setLocale } = useI18n();
+  const { copy, locale } = useI18n();
+  const { setLocale } = useRouter();
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -43,31 +35,22 @@ function Navbar() {
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-4 md:gap-8">
           <Link
-              to="/"
-              className="inline-flex items-center gap-2  px-2.5 py-1.5 md:px-3 text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-300 transition-colors"
+            to={ROUTE_KEYS.HOME}
+            className="inline-flex items-center gap-2 px-2.5 py-1.5 md:px-3 text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-300 transition-colors"
           >
             <Logo className="w-7 h-7 md:w-8 md:h-8 text-current" viewBox="0 0 324 210" />
           </Link>
 
-          <div className="hidden md:flex gap-10 text-xs tracking-[0.15em] uppercase font-medium">
-            <Link
-              to="/"
-              className="text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors relative after:absolute after:bottom-[-5px] after:left-0 after:h-[1px] after:w-0 after:bg-blue-400 hover:after:w-full after:transition-all"
-            >
-              {copy.nav.home}
-            </Link>
-            <Link
-              to="/servicios"
-              className="text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors relative after:absolute after:bottom-[-5px] after:left-0 after:h-[1px] after:w-0 after:bg-blue-400 hover:after:w-full after:transition-all"
-            >
-              {copy.nav.services}
-            </Link>
-            <Link
-              to="/contacto"
-              className="text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors relative after:absolute after:bottom-[-5px] after:left-0 after:h-[1px] after:w-0 after:bg-blue-400 hover:after:w-full after:transition-all"
-            >
-              {copy.nav.contact}
-            </Link>
+          <div className="hidden md:flex gap-8 text-xs tracking-[0.15em] uppercase font-medium">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.routeKey}
+                to={link.routeKey}
+                className="text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors relative after:absolute after:bottom-[-5px] after:left-0 after:h-[1px] after:w-0 after:bg-blue-400 hover:after:w-full after:transition-all"
+              >
+                {copy.nav[link.labelKey]}
+              </Link>
+            ))}
           </div>
         </div>
 
@@ -85,18 +68,20 @@ function Navbar() {
           <div className="flex items-center rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-900/70 p-0.5">
             <Button
               onClick={() => setLocale("es")}
+              aria-current={locale === "es"}
               variant={locale === "es" ? "secondary" : "ghost"}
               size="xs"
-              className="h-7 md:h-8 min-w-8 md:min-w-9 rounded-lg px-2 md:px-2"
+              className="h-7 md:h-8 min-w-8 md:min-w-9 rounded-lg px-2"
             >
               {copy.nav.spanish}
             </Button>
 
             <Button
               onClick={() => setLocale("en")}
+              aria-current={locale === "en"}
               variant={locale === "en" ? "secondary" : "ghost"}
               size="xs"
-              className="h-7 md:h-8 min-w-8 md:min-w-9 rounded-lg px-2 md:px-2"
+              className="h-7 md:h-8 min-w-8 md:min-w-9 rounded-lg px-2"
             >
               {copy.nav.english}
             </Button>
@@ -104,79 +89,67 @@ function Navbar() {
         </div>
       </div>
 
-      <div className="md:hidden mt-2 flex items-center justify-center gap-2">
-        <Link
-          to="/"
-          className="text-[10px] uppercase tracking-[0.15em] px-2 py-1 rounded-lg border border-slate-200/90 dark:border-zinc-800 bg-white/70 dark:bg-black/30 text-slate-700 dark:text-gray-200"
-        >
-          {copy.nav.home}
-        </Link>
-        <Link
-          to="/servicios"
-          className="text-[10px] uppercase tracking-[0.15em] px-2 py-1 rounded-lg border border-slate-200/90 dark:border-zinc-800 bg-white/70 dark:bg-black/30 text-slate-700 dark:text-gray-200"
-        >
-          {copy.nav.services}
-        </Link>
-        <Link
-          to="/contacto"
-          className="text-[10px] uppercase tracking-[0.15em] px-2 py-1 rounded-lg border border-slate-200/90 dark:border-zinc-800 bg-white/70 dark:bg-black/30 text-slate-700 dark:text-gray-200"
-        >
-          {copy.nav.contact}
-        </Link>
+      <div className="md:hidden mt-2 flex items-center justify-center gap-1.5">
+        {NAV_LINKS.map((link) => (
+          <Link
+            key={link.routeKey}
+            to={link.routeKey}
+            className="text-[10px] uppercase tracking-[0.12em] px-2 py-1 rounded-lg border border-slate-200/90 dark:border-zinc-800 bg-white/70 dark:bg-black/30 text-slate-700 dark:text-gray-200"
+          >
+            {copy.nav[link.labelKey]}
+          </Link>
+        ))}
       </div>
     </nav>
   );
 }
 
 function RouteContent() {
-  const { path, navigate } = useRouter();
+  const { routeKey } = useRouter();
   const { copy } = useI18n();
-  const dataFromPath = routes[path] ?? "none";
 
-  if (dataFromPath === "none") {
-    return <HomePage copy={copy} onNavigate={navigate} />;
+  if (routeKey === ROUTE_KEYS.HOME) {
+    return <HomePage copy={copy} />;
   }
 
-  const PathComponent = dataFromPath.component;
+  const page =
+    routeKey === ROUTE_KEYS.SERVICES ? (
+      <ServicesPage copy={copy.services} />
+    ) : routeKey === ROUTE_KEYS.AUDIT ? (
+      <AuditPage copy={copy.audit} />
+    ) : (
+      <Contact copy={copy.contact} />
+    );
 
   return (
     <>
-      <PathComponent copy={copy[dataFromPath.key]} />
-      <Footer copy={copy.footer} onNavigate={navigate} />
+      {page}
+      <Footer copy={copy.footer} />
     </>
   );
 }
 
 export default function DexelLanding() {
-  const { path } = useRouter();
-  const { copy, locale } = useI18n();
+  const { routeKey, locale, path } = useRouter();
+
+  // El canvas solo existe en el navegador: en el prerenderizado no hay WebGL.
+  // Como el cliente monta de cero en vez de hidratar, no hace falta esperar a
+  // un efecto para pintarlo, basta con que exista el DOM.
+  const showParticles = typeof document !== "undefined";
 
   useEffect(() => {
-    let ticking = false;
-
-    const handleScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        ticking = false;
-      });
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    updateSeo({ path, copy, locale });
-  }, [path, copy, locale]);
+    const seo = updateSeo({ routeKey, locale });
+    trackPageView({ path, locale, title: seo?.title });
+  }, [routeKey, locale, path]);
 
   return (
     <div className="bg-slate-50 dark:bg-[#050505] min-h-screen text-slate-900 dark:text-white font-sans selection:bg-blue-200 dark:selection:bg-blue-900/30 selection:text-slate-900 dark:selection:text-white transition-colors duration-300">
       <div className="fixed inset-0 z-0 opacity-20 dark:opacity-40 pointer-events-none">
-        <Canvas camera={{ position: [0, 0, 1] }}>
-          <ParticleObject />
-        </Canvas>
+        {showParticles && (
+          <Suspense fallback={null}>
+            <ParticleField />
+          </Suspense>
+        )}
       </div>
 
       <div className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center text-slate-300 dark:text-white">

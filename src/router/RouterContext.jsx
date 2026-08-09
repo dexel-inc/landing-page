@@ -1,33 +1,142 @@
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import {
+  DEFAULT_LOCALE,
+  ROOT_PATH,
+  ROUTE_KEYS,
+  detectBrowserLocale,
+  matchRoute,
+  normalizePathname,
+  pathFor,
+} from "./routes.js";
 
 const RouterContext = createContext(null);
 
-const validRoutes = new Set(["/", "/servicios", "/contacto"]);
+const LOCALE_STORAGE_KEY = "dexel_locale";
+const isBrowser = typeof window !== "undefined";
 
-function normalizePath(pathname) {
-  if (!pathname || pathname === "") return "/";
-  const clean = pathname.replace(/\/+$/, "") || "/";
-  return validRoutes.has(clean) ? clean : "/";
+/** Preferencia de idioma guardada, o `null` si el visitante nunca eligió. */
+function storedLocale() {
+  if (!isBrowser) return null;
+  try {
+    const value = window.localStorage.getItem(LOCALE_STORAGE_KEY);
+    return value === "es" || value === "en" ? value : null;
+  } catch {
+    // Safari en modo privado lanza al tocar localStorage. El idioma no es
+    // motivo para tumbar la página.
+    return null;
+  }
 }
 
-export function RouterProvider({ children }) {
-  const [path, setPath] = useState(() => normalizePath(window.location.pathname));
+function persistLocale(locale) {
+  if (!isBrowser) return;
+  try {
+    window.localStorage.setItem(LOCALE_STORAGE_KEY, locale);
+  } catch {
+    /* sin persistencia, el idioma dura lo que dura la sesión */
+  }
+}
 
-  const navigate = (to) => {
-    const nextPath = normalizePath(to);
-    if (nextPath === path) return;
-    window.history.pushState({}, "", nextPath);
-    setPath(nextPath);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+function resolveState(pathname) {
+  const match = matchRoute(pathname);
+
+  if (!match) {
+    // Ruta desconocida: caemos al inicio del idioma por defecto en vez de
+    // dejar la pantalla en blanco.
+    return { path: pathFor(ROUTE_KEYS.HOME, DEFAULT_LOCALE), locale: DEFAULT_LOCALE, routeKey: ROUTE_KEYS.HOME };
+  }
+
+  // `/` sirve el contenido en español para que los rastreadores encuentren
+  // HTML en la raíz. En el navegador se resuelve de una vez a la URL con
+  // idioma —la guardada si el visitante eligió alguna, y si no la que dice su
+  // navegador— para no montar el árbol dos veces.
+  if (match.isRoot && isBrowser) {
+    const preferred =
+      storedLocale() ?? detectBrowserLocale(navigator.languages ?? [navigator.language]);
+    return {
+      path: pathFor(ROUTE_KEYS.HOME, preferred),
+      locale: preferred,
+      routeKey: ROUTE_KEYS.HOME,
+      cameFromRoot: true,
+    };
+  }
+
+  return {
+    path: match.redirectTo ?? normalizePathname(pathname),
+    locale: match.locale,
+    routeKey: match.routeKey,
   };
+}
 
-  React.useEffect(() => {
-    const onPopState = () => setPath(normalizePath(window.location.pathname));
+/**
+ * @param {{initialPath?: string}} props `initialPath` lo inyecta el
+ *   prerenderizado, donde no existe `window.location`.
+ */
+export function RouterProvider({ children, initialPath }) {
+  const [state, setState] = useState(() =>
+    resolveState(initialPath ?? (isBrowser ? window.location.pathname : ROOT_PATH)),
+  );
+
+  // Los efectos (historial y scroll) van fuera del updater de estado: React
+  // puede invocarlo dos veces en modo estricto, y hacerlo allí dejaba entradas
+  // duplicadas en el historial y un doble scroll.
+  const go = useCallback(
+    (nextPath, { replace = false } = {}) => {
+      const next = resolveState(nextPath);
+      if (next.path === state.path) return;
+
+      if (isBrowser) {
+        window.history[replace ? "replaceState" : "pushState"]({}, "", next.path);
+        if (!replace) window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      setState(next);
+    },
+    [state.path],
+  );
+
+  /** Navega por clave de página, resolviendo la URL del idioma activo. */
+  const navigateTo = useCallback(
+    (routeKey, locale) => go(pathFor(routeKey, locale ?? state.locale)),
+    [go, state.locale],
+  );
+
+  /** Cambia de idioma quedándose en la misma página. */
+  const setLocale = useCallback(
+    (nextLocale) => {
+      persistLocale(nextLocale);
+      go(pathFor(state.routeKey, nextLocale));
+    },
+    [go, state.routeKey],
+  );
+
+  // Al entrar por `/` la URL ya se resolvió al idioma correcto durante el
+  // primer render; aquí solo se sincroniza la barra de direcciones. Es un
+  // efecto sin estado, así que no provoca un segundo render.
+  useEffect(() => {
+    if (!isBrowser || !state.cameFromRoot) return;
+    window.history.replaceState({}, "", state.path);
+  }, [state.cameFromRoot, state.path]);
+
+  useEffect(() => {
+    if (!isBrowser) return;
+
+    const onPopState = () => setState(resolveState(window.location.pathname));
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
 
-  const value = useMemo(() => ({ path, navigate }), [path]);
+  const value = useMemo(
+    () => ({
+      path: state.path,
+      locale: state.locale,
+      routeKey: state.routeKey,
+      navigate: go,
+      navigateTo,
+      setLocale,
+      pathFor: (routeKey, locale) => pathFor(routeKey, locale ?? state.locale),
+    }),
+    [state, go, navigateTo, setLocale],
+  );
 
   return <RouterContext.Provider value={value}>{children}</RouterContext.Provider>;
 }
@@ -40,17 +149,27 @@ export function useRouter() {
   return context;
 }
 
-export function Link({ to, children, onClick, ...props }) {
-  const { navigate } = useRouter();
+/**
+ * Enlace interno. Recibe una clave de página (`services`, `audit`, ...) y
+ * resuelve el `href` del idioma activo, de modo que el HTML que ven los
+ * rastreadores lleve la URL localizada real y no un `#`.
+ */
+export function Link({ to, locale, children, onClick, ...props }) {
+  const { navigate, pathFor: resolve } = useRouter();
+  const href = resolve(to, locale);
 
   const handleClick = (event) => {
+    // Respetamos ctrl/cmd-clic y clic con rueda: abrir en pestaña nueva es
+    // una expectativa básica de cualquier enlace.
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+
     event.preventDefault();
     onClick?.(event);
-    navigate(to);
+    navigate(href);
   };
 
   return (
-    <a href={to} onClick={handleClick} {...props}>
+    <a href={href} onClick={handleClick} {...props}>
       {children}
     </a>
   );

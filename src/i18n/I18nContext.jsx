@@ -1,20 +1,21 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 import { defaultLocale, messages } from "./messages";
+import { useRouter } from "../router/RouterContext.jsx";
 
 const I18nContext = createContext(null);
 
-const STORAGE_KEY = "dexel_locale";
-
+/**
+ * El idioma lo manda la URL, no un estado aparte.
+ *
+ * Antes vivía en `localStorage` y la URL no cambiaba, así que `/servicios` en
+ * inglés y en español eran la misma dirección: imposible de indexar por
+ * separado y de compartir. Ahora `/es/servicios` y `/en/services` son URLs
+ * distintas y este proveedor solo traduce la que esté activa. La preferencia
+ * guardada sigue existiendo, pero solo decide a dónde mandar a quien entra
+ * por la raíz (ver `RouterProvider`).
+ */
 export function I18nProvider({ children }) {
-  const [locale, setLocale] = useState(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored && messages[stored]) return stored;
-    return defaultLocale;
-  });
-
-  useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, locale);
-  }, [locale]);
+  const { locale, setLocale } = useRouter();
 
   const value = useMemo(
     () => ({
@@ -22,7 +23,7 @@ export function I18nProvider({ children }) {
       setLocale,
       copy: messages[locale] ?? messages[defaultLocale],
     }),
-    [locale],
+    [locale, setLocale],
   );
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;

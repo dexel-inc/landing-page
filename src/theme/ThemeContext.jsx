@@ -2,21 +2,30 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from "
 
 const ThemeContext = createContext(null);
 const STORAGE_KEY = "dexel_theme_preference";
+const isBrowser = typeof window !== "undefined";
 
 function getSystemTheme() {
+  if (!isBrowser || !window.matchMedia) return "dark";
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
-export function ThemeProvider({ children }) {
-  const [preference, setPreference] = useState(() => {
+function storedPreference() {
+  if (!isBrowser) return "system";
+  try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored === "light" || stored === "dark" || stored === "system") return stored;
+    return stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
+  } catch {
     return "system";
-  });
+  }
+}
 
+export function ThemeProvider({ children }) {
+  const [preference, setPreference] = useState(storedPreference);
   const [systemTheme, setSystemTheme] = useState(getSystemTheme);
 
   useEffect(() => {
+    if (!isBrowser || !window.matchMedia) return;
+
     const media = window.matchMedia("(prefers-color-scheme: dark)");
     const onChange = (event) => setSystemTheme(event.matches ? "dark" : "light");
 
@@ -33,7 +42,12 @@ export function ThemeProvider({ children }) {
   }, [theme]);
 
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, preference);
+    if (!isBrowser) return;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, preference);
+    } catch {
+      /* sin persistencia el tema dura lo que dura la sesión */
+    }
   }, [preference]);
 
   const toggleTheme = () => {
@@ -63,7 +77,3 @@ export const useTheme = () => {
   }
   return context;
 };
-
-export default {};
-
-

@@ -1,13 +1,18 @@
+import { auditCopy, servicesCopy } from "./services.js";
+
 export const messages = {
   es: {
     meta: {
       brand: "Dexel",
-      homeTitle: "Dexel - Desarrollo de software a la medida",
+      homeTitle: "Dexel | Automatización de procesos y software a la medida",
       homeDescription:
-        "Dexel desarrolla software a la medida para empresas: páginas web, sitios corporativos, aplicaciones web, automatización y consultoría tecnológica.",
-      servicesTitle: "Dexel | Servicios de desarrollo de software",
+        "Automatizamos procesos, integramos sistemas y construimos software a la medida. Empiece por una auditoría de procesos que le dice cuántas horas al mes puede recuperar.",
+      servicesTitle: "Dexel | Auditoría de procesos, automatización y software",
       servicesDescription:
-        "Conoce los servicios de Dexel: páginas web, sitios web, aplicaciones web y soluciones técnicas para escalar tu negocio.",
+        "Cinco servicios: auditoría de procesos, automatización e integración, software a la medida, presencia web y mantenimiento. Precios en USD y tiempos de entrega por escrito.",
+      auditTitle: "Auditoría de procesos | Dexel",
+      auditDescription:
+        "Le decimos qué procesos se pueden automatizar, cuántas horas al mes recuperaría y cuánto costaría cada implementación. Ocho entregables en 5 a 7 días hábiles.",
       contactTitle: "Dexel | Contacto y cotización de software",
       contactDescription:
         "Contáctanos para cotizar tu proyecto de software. Te ayudamos a diseñar y construir soluciones digitales alineadas a tus objetivos.",
@@ -17,6 +22,7 @@ export const messages = {
     nav: {
       home: "Inicio",
       services: "Servicios",
+      audit: "Auditoría",
       stack: "Stack",
       contact: "Contacto",
       language: "Idioma",
@@ -27,12 +33,12 @@ export const messages = {
       themeToggle: "Cambiar tema",
     },
     hero: {
-      badge: "Automatización · IA · Desarrollo a la medida",
+      badge: "Automatización · Integración · Software a la medida",
       title:
         "Automatizamos procesos, integramos sus sistemas y desarrollamos software a la medida. Somos cinco desarrolladores en Colombia con más de 6 años de experiencia.",
       scroll: "Scroll para hacer tu idea realidad",
       h1: "Software que le devuelve horas a su empresa",
-      primaryCta: "Agendar diagnóstico gratuito",
+      primaryCta: "Solicitar auditoría de procesos",
       secondaryCta: "Ver casos reales",
       responseTime: "Respondemos en menos de 4 horas hábiles",
     },
@@ -105,6 +111,19 @@ export const messages = {
         ctaText:
           "En una llamada podemos mostrarle arquitectura, métricas y aprendizajes sin exponer datos de nuestros clientes.",
         ctaButton: "Agendar una llamada",
+        // Caso bajo NDA con cifra real. Sin nombre de cliente, sin nombre de
+        // herramienta y sin capturas: es todo lo que el acuerdo permite mostrar.
+        featured: {
+          sector: "Operación interna",
+          redacted: [34, 26, 42],
+          metricLabel: "Antes → Después",
+          before: "4 horas",
+          after: "45 minutos",
+          scope:
+            "Un proceso operativo interno que consumía media jornada cada vez que se ejecutaba. Después de automatizarlo: menos de una hora. Si corre tres veces por semana, son más de 500 horas al año recuperadas.",
+          note: "Sistema interno bajo acuerdo de confidencialidad.",
+          stack: ["Automatización", "Integración"],
+        },
         // ⚠️ IMPORTANTE: reemplazar estos ítems por proyectos reales de Dexel antes
         // de publicar. Basta con sector, alcance y stack — sin nombres ni métricas
         // inventadas. Un caso falso se cae en la primera reunión.
@@ -386,354 +405,8 @@ export const messages = {
           }
       },
     },
-    services: {
-      title: "Nuestros Servicios",
-      badge: "Servicios Dexel",
-      subtitle: "Soluciones digitales adaptadas a tus necesidades",
-      serviceLabel: "Servicio",
-      cta: "Ver detalles",
-      ctaButton: "Cotizar este servicio",
-      list: [
-        {
-          iconName: "Code",
-          title: "Páginas web",
-          price: "Desde $100 USD",
-          desc: "Páginas individuales diseñadas para presentar información clave de manera clara y accesible. Perfectas para emprendedores y pequeños negocios que necesitan presencia digital rápida.",
-          features: [
-            "Diseño responsive y moderno",
-            "Optimización SEO básica",
-            "Formulario de contacto",
-            "Enlace a redes sociales",
-            "Hosting y dominio incluido (1 año)",
-          ],
-        },
-        {
-          iconName: "Globe",
-          title: "Sitios web",
-          price: "Desde $300 USD",
-          desc: "Conjunto de páginas interconectadas que brindan una experiencia estructurada y profesional. Ideales para empresas que requieren múltiples secciones y navegación intuitiva.",
-          features: [
-            "Múltiples páginas personalizadas",
-            "Panel de administración",
-            "Optimización SEO avanzada",
-            "Integración con analíticas",
-            "Soporte técnico 30 días",
-          ],
-        },
-        {
-          iconName: "Cpu",
-          title: "Aplicativos web",
-          price: "Desde $1000 USD",
-          desc: "Aplicaciones web escalables para automatizar procesos y gestionar datos en tiempo real. Soluciones personalizadas que transforman operaciones complejas en sistemas eficientes.",
-          features: [
-            "Arquitectura escalable",
-            "Base de datos optimizada",
-            "API REST personalizada",
-            "Autenticación de usuarios",
-            "Despliegue en la nube",
-          ],
-        },
-        {
-          iconName: "MessageCircle",
-          title: "Bot de redes sociales",
-          price: "Desde $250 USD",
-          desc: "Automatización inteligente para gestionar interacciones y respuestas en tus redes sociales. Mantén a tu audiencia comprometida 24/7 con respuestas instantáneas.",
-          features: [
-            "Respuestas automáticas 24/7",
-            "Integración multi-plataforma",
-            "Análisis de sentimientos",
-            "Programación de publicaciones",
-            "Dashboard de estadísticas",
-          ],
-        },
-        {
-          iconName: "FileText",
-          title: "Asesoría tecnológica",
-          price: "Desde $250 USD",
-          desc: "Análisis y definición de requisitos técnicos para materializar tus ideas en soluciones digitales. Te acompañamos desde la conceptualización hasta el plan de ejecución.",
-          features: [
-            "Análisis de viabilidad técnica",
-            "Definición de arquitectura",
-            "Estimación de costos",
-            "Roadmap de desarrollo",
-            "Recomendación de tecnologías",
-          ],
-        },
-        {
-          iconName: "Wrench",
-          title: "Mantenimiento de proyectos",
-          price: "Desde $150 USD/mes",
-          desc: "Soporte continuo y actualizaciones para proyectos desarrollados por Dexel, garantizando su óptimo funcionamiento.",
-          features: [
-            "Actualizaciones de seguridad",
-            "Corrección de bugs",
-            "Backups automáticos",
-            "Monitoreo de rendimiento",
-            "Soporte técnico prioritario",
-          ],
-        },
-      ],
-      linesIntro:
-        "Cuatro líneas de trabajo. Empiece por donde más le duela: no hace falta contratar todo.",
-      forWhoLabel: "Para quién es",
-      deliveryLabel: "Tiempo de entrega",
-      deliverablesLabel: "Qué recibe",
-      exampleLabel: "Ejemplo real",
-      lines: [
-        {
-          id: "presencia",
-          name: "Presencia digital",
-          tagline: "Para que su empresa exista en internet y convierta visitas en clientes.",
-          items: [
-            {
-              id: "pagina-web",
-              iconName: "Code",
-              title: "Páginas web",
-              price: "Desde $100",
-              pricingNote: "Pago único",
-              description:
-                "Una sola página que presenta lo esencial de su negocio de forma clara y rápida de leer.",
-              forWho:
-                "Emprendedores y negocios pequeños que todavía no tienen sitio y necesitan presencia digital ya.",
-              delivery: "5 a 7 días hábiles",
-              deliverables: [
-                "Página publicada y funcionando",
-                "Diseño responsivo para celular",
-                "Formulario de contacto conectado a WhatsApp",
-              ],
-              example:
-                "Un consultorio que solo necesitaba mostrar servicios, horarios y un botón para agendar.",
-            },
-            {
-              id: "sitio-web",
-              iconName: "Globe",
-              title: "Sitios web",
-              price: "Desde $300",
-              pricingNote: "Según requerimientos",
-              description:
-                "Varias páginas con diseño propio y contenido que usted mismo puede actualizar.",
-              forWho:
-                "Empresas que necesitan varias secciones y quieren cambiar textos e imágenes sin depender de nadie.",
-              delivery: "2 a 4 semanas",
-              deliverables: [
-                "Hasta 5 páginas con diseño personalizado",
-                "Gestor de contenido para editar sin código",
-                "Certificado SSL y soporte multi-idioma",
-              ],
-              example:
-                "Iglesia Bautista Casa Grande (Arizona): sitio bilingüe ES/EN cuyo contenido de video se sincroniza solo desde YouTube.",
-            },
-            {
-              id: "aplicacion-web",
-              iconName: "Cpu",
-              title: "Aplicaciones web",
-              price: "Desde $1,000",
-              pricingNote: "Según requerimientos",
-              description:
-                "Software que hace algo, no que solo muestra información: gestiona datos, usuarios y operaciones.",
-              forWho:
-                "Negocios que necesitan administrar pedidos, inventario, clientes o procesos internos desde un solo lugar.",
-              delivery: "4 a 8 semanas",
-              deliverables: [
-                "Panel de administración a la medida",
-                "Base de datos y API propias",
-                "Usuarios, roles y permisos",
-              ],
-              example:
-                "Un sistema de órdenes de servicio que reemplazó un Excel compartido que todos editaban al tiempo.",
-            },
-          ],
-        },
-        {
-          id: "automatizacion",
-          name: "Automatización de operaciones",
-          tagline: "Para dejar de gastar horas en tareas que un sistema puede hacer solo.",
-          items: [
-            {
-              id: "diagnostico",
-              iconName: "ScanSearch",
-              title: "Diagnóstico de automatización",
-              price: "Desde $150",
-              pricingNote: "Se descuenta del proyecto si decide continuar",
-              description:
-                "Revisamos cómo trabaja su equipo hoy y le decimos qué vale la pena automatizar y qué no.",
-              forWho:
-                "Cualquier empresa que sospeche que pierde horas en tareas repetitivas pero no sabe cuántas ni dónde.",
-              delivery: "1 a 2 semanas",
-              deliverables: [
-                "Mapa de su proceso actual, paso a paso",
-                "Cuántas horas y cuánto dinero se van hoy",
-                "Plan priorizado con estimación de costo y tiempo",
-              ],
-              example:
-                "Una empresa que creía necesitar un sistema nuevo y descubrió que le bastaba conectar dos que ya tenía.",
-            },
-            {
-              id: "automatizacion-procesos",
-              iconName: "Zap",
-              title: "Automatización de procesos",
-              price: "Desde $800",
-              pricingNote: "Por proceso",
-              description:
-                "Convertimos un proceso manual y repetitivo en uno que corre solo y avisa cuando algo se sale de lo normal.",
-              forWho:
-                "Equipos que copian datos entre sistemas, arman reportes a mano o digitan lo que llega por correo y WhatsApp.",
-              delivery: "3 a 6 semanas",
-              deliverables: [
-                "El proceso funcionando sin intervención manual",
-                "Tablero de excepciones para lo que sí requiere revisión humana",
-                "Capacitación a su equipo y documentación",
-              ],
-              example:
-                "Pedidos que llegan por WhatsApp y entran solos al sistema, validando inventario y precios.",
-            },
-            {
-              id: "integraciones",
-              iconName: "Plug",
-              title: "Integraciones entre sistemas",
-              price: "Desde $600",
-              pricingNote: "Por integración",
-              description:
-                "Hacemos que las herramientas que ya paga se hablen entre sí, sin que nadie tenga que pasar datos a mano.",
-              forWho:
-                "Empresas con varias herramientas que no se comunican, y alguien que las sincroniza manualmente.",
-              delivery: "2 a 4 semanas",
-              deliverables: [
-                "Sistemas sincronizados automáticamente",
-                "Manejo de errores y reintentos",
-                "Monitoreo con alertas cuando algo falla",
-              ],
-              example:
-                "Conectar la tienda en línea con el software contable para que las facturas se generen solas.",
-            },
-          ],
-        },
-        {
-          id: "ia",
-          name: "Inteligencia artificial aplicada",
-          tagline: "IA que resuelve un problema concreto de su operación, no una demostración bonita.",
-          items: [
-            {
-              id: "asistente-ia",
-              iconName: "Sparkles",
-              title: "Asistente con IA sobre sus documentos",
-              price: "Desde $1,500",
-              pricingNote: "Incluye evaluaciones de precisión",
-              description:
-                "Un asistente que responde preguntas sobre sus manuales, contratos, catálogos o políticas, citando de dónde sacó cada respuesta.",
-              forWho:
-                "Empresas cuyo equipo pierde tiempo buscando información dispersa en documentos internos.",
-              delivery: "4 a 6 semanas",
-              deliverables: [
-                "Asistente que responde citando la fuente exacta",
-                "Umbral de precisión acordado por escrito y medido",
-                "Control de costos de uso mes a mes",
-              ],
-              example:
-                "Un equipo de soporte que dejó de buscar entre 400 páginas de manual para responder cada consulta.",
-            },
-            {
-              id: "agente-atencion",
-              iconName: "MessageCircle",
-              title: "Agente de atención al cliente",
-              price: "Desde $1,200",
-              pricingNote: "WhatsApp o web",
-              description:
-                "Atiende las preguntas repetitivas a toda hora y pasa a una persona cuando no está seguro. Nunca inventa.",
-              forWho:
-                "Negocios que reciben las mismas preguntas todo el día y responden una por una.",
-              delivery: "3 a 5 semanas",
-              deliverables: [
-                "Agente en WhatsApp Business o en su sitio",
-                "Escalamiento a una persona cuando la confianza es baja",
-                "Tablero de conversaciones y temas frecuentes",
-              ],
-              example:
-                "Responder horarios, precios y disponibilidad 24/7, dejando a las personas solo lo que de verdad las necesita.",
-            },
-          ],
-        },
-        {
-          id: "acompanamiento",
-          name: "Acompañamiento continuo",
-          tagline: "Para que lo construido siga funcionando y mejorando después de la entrega.",
-          items: [
-            {
-              id: "mantenimiento",
-              iconName: "Wrench",
-              title: "Mantenimiento y evolución",
-              price: "Desde $150/mes",
-              pricingNote: "Plan mensual, sin permanencia",
-              description:
-                "Nos hacemos cargo de que su sistema siga en pie, seguro y mejorando cada mes.",
-              forWho:
-                "Proyectos ya en producción que no pueden darse el lujo de quedarse quietos ni de caerse.",
-              delivery: "Mensual, desde el día uno",
-              deliverables: [
-                "Actualizaciones de seguridad y copias de respaldo",
-                "Horas mensuales para cambios y mejoras",
-                "Monitoreo con reporte de lo que pasó en el mes",
-              ],
-              example:
-                "Un sitio en producción que recibe mejoras cada mes en vez de quedarse igual hasta que algo se rompe.",
-            },
-            {
-              id: "asesoria",
-              iconName: "FileText",
-              title: "Asesoría tecnológica",
-              price: "Desde $250",
-              pricingNote: "Por sesión o por proyecto",
-              description:
-                "Criterio técnico para decidir si construir, comprar o integrar, antes de gastar el presupuesto.",
-              forWho:
-                "Quien tiene que tomar una decisión técnica costosa y necesita un criterio que no le venda humo.",
-              delivery: "1 a 2 semanas",
-              deliverables: [
-                "Análisis de viabilidad técnica",
-                "Arquitectura recomendada y tecnologías",
-                "Estimación de costos y hoja de ruta",
-              ],
-              example:
-                "Una empresa que iba a mandar a construir un sistema desde cero y terminó resolviéndolo integrando lo que ya tenía.",
-            },
-          ],
-        },
-      ],
-      faqTitle: "Preguntas Frecuentes",
-      faqSubtitle: "Las dudas que nos hacen antes de contratar",
-      faqs: [
-        {
-          question: "¿El diagnóstico gratuito realmente es gratis?",
-          answer:
-            "La llamada de 30 minutos no tiene costo ni compromiso: escuchamos su operación y le decimos qué se puede automatizar. El diagnóstico profundo, con mapa de proceso y estimaciones, sí tiene costo, y se lo descontamos del proyecto si decide seguir con nosotros.",
-        },
-        {
-          question: "¿De quién es el código que ustedes desarrollan?",
-          answer:
-            "Suyo, desde el primer commit. El repositorio queda a nombre de su empresa, no de Dexel. Si mañana decide trabajar con otro proveedor, se lleva todo sin pedirnos permiso.",
-        },
-        {
-          question: "¿Qué pasa si el alcance cambia a mitad del proyecto?",
-          answer:
-            "El precio se cierra antes de escribir la primera línea de código. Si aparece algo nuevo, lo cotizamos aparte y usted decide si entra ahora o después. Nunca le llega una factura con sorpresas.",
-        },
-        {
-          question: "¿Cómo sé que un proyecto de inteligencia artificial va a funcionar?",
-          answer:
-            "Porque acordamos por escrito un umbral de precisión antes de empezar y lo medimos con pruebas reales de su negocio. Si no lo alcanzamos, no está terminado. Sin esa medición, un proyecto de IA no tiene forma de darse por cerrado.",
-        },
-        {
-          question: "¿Firman acuerdos de confidencialidad?",
-          answer:
-            "Sí, y los cumplimos. La mayor parte de nuestro trabajo son sistemas internos que no podemos mostrar públicamente, justamente por eso. Su proyecto recibiría la misma discreción.",
-        },
-        {
-          question: "¿Cuánto tiempo toma tener algo funcionando?",
-          answer:
-            "Depende del alcance: una página web en 5-7 días, un sitio en 2-4 semanas, una automatización en 3-6 semanas y una aplicación web en 4-8. En todos los casos ve una demo funcionando cada viernes, no un informe de avance.",
-        },
-      ],
-    },
+    services: servicesCopy.es,
+    audit: auditCopy.es,
     stack: {
       title: "Stack tecnológico",
       subtitle: "Herramientas de vanguardia para proyectos de calidad",
@@ -743,6 +416,7 @@ export const messages = {
       contactButton: "Contáctanos",
       responseTime: "Respondemos en menos de 4 horas hábiles",
       services: "Servicios",
+      audit: "Auditoría de procesos",
       contact: "Contáctanos",
       rights: "Todos los derechos reservados.",
       whatsappAria: "Abrir chat de WhatsApp",
@@ -752,12 +426,15 @@ export const messages = {
   en: {
     meta: {
       brand: "Dexel",
-      homeTitle: "Dexel - Custom software development",
+      homeTitle: "Dexel | Process automation and custom software",
       homeDescription:
-        "Dexel builds custom software for companies: landing pages, business websites, web applications, automation, and technology consulting.",
-      servicesTitle: "Dexel | Software development services",
+        "We automate processes, integrate systems, and build custom software. Start with a process audit that tells you how many hours a month you can get back.",
+      servicesTitle: "Dexel | Process audit, automation, and custom software",
       servicesDescription:
-        "Explore Dexel services: web pages, websites, web applications, and technical solutions to scale your business.",
+        "Five services: process audit, automation and integration, custom software, web presence, and maintenance. Prices in USD and delivery times in writing.",
+      auditTitle: "Process audit | Dexel",
+      auditDescription:
+        "We tell you which processes can be automated, how many hours a month you would get back, and what each implementation would cost. Eight deliverables in 5 to 7 business days.",
       contactTitle: "Dexel | Contact and software quote",
       contactDescription:
         "Contact us to quote your software project. We help design and build digital solutions aligned with your business goals.",
@@ -767,6 +444,7 @@ export const messages = {
     nav: {
       home: "Home",
       services: "Services",
+      audit: "Audit",
       stack: "Stack",
       contact: "Contact",
       language: "Language",
@@ -777,12 +455,12 @@ export const messages = {
       themeToggle: "Toggle theme",
     },
     hero: {
-      badge: "Automation · AI · Custom development",
+      badge: "Automation · Integration · Custom software",
       title:
         "We automate processes, integrate your systems, and build custom software. Five developers based in Colombia with over 6 years of experience.",
       scroll: "Scroll to bring your idea to life",
       h1: "Software that gives your company its hours back",
-      primaryCta: "Book a free assessment",
+      primaryCta: "Request a process audit",
       secondaryCta: "See real cases",
       responseTime: "We reply in under 4 business hours",
     },
@@ -855,6 +533,17 @@ export const messages = {
         ctaText:
           "On a call we can walk you through architecture, metrics, and lessons learned without exposing any client data.",
         ctaButton: "Book a call",
+        featured: {
+          sector: "Internal operation",
+          redacted: [34, 26, 42],
+          metricLabel: "Before → After",
+          before: "4 hours",
+          after: "45 minutes",
+          scope:
+            "An internal operational process that ate half a workday every time it ran. After automating it: under an hour. If it runs three times a week, that is over 500 hours a year recovered.",
+          note: "Internal system under a non-disclosure agreement.",
+          stack: ["Automation", "Integration"],
+        },
         // ⚠️ IMPORTANT: replace these items with real Dexel projects before going
         // live. Sector, scope, and stack are enough — no invented names or metrics.
         // A fake case falls apart in the first meeting.
@@ -1133,354 +822,8 @@ export const messages = {
         },
       },
     },
-    services: {
-      title: "Our Services",
-      badge: "Dexel Services",
-      subtitle: "Digital solutions tailored to your needs",
-      serviceLabel: "Service",
-      cta: "View details",
-      ctaButton: "Quote this service",
-      list: [
-        {
-          iconName: "Code",
-          title: "Landing pages",
-          price: "Starting at $100 USD",
-          desc: "Single pages designed to present key information clearly and accessibly. Perfect for entrepreneurs and small businesses needing quick digital presence.",
-          features: [
-            "Modern responsive design",
-            "Basic SEO optimization",
-            "Contact form",
-            "Social media links",
-            "Hosting and domain included (1 year)",
-          ],
-        },
-        {
-          iconName: "Globe",
-          title: "Websites",
-          price: "Starting at $300 USD",
-          desc: "A set of interconnected pages providing a structured, professional experience. Ideal for companies requiring multiple sections and intuitive navigation.",
-          features: [
-            "Multiple custom pages",
-            "Admin panel",
-            "Advanced SEO optimization",
-            "Analytics integration",
-            "30-day technical support",
-          ],
-        },
-        {
-          iconName: "Cpu",
-          title: "Web apps",
-          price: "Starting at $1000 USD",
-          desc: "Scalable web applications to automate processes and manage data in real time. Custom solutions that turn complex operations into efficient systems.",
-          features: [
-            "Scalable architecture",
-            "Optimized database",
-            "Custom REST API",
-            "User authentication",
-            "Cloud deployment",
-          ],
-        },
-        {
-          iconName: "MessageCircle",
-          title: "Social media bot",
-          price: "Starting at $250 USD",
-          desc: "Intelligent automation to manage interactions and responses across your social platforms. Keep your audience engaged 24/7 with instant replies.",
-          features: [
-            "24/7 automated responses",
-            "Multi-platform integration",
-            "Sentiment analysis",
-            "Content scheduling",
-            "Analytics dashboard",
-          ],
-        },
-        {
-          iconName: "FileText",
-          title: "Technology consulting",
-          price: "From $250 USD",
-          desc: "Technical requirement analysis and definition to turn your ideas into digital solutions. We support you from concept to execution roadmap.",
-          features: [
-            "Technical feasibility analysis",
-            "Architecture definition",
-            "Cost estimation",
-            "Development roadmap",
-            "Technology recommendations",
-          ],
-        },
-        {
-          iconName: "Wrench",
-          title: "Project maintenance",
-          price: "From $150 USD/month",
-          desc: "Continuous support and updates for projects built by Dexel, ensuring optimal operation and stability.",
-          features: [
-            "Security updates",
-            "Bug fixes",
-            "Automated backups",
-            "Performance monitoring",
-            "Priority technical support",
-          ],
-        },
-      ],
-      linesIntro:
-        "Four service lines. Start wherever it hurts most: you don't have to buy all of it.",
-      forWhoLabel: "Who it's for",
-      deliveryLabel: "Delivery time",
-      deliverablesLabel: "What you get",
-      exampleLabel: "Real example",
-      lines: [
-        {
-          id: "presence",
-          name: "Digital presence",
-          tagline: "So your company exists online and turns visits into customers.",
-          items: [
-            {
-              id: "web-page",
-              iconName: "Code",
-              title: "Web pages",
-              price: "From $100",
-              pricingNote: "One-time payment",
-              description:
-                "A single page presenting the essentials of your business, clearly and quick to read.",
-              forWho:
-                "Founders and small businesses with no site yet who need a digital presence now.",
-              delivery: "5 to 7 business days",
-              deliverables: [
-                "Page published and running",
-                "Responsive design for mobile",
-                "Contact form wired to WhatsApp",
-              ],
-              example:
-                "A clinic that only needed to show services, hours, and a button to book an appointment.",
-            },
-            {
-              id: "website",
-              iconName: "Globe",
-              title: "Websites",
-              price: "From $300",
-              pricingNote: "Based on requirements",
-              description:
-                "Multiple pages with custom design and content you can update yourself.",
-              forWho:
-                "Companies that need several sections and want to change text and images without depending on anyone.",
-              delivery: "2 to 4 weeks",
-              deliverables: [
-                "Up to 5 pages with custom design",
-                "Content manager to edit without code",
-                "SSL certificate and multi-language support",
-              ],
-              example:
-                "Iglesia Bautista Casa Grande (Arizona): a bilingual ES/EN site whose video content syncs itself from YouTube.",
-            },
-            {
-              id: "web-application",
-              iconName: "Cpu",
-              title: "Web applications",
-              price: "From $1,000",
-              pricingNote: "Based on requirements",
-              description:
-                "Software that does something rather than just displaying information: it manages data, users, and operations.",
-              forWho:
-                "Businesses that need to run orders, inventory, customers, or internal processes from one place.",
-              delivery: "4 to 8 weeks",
-              deliverables: [
-                "Custom admin panel",
-                "Your own database and API",
-                "Users, roles, and permissions",
-              ],
-              example:
-                "A service-order system that replaced a shared spreadsheet everyone edited at once.",
-            },
-          ],
-        },
-        {
-          id: "automation",
-          name: "Operations automation",
-          tagline: "Stop spending hours on tasks a system can handle on its own.",
-          items: [
-            {
-              id: "assessment",
-              iconName: "ScanSearch",
-              title: "Automation assessment",
-              price: "From $150",
-              pricingNote: "Credited toward the project if you continue",
-              description:
-                "We review how your team works today and tell you what's worth automating and what isn't.",
-              forWho:
-                "Any company that suspects it loses hours on repetitive work but doesn't know how many or where.",
-              delivery: "1 to 2 weeks",
-              deliverables: [
-                "A step-by-step map of your current process",
-                "How many hours and how much money go out today",
-                "A prioritized plan with cost and time estimates",
-              ],
-              example:
-                "A company that thought it needed a new system and found it only had to connect two it already owned.",
-            },
-            {
-              id: "process-automation",
-              iconName: "Zap",
-              title: "Process automation",
-              price: "From $800",
-              pricingNote: "Per process",
-              description:
-                "We turn a manual, repetitive process into one that runs itself and flags anything unusual.",
-              forWho:
-                "Teams copying data between systems, building reports by hand, or retyping what arrives by email and WhatsApp.",
-              delivery: "3 to 6 weeks",
-              deliverables: [
-                "The process running without manual intervention",
-                "An exceptions dashboard for whatever does need human review",
-                "Training for your team plus documentation",
-              ],
-              example:
-                "Orders arriving on WhatsApp that flow straight into the system, validating stock and pricing.",
-            },
-            {
-              id: "integrations",
-              iconName: "Plug",
-              title: "System integrations",
-              price: "From $600",
-              pricingNote: "Per integration",
-              description:
-                "We make the tools you already pay for talk to each other, so nobody has to move data by hand.",
-              forWho:
-                "Companies with several tools that don't communicate, kept in sync by someone manually.",
-              delivery: "2 to 4 weeks",
-              deliverables: [
-                "Systems synced automatically",
-                "Error handling and retries",
-                "Monitoring with alerts when something fails",
-              ],
-              example:
-                "Connecting the online store to the accounting software so invoices generate themselves.",
-            },
-          ],
-        },
-        {
-          id: "ai",
-          name: "Applied artificial intelligence",
-          tagline: "AI that solves a concrete problem in your operation, not a pretty demo.",
-          items: [
-            {
-              id: "ai-assistant",
-              iconName: "Sparkles",
-              title: "AI assistant over your documents",
-              price: "From $1,500",
-              pricingNote: "Accuracy evaluations included",
-              description:
-                "An assistant that answers questions about your manuals, contracts, catalogs, or policies, citing where each answer came from.",
-              forWho:
-                "Companies whose teams lose time hunting for information scattered across internal documents.",
-              delivery: "4 to 6 weeks",
-              deliverables: [
-                "An assistant that answers citing the exact source",
-                "An accuracy threshold agreed in writing and measured",
-                "Usage cost control month to month",
-              ],
-              example:
-                "A support team that stopped digging through 400 pages of manual to answer every question.",
-            },
-            {
-              id: "support-agent",
-              iconName: "MessageCircle",
-              title: "Customer support agent",
-              price: "From $1,200",
-              pricingNote: "WhatsApp or web",
-              description:
-                "It handles repetitive questions around the clock and hands off to a person when unsure. It never makes things up.",
-              forWho:
-                "Businesses fielding the same questions all day and answering them one by one.",
-              delivery: "3 to 5 weeks",
-              deliverables: [
-                "An agent on WhatsApp Business or on your site",
-                "Escalation to a person whenever confidence is low",
-                "A dashboard of conversations and frequent topics",
-              ],
-              example:
-                "Answering hours, prices, and availability 24/7, leaving people only what genuinely needs them.",
-            },
-          ],
-        },
-        {
-          id: "ongoing",
-          name: "Ongoing support",
-          tagline: "So what we built keeps running and improving after handover.",
-          items: [
-            {
-              id: "maintenance",
-              iconName: "Wrench",
-              title: "Maintenance and evolution",
-              price: "From $150/month",
-              pricingNote: "Monthly plan, no lock-in",
-              description:
-                "We take responsibility for keeping your system up, secure, and improving every month.",
-              forWho:
-                "Projects already in production that can't afford to stand still or go down.",
-              delivery: "Monthly, from day one",
-              deliverables: [
-                "Security updates and backups",
-                "Monthly hours for changes and improvements",
-                "Monitoring with a report of what happened each month",
-              ],
-              example:
-                "A production site that gets improvements every month instead of sitting still until something breaks.",
-            },
-            {
-              id: "consulting",
-              iconName: "FileText",
-              title: "Technology consulting",
-              price: "From $250",
-              pricingNote: "Per session or per project",
-              description:
-                "Technical judgment on whether to build, buy, or integrate, before you spend the budget.",
-              forWho:
-                "Anyone facing an expensive technical decision who needs judgment that isn't selling them something.",
-              delivery: "1 to 2 weeks",
-              deliverables: [
-                "Technical feasibility analysis",
-                "Recommended architecture and technologies",
-                "Cost estimate and roadmap",
-              ],
-              example:
-                "A company about to commission a system from scratch that ended up solving it by integrating what it already had.",
-            },
-          ],
-        },
-      ],
-      faqTitle: "Frequently Asked Questions",
-      faqSubtitle: "The questions people ask us before hiring",
-      faqs: [
-        {
-          question: "Is the free assessment really free?",
-          answer:
-            "The 30-minute call costs nothing and carries no commitment: we listen to your operation and tell you what can be automated. The in-depth assessment, with a process map and estimates, does have a cost, and we credit it toward the project if you decide to continue with us.",
-        },
-        {
-          question: "Who owns the code you write?",
-          answer:
-            "You do, from the first commit. The repository is under your company's name, not Dexel's. If you decide to work with another vendor tomorrow, you take everything with you without asking our permission.",
-        },
-        {
-          question: "What happens if the scope changes mid-project?",
-          answer:
-            "The price is fixed before the first line of code. If something new comes up, we quote it separately and you decide whether it goes in now or later. You never get an invoice with surprises.",
-        },
-        {
-          question: "How do I know an AI project will actually work?",
-          answer:
-            "Because we agree on an accuracy threshold in writing before starting and measure it against real cases from your business. If we don't hit it, it isn't done. Without that measurement, an AI project has no way of being considered finished.",
-        },
-        {
-          question: "Do you sign confidentiality agreements?",
-          answer:
-            "Yes, and we honor them. Most of our work is internal systems we can't show publicly, precisely for that reason. Your project would get the same discretion.",
-        },
-        {
-          question: "How long until something is up and running?",
-          answer:
-            "It depends on scope: a web page in 5-7 days, a website in 2-4 weeks, an automation in 3-6 weeks, and a web application in 4-8. In every case you see a working demo each Friday, not a progress report.",
-        },
-      ],
-    },
+    services: servicesCopy.en,
+    audit: auditCopy.en,
     stack: {
       title: "Technology stack",
       subtitle: "Cutting-edge tools for high-quality projects",
@@ -1490,6 +833,7 @@ export const messages = {
       contactButton: "Contact us",
       responseTime: "We reply in under 4 business hours",
       services: "Services",
+      audit: "Process audit",
       contact: "Contact us",
       rights: "All rights reserved.",
       whatsappAria: "Open WhatsApp chat",

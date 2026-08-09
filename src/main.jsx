@@ -9,14 +9,18 @@ import { initAnalytics } from "./analytics/track.js";
 
 initAnalytics();
 
+// `createRoot` y no `hydrateRoot`: el HTML prerenderizado está pensado para
+// rastreadores y para el primer pintado, no para hidratarse. Montar de cero
+// evita tener que hacer coincidir estado que solo existe en el navegador
+// (tema del sistema, idioma guardado, elementos en viewport).
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ThemeProvider>
-      <I18nProvider>
-        <RouterProvider>
+      <RouterProvider>
+        <I18nProvider>
           <App />
-        </RouterProvider>
-      </I18nProvider>
+        </I18nProvider>
+      </RouterProvider>
     </ThemeProvider>
   </StrictMode>,
 );

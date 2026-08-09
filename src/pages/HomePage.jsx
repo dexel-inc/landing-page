@@ -11,8 +11,12 @@ import Process from "../sections/Process.jsx";
 import Services from "../sections/Services.jsx";
 import Stack from "../sections/Stack.jsx";
 import Team from "../sections/Team.jsx";
+import { useRouter } from "../router/RouterContext.jsx";
+import { ROUTE_KEYS } from "../router/routes.js";
 
-export default function HomePage({ copy, onNavigate }) {
+export default function HomePage({ copy }) {
+  const { navigateTo } = useRouter();
+
   return (
     <>
       <section
@@ -40,10 +44,16 @@ export default function HomePage({ copy, onNavigate }) {
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center gap-3 w-full max-w-md sm:max-w-none justify-center px-2">
+            {/* La auditoría es el producto de entrada, así que el CTA principal
+                del hero lleva a ella y no a un formulario genérico. */}
             <Button
               onClick={() => {
-                track(EVENTS.CTA_CLICK, { location: "hero", action: "diagnostico" });
-                onNavigate?.("/contacto");
+                track(EVENTS.SERVICE_DETAIL_VIEWED, {
+                  service_id: "auditoria",
+                  service_name: copy.audit.title,
+                  location: "hero",
+                });
+                navigateTo(ROUTE_KEYS.AUDIT);
               }}
               variant="primary"
               size="lg"
@@ -82,14 +92,14 @@ export default function HomePage({ copy, onNavigate }) {
 
       {/* Orden deliberado: prueba social → oferta → criterio → método.
           Casos → Servicios → Asesoría → Proceso → Stack → Contacto. */}
-      <CaseStudies copy={copy.cases} onNavigate={onNavigate} />
+      <CaseStudies copy={copy.cases} />
       <Services copy={copy.services} />
-      <Advisory copy={copy.advisory} onNavigate={onNavigate} />
-      <Process copy={copy.process} onNavigate={onNavigate} />
+      <Advisory copy={copy.advisory} onNavigate={() => navigateTo(ROUTE_KEYS.CONTACT)} />
+      <Process copy={copy.process} onNavigate={() => navigateTo(ROUTE_KEYS.CONTACT)} />
       <Team copy={copy.team} />
       <Stack copy={copy.stack} />
       <Contact copy={copy.contact} />
-      <Footer copy={copy.footer} onNavigate={onNavigate} />
+      <Footer copy={copy.footer} />
     </>
   );
 }
