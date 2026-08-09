@@ -14,7 +14,10 @@ import { useTheme } from "../theme/ThemeContext.jsx";
  */
 function ParticleObject() {
   const ref = useRef({});
-  const [sphere] = useState(() => random.inSphere(new Float32Array(5000), { radius: 1.5 }));
+  // Múltiplo de 3: cada punto son tres coordenadas. Con 5000 quedaba una
+  // coordenada suelta sin rellenar y three.js calculaba un radio NaN, que era
+  // el error que salía en la consola de todos los visitantes.
+  const [sphere] = useState(() => random.inSphere(new Float32Array(4998), { radius: 1.5 }));
   const { theme } = useTheme();
 
   useFrame((state, delta) => {
