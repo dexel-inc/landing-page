@@ -27,6 +27,7 @@ export default function ConsentBanner({ copy }) {
 
   return (
     <div
+      data-consent-banner=""
       role="region"
       aria-label={copy.ariaLabel}
       className="fixed inset-x-0 bottom-0 z-60 px-3 pb-3 md:px-5 md:pb-5 pointer-events-none"
