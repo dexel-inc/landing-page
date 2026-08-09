@@ -1,7 +1,8 @@
 import React from "react";
-import { ArrowLeft, ArrowRight, Clock3, Info, ScanSearch, Tag } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock3, ScanSearch, Tag } from "lucide-react";
 import Button from "../components/ui/Button.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
+import { AuditScopeNote, AuditSteps } from "../components/AuditTimeline.jsx";
 import { useRouter } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
 import { EVENTS, track } from "../analytics/track.js";
@@ -31,44 +32,6 @@ function Deliverable({ item, index }) {
           </h3>
           <p className="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">{item.text}</p>
         </div>
-      </div>
-    </Reveal>
-  );
-}
-
-/**
- * Un paso de la línea de tiempo.
- *
- * En pantallas anchas los cuatro pasos van en fila, como la sección de proceso:
- * el recorrido completo se lee de un vistazo, que es justo lo que necesita ver
- * alguien antes de pagar. En móvil la fila se convierte en columna y el
- * conector pasa a ser vertical.
- */
-function Step({ step, index, isLast }) {
-  return (
-    <Reveal
-      delay={index * 90}
-      className="relative flex-1 flex gap-4 md:block pb-8 last:pb-0 md:pb-0"
-    >
-      {/* Conector: vertical en móvil, horizontal en escritorio. */}
-      {!isLast && (
-        <span className="absolute left-[15px] top-10 bottom-0 w-px md:left-auto md:top-[19px] md:bottom-auto md:h-px md:w-full md:translate-x-6 bg-linear-to-b md:bg-linear-to-r from-blue-500/50 to-slate-200 dark:to-zinc-800" />
-      )}
-
-      <span className="relative z-10 shrink-0 grid place-items-center h-8 w-8 md:h-10 md:w-10 rounded-full border border-blue-400/50 bg-blue-500/10 dark:bg-blue-500/10 text-xs md:text-sm font-bold tabular-nums text-blue-600 dark:text-blue-400 md:mb-5">
-        {index + 1}
-      </span>
-
-      <div className="md:pr-6">
-        <span className="inline-block text-[10px] font-mono uppercase tracking-[0.15em] text-slate-500 dark:text-gray-500 border border-slate-200 dark:border-zinc-800 rounded-full px-2.5 py-0.5 mb-2">
-          {step.when}
-        </span>
-
-        <h3 className="text-base md:text-lg font-bold tracking-tight text-slate-900 dark:text-white leading-snug mb-2">
-          {step.title}
-        </h3>
-
-        <p className="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">{step.text}</p>
       </div>
     </Reveal>
   );
@@ -178,22 +141,10 @@ export default function AuditPage({ copy }) {
             <div className="w-12 h-0.5 bg-blue-500 mt-4" />
           </Reveal>
 
-          <div className="flex flex-col md:flex-row md:gap-2">
-            {copy.steps.map((step, i) => (
-              <Step key={step.title} step={step} index={i} isLast={i === copy.steps.length - 1} />
-            ))}
-          </div>
+          <AuditSteps steps={copy.steps} />
 
           <Reveal delay={120} className="mt-10 md:mt-12">
-            <div className="rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/70 dark:bg-black/30 p-5 md:p-6">
-              <p className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.18em] text-slate-400 dark:text-gray-600 mb-2.5">
-                <Info size={12} />
-                {copy.scopeTitle}
-              </p>
-              <p className="text-sm md:text-base text-slate-600 dark:text-gray-300 leading-relaxed">
-                {copy.scopeNote}
-              </p>
-            </div>
+            <AuditScopeNote title={copy.scopeTitle} text={copy.scopeNote} />
           </Reveal>
 
           <Reveal delay={160} className="mt-8 md:mt-10">

@@ -534,25 +534,25 @@ const auditEn = {
       label: "Step 2",
       title: "You decide what to implement",
       when: "No deadline",
-      text: "You can implement all of it, part of it, or none. If the audit concludes nothing needs to be built, we say so in writing.",
+      text: "Implement all of it, part of it, or none. If the audit concludes you don't need to build anything, we put that in writing.",
     },
     {
       label: "Step 3",
       title: "Closed proposal",
       when: "48 hours",
-      text: "Closed scope, fixed price, and a schedule. What isn't written isn't included, and we say so up front.",
+      text: "Closed scope, fixed price, and timeline. If it isn't written down, it isn't included, and we say so upfront.",
     },
     {
       label: "Step 4",
-      title: `The ${formatPrice("audit", "en")} are credited back`,
+      title: `The ${formatPrice("audit", "en")} comes off`,
       when: "60 days",
-      text: "If you move forward within the following 60 days, the full cost of the audit comes off the project.",
+      text: "If you decide to move forward within the next 60 days, the full cost of the audit is credited toward the project.",
     },
   ],
 
   scopeTitle: "When it makes sense",
   scopeNote:
-    "The audit makes sense from about 8-10 people on the team, or when several processes are running in parallel. If your operation is smaller, say so on the discovery call and we'll save you the expense.",
+    "The audit makes sense from about 8-10 people on the team, or when you have several processes running in parallel. If your operation is smaller, say so on the discovery call and we'll save you the expense.",
 
   cta: `Request the audit — ${formatPrice("audit", "en")}`,
   backLabel: "See all services",

@@ -6,6 +6,7 @@ import { useRouter } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
 import { EVENTS, track } from "../analytics/track.js";
 import { INTENT, setIntent } from "../analytics/intent.js";
+import { AuditScopeNote, AuditSteps } from "../components/AuditTimeline.jsx";
 
 const iconComponents = { ScanSearch, Zap, Cpu, Globe, Wrench };
 
@@ -15,7 +16,7 @@ const iconComponents = { ScanSearch, Zap, Cpu, Globe, Wrench };
  * completo, sobre la grilla, y no gira como las demás tarjetas — su contenido
  * tiene que ser legible sin interactuar.
  */
-function FeaturedService({ service, copy, onQuote, onDetail }) {
+function FeaturedService({ service, copy, audit, onQuote, onDetail }) {
   const Icon = iconComponents[service.iconName] ?? ScanSearch;
 
   return (
@@ -89,6 +90,23 @@ function FeaturedService({ service, copy, onQuote, onDetail }) {
             </ul>
           </div>
         </div>
+
+        {audit && (
+          <div className="mt-8 md:mt-10 pt-7 md:pt-8 border-t border-slate-200/80 dark:border-zinc-800">
+            <h4 className="text-base md:text-xl font-bold tracking-tight text-slate-900 dark:text-white mb-1.5">
+              {audit.afterTitle}
+            </h4>
+            <p className="text-sm text-slate-600 dark:text-gray-400 font-light mb-6">
+              {audit.afterIntro}
+            </p>
+
+            <AuditSteps steps={audit.steps} compact />
+
+            <div className="mt-6">
+              <AuditScopeNote title={audit.scopeTitle} text={audit.scopeNote} compact />
+            </div>
+          </div>
+        )}
       </div>
     </Reveal>
   );
@@ -99,7 +117,7 @@ function FlipCard({ service, copy, flipped, onFlip }) {
 
   return (
     <div
-      className="relative h-75 md:h-80 cursor-pointer perspective-1000"
+      className="relative min-h-75 md:min-h-80 h-full cursor-pointer perspective-1000"
       onClick={onFlip}
       role="button"
       tabIndex={0}
@@ -119,7 +137,7 @@ function FlipCard({ service, copy, flipped, onFlip }) {
         }}
       >
         <div
-          className="absolute w-full h-full group bg-white/80 dark:bg-zinc-900/50 border border-slate-200 dark:border-zinc-800/80 rounded-2xl hover:bg-white dark:hover:bg-zinc-800/80 hover:border-blue-500/30 transition-all duration-500 overflow-hidden"
+          className="absolute inset-0 z-10 group bg-white/80 dark:bg-zinc-900/50 border border-slate-200 dark:border-zinc-800/80 rounded-2xl hover:bg-white dark:hover:bg-zinc-800/80 hover:border-blue-500/30 transition-all duration-500 overflow-hidden"
           style={{ backfaceVisibility: "hidden" }}
         >
           <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 rounded-full blur-3xl group-hover:bg-blue-600/20 transition-all duration-500 -translate-y-1/2 translate-x-1/2" />
@@ -155,10 +173,10 @@ function FlipCard({ service, copy, flipped, onFlip }) {
         </div>
 
         <div
-          className="absolute w-full h-full bg-linear-to-br from-blue-100/70 via-white/90 to-white border border-blue-300/60 dark:from-blue-900/40 dark:via-zinc-900/90 dark:to-zinc-900/50 dark:border-blue-500/30 rounded-2xl overflow-hidden"
+          className="relative min-h-full bg-linear-to-br from-blue-100/70 via-white/90 to-white border border-blue-300/60 dark:from-blue-900/40 dark:via-zinc-900/90 dark:to-zinc-900/50 dark:border-blue-500/30 rounded-2xl overflow-hidden"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
-          <div className="p-5 md:p-7 h-full flex flex-col">
+          <div className="p-5 md:p-7 flex flex-col">
             <div className="flex items-center gap-3 mb-4">
               <div className="text-blue-500 dark:text-blue-400 p-2 bg-blue-500/10 rounded-lg border border-blue-500/30">
                 <Icon size={24} />
@@ -168,14 +186,57 @@ function FlipCard({ service, copy, flipped, onFlip }) {
               </h3>
             </div>
 
-            <div className="flex-1 space-y-2 overflow-hidden">
-              {service.deliverables.map((item, i) => (
-                <div key={i} className="flex items-start gap-2.5">
-                  <Check size={16} className="text-blue-500 dark:text-blue-400 mt-0.5 shrink-0" />
-                  <p className="text-slate-600 dark:text-gray-300 text-sm leading-relaxed">{item}</p>
-                </div>
-              ))}
-            </div>
+            {/* Presencia web es el único servicio con niveles. Al girar la
+                tarjeta se muestran separados, porque una lista genérica no
+                dejaba ver qué se recibe por $300 ni que existe algo por
+                debajo. El precio de entrada vive aquí dentro y nunca en la
+                cara frontal, en un resumen ni en los datos estructurados. */}
+            {service.tiers ? (
+              <div className="space-y-3">
+                {service.tiers.map((tier) => (
+                  <div key={tier.name}>
+                    <div className="flex items-baseline justify-between gap-2">
+                      <p className="text-[13px] font-bold tracking-tight text-slate-900 dark:text-white">
+                        {tier.name}
+                      </p>
+                      <p className="text-[11px] font-semibold text-blue-600 dark:text-blue-400 whitespace-nowrap">
+                        {tier.price}
+                      </p>
+                    </div>
+
+                    {tier.delivery && (
+                      <p className="flex items-center gap-1.5 text-[9px] font-mono uppercase tracking-[0.12em] text-slate-400 dark:text-gray-600 mt-0.5 mb-1.5">
+                        <Clock3 size={9} />
+                        {tier.delivery}
+                      </p>
+                    )}
+
+                    <ul className="space-y-0.5">
+                      {tier.items.map((item, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-2 text-[11px] text-slate-600 dark:text-gray-400 leading-[1.3]"
+                        >
+                          <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-slate-400 dark:bg-zinc-600" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex-1 space-y-2">
+                {service.deliverables.map((item, i) => (
+                  <div key={i} className="flex items-start gap-2.5">
+                    <Check size={16} className="text-blue-500 dark:text-blue-400 mt-0.5 shrink-0" />
+                    <p className="text-slate-600 dark:text-gray-300 text-sm leading-relaxed">
+                      {item}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -183,7 +244,7 @@ function FlipCard({ service, copy, flipped, onFlip }) {
   );
 }
 
-export default function Services({ copy }) {
+export default function Services({ copy, audit }) {
   const { navigateTo } = useRouter();
   const [flippedCard, setFlippedCard] = useState(null);
 
@@ -239,6 +300,7 @@ export default function Services({ copy }) {
           <FeaturedService
             service={featured}
             copy={copy}
+            audit={audit}
             onQuote={() => goToContact(featured)}
             onDetail={() => {
               track(EVENTS.SERVICE_DETAIL_VIEWED, {

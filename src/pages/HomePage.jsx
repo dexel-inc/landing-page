@@ -94,7 +94,7 @@ export default function HomePage({ copy }) {
       {/* Orden deliberado: prueba social → oferta → criterio → método.
           Casos → Servicios → Asesoría → Proceso → Stack → Contacto. */}
       <CaseStudies copy={copy.cases} />
-      <Services copy={copy.services} />
+      <Services copy={copy.services} audit={copy.audit} />
       {/* "Primero auditamos" es la sección que más argumenta a favor de la
           auditoría: su botón lleva al producto pagado. El de la sección de
           proceso lleva a la llamada gratuita, que es cosa distinta. */}
