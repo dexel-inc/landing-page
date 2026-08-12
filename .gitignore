@@ -33,3 +33,4 @@ dist-server
 
 # Artefactos de Playwright MCP
 .playwright-mcp
+.env

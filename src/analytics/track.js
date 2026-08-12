@@ -288,14 +288,17 @@ function injectMetaPixel(pixelId) {
     s.parentNode.insertBefore(t, s);
   })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
 
-  // Revocar antes de inicializar: así el pixel no envía nada —ni el PageView
-  // automático— mientras el visitante no haya aceptado.
-  window.fbq("consent", "revoke");
+  // Sin `consent revoke` delante. Esa llamada existía para cargar la librería
+  // antes de preguntar y tenerla muda hasta la respuesta; ahora no se carga
+  // hasta que hay respuesta, así que sobra. Y no es inocua: encolada por
+  // delante del `init`, la librería aborta el vaciado de la cola al procesarla
+  // —se queda sin inicializar, no escribe `_fbp` y no envía un solo evento—,
+  // que es justo el fallo silencioso que este archivo intenta evitar.
   window.fbq("init", pixelId);
 }
 
 /**
- * Carga el pixel y lo habilita.
+ * Carga el pixel. Solo se llama cuando hay consentimiento.
  *
  * La librería no se pide hasta que el visitante acepta. Antes se cargaba
  * siempre y se mantenía en `revoke`, que impide los eventos pero no la
@@ -306,11 +309,14 @@ function injectMetaPixel(pixelId) {
  * Cargar aquí y no antes no retrasa nada perceptible: el script es asíncrono y
  * los eventos posteriores a la aceptación entran en la cola del pixel, que se
  * vacía en cuanto la librería termina de cargar.
+ *
+ * Que esta función se llame solo tras aceptar es lo que sostiene el resto: sin
+ * pixel cargado no hay nada que revocar, y por eso `injectMetaPixel` inicializa
+ * directamente.
  */
 function enableMetaPixel() {
   if (!ANALYTICS.metaPixelId) return;
   if (typeof window.fbq !== "function") injectMetaPixel(ANALYTICS.metaPixelId);
-  window.fbq("consent", "grant");
 }
 
 /** Activa lo que estaba en espera del consentimiento. */
