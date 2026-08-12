@@ -16,11 +16,11 @@ const iconComponents = { ScanSearch, Zap, Cpu, Globe, Wrench };
  * completo, sobre la grilla, y no gira como las demás tarjetas — su contenido
  * tiene que ser legible sin interactuar.
  */
-function FeaturedService({ service, copy, audit, onQuote, onDetail }) {
+function FeaturedService({ service, copy, chrome, audit, onQuote, onDetail }) {
   const Icon = iconComponents[service.iconName] ?? ScanSearch;
 
   return (
-    <Reveal className="group relative rounded-3xl border-2 border-blue-500/40 dark:border-blue-500/35 bg-linear-to-br from-blue-100/70 via-white/90 to-white dark:from-blue-900/30 dark:via-zinc-900/80 dark:to-zinc-900/50 overflow-hidden mb-6 md:mb-8">
+    <div className="group relative rounded-3xl border-2 border-blue-500/40 dark:border-blue-500/35 bg-linear-to-br from-blue-100/70 via-white/90 to-white dark:from-blue-900/30 dark:via-zinc-900/80 dark:to-zinc-900/50 overflow-hidden mb-6 md:mb-8">
       <div className="absolute -top-32 -right-24 w-80 h-80 bg-blue-600/15 rounded-full blur-3xl" />
 
       <div className="relative p-6 md:p-9">
@@ -47,6 +47,11 @@ function FeaturedService({ service, copy, audit, onQuote, onDetail }) {
                   <span className="text-xl font-bold text-blue-600 dark:text-blue-400">
                     {service.price}
                   </span>
+                  {chrome?.vatLabel && (
+                    <span className="text-xs text-slate-500 dark:text-gray-500">
+                      {chrome.vatLabel}
+                    </span>
+                  )}
                   <span className="inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-gray-500 font-mono uppercase tracking-[0.12em]">
                     <Clock3 size={12} />
                     {service.delivery}
@@ -108,11 +113,11 @@ function FeaturedService({ service, copy, audit, onQuote, onDetail }) {
           </div>
         )}
       </div>
-    </Reveal>
+    </div>
   );
 }
 
-function FlipCard({ service, copy, flipped, onFlip }) {
+function FlipCard({ service, copy, chrome, flipped, onFlip }) {
   const Icon = iconComponents[service.iconName] ?? Cpu;
 
   return (
@@ -154,6 +159,9 @@ function FlipCard({ service, copy, flipped, onFlip }) {
                 <p className="text-xs text-blue-600 dark:text-blue-400 font-semibold">
                   {service.price}
                 </p>
+                {chrome?.vatLabel && (
+                  <p className="text-[10px] text-slate-500 dark:text-gray-500">{chrome.vatLabel}</p>
+                )}
               </div>
             </div>
 
@@ -166,7 +174,7 @@ function FlipCard({ service, copy, flipped, onFlip }) {
               {service.desc}
             </p>
 
-            <div className="flex items-center text-blue-500 dark:text-blue-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <div className="flex items-center text-blue-500 dark:text-blue-400 text-sm">
               {copy.cta} <CheckCircle size={14} className="ml-2" />
             </div>
           </div>
@@ -244,7 +252,7 @@ function FlipCard({ service, copy, flipped, onFlip }) {
   );
 }
 
-export default function Services({ copy, audit }) {
+export default function Services({ copy, audit, chrome }) {
   const { navigateTo } = useRouter();
   const [flippedCard, setFlippedCard] = useState(null);
 
@@ -290,9 +298,14 @@ export default function Services({ copy, audit }) {
           <h2 className="mt-5 text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight mb-4 text-slate-900 dark:text-white">
             {copy.title}
           </h2>
-          <p className="max-w-2xl mx-auto text-slate-600 dark:text-gray-400 text-base md:text-lg leading-relaxed font-light mb-6">
+          <p className="max-w-2xl mx-auto text-slate-600 dark:text-gray-400 text-base md:text-lg leading-relaxed font-light mb-3">
             {copy.intro}
           </p>
+          {chrome?.vatNote && (
+            <p className="max-w-2xl mx-auto text-sm text-slate-500 dark:text-gray-500 mb-6">
+              {chrome.vatNote}
+            </p>
+          )}
           <div className="w-12 h-0.5 bg-blue-500 mx-auto" />
         </Reveal>
 
@@ -300,6 +313,7 @@ export default function Services({ copy, audit }) {
           <FeaturedService
             service={featured}
             copy={copy}
+            chrome={chrome}
             audit={audit}
             onQuote={() => goToContact(featured)}
             onDetail={() => {
@@ -319,6 +333,7 @@ export default function Services({ copy, audit }) {
               key={service.id}
               service={service}
               copy={copy}
+              chrome={chrome}
               flipped={flippedCard === i}
               onFlip={() => handleFlip(i, service)}
             />

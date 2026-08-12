@@ -134,6 +134,12 @@ const ChatbotForm = ({ copy }) => {
         format: intent.format,
         value: intent.value,
       });
+    } else if (intent?.type === INTENT.PACK) {
+      track(EVENTS.PACK_REQUESTED, {
+        ...shared,
+        pack_name: intent.pack_name,
+        value: intent.value,
+      });
     } else if (intent?.type === INTENT.QUOTE) {
       track(EVENTS.QUOTE_REQUESTED, shared);
     } else {

@@ -62,12 +62,11 @@ const frontIcons = {
   Search,
 };
 
-function FrontCard({ front, index }) {
+function FrontCard({ front }) {
   const Icon = frontIcons[front.iconName] ?? Cpu;
 
   return (
-    <Reveal
-      delay={index * 60}
+    <div
       className="group relative rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/40 p-5 md:p-6 hover:border-blue-500/30 transition-colors duration-500"
     >
       <div className="flex items-start gap-4">
@@ -88,7 +87,7 @@ function FrontCard({ front, index }) {
           <p className="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">{front.text}</p>
         </div>
       </div>
-    </Reveal>
+    </div>
   );
 }
 
@@ -172,6 +171,12 @@ export default function CategoryPage({
               <p className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
                 {copy.price}
               </p>
+              {/* El IVA va pegado a la cifra, no en una nota al pie: es lo que
+                  diferencia de la competencia local, que publica "+ IVA". En
+                  inglés `vatLabel` es `null` y aquí no se pinta nada. */}
+              {chrome?.vatLabel && (
+                <p className="text-xs text-slate-500 dark:text-gray-500 mt-1">{chrome.vatLabel}</p>
+              )}
               {copy.priceNote && (
                 <p className="text-xs text-slate-500 dark:text-gray-500 mt-1">{copy.priceNote}</p>
               )}
@@ -187,6 +192,10 @@ export default function CategoryPage({
               </p>
             </div>
           </div>
+
+          {chrome?.vatNote && (
+            <p className="text-sm text-slate-500 dark:text-gray-500 mb-8 -mt-4">{chrome.vatNote}</p>
+          )}
 
           <div className="flex flex-col sm:flex-row justify-center gap-3">
             <Button
@@ -233,13 +242,13 @@ export default function CategoryPage({
             </Reveal>
 
             <div className="grid md:grid-cols-2 gap-4 md:gap-5">
-              {items.map((front, i) => (
-                <FrontCard key={front.name} front={front} index={i} />
+              {items.map((front) => (
+                <FrontCard key={front.name} front={front} />
               ))}
             </div>
 
             {copy.noteTitle && (
-              <Reveal delay={120} className="mt-8 md:mt-10">
+              <div className="mt-8 md:mt-10">
                 <div className="rounded-2xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 p-6 md:p-7">
                   <p className="flex items-center gap-2 text-base md:text-lg font-bold tracking-tight text-slate-900 dark:text-white mb-2">
                     <Info size={17} className="text-blue-600 dark:text-blue-400 shrink-0" />
@@ -249,7 +258,7 @@ export default function CategoryPage({
                     {copy.noteText}
                   </p>
                 </div>
-              </Reveal>
+              </div>
             )}
           </div>
         </section>
@@ -276,10 +285,9 @@ export default function CategoryPage({
             </Reveal>
 
             <div className="grid md:grid-cols-2 gap-4 md:gap-5">
-              {tiers.map((tier, i) => (
-                <Reveal
+              {tiers.map((tier) => (
+                <div
                   key={tier.name}
-                  delay={i * 70}
                   className="rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/40 p-5 md:p-6"
                 >
                   <div className="flex items-baseline justify-between gap-2 mb-1">
@@ -307,7 +315,7 @@ export default function CategoryPage({
                       </li>
                     ))}
                   </ul>
-                </Reveal>
+                </div>
               ))}
             </div>
           </div>
@@ -330,7 +338,7 @@ export default function CategoryPage({
               <div className="w-12 h-0.5 bg-blue-500 mt-4" />
             </Reveal>
 
-            <Reveal className="rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/40 p-6 md:p-8">
+            <div className="rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/40 p-6 md:p-8">
               <ul className="grid md:grid-cols-2 gap-x-8 gap-y-3">
                 {copy.includes.map((item) => (
                   <li
@@ -342,7 +350,7 @@ export default function CategoryPage({
                   </li>
                 ))}
               </ul>
-            </Reveal>
+            </div>
           </div>
         </section>
       )}
@@ -372,7 +380,7 @@ export default function CategoryPage({
       {/* 6 — CTA */}
       <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-20">
         <div className="max-w-5xl mx-auto">
-          <Reveal className="rounded-2xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
+          <div className="rounded-2xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
             <div>
               <p className="text-base md:text-lg font-bold tracking-tight text-slate-900 dark:text-white mb-1">
                 {copy.ctaTitle}
@@ -407,7 +415,7 @@ export default function CategoryPage({
                 </Button>
               )}
             </div>
-          </Reveal>
+          </div>
 
           <div className="mt-8 text-center">
             <Button

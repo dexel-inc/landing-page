@@ -19,14 +19,16 @@ export const INTENT = {
   QUOTE: "quote",
   DISCOVERY: "discovery",
   TRAINING: "training",
+  PACK: "pack",
 };
 
 /**
  * @param {{type: string, service_id?: string, service_name?: string,
  *   location?: string, format?: string, value?: number}} intent
- *   `format` y `value` solo viajan desde la página de formación: son el formato
- *   que el visitante eligió y su precio, que es lo que permite optimizar la
- *   campaña hacia ingreso y no hacia volumen de solicitudes.
+ *   `format` y `value` solo viajan desde la página de formación —el formato que
+ *   el visitante eligió y su precio—, y `pack_name` desde los packs de
+ *   automatización. Es lo que permite optimizar la campaña hacia ingreso y no
+ *   hacia volumen de solicitudes.
  */
 export function setIntent(intent) {
   if (!isBrowser) return;

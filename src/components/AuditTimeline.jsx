@@ -1,6 +1,5 @@
 import React from "react";
 import { Info } from "lucide-react";
-import Reveal from "./ui/Reveal.jsx";
 
 /**
  * Línea de tiempo "qué pasa después de la auditoría" y su nota de alcance.
@@ -21,8 +20,7 @@ function Step({ step, index, isLast, compact }) {
   const connectorShift = compact ? "md:translate-x-4" : "md:translate-x-6";
 
   return (
-    <Reveal
-      delay={index * 90}
+    <div
       className={`relative flex-1 flex gap-4 md:block ${compact ? "pb-6" : "pb-8"} last:pb-0 md:pb-0`}
     >
       {/* Conector: vertical en móvil, horizontal en escritorio. */}
@@ -59,7 +57,7 @@ function Step({ step, index, isLast, compact }) {
           {step.text}
         </p>
       </div>
-    </Reveal>
+    </div>
   );
 }
 

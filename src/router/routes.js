@@ -163,16 +163,25 @@ export function allRoutes() {
 
 /**
  * Idioma preferido del navegador, limitado a los que el sitio realmente tiene.
- * Sin coincidencia devuelve el idioma por defecto: la empresa es colombiana y
- * el tráfico pagado apunta a LATAM.
+ *
+ * El orden es deliberado y el español es el respaldo, no el inglés: la empresa
+ * es colombiana y el tráfico pagado apunta a LATAM.
+ *
+ * 1. Cualquier variante de español —`es`, `es-CO`, `es-419`…— resuelve a
+ *    español, aunque no venga primera en la lista.
+ * 2. Con cualquier otro idioma declarado —inglés, francés, portugués— resuelve
+ *    a inglés, que es la versión internacional del sitio.
+ * 3. Sin ninguna señal —un rastreador que no manda idioma— resuelve a español.
+ *
+ * Esto solo decide a dónde va quien entra por la raíz. Una URL con prefijo de
+ * idioma jamás se redirige: `/en/services` sirve inglés aunque el navegador
+ * pida español, porque si no la versión en inglés dejaría de indexarse.
  */
 export function detectBrowserLocale(languages) {
-  const list = languages ?? [];
+  const list = (languages ?? []).map((tag) => String(tag).toLowerCase()).filter(Boolean);
 
-  for (const tag of list) {
-    const base = String(tag).toLowerCase().split("-")[0];
-    if (LOCALES.includes(base)) return base;
-  }
+  if (!list.length) return DEFAULT_LOCALE;
+  if (list.some((tag) => tag === "es" || tag.startsWith("es-"))) return "es";
 
-  return DEFAULT_LOCALE;
+  return "en";
 }

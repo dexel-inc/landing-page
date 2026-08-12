@@ -31,13 +31,11 @@ const auditIcons = {
  * auditar el proceso, y lo que terminamos proponiendo. Es la forma más
  * concreta de mostrar que aportamos criterio y no solo horas de código.
  */
-function ReframeCard({ item, copy, index }) {
+function ReframeCard({ item, copy }) {
   return (
-    <Reveal
-      delay={index * 120}
+    <div
       className="group relative flex flex-col rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 p-5 md:p-6 hover:border-blue-500/30 hover:bg-white dark:hover:bg-zinc-800/70 transition-all duration-500 overflow-hidden"
     >
-      <div className="absolute -top-20 -right-20 w-48 h-48 bg-blue-600/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
       <div className="relative flex flex-1 flex-col">
         {/* 1. Lo que pidió */}
@@ -85,7 +83,7 @@ function ReframeCard({ item, copy, index }) {
           </p>
         </div>
       </div>
-    </Reveal>
+    </div>
   );
 }
 
@@ -110,7 +108,7 @@ export default function Advisory({ copy, onNavigate }) {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
           {copy.reframes.map((item, i) => (
-            <ReframeCard key={i} item={item} copy={copy} index={i} />
+            <ReframeCard key={i} item={item} copy={copy} />
           ))}
         </div>
 
@@ -126,12 +124,11 @@ export default function Advisory({ copy, onNavigate }) {
           </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-            {copy.auditPoints.map((point, i) => {
+            {copy.auditPoints.map((point) => {
               const Icon = auditIcons[point.iconName] ?? ClipboardList;
               return (
-                <Reveal
+                <div
                   key={point.title}
-                  delay={i * 70}
                   className="group relative rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/40 p-5 hover:border-blue-500/30 hover:bg-white dark:hover:bg-zinc-800/60 transition-all duration-500"
                 >
                   <div className="inline-flex text-slate-800 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 p-2 bg-white/80 dark:bg-black/50 rounded-lg border border-slate-200 dark:border-zinc-800 mb-3 group-hover:scale-110 transition-all duration-300">
@@ -143,14 +140,14 @@ export default function Advisory({ copy, onNavigate }) {
                   <p className="text-xs text-slate-600 dark:text-gray-400 leading-relaxed">
                     {point.desc}
                   </p>
-                </Reveal>
+                </div>
               );
             })}
           </div>
         </div>
 
         {/* Cierre: la promesa que ninguna fábrica de páginas hace */}
-        <Reveal delay={120} className="mt-12 md:mt-16">
+        <div className="mt-12 md:mt-16">
           <div className="relative rounded-3xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 p-6 md:p-10 overflow-hidden">
             <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl" />
             <div className="relative flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
@@ -176,7 +173,7 @@ export default function Advisory({ copy, onNavigate }) {
               </Button>
             </div>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

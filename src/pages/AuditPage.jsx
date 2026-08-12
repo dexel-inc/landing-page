@@ -58,9 +58,9 @@ export default function AuditPage({ copy, process, chrome }) {
 
           <AuditSteps steps={copy.steps} />
 
-          <Reveal delay={120} className="mt-10 md:mt-12">
+          <div className="mt-10 md:mt-12">
             <AuditScopeNote title={copy.scopeTitle} text={copy.scopeNote} />
-          </Reveal>
+          </div>
         </div>
       </section>
     </CategoryPage>

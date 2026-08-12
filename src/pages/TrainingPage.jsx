@@ -21,7 +21,7 @@ import Reveal from "../components/ui/Reveal.jsx";
 import FaqList from "../components/ui/FaqList.jsx";
 import { useRouter } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
-import { PRICES } from "../config/pricing.js";
+import { priceAmount, pricesIncludeVat } from "../config/pricing.js";
 import { EVENTS, track } from "../analytics/track.js";
 import { INTENT, setIntent } from "../analytics/intent.js";
 
@@ -66,9 +66,8 @@ function ProgramBlocks({ copy }) {
         const panelId = `training-block-${block.key}`;
 
         return (
-          <Reveal
+          <div
             key={block.key}
-            delay={index * 60}
             className={`rounded-2xl overflow-hidden border transition-colors duration-300 ${
               block.highlight
                 ? "border-blue-300/60 dark:border-blue-500/30 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40"
@@ -128,15 +127,16 @@ function ProgramBlocks({ copy }) {
                 </div>
               </div>
             </div>
-          </Reveal>
+          </div>
         );
       })}
     </div>
   );
 }
 
-export default function TrainingPage({ copy }) {
+export default function TrainingPage({ copy, chrome }) {
   const { navigateTo, locale } = useRouter();
+  const showVat = pricesIncludeVat(locale);
 
   useEffect(() => {
     // El idioma va explícito y no por el que guarda la capa de medición: los
@@ -156,7 +156,7 @@ export default function TrainingPage({ copy }) {
       service_id: "formacion",
       service_name: copy.navLabel,
       format: format?.key ?? "unspecified",
-      value: format?.value ? PRICES[format.value] : undefined,
+      value: format?.value ? priceAmount(format.value, locale) : undefined,
       location,
     });
 
@@ -194,6 +194,9 @@ export default function TrainingPage({ copy }) {
               <p className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
                 {copy.price}
               </p>
+              {showVat && chrome?.vatLabel && (
+                <p className="text-xs text-slate-500 dark:text-gray-500 mt-1">{chrome.vatLabel}</p>
+              )}
             </div>
 
             <div className="rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/60 dark:bg-black/30 px-6 py-4 min-w-40 flex flex-col justify-center">
@@ -239,7 +242,7 @@ export default function TrainingPage({ copy }) {
 
       {/* 2 — El dato que explica por qué existe esta formación */}
       <section className="relative z-10 px-4 md:px-6 pt-14 md:pt-20">
-        <Reveal className="max-w-5xl mx-auto rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/40 p-6 md:p-8">
+        <div className="max-w-5xl mx-auto rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/40 p-6 md:p-8">
           <div className="flex flex-col md:flex-row md:items-center gap-5 md:gap-8">
             <p className="text-5xl md:text-6xl font-black tracking-tight text-blue-600 dark:text-blue-400 shrink-0 tabular-nums">
               {copy.stat.value}
@@ -256,12 +259,12 @@ export default function TrainingPage({ copy }) {
           <p className="mt-5 pt-5 border-t border-slate-200 dark:border-zinc-800 text-sm md:text-base text-slate-600 dark:text-gray-300 leading-relaxed">
             {copy.stat.note}
           </p>
-        </Reveal>
+        </div>
       </section>
 
       {/* 3 — Posicionamiento: qué no es esto */}
       <section className="relative z-10 px-4 md:px-6 pt-8 md:pt-10">
-        <Reveal className="max-w-5xl mx-auto rounded-2xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 p-6 md:p-7">
+        <div className="max-w-5xl mx-auto rounded-2xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 p-6 md:p-7">
           <p className="flex items-center gap-2 text-base md:text-lg font-bold tracking-tight text-slate-900 dark:text-white mb-2">
             <Info size={17} className="text-blue-600 dark:text-blue-400 shrink-0" />
             {copy.noteTitle}
@@ -269,7 +272,7 @@ export default function TrainingPage({ copy }) {
           <p className="text-sm md:text-base text-slate-600 dark:text-gray-300 leading-relaxed">
             {copy.noteText}
           </p>
-        </Reveal>
+        </div>
       </section>
 
       {/* 4 — Programa */}
@@ -299,14 +302,16 @@ export default function TrainingPage({ copy }) {
             <p className="text-base md:text-lg text-slate-600 dark:text-gray-400 font-light">
               {copy.formatsIntro}
             </p>
+            {chrome?.vatNote && (
+              <p className="mt-2 text-sm text-slate-500 dark:text-gray-500">{chrome.vatNote}</p>
+            )}
             <div className="w-12 h-0.5 bg-blue-500 mt-4" />
           </Reveal>
 
           <div className="grid md:grid-cols-3 gap-4 md:gap-5">
-            {copy.formats.map((format, i) => (
-              <Reveal
+            {copy.formats.map((format) => (
+              <div
                 key={format.key}
-                delay={i * 70}
                 className={`flex flex-col rounded-2xl border p-5 md:p-6 ${
                   format.featured
                     ? "border-blue-300/60 dark:border-blue-500/30 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40"
@@ -344,6 +349,11 @@ export default function TrainingPage({ copy }) {
                     <dd className="text-lg font-bold tracking-tight text-blue-600 dark:text-blue-400">
                       {format.price}
                     </dd>
+                    {showVat && chrome?.vatLabel && format.value && (
+                      <dd className="text-xs text-slate-500 dark:text-gray-500">
+                        {chrome.vatLabel}
+                      </dd>
+                    )}
                   </div>
                 </dl>
 
@@ -355,11 +365,11 @@ export default function TrainingPage({ copy }) {
                 >
                   {copy.formatLabels.cta}
                 </Button>
-              </Reveal>
+              </div>
             ))}
           </div>
 
-          <Reveal delay={120} className="mt-6 rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/40 p-6 md:p-7">
+          <div className="mt-6 rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/40 p-6 md:p-7">
             <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-slate-400 dark:text-gray-600 mb-3">
               {copy.includedTitle}
             </p>
@@ -374,11 +384,11 @@ export default function TrainingPage({ copy }) {
                 </li>
               ))}
             </ul>
-          </Reveal>
+          </div>
 
           {/* El crédito va en verde y no en azul: es el mismo tratamiento que
               lleva el descuento de la auditoría, y son el mismo mecanismo. */}
-          <Reveal delay={150} className="mt-4 rounded-2xl border border-emerald-500/40 bg-emerald-50/80 dark:bg-emerald-950/20 p-6 md:p-7">
+          <div className="mt-4 rounded-2xl border border-emerald-500/40 bg-emerald-50/80 dark:bg-emerald-950/20 p-6 md:p-7">
             <p className="flex items-center gap-2 text-base md:text-lg font-bold tracking-tight text-slate-900 dark:text-white mb-2">
               <BadgePercent size={17} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
               {copy.creditTitle}
@@ -386,7 +396,7 @@ export default function TrainingPage({ copy }) {
             <p className="text-sm md:text-base text-slate-600 dark:text-gray-300 leading-relaxed">
               {copy.creditText}
             </p>
-          </Reveal>
+          </div>
         </div>
       </section>
 
@@ -403,7 +413,7 @@ export default function TrainingPage({ copy }) {
       {/* 7 — CTA */}
       <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-20">
         <div className="max-w-5xl mx-auto">
-          <Reveal className="rounded-2xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
+          <div className="rounded-2xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
             <div>
               <p className="text-base md:text-lg font-bold tracking-tight text-slate-900 dark:text-white mb-1">
                 {copy.ctaTitle}
@@ -440,7 +450,7 @@ export default function TrainingPage({ copy }) {
                 {copy.secondaryCta}
               </Button>
             </div>
-          </Reveal>
+          </div>
         </div>
       </section>
     </div>

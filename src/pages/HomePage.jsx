@@ -44,16 +44,14 @@ export default function HomePage({ copy }) {
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center gap-3 w-full max-w-md sm:max-w-none justify-center px-2">
-            {/* La auditoría es el producto de entrada, así que el CTA principal
-                del hero lleva a ella y no a un formulario genérico. */}
+            {/* La llamada de discovery es gratuita y es lo que la mayoría de
+                visitantes puede aceptar en la primera visita: llega sabiendo que
+                pierde horas, no buscando comprar un diagnóstico. */}
             <Button
               onClick={() => {
-                track(EVENTS.SERVICE_DETAIL_VIEWED, {
-                  service_id: "auditoria",
-                  service_name: copy.audit.title,
-                  location: "hero",
-                });
-                navigateTo(ROUTE_KEYS.AUDIT);
+                setIntent({ type: INTENT.DISCOVERY, location: "hero" });
+                track(EVENTS.CTA_CLICK, { location: "hero", action: "discovery" });
+                navigateTo(ROUTE_KEYS.CONTACT);
               }}
               variant="primary"
               size="lg"
@@ -93,7 +91,7 @@ export default function HomePage({ copy }) {
       {/* Orden deliberado: prueba social → oferta → criterio → método.
           Casos → Servicios → Asesoría → Proceso → Equipo → Contacto. */}
       <CaseStudies copy={copy.cases} />
-      <Services copy={copy.services} audit={copy.audit} />
+      <Services copy={copy.services} audit={copy.audit} chrome={copy.chrome} />
       {/* "Primero auditamos" es la sección que más argumenta a favor de la
           auditoría: su botón lleva al producto pagado. El de la sección de
           proceso lleva a la llamada gratuita, que es cosa distinta. */}

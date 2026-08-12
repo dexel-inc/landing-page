@@ -35,7 +35,7 @@ function Metric({ value, suffix, prefix, label, decimals = 0, delay = 0 }) {
 
 function PublishedCase({ item, copy }) {
   return (
-    <Reveal className="group relative rounded-3xl border border-slate-200 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 overflow-hidden hover:border-blue-500/40 transition-colors duration-500">
+    <div className="group relative rounded-3xl border border-slate-200 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 overflow-hidden hover:border-blue-500/40 transition-colors duration-500">
       <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl group-hover:bg-blue-600/20 transition-all duration-700" />
 
       <div className="relative p-6 md:p-10">
@@ -140,7 +140,7 @@ function PublishedCase({ item, copy }) {
           </div>
         </div>
       </div>
-    </Reveal>
+    </div>
   );
 }
 
@@ -151,7 +151,7 @@ function PublishedCase({ item, copy }) {
  */
 function ConfidentialFeatured({ item, lockLabel }) {
   return (
-    <Reveal className="group relative rounded-2xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 overflow-hidden mb-4 md:mb-5">
+    <div className="group relative rounded-2xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 overflow-hidden mb-4 md:mb-5">
       <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl" />
 
       <div className="relative p-5 md:p-8 grid md:grid-cols-5 gap-6 md:gap-8 items-center">
@@ -205,16 +205,15 @@ function ConfidentialFeatured({ item, lockLabel }) {
           </div>
         </div>
       </div>
-    </Reveal>
+    </div>
   );
 }
 
-function ConfidentialCard({ item, index, lockLabel }) {
+function ConfidentialCard({ item, lockLabel }) {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <Reveal
-      delay={index * 90}
+    <div
       className="group relative rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/40 overflow-hidden hover:border-blue-500/30 transition-colors duration-500"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -263,7 +262,7 @@ function ConfidentialCard({ item, index, lockLabel }) {
           ))}
         </div>
       </div>
-    </Reveal>
+    </div>
   );
 }
 
@@ -322,13 +321,12 @@ export default function CaseStudies({ copy }) {
               <ConfidentialCard
                 key={i}
                 item={item}
-                index={i}
                 lockLabel={copy.confidential.lockLabel}
               />
             ))}
           </div>
 
-          <Reveal delay={120} className="mt-8 md:mt-10">
+          <div className="mt-8 md:mt-10">
             <div className="rounded-2xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
               <div>
                 <p className="text-base md:text-lg font-bold tracking-tight text-slate-900 dark:text-white mb-1">
@@ -348,7 +346,7 @@ export default function CaseStudies({ copy }) {
                 <ArrowRight size={16} className="transition-transform duration-300 group-hover/cta:translate-x-1" />
               </Button>
             </div>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>

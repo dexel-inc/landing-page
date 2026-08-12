@@ -14,13 +14,11 @@ function initials(name) {
     .toUpperCase();
 }
 
-function MemberCard({ member, index }) {
+function MemberCard({ member }) {
   return (
-    <Reveal
-      delay={index * 90}
+    <div
       className="group relative rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 p-5 md:p-6 text-center hover:bg-white dark:hover:bg-zinc-800/70 hover:border-blue-500/30 transition-all duration-500 overflow-hidden"
     >
-      <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-40 h-40 bg-blue-600/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
       <div className="relative">
         <div className="mx-auto mb-4 h-20 w-20 rounded-2xl overflow-hidden border border-slate-200 dark:border-zinc-800 group-hover:border-blue-500/40 group-hover:scale-105 transition-all duration-500">
@@ -60,7 +58,7 @@ function MemberCard({ member, index }) {
           LinkedIn
         </a>
       </div>
-    </Reveal>
+    </div>
   );
 }
 
@@ -88,16 +86,16 @@ export default function Team({ copy }) {
         </Reveal>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5">
-          {copy.members.map((member, i) => (
-            <MemberCard key={member.linkedin} member={member} index={i} />
+          {copy.members.map((member) => (
+            <MemberCard key={member.linkedin} member={member} />
           ))}
         </div>
 
-        <Reveal delay={140} className="mt-8 md:mt-10 text-center">
+        <div className="mt-8 md:mt-10 text-center">
           <p className="max-w-2xl mx-auto text-sm md:text-base text-slate-600 dark:text-gray-400 leading-relaxed font-light">
             {copy.note}
           </p>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

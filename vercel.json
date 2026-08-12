@@ -6,6 +6,23 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/",
+      "has": [{ "type": "header", "key": "accept-language", "value": "[eE][sS].*" }],
+      "destination": "/es",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "accept-language", "value": ".+" }],
+      "destination": "/en",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "destination": "/es",
+      "permanent": false
+    },
+    {
       "source": "/servicios",
       "destination": "/es/servicios",
       "permanent": true

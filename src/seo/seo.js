@@ -1,5 +1,5 @@
 import { LOCALES, DEFAULT_LOCALE, ROUTE_KEYS, pathFor } from "../router/routes.js";
-import { PRICES, priceAmountForService } from "../config/pricing.js";
+import { currencyFor, priceAmount, priceAmountForService } from "../config/pricing.js";
 import { SITE } from "../config/site.js";
 import { messages } from "../i18n/messages.js";
 
@@ -55,7 +55,7 @@ function organizationNode() {
  */
 function serviceNodes(services, locale) {
   return services.items.map((item) => {
-    const amount = priceAmountForService(item.id);
+    const amount = priceAmountForService(item.id, locale);
 
     return {
       "@type": "Service",
@@ -71,14 +71,16 @@ function serviceNodes(services, locale) {
             offers: {
               "@type": "Offer",
               price: amount,
-              priceCurrency: "USD",
+              // La moneda sigue al idioma de la página: pesos en español,
+              // dólares en inglés. No son la misma cifra convertida.
+              priceCurrency: currencyFor(locale),
               // Los servicios se cotizan "desde": el precio publicado es el
               // piso, no el precio final, y declararlo así evita prometer una
               // cifra cerrada en los resultados de búsqueda.
               priceSpecification: {
                 "@type": "PriceSpecification",
                 minPrice: amount,
-                priceCurrency: "USD",
+                priceCurrency: currencyFor(locale),
               },
               availability: "https://schema.org/InStock",
               url: absolute(pathFor(ROUTE_KEYS.SERVICES, locale)),
@@ -110,7 +112,7 @@ function faqNode({ faqs }) {
  */
 function categoryServiceNode({ category, locale, routeKey, priceKey }) {
   const canonical = absolute(pathFor(routeKey, locale));
-  const amount = PRICES[priceKey];
+  const amount = priceAmount(priceKey, locale);
 
   return {
     "@type": "Service",
@@ -133,13 +135,13 @@ function categoryServiceNode({ category, locale, routeKey, priceKey }) {
     offers: {
       "@type": "Offer",
       price: amount,
-      priceCurrency: "USD",
+      priceCurrency: currencyFor(locale),
       // El precio publicado es el piso, no el precio final: declararlo como
       // mínimo evita prometer una cifra cerrada en los resultados de búsqueda.
       priceSpecification: {
         "@type": "PriceSpecification",
         minPrice: amount,
-        priceCurrency: "USD",
+        priceCurrency: currencyFor(locale),
       },
       availability: "https://schema.org/InStock",
       url: canonical,
@@ -178,8 +180,8 @@ function trainingNode({ training, locale, canonical, description }) {
       inLanguage: locale,
       offers: {
         "@type": "Offer",
-        price: PRICES[format.value],
-        priceCurrency: "USD",
+        price: priceAmount(format.value, locale),
+        priceCurrency: currencyFor(locale),
         availability: "https://schema.org/InStock",
         url: canonical,
       },
@@ -187,8 +189,8 @@ function trainingNode({ training, locale, canonical, description }) {
     offers: priced.map((format) => ({
       "@type": "Offer",
       name: format.name,
-      price: PRICES[format.value],
-      priceCurrency: "USD",
+      price: priceAmount(format.value, locale),
+      priceCurrency: currencyFor(locale),
       availability: "https://schema.org/InStock",
       url: canonical,
     })),

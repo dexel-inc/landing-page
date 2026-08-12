@@ -11,8 +11,10 @@ import { ROUTE_KEYS } from "../router/routes.js";
  * grupo es un enlace real a su categoría, no un título: quien hace clic en
  * "Automatización" espera llegar a automatización, no a que se abra una lista.
  */
+// `py-2` sobre un texto de 12 px deja el enlace en unos 44 px de alto sin
+// agrandar la tipografía: es el mínimo razonable para tocar con el dedo.
 const groupLinkClass =
-  "block text-xs tracking-[0.15em] uppercase font-semibold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-300 transition-colors";
+  "block py-2.5 text-xs tracking-[0.15em] uppercase font-semibold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-300 transition-colors";
 
 const itemClass = "text-sm text-slate-600 dark:text-gray-400 leading-relaxed";
 
@@ -79,7 +81,7 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
         aria-expanded={open}
         aria-controls={panelId}
         onClick={handleTriggerClick}
-        className="inline-flex items-center gap-1.5 cursor-pointer text-xs tracking-[0.15em] uppercase font-medium text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 rounded"
+        className="inline-flex items-center py-3 gap-1.5 cursor-pointer text-xs tracking-[0.15em] uppercase font-medium text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 rounded"
       >
         {label}
         <ChevronDown
@@ -111,7 +113,7 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
         {/* Tope de altura por si el panel crece más que la ventana —dos
             columnas en pantallas de 768 px, o un idioma con nombres largos—:
             antes que salirse por abajo, se desplaza por dentro. */}
-        <div className="max-h-[calc(100svh-7rem)] overflow-y-auto rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md shadow-[0_24px_60px_-24px_rgba(15,23,42,0.45)] p-6 grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+        <div className="max-h-[calc(100svh-7rem)] overflow-y-auto rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 backdrop-blur-xl shadow-[0_24px_60px_-24px_rgba(15,23,42,0.45)] p-6 grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
           {groups.map((group) => (
             <div key={group.key} className="min-w-44">
               <Link to={group.routeKey} onClick={() => { close(); onNavigate?.(group); }} className={groupLinkClass}>
@@ -132,7 +134,7 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
             <Link
               to={ROUTE_KEYS.SERVICES}
               onClick={close}
-              className="inline-block pt-3 text-xs tracking-[0.12em] uppercase text-blue-600 dark:text-blue-400 hover:underline"
+              className="inline-block pt-3.5 pb-2.5 text-xs tracking-[0.12em] uppercase text-blue-600 dark:text-blue-400 hover:underline"
             >
               {indexLabel}
             </Link>
@@ -174,7 +176,7 @@ export function ServicesAccordion({ groups, label, indexLabel, onNavigate }) {
                 <Link
                   to={group.routeKey}
                   onClick={() => onNavigate?.(group)}
-                  className="flex-1 px-4 py-3 text-xs uppercase tracking-[0.12em] font-semibold text-slate-800 dark:text-white"
+                  className="flex-1 px-4 py-3.5 text-xs uppercase tracking-[0.12em] font-semibold text-slate-800 dark:text-white"
                 >
                   {group.label}
                 </Link>
@@ -220,7 +222,7 @@ export function ServicesAccordion({ groups, label, indexLabel, onNavigate }) {
       <Link
         to={ROUTE_KEYS.SERVICES}
         onClick={() => onNavigate?.(null)}
-        className="inline-block mt-2 px-1 text-[11px] uppercase tracking-[0.12em] text-blue-600 dark:text-blue-400"
+        className="inline-block mt-2 px-2 py-3.5 text-[11px] uppercase tracking-[0.12em] text-blue-600 dark:text-blue-400"
       >
         {indexLabel}
       </Link>

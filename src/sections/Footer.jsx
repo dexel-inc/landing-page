@@ -49,31 +49,31 @@ export default function Footer({ whatsappNumber = SITE.whatsapp, copy }) {
           <div className="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-4 md:gap-x-6 md:gap-y-3 md:text-start">
             <Link
               to={ROUTE_KEYS.SERVICES}
-              className="cursor-pointer text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
+              className="cursor-pointer py-2.5 text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
             >
               {copy.services}
             </Link>
             <Link
               to={ROUTE_KEYS.AUDIT}
-              className="cursor-pointer text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
+              className="cursor-pointer py-2.5 text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
             >
               {copy.audit}
             </Link>
             <Link
               to={ROUTE_KEYS.TRAINING}
-              className="cursor-pointer text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
+              className="cursor-pointer py-2.5 text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
             >
               {copy.training}
             </Link>
             <Link
               to={ROUTE_KEYS.CONTACT}
-              className="cursor-pointer text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
+              className="cursor-pointer py-2.5 text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
             >
               {copy.contact}
             </Link>
             <Link
               to={ROUTE_KEYS.PRIVACY}
-              className="cursor-pointer text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
+              className="cursor-pointer py-2.5 text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
             >
               {copy.privacy}
             </Link>

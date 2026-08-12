@@ -75,8 +75,8 @@ export default function PrivacyPage({ copy }) {
           </Reveal>
 
           <div className="space-y-10">
-            {copy.sections.map((section, index) => (
-              <Reveal key={section.title} delay={index * 40}>
+            {copy.sections.map((section) => (
+              <div key={section.title}>
                 <h2 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">
                   {section.title}
                 </h2>
@@ -103,11 +103,11 @@ export default function PrivacyPage({ copy }) {
                     ))}
                   </ul>
                 )}
-              </Reveal>
+              </div>
             ))}
           </div>
 
-          <Reveal className="mt-12">
+          <div className="mt-12">
             <div className="rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/70 dark:bg-black/30 p-6">
               <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-slate-400 dark:text-gray-600 mb-3">
                 {copy.responsibleTitle}
@@ -118,11 +118,11 @@ export default function PrivacyPage({ copy }) {
                 </p>
               ))}
             </div>
-          </Reveal>
+          </div>
 
-          <Reveal className="mt-8">
+          <div className="mt-8">
             <ConsentControl copy={copy} />
-          </Reveal>
+          </div>
 
           <div className="mt-10 text-center">
             <Button

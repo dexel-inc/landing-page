@@ -45,9 +45,8 @@ export default function FaqList({ title, subtitle, faqs = [], idPrefix = "faq" }
           const answerId = `${idPrefix}-answer-${index}`;
 
           return (
-            <Reveal
+            <div
               key={faq.question}
-              delay={index * 60}
               className={`rounded-2xl overflow-hidden border transition-colors duration-300 ${
                 isOpen
                   ? "border-blue-400/50 bg-white/90 dark:bg-zinc-900/80"
@@ -97,7 +96,7 @@ export default function FaqList({ title, subtitle, faqs = [], idPrefix = "faq" }
                   </div>
                 </div>
               </div>
-            </Reveal>
+            </div>
           );
         })}
       </div>

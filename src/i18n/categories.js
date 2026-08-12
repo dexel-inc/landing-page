@@ -211,6 +211,62 @@ const es = {
       "La mayoría de proveedores vende IA para todo. Hay procesos donde un flujo con reglas fijas es mejor: cuesta menos, responde siempre igual y no alucina. Si su caso es uno de esos, se lo decimos y lo construimos así. La IA entra donde aporta —conversaciones abiertas, clasificación, documentos sin formato— y no donde solo encarece.",
 
     /**
+     * Tres packs con alcance en unidades contables —procesos, integraciones,
+     * semanas, días de soporte—. "Desde $X" no dice qué recibe nadie por ese
+     * dinero, y lo que no se puede comparar no se compra sin escribir un correo.
+     */
+    packs: {
+      title: "Tres formas de empezar",
+      intro: "Alcance definido y precio cerrado. Se elige por tamaño del problema, no por tecnología.",
+      featuredLabel: "El más elegido",
+      cta: "Solicitar este pack",
+      discoveryNote:
+        "¿No sabe cuál necesita? Agende una llamada de discovery sin costo y se lo decimos en 30 minutos.",
+      items: [
+        {
+          key: "puntual",
+          name: "Automatización puntual",
+          priceKey: "automation",
+          items: [
+            "1 proceso automatizado de principio a fin",
+            "1 a 2 integraciones con sistemas existentes",
+            "Entrega en 2 a 3 semanas",
+            "30 días de soporte",
+            "Capacitación en vivo para su equipo",
+          ],
+        },
+        {
+          key: "agente",
+          name: "Agente a la medida",
+          priceKey: "automationAgent",
+          featured: true,
+          items: [
+            "1 agente que ejecuta acciones en sus sistemas",
+            "3 a 4 integraciones",
+            "Construcción de las herramientas que su sistema no expone",
+            "Entrega en 4 a 6 semanas",
+            "60 días de soporte",
+            "Capacitación en vivo para su equipo",
+          ],
+        },
+        {
+          key: "sistema",
+          name: "Sistema completo",
+          priceKey: "automationSystem",
+          from: true,
+          items: [
+            "Varios agentes coordinados",
+            "Desarrollo propio de los componentes que hagan falta",
+            "Integraciones profundas con la operación",
+            "Entrega en 6 a 10 semanas",
+            "90 días de soporte",
+            "Capacitación en vivo para su equipo",
+          ],
+        },
+      ],
+    },
+
+    /**
      * Con IA o sin IA es una decisión de diseño, no dos productos distintos.
      * La comparación existe para que el visitante describa su proceso en vez
      * de pedir una tecnología por nombre.
@@ -530,6 +586,57 @@ const en = {
     noteText:
       "Most vendors sell AI for everything. There are processes where a fixed-rule flow is simply better: it costs less, it answers the same way every time, and it doesn't hallucinate. If yours is one of those, we'll say so and build it that way. AI goes where it earns its place — open conversations, classification, unstructured documents — and not where it only adds cost.",
 
+    packs: {
+      title: "Three ways to start",
+      intro: "Defined scope and a closed price. You pick by the size of the problem, not by technology.",
+      featuredLabel: "Most chosen",
+      cta: "Request this pack",
+      discoveryNote:
+        "Not sure which one you need? Book a free discovery call and we'll tell you in 30 minutes.",
+      items: [
+        {
+          key: "puntual",
+          name: "Single automation",
+          priceKey: "automation",
+          items: [
+            "1 process automated end to end",
+            "1 to 2 integrations with existing systems",
+            "Delivered in 2 to 3 weeks",
+            "30 days of support",
+            "Live training for your team",
+          ],
+        },
+        {
+          key: "agente",
+          name: "Custom agent",
+          priceKey: "automationAgent",
+          featured: true,
+          items: [
+            "1 agent that executes actions in your systems",
+            "3 to 4 integrations",
+            "Building the tools your system doesn't expose",
+            "Delivered in 4 to 6 weeks",
+            "60 days of support",
+            "Live training for your team",
+          ],
+        },
+        {
+          key: "sistema",
+          name: "Full system",
+          priceKey: "automationSystem",
+          from: true,
+          items: [
+            "Several coordinated agents",
+            "Custom development of whatever components are missing",
+            "Deep integrations with your operation",
+            "Delivered in 6 to 10 weeks",
+            "90 days of support",
+            "Live training for your team",
+          ],
+        },
+      ],
+    },
+
     comparison: {
       lead: "A chatbot answers. An agent does things.",
       intro:
@@ -664,7 +771,14 @@ const en = {
 
 export const categoriesCopy = { es, en };
 
-/** Etiquetas compartidas por la plantilla de categoría, en los dos idiomas. */
+/**
+ * Etiquetas compartidas por la plantilla de categoría, en los dos idiomas.
+ *
+ * `vatLabel` y `vatNote` solo existen en español: los precios en pesos se
+ * publican con IVA incluido y eso se dice junto a cada cifra, no en una nota al
+ * pie. En dólares no aplica IVA colombiano y por eso van en `null`, que es lo
+ * que hace que la interfaz no pinte nada en inglés.
+ */
 export const categoryChromeCopy = {
   es: {
     menuLabel: "Servicios",
@@ -672,6 +786,8 @@ export const categoryChromeCopy = {
     backLabel: "Ver todos los servicios",
     quoteCta: "Solicitar cotización",
     discoveryCta: "Agendar llamada de discovery sin costo",
+    vatLabel: "IVA incluido",
+    vatNote: "Todos nuestros precios en pesos incluyen IVA. Lo que ve es lo que factura.",
   },
   en: {
     menuLabel: "Services",
@@ -679,6 +795,8 @@ export const categoryChromeCopy = {
     backLabel: "See all services",
     quoteCta: "Request a quote",
     discoveryCta: "Book a free discovery call",
+    vatLabel: null,
+    vatNote: null,
   },
 };
 

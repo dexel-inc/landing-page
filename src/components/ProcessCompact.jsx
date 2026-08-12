@@ -42,9 +42,8 @@ export default function ProcessCompact({ title, intro, phases = [] }) {
           const Icon = phaseIcons[phase.iconName] ?? Search;
 
           return (
-            <Reveal
+            <div
               key={phase.title}
-              delay={index * 70}
               className="group relative rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/40 p-5 hover:border-blue-500/30 transition-colors duration-500"
             >
               <div className="flex items-center justify-between gap-3 mb-3">
@@ -65,7 +64,7 @@ export default function ProcessCompact({ title, intro, phases = [] }) {
               <p className="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">
                 {phase.desc}
               </p>
-            </Reveal>
+            </div>
           );
         })}
       </div>

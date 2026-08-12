@@ -13,13 +13,19 @@ export const messages = {
         "Automatizamos procesos, integramos sistemas y construimos software a la medida. Empiece por una auditoría de procesos que le dice cuántas horas al mes puede recuperar.",
       servicesTitle: "Dexel | Auditoría de procesos, automatización y software",
       servicesDescription:
-        "Cinco servicios: auditoría de procesos, automatización e integración, software a la medida, presencia web y mantenimiento. Precios en USD y tiempos de entrega por escrito.",
+        "Cinco servicios: auditoría de procesos, automatización e integración, software a la medida, presencia web y mantenimiento. Precios en pesos con IVA incluido y tiempos de entrega por escrito.",
       webDevTitle: "Desarrollo web a la medida | Dexel",
-      webDevDescription:
-        "Sitios, aplicaciones web y paneles de administración construidos alrededor de su operación. SEO técnico, integraciones, APIs y pasarelas de pago. Desde $300 USD.",
+      webDevDescription: `Sitios, aplicaciones web y paneles de administración construidos alrededor de su operación. SEO técnico, integraciones, APIs y pasarelas de pago. ${formatPrice(
+        "webPresence",
+        "es",
+        { from: true },
+      )}.`,
       automationTitle: "Automatización de procesos e integración | Dexel",
-      automationDescription:
-        "Atención automatizada por WhatsApp, agentes a la medida, workflows con n8n, integración entre sistemas y lectura automática de documentos. Desde $1,500 USD, entrega en 2 a 6 semanas.",
+      automationDescription: `Atención automatizada por WhatsApp, agentes a la medida, workflows con n8n, integración entre sistemas y lectura automática de documentos. ${formatPrice(
+        "automation",
+        "es",
+        { from: true },
+      )}, entrega en 2 a 6 semanas.`,
       auditTitle: "Auditoría de procesos | Dexel",
       auditDescription:
         "Le decimos qué procesos se pueden automatizar, cuántas horas al mes recuperaría y cuánto costaría cada implementación. Ocho entregables en 5 a 7 días hábiles.",
@@ -61,7 +67,11 @@ export const messages = {
         "Automatizamos procesos, integramos sus sistemas y desarrollamos software a la medida. Somos cinco desarrolladores en Colombia con más de 6 años de experiencia.",
       scroll: "Scroll para hacer su idea realidad",
       h1: "Software que le devuelve horas a su empresa",
-      primaryCta: `Solicitar auditoría de procesos — ${formatPrice("audit", "es")}`,
+      // La auditoría dejó de ser la puerta de entrada: pedirle un diagnóstico
+      // pago a un desconocido es la acción de mayor fricción del catálogo. El
+      // hero abre por la llamada gratuita; la auditoría se argumenta —y se
+      // cobra— donde se explica su valor.
+      primaryCta: "Agendar llamada de discovery sin costo",
       secondaryCta: "Ver casos reales",
       responseTime: "Respondemos en menos de 4 horas hábiles",
     },
@@ -470,11 +480,17 @@ export const messages = {
       servicesDescription:
         "Five services: process audit, automation and integration, custom software, web presence, and maintenance. Prices in USD and delivery times in writing.",
       webDevTitle: "Custom web development | Dexel",
-      webDevDescription:
-        "Websites, web applications, and admin panels built around your operation. Technical SEO, integrations, APIs, and payment gateways. From $300 USD.",
+      webDevDescription: `Websites, web applications, and admin panels built around your operation. Technical SEO, integrations, APIs, and payment gateways. ${formatPrice(
+        "webPresence",
+        "en",
+        { from: true },
+      )}.`,
       automationTitle: "Process automation and integration | Dexel",
-      automationDescription:
-        "Automated WhatsApp support, custom agents, n8n workflows, system integration, and automated document reading. From $1,500 USD, delivered in 2 to 6 weeks.",
+      automationDescription: `Automated WhatsApp support, custom agents, n8n workflows, system integration, and automated document reading. ${formatPrice(
+        "automation",
+        "en",
+        { from: true },
+      )}, delivered in 2 to 6 weeks.`,
       auditTitle: "Process audit | Dexel",
       auditDescription:
         "We tell you which processes can be automated, how many hours a month you would get back, and what each implementation would cost. Eight deliverables in 5 to 7 business days.",
@@ -516,7 +532,7 @@ export const messages = {
         "We automate processes, integrate your systems, and build custom software. Five developers based in Colombia with over 6 years of experience.",
       scroll: "Scroll to bring your idea to life",
       h1: "Software that gives your company its hours back",
-      primaryCta: `Request a process audit — ${formatPrice("audit", "en")}`,
+      primaryCta: "Book a free discovery call",
       secondaryCta: "See real cases",
       responseTime: "We reply in under 4 business hours",
     },

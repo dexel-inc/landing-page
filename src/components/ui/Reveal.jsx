@@ -6,23 +6,33 @@ import {
 } from "../../hooks/useInView.js";
 
 const directionClasses = {
-  up: "translate-y-8",
-  down: "-translate-y-8",
-  left: "translate-x-8",
-  right: "-translate-x-8",
+  up: "translate-y-3",
+  down: "-translate-y-3",
+  left: "translate-x-3",
+  right: "-translate-x-3",
   none: "",
 };
 
 /**
- * Envuelve contenido y lo anima al entrar en viewport.
- * `delay` en ms escalona elementos de una misma grilla.
+ * Envuelve un encabezado de sección y lo desplaza levemente al entrar en
+ * viewport.
  *
- * El contenido se renderiza visible y solo se oculta una vez montado en el
- * navegador y confirmado que está fuera de pantalla. Antes ocurría al revés:
- * el estado inicial era opacidad cero, así que el HTML que genera el build
- * llegaba con todo el contenido invisible y un rastreador que renderiza CSS
- * podía leerlo como contenido oculto. La animación decora; nunca decide si
- * algo se ve.
+ * Dos reglas, y las dos vienen de haber roto la página con la versión anterior:
+ *
+ * 1. **El contenido nunca deja de verse.** El estado previo a la animación es
+ *    un desplazamiento de 12 px y una atenuación parcial, no opacidad cero. Con
+ *    opacidad cero, un scroll rápido dejaba secciones enteras en blanco —el
+ *    bloque de "qué pasa después de la auditoría" aparecía como 300 px vacíos—
+ *    porque el observador no alcanzaba a dispararse. Si la animación no llega a
+ *    correr nunca, lo peor que pasa es que el bloque queda 12 px más abajo.
+ *
+ * 2. **Solo envuelve encabezados y bloques destacados.** Las tarjetas de una
+ *    grilla, los ítems de una lista y los párrafos van sin animación: eran la
+ *    mayor parte de los 131 elementos animados que tenía el sitio y ninguno
+ *    ganaba nada por aparecer con retraso.
+ *
+ * `delay` sigue existiendo para escalonar dos o tres bloques hermanos, no para
+ * escalonar una grilla.
  */
 export default function Reveal({
   children,
@@ -39,21 +49,21 @@ export default function Reveal({
   // así que nada se ve aparecer y desaparecer.
   useIsomorphicLayoutEffect(() => setMounted(true), []);
 
-  const visible = !mounted || reducedMotion || inView;
+  const settled = !mounted || reducedMotion || inView;
 
+  // Sin `prefers-reduced-motion` no hay transición ni transformación: quien pide
+  // que nada se mueva recibe el marcado tal cual, sin clases de movimiento.
   const motionClass = reducedMotion
     ? ""
-    : `transition-all duration-700 ease-out ${
-        visible
-          ? "opacity-100 translate-x-0 translate-y-0 blur-0"
-          : `opacity-0 blur-[2px] ${directionClasses[direction]}`
+    : `transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none ${
+        settled ? "opacity-100 translate-x-0 translate-y-0" : `opacity-70 ${directionClasses[direction]}`
       }`;
 
   return (
     <div
       ref={ref}
       className={`${motionClass} ${className}`.trim()}
-      style={reducedMotion ? undefined : { transitionDelay: visible ? `${delay}ms` : "0ms" }}
+      style={reducedMotion ? undefined : { transitionDelay: settled ? `${delay}ms` : "0ms" }}
       {...props}
     >
       {children}

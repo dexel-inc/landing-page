@@ -40,13 +40,37 @@ const NAV_LINKS = [
   { routeKey: ROUTE_KEYS.CONTACT, labelKey: "contact" },
 ];
 
+// El `py-3` no cambia el tamaño del texto: agranda el área que responde al
+// toque. Sin él los ítems medían 16 px de alto, muy por debajo de los 44 px
+// mínimos para un dedo.
 const linkClass =
-  "text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors relative after:absolute after:bottom-[-5px] after:left-0 after:h-[1px] after:w-0 after:bg-blue-400 hover:after:w-full after:transition-all";
+  "inline-flex items-center py-3.5 text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors relative after:absolute after:bottom-1.5 after:left-0 after:h-[1px] after:w-0 after:bg-blue-400 hover:after:w-full after:transition-all";
+
+/**
+ * `true` cuando la página ya se desplazó lo suficiente como para que el
+ * encabezado deje de estar sobre el hero. Se escucha en pasivo: el listener no
+ * puede bloquear el desplazamiento.
+ */
+function useScrolled(threshold = 24) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const onScroll = () => setScrolled(window.scrollY > threshold);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [threshold]);
+
+  return scrolled;
+}
 
 function Navbar() {
   const { copy, locale } = useI18n();
   const { setLocale, path } = useRouter();
   const { theme, toggleTheme } = useTheme();
+  const scrolled = useScrolled();
   // El panel móvil se guarda como "abierto en esta ruta" en vez de como un
   // booleano: al navegar, la ruta cambia y el panel queda cerrado solo, sin un
   // efecto que corrija el estado después de pintar.
@@ -56,8 +80,18 @@ function Navbar() {
   const groups = serviceMenuGroups(copy);
 
   return (
-    <nav className="fixed top-0 w-full z-50 px-3 py-3 md:p-6 bg-gradient-to-b from-white/90 to-transparent dark:from-black/90 backdrop-blur-sm">
-      <div className="flex items-center justify-between gap-2">
+    /* El encabezado tiene fondo propio, no solo desenfoque: con un degradado
+       transparente el texto de la página se leía por debajo del menú y al hacer
+       scroll quedaba un revoltijo de dos textos superpuestos. Sobre el hero es
+       más liviano; pasado el hero se cierra del todo. */
+    <header
+      className={`fixed top-0 w-full z-50 px-3 py-3 md:p-6 transition-colors duration-300 motion-reduce:transition-none ${
+        scrolled
+          ? "bg-white/95 dark:bg-[#050505]/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-zinc-800/80 shadow-[0_10px_30px_-22px_rgba(15,23,42,0.55)]"
+          : "bg-white/75 dark:bg-black/70 backdrop-blur-md"
+      }`}
+    >
+      <nav className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-4 md:gap-8">
           <Link
             to={ROUTE_KEYS.HOME}
@@ -105,7 +139,7 @@ function Navbar() {
             onClick={toggleTheme}
             variant="outline"
             size="icon"
-            className="h-8 w-8 md:h-9 md:w-9 rounded-xl"
+            className="h-11 w-11 rounded-xl"
           >
             {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
           </Button>
@@ -116,7 +150,7 @@ function Navbar() {
               aria-current={locale === "es"}
               variant={locale === "es" ? "secondary" : "ghost"}
               size="xs"
-              className="h-7 md:h-8 min-w-8 md:min-w-9 rounded-lg px-2"
+              className="h-9 min-w-10 rounded-lg px-2.5"
             >
               {copy.nav.spanish}
             </Button>
@@ -126,7 +160,7 @@ function Navbar() {
               aria-current={locale === "en"}
               variant={locale === "en" ? "secondary" : "ghost"}
               size="xs"
-              className="h-7 md:h-8 min-w-8 md:min-w-9 rounded-lg px-2"
+              className="h-9 min-w-10 rounded-lg px-2.5"
             >
               {copy.nav.english}
             </Button>
@@ -139,12 +173,12 @@ function Navbar() {
             onClick={() => setOpenForPath(mobileOpen ? null : path)}
             variant="outline"
             size="icon"
-            className="lg:hidden h-8 w-8 rounded-xl"
+            className="lg:hidden h-11 w-11 rounded-xl"
           >
             {mobileOpen ? <X size={15} /> : <Menu size={15} />}
           </Button>
         </div>
-      </div>
+      </nav>
 
       <div
         id="mobile-nav"
@@ -156,7 +190,7 @@ function Navbar() {
             <Link
               key={link.routeKey}
               to={link.routeKey}
-              className="px-1 py-2 text-xs uppercase tracking-[0.12em] text-slate-800 dark:text-white"
+              className="px-2 py-3.5 text-xs uppercase tracking-[0.12em] text-slate-800 dark:text-white"
             >
               {copy.nav[link.labelKey]}
             </Link>
@@ -169,7 +203,7 @@ function Navbar() {
           indexLabel={copy.chrome.menuIndex}
         />
       </div>
-    </nav>
+    </header>
   );
 }
 
@@ -185,7 +219,12 @@ function RouteContent() {
 
   const page =
     routeKey === ROUTE_KEYS.SERVICES ? (
-      <ServicesPage copy={copy.services} categories={copy.categories} audit={copy.audit} />
+      <ServicesPage
+        copy={copy.services}
+        categories={copy.categories}
+        audit={copy.audit}
+        chrome={copy.chrome}
+      />
     ) : routeKey === ROUTE_KEYS.WEB_DEV ? (
       <CategoryPage
         copy={copy.categories.webDev}
@@ -199,13 +238,13 @@ function RouteContent() {
         copy={copy.categories.automation}
         process={copy.process}
         chrome={copy.chrome}
-        afterFronts={<AutomationDetail copy={copy.categories.automation} />}
+        afterFronts={<AutomationDetail copy={copy.categories.automation} chrome={copy.chrome} />}
         serviceId="automatizacion"
       />
     ) : routeKey === ROUTE_KEYS.AUDIT ? (
       <AuditPage copy={copy.audit} process={copy.process} chrome={copy.chrome} />
     ) : routeKey === ROUTE_KEYS.TRAINING ? (
-      <TrainingPage copy={copy.training} />
+      <TrainingPage copy={copy.training} chrome={copy.chrome} />
     ) : routeKey === ROUTE_KEYS.PRIVACY ? (
       <PrivacyPage copy={copy.privacy} />
     ) : routeKey === ROUTE_KEYS.NOT_FOUND ? (

@@ -18,15 +18,13 @@ import { EVENTS, track } from "../analytics/track.js";
 
 const categoryIcons = { webDev: Wrench, automation: Zap, audit: ScanSearch };
 
-function CategoryCard({ category, index, copy, onOpen }) {
+function CategoryCard({ category, copy, chrome, onOpen }) {
   const Icon = categoryIcons[category.key] ?? Wrench;
 
   return (
-    <Reveal
-      delay={index * 80}
+    <div
       className="group relative flex flex-col rounded-3xl border border-slate-200 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/40 backdrop-blur-sm hover:border-blue-500/30 transition-colors duration-500 overflow-hidden"
     >
-      <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
       <div className="relative flex flex-1 flex-col p-5 md:p-7">
         <div className="flex items-start gap-4 mb-4">
@@ -42,6 +40,9 @@ function CategoryCard({ category, index, copy, onOpen }) {
                 <Tag size={13} />
                 {category.price}
               </span>
+              {chrome?.vatLabel && (
+                <span className="text-xs text-slate-500 dark:text-gray-500">{chrome.vatLabel}</span>
+              )}
               <span className="inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-gray-500 font-mono uppercase tracking-[0.12em]">
                 <Clock3 size={12} />
                 {category.delivery}
@@ -84,11 +85,11 @@ function CategoryCard({ category, index, copy, onOpen }) {
           />
         </Link>
       </div>
-    </Reveal>
+    </div>
   );
 }
 
-export default function ServicesPage({ copy, categories, audit }) {
+export default function ServicesPage({ copy, categories, audit, chrome }) {
   const { navigateTo } = useRouter();
 
   const cards = [
@@ -146,17 +147,22 @@ export default function ServicesPage({ copy, categories, audit }) {
           <p className="text-base md:text-xl text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">
             {copy.intro}
           </p>
+          {chrome?.vatNote && (
+            <p className="mt-3 text-sm text-slate-500 dark:text-gray-500 max-w-2xl mx-auto">
+              {chrome.vatNote}
+            </p>
+          )}
         </Reveal>
       </section>
 
       <section className="relative z-10 px-4 md:px-6">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-6 items-stretch">
-          {cards.map((card, i) => (
+          {cards.map((card) => (
             <CategoryCard
               key={card.key}
               category={card}
-              index={i}
               copy={copy}
+              chrome={chrome}
               onOpen={() => openCategory(card)}
             />
           ))}

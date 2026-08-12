@@ -35,8 +35,7 @@ function PhaseCard({ phase, index }) {
   const Icon = phaseIcons[phase.iconName] ?? Search;
 
   return (
-    <Reveal
-      delay={index * 110}
+    <div
       className="group relative flex pl-14 md:pl-0 md:pt-16"
     >
       {/* Nodo sobre la línea del timeline */}
@@ -46,8 +45,6 @@ function PhaseCard({ phase, index }) {
       </div>
 
       <div className="relative flex w-full flex-col rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 p-5 md:p-6 hover:bg-white dark:hover:bg-zinc-800/70 hover:border-blue-500/30 transition-all duration-500 overflow-hidden">
-        <div className="absolute top-0 right-0 w-24 h-24 bg-blue-600/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -translate-y-1/2 translate-x-1/2" />
-
         <div className="relative flex flex-1 flex-col">
           <div className="flex items-center justify-between gap-3 mb-4">
             <div className="text-slate-800 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-all duration-300 p-2.5 bg-white/80 dark:bg-black/50 rounded-xl border border-slate-200 dark:border-zinc-800 group-hover:scale-110">
@@ -76,7 +73,7 @@ function PhaseCard({ phase, index }) {
           </div>
         </div>
       </div>
-    </Reveal>
+    </div>
   );
 }
 
@@ -149,15 +146,13 @@ export default function Process({ copy, onNavigate }) {
           {/* Con el cuarto compromiso, tres columnas dejaban una tarjeta sola en
               la segunda fila: dos y cuatro reparten parejo en cada tamaño. */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {copy.commitments.map((commitment, i) => {
+            {copy.commitments.map((commitment) => {
               const Icon = commitmentIcons[commitment.iconName] ?? CalendarCheck;
               return (
-                <Reveal
+                <div
                   key={commitment.title}
-                  delay={i * 110}
                   className="group relative rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 p-6 hover:border-blue-500/30 hover:bg-white dark:hover:bg-zinc-800/70 transition-all duration-500 overflow-hidden"
                 >
-                  <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-blue-600/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                   <div className="relative">
                     <div className="inline-flex text-blue-500 dark:text-blue-400 p-2.5 bg-blue-500/10 rounded-xl border border-blue-500/25 mb-4 group-hover:scale-110 transition-transform duration-300">
                       <Icon size={20} />
@@ -169,12 +164,12 @@ export default function Process({ copy, onNavigate }) {
                       {commitment.desc}
                     </p>
                   </div>
-                </Reveal>
+                </div>
               );
             })}
           </div>
 
-          <Reveal delay={150} className="mt-10 text-center">
+          <div className="mt-10 text-center">
             <Button
               onClick={() => onNavigate?.("/contacto")}
               variant="primary"
@@ -184,7 +179,7 @@ export default function Process({ copy, onNavigate }) {
               {copy.cta}
               <ArrowRight size={16} className="transition-transform duration-300 group-hover/cta:translate-x-1" />
             </Button>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>

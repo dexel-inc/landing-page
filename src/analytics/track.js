@@ -16,7 +16,7 @@
 
 import { ANALYTICS } from "../config/analytics.js";
 import { CONSENT, hasConsent, onConsentChange, readConsent } from "../consent/consent.js";
-import { PRICES, CURRENCY } from "../config/pricing.js";
+import { currencyFor, priceAmount } from "../config/pricing.js";
 
 const isBrowser = typeof window !== "undefined";
 
@@ -42,6 +42,8 @@ export const EVENTS = {
   TRAINING_PAGE_VIEWED: "TrainingPageViewed",
   /** Solicitud de formación. Lleva `format` y el `value` de ese formato. */
   TRAINING_REQUESTED: "TrainingRequested",
+  /** Solicitud de uno de los tres packs de automatización. Lleva `pack_name`. */
+  PACK_REQUESTED: "PackRequested",
 
   // Eventos de apoyo: sirven para entender el recorrido, no para optimizar campañas.
   PAGE_VIEW: "page_view",
@@ -62,6 +64,7 @@ const CONVERSION_EVENTS = new Set([
   EVENTS.CHAT_STARTED,
   EVENTS.TRAINING_PAGE_VIEWED,
   EVENTS.TRAINING_REQUESTED,
+  EVENTS.PACK_REQUESTED,
 ]);
 
 /**
@@ -73,7 +76,7 @@ const CONVERSION_EVENTS = new Set([
  * formación— no cabe en esta tabla: lo manda quien llama, en `params.value`.
  */
 const EVENT_VALUE = {
-  [EVENTS.AUDIT_REQUESTED]: () => PRICES.audit,
+  [EVENTS.AUDIT_REQUESTED]: (locale) => priceAmount("audit", locale),
 };
 
 // Idioma activo. Se inyecta desde la aplicación en cada cambio de ruta para no
@@ -136,11 +139,14 @@ export function track(event, params = {}) {
   const eventId = newEventId();
   // La moneda acompaña al valor venga de donde venga: un `value` suelto, sin
   // `currency`, Meta lo interpreta en la moneda de la cuenta y no en la nuestra.
-  const value = params.value ?? EVENT_VALUE[event]?.();
+  const locale = params.locale ?? currentLocale;
+  const value = params.value ?? EVENT_VALUE[event]?.(locale);
   const payload = {
     ...params,
-    locale: params.locale ?? currentLocale,
-    ...(value ? { value, currency: CURRENCY } : {}),
+    locale,
+    // La moneda sale del idioma: en español se cotiza en pesos y en inglés en
+    // dólares, y un valor sin moneda Meta lo interpreta en la de la cuenta.
+    ...(value ? { value, currency: params.currency ?? currencyFor(locale) } : {}),
   };
 
   if (import.meta.env?.DEV) {
