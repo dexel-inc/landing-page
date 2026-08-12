@@ -4,6 +4,20 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      Verificación de dominio de Meta. Va escrita en la plantilla y no inyectada
+      desde React a propósito: Meta lee el HTML tal como llega del servidor y no
+      ejecuta JavaScript, así que una etiqueta que apareciera al montar no la
+      vería nunca. El prerenderizado parte de este mismo archivo, de modo que la
+      etiqueta acaba en las diecisiete rutas sin repetirla en ninguna.
+
+      El código es público —cualquiera puede leerlo en el `<head>`— y no da
+      acceso a nada: solo demuestra ante Meta que el dominio es nuestro. Por eso
+      va literal y no por variable de entorno, igual que el id del pixel: si
+      dependiera de una variable, olvidarla en Vercel desactivaría en silencio
+      los permisos de la cuenta publicitaria sobre el dominio.
+    -->
+    <meta name="facebook-domain-verification" content="x7k57sl0qhqkbc1lyax1hvyisikx8i" />
     <title>Dexel | Automatización de procesos y software a la medida</title>
     <script>
       // Aplica el tema antes del primer pintado. Ahora que el HTML llega

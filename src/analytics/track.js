@@ -6,10 +6,11 @@
  * saben qué herramientas hay instaladas, así que agregar o quitar una no
  * obliga a tocar la interfaz.
  *
- * Nada se envía sin consentimiento. El pixel se inicializa con
- * `fbq('consent','revoke')` y GA4 con el modo de consentimiento en `denied`;
- * ambos se activan solo cuando el visitante acepta en el banner. Si rechaza, el
- * sitio funciona igual y no sale un solo evento.
+ * Nada se envía sin consentimiento, ni por navegador ni por servidor. GA4 se
+ * carga con el modo de consentimiento en `denied` y el pixel de Meta ni
+ * siquiera se descarga hasta que el visitante acepta; la Conversions API se
+ * llama solo desde `track()`, después de comprobar la decisión. Si rechaza, el
+ * sitio funciona igual y no sale una sola petición hacia Meta.
  *
  * Identificadores en `config/analytics.js`; variables en `.env.example`.
  */
@@ -54,7 +55,15 @@ export const EVENTS = {
   TEAM_PROFILE_CLICK: "team_profile_click",
 };
 
-/** Eventos de conversión: van a la Conversions API además del pixel. */
+/**
+ * Eventos de conversión: van a la Conversions API además del pixel.
+ *
+ * `PageView` no está aquí porque no pasa por `track()`: lo manda
+ * `trackPageView()` en cada cambio de ruta, por las dos vías igual que estos.
+ * Los eventos de apoyo se quedan en el navegador: sirven para entender el
+ * recorrido, y duplicarlos por servidor costaría una invocación por clic sin
+ * mejorar la atribución.
+ */
 const CONVERSION_EVENTS = new Set([
   EVENTS.AUDIT_REQUESTED,
   EVENTS.QUOTE_REQUESTED,
@@ -98,14 +107,26 @@ function newEventId() {
   return `evt_${Math.random().toString(36).slice(2)}${Date.now().toString(36)}`;
 }
 
+/**
+ * Instante del evento en segundos, que es la unidad que pide Meta.
+ *
+ * Viaja junto al `event_id` para que las dos entregas —pixel y servidor—
+ * declaren el mismo momento: el par identifica la conversión dentro de la
+ * ventana en la que Meta busca duplicados.
+ */
+function eventTimestamp() {
+  return Math.floor(Date.now() / 1000);
+}
+
 /** Envía la conversión al servidor. Nunca bloquea ni rompe la interacción. */
-function sendToConversionsApi(event, params, eventId) {
+function sendToConversionsApi(event, params, eventId, eventTime) {
   const endpoint = ANALYTICS.capiEndpoint;
   if (!endpoint) return;
 
   const body = JSON.stringify({
     event_name: event,
     event_id: eventId,
+    event_time: eventTime,
     event_source_url: window.location.href,
     custom_data: params,
   });
@@ -137,6 +158,7 @@ export function track(event, params = {}) {
   if (!isBrowser) return;
 
   const eventId = newEventId();
+  const eventTime = eventTimestamp();
   // La moneda acompaña al valor venga de donde venga: un `value` suelto, sin
   // `currency`, Meta lo interpreta en la moneda de la cuenta y no en la nuestra.
   const locale = params.locale ?? currentLocale;
@@ -169,7 +191,7 @@ export function track(event, params = {}) {
   }
 
   if (CONVERSION_EVENTS.has(event)) {
-    sendToConversionsApi(event, payload, eventId);
+    sendToConversionsApi(event, payload, eventId, eventTime);
   }
 }
 
@@ -191,9 +213,19 @@ export function trackPageView({ path, locale, title }) {
     });
   }
 
+  // La vista de página también se duplica por las dos vías, y por las mismas
+  // razones: es el evento que más pierde el pixel —es el primero que carga, y
+  // es el que bloquean los bloqueadores antes de que nada más ocurra— y es el
+  // que sostiene los públicos de remarketing. Comparte identificador e instante
+  // con la entrega del servidor para que Meta cuente una sola visita.
+  const eventId = newEventId();
+  const eventTime = eventTimestamp();
+
   if (typeof window.fbq === "function") {
-    window.fbq("track", "PageView");
+    window.fbq("track", "PageView", {}, { eventID: eventId });
   }
+
+  sendToConversionsApi("PageView", { locale }, eventId, eventTime);
 }
 
 function injectScript(src) {
@@ -262,9 +294,28 @@ function injectMetaPixel(pixelId) {
   window.fbq("init", pixelId);
 }
 
+/**
+ * Carga el pixel y lo habilita.
+ *
+ * La librería no se pide hasta que el visitante acepta. Antes se cargaba
+ * siempre y se mantenía en `revoke`, que impide los eventos pero no la
+ * descarga: pedir `fbevents.js` ya es una conexión a Meta que entrega la IP y
+ * la página que se está viendo, y eso es tratamiento de datos, exactamente lo
+ * que el banner está preguntando. Quien rechaza no genera ni una petición.
+ *
+ * Cargar aquí y no antes no retrasa nada perceptible: el script es asíncrono y
+ * los eventos posteriores a la aceptación entran en la cola del pixel, que se
+ * vacía en cuanto la librería termina de cargar.
+ */
+function enableMetaPixel() {
+  if (!ANALYTICS.metaPixelId) return;
+  if (typeof window.fbq !== "function") injectMetaPixel(ANALYTICS.metaPixelId);
+  window.fbq("consent", "grant");
+}
+
 /** Activa lo que estaba en espera del consentimiento. */
 function grantConsent() {
-  if (typeof window.fbq === "function") window.fbq("consent", "grant");
+  enableMetaPixel();
 
   if (typeof window.gtag === "function") {
     window.gtag("consent", "update", {
@@ -277,18 +328,21 @@ function grantConsent() {
 }
 
 /**
- * Carga los proveedores configurados, en modo revocado.
+ * Prepara los proveedores configurados sin enviar nada.
  *
- * Las librerías se cargan siempre para poder reaccionar en el instante en que
- * el visitante acepta, sin recargar la página; pero no envían nada hasta que
- * el consentimiento pasa a `grant`.
+ * Google se carga con el modo de consentimiento en `denied`, que es el
+ * mecanismo que la propia Google define para este caso. El pixel de Meta no
+ * tiene equivalente —su `revoke` frena los eventos, no la descarga del
+ * script—, así que no se pide hasta que hay aceptación.
+ *
+ * En ambos casos el cambio se aplica en el instante en que el visitante acepta,
+ * sin recargar la página.
  */
 export function initAnalytics() {
   if (!isBrowser) return;
 
   if (ANALYTICS.ga4Id) injectGa4(ANALYTICS.ga4Id);
   if (ANALYTICS.gtmId) injectGtm(ANALYTICS.gtmId);
-  if (ANALYTICS.metaPixelId) injectMetaPixel(ANALYTICS.metaPixelId);
 
   if (readConsent() === CONSENT.GRANTED) grantConsent();
 
