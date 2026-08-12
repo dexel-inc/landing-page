@@ -46,8 +46,10 @@ export const EVENTS = {
   /** Solicitud de uno de los tres packs de automatización. Lleva `pack_name`. */
   PACK_REQUESTED: "PackRequested",
 
-  // Eventos de apoyo: sirven para entender el recorrido, no para optimizar
-  // campañas. Van en PascalCase igual que los de conversión: el Administrador de
+  // Eventos del recorrido. Cuáles de estos se respaldan además por servidor lo
+  // decide `CONVERSION_EVENTS`, no esta lista: `ChatCompleted` y `WhatsAppOpened`
+  // sí, porque son el final del embudo; los clics de navegación no.
+  // Van en PascalCase igual que los de conversión: el Administrador de
   // Eventos los lista todos juntos y en la misma columna, y mezclar dos
   // convenciones ahí obliga a recordar cuál se escribió de qué manera cada vez
   // que se arma un público o una conversión personalizada.
@@ -72,9 +74,14 @@ export const EVENTS = {
  *
  * `PageView` no está aquí porque no pasa por `track()`: lo manda
  * `trackPageView()` en cada cambio de ruta, por las dos vías igual que estos.
- * Los eventos de apoyo se quedan en el navegador: sirven para entender el
- * recorrido, y duplicarlos por servidor costaría una invocación por clic sin
- * mejorar la atribución.
+ *
+ * El criterio no es "conversión" en sentido estricto sino qué pasa si el evento
+ * se pierde. Un `CtaClicked` perdido cuesta una línea de un informe de recorrido.
+ * Un `WhatsAppOpened` perdido cuesta la atribución de un contacto real, y es
+ * justo el que más se pierde: ocurre al final de la sesión, después de que el
+ * bloqueador ya tuvo tiempo de actuar y con la pestaña a punto de irse a
+ * WhatsApp. Respaldar por servidor solo lo que ocurre al cargar la página deja
+ * cubierto lo barato y expuesto lo caro.
  */
 const CONVERSION_EVENTS = new Set([
   EVENTS.AUDIT_REQUESTED,
@@ -86,6 +93,13 @@ const CONVERSION_EVENTS = new Set([
   EVENTS.TRAINING_PAGE_VIEWED,
   EVENTS.TRAINING_REQUESTED,
   EVENTS.PACK_REQUESTED,
+  // Cierres de la conversación. `ChatCompleted` es haber contestado el flujo
+  // entero y `WhatsAppOpened` es la entrega efectiva del contacto: son los dos
+  // puntos del recorrido que un pixel bloqueado hace desaparecer sin dejar
+  // rastro, y sin ellos la campaña optimiza contra un embudo que se corta antes
+  // del final.
+  EVENTS.CHAT_COMPLETED,
+  EVENTS.WHATSAPP_OPENED,
 ]);
 
 /**
