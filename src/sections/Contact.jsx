@@ -232,11 +232,19 @@ const ChatbotForm = ({ copy }) => {
   );
 };
 
-export default function Contact({ copy }) {
+/**
+ * `first` marca que este bloque abre la página, que es el caso de `/contacto`.
+ * Ahí hay que reservar la franja del encabezado fijo antes de centrar; dentro
+ * de la portada, en cambio, va a media página y el relleno normal basta:
+ * sumarle la altura del encabezado dejaría un hueco injustificado encima.
+ */
+export default function Contact({ copy, first = false }) {
   return (
       <section
           id="contacto"
-          className="min-h-screen flex items-center justify-center py-16 md:py-24 px-4 md:px-6 relative overflow-hidden"
+          className={`min-h-svh flex items-center justify-center px-4 md:px-6 relative overflow-hidden pb-16 md:pb-24 ${
+            first ? "pt-[calc(var(--header-h)+2rem)]" : "pt-16 md:pt-24"
+          }`}
       >
         <div className="absolute inset-0 bg-linear-to-b from-slate-100 via-white to-slate-100 dark:from-[#050505] dark:via-black/80 dark:to-[#050505] z-0" />
 

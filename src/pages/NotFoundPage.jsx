@@ -16,7 +16,7 @@ export default function NotFoundPage({ copy }) {
   const { navigateTo } = useRouter();
 
   return (
-    <div className="min-h-svh flex items-center justify-center px-4 py-32 relative overflow-hidden">
+    <div className="min-h-svh flex items-center justify-center px-4 pt-[calc(var(--header-h)+2rem)] pb-32 relative overflow-hidden">
       <div className="absolute inset-0 bg-linear-to-b from-slate-50 via-white to-slate-100 dark:from-[#050505] dark:via-black/80 dark:to-[#050505] z-0" />
       <div className="absolute -top-20 -left-16 w-80 h-80 rounded-full bg-blue-500/20 dark:bg-blue-600/20 blur-3xl pointer-events-none z-0" />
 

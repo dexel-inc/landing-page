@@ -250,7 +250,7 @@ function RouteContent() {
     ) : routeKey === ROUTE_KEYS.NOT_FOUND ? (
       <NotFoundPage copy={copy.notFound} />
     ) : (
-      <Contact copy={copy.contact} />
+      <Contact copy={copy.contact} first />
     );
 
   return (

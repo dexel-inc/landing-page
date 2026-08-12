@@ -52,7 +52,7 @@ export default function PrivacyPage({ copy }) {
   const { navigateTo } = useRouter();
 
   return (
-    <div className="pt-32 md:pt-28 pb-16 md:pb-24 relative overflow-hidden">
+    <div className="pt-[calc(var(--header-h)+2rem)] pb-16 md:pb-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-linear-to-b from-slate-50 via-white to-slate-100 dark:from-[#050505] dark:via-black/80 dark:to-[#050505] z-0" />
 
       <section className="relative z-10 px-4 md:px-6">

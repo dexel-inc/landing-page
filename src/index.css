@@ -19,10 +19,40 @@
   width: 100%;
 }
 
+/*
+ * Altura del encabezado fijo.
+ *
+ * El encabezado es `position: fixed`: no ocupa lugar en el flujo y no empuja
+ * nada hacia abajo. Cualquier bloque que sea lo primero de una página —o que
+ * centre su contenido dentro de la altura completa de la ventana— tiene que
+ * descontar esta franja, o su primer elemento acaba debajo del menú. En
+ * pantallas altas sobra espacio y no se nota; en un portátil de 771 px sí.
+ *
+ * El número sale de las piezas del propio encabezado: el relleno vertical
+ * —12 px, 24 px desde `md`— más la fila de controles, que mide 58 px: un botón
+ * de 44 px dentro de una caja con 6 px de relleno arriba y abajo, más su borde.
+ * Si cambia cualquiera de las dos cosas, este es el único sitio que tocar.
+ *
+ * No incluye el panel plegable del móvil: ese se abre encima del contenido a
+ * propósito y reservarle sitio dejaría un hueco permanente bajo el menú.
+ */
+:root {
+  --header-h: 82px;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --header-h: 106px;
+  }
+}
+
 body {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
+  /* `svh` y no `vh`: en móvil `100vh` ignora la barra de direcciones y deja la
+     página un poco más alta que la ventana, que es el mismo recorte por otra
+     vía. */
+  min-height: 100svh;
   background: #f8fafc;
   color: #0f172a;
 }
@@ -32,9 +62,11 @@ body {
   color: #f8fafc;
 }
 
-/* El navbar es fijo: los saltos por ancla deben dejar espacio bajo él */
+/* El navbar es fijo: los saltos por ancla deben dejar espacio bajo él.
+   Estaba en 6rem —96 px—, por debajo de los 106 px que mide el encabezado en
+   escritorio, así que el título de la sección quedaba tapado al saltar. */
 section[id] {
-  scroll-margin-top: 6rem;
+  scroll-margin-top: calc(var(--header-h) + 1.5rem);
 }
 
 /* Línea de escaneo de las tarjetas bajo acuerdo de confidencialidad */

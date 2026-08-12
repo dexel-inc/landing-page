@@ -19,9 +19,14 @@ export default function HomePage({ copy }) {
 
   return (
     <>
+      {/* El relleno superior reserva la franja del encabezado fijo antes de
+          centrar: con `justify-center` sobre la ventana completa, el badge
+          —que es lo primero que se pinta— se metía bajo el menú en cuanto la
+          pantalla bajaba de unos 800 px de alto. La altura del encabezado vive
+          en `--header-h`, no repetida aquí como número suelto. */}
       <section
         id="inicio"
-        className="min-h-svh flex flex-col justify-center items-center text-center px-4 relative pt-28 pb-10 md:py-4"
+        className="min-h-svh flex flex-col justify-center items-center text-center px-4 relative pt-[calc(var(--header-h)+1.5rem)] pb-10 md:pb-6"
       >
         <div className="absolute inset-0 items-center bg-linear-to-b from-transparent via-transparent to-slate-100 dark:to-[#050505] z-0"></div>
         <div className="z-10 relative justify-center items-center flex flex-col my-4">
