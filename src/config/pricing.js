@@ -35,6 +35,12 @@ export const PRICES = {
   // principal de una tarjeta: abrir con $100 ancla la marca como proveedor barato.
   webPresenceLanding: 100,
   maintenance: 150,
+  // ⚠️ Formación in-company: precios propuestos, pendientes de validar antes de
+  // publicar. Están calibrados contra la referencia del mercado colombiano y
+  // contra el precio de la auditoría; cambiarlos aquí los cambia en la página,
+  // en los datos estructurados y en el valor que se manda a la medición.
+  trainingExecutive: 600,
+  trainingFull: 1200,
 };
 
 /** Relaciona el id de servicio con su monto, para JSON-LD y medición. */

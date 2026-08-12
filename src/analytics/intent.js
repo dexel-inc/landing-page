@@ -14,9 +14,20 @@
 const STORAGE_KEY = "dexel_intent";
 const isBrowser = typeof window !== "undefined";
 
-export const INTENT = { AUDIT: "audit", QUOTE: "quote", DISCOVERY: "discovery" };
+export const INTENT = {
+  AUDIT: "audit",
+  QUOTE: "quote",
+  DISCOVERY: "discovery",
+  TRAINING: "training",
+};
 
-/** @param {{type: string, service_id?: string, service_name?: string, location?: string}} intent */
+/**
+ * @param {{type: string, service_id?: string, service_name?: string,
+ *   location?: string, format?: string, value?: number}} intent
+ *   `format` y `value` solo viajan desde la página de formación: son el formato
+ *   que el visitante eligió y su precio, que es lo que permite optimizar la
+ *   campaña hacia ingreso y no hacia volumen de solicitudes.
+ */
 export function setIntent(intent) {
   if (!isBrowser) return;
   try {

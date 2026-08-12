@@ -125,6 +125,15 @@ const ChatbotForm = ({ copy }) => {
 
     if (intent?.type === INTENT.AUDIT) {
       track(EVENTS.AUDIT_REQUESTED, shared);
+    } else if (intent?.type === INTENT.TRAINING) {
+      // El formato viaja desde la página de formación: sin él no se puede saber
+      // si la campaña está trayendo sesiones ejecutivas o programas completos,
+      // que valen el doble.
+      track(EVENTS.TRAINING_REQUESTED, {
+        ...shared,
+        format: intent.format,
+        value: intent.value,
+      });
     } else if (intent?.type === INTENT.QUOTE) {
       track(EVENTS.QUOTE_REQUESTED, shared);
     } else {

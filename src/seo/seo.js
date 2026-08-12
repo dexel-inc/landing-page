@@ -19,6 +19,7 @@ const META_KEY = {
   [ROUTE_KEYS.WEB_DEV]: "webDev",
   [ROUTE_KEYS.AUTOMATION]: "automation",
   [ROUTE_KEYS.AUDIT]: "audit",
+  [ROUTE_KEYS.TRAINING]: "training",
   [ROUTE_KEYS.CONTACT]: "contact",
   [ROUTE_KEYS.PRIVACY]: "privacy",
   [ROUTE_KEYS.NOT_FOUND]: "notFound",
@@ -146,6 +147,54 @@ function categoryServiceNode({ category, locale, routeKey, priceKey }) {
   };
 }
 
+/**
+ * Nodo `Course` de la formación in-company.
+ *
+ * Se declara como curso y no como servicio porque es lo que es: un programa con
+ * temario y con quien lo dicta declarado como `Organization`. Cada formato de
+ * precio cerrado entra como `CourseInstance` con su duración y su oferta; el
+ * programa a la medida no, porque no tiene ni duración ni precio publicados y
+ * declararlo sería inventarle uno.
+ */
+function trainingNode({ training, locale, canonical, description }) {
+  const priced = training.formats.filter((format) => format.value);
+
+  return {
+    "@type": "Course",
+    "@id": `${canonical}#course`,
+    name: training.title,
+    description,
+    url: canonical,
+    inLanguage: locale,
+    provider: { "@id": `${SITE.url}/#organization` },
+    teaches: training.blocks.map((block) => block.title),
+    hasCourseInstance: priced.map((format) => ({
+      "@type": "CourseInstance",
+      name: format.name,
+      // Los dos formatos se dictan presencial en Colombia o en remoto, así que
+      // ambos modos son ciertos para cada uno.
+      courseMode: ["onsite", "online"],
+      courseWorkload: format.workload,
+      inLanguage: locale,
+      offers: {
+        "@type": "Offer",
+        price: PRICES[format.value],
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+        url: canonical,
+      },
+    })),
+    offers: priced.map((format) => ({
+      "@type": "Offer",
+      name: format.name,
+      price: PRICES[format.value],
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: canonical,
+    })),
+  };
+}
+
 function buildJsonLd({ routeKey, locale, copy, title, description, canonical }) {
   const graph = [
     organizationNode(),
@@ -200,6 +249,13 @@ function buildJsonLd({ routeKey, locale, copy, title, description, canonical }) 
     const audit = copy.services.items.find((item) => item.id === "auditoria");
     if (audit) graph.push(...serviceNodes({ items: [audit] }, locale));
     graph.push(faqNode(copy.audit));
+  }
+
+  if (routeKey === ROUTE_KEYS.TRAINING) {
+    graph.push(
+      trainingNode({ training: copy.training, locale, canonical, description }),
+      faqNode(copy.training),
+    );
   }
 
   if (routeKey === ROUTE_KEYS.HOME) {

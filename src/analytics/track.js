@@ -38,6 +38,10 @@ export const EVENTS = {
   SERVICE_CATEGORY_VIEWED: "ServiceCategoryViewed",
   /** Primer mensaje enviado al asistente conversacional. */
   CHAT_STARTED: "ChatStarted",
+  /** Cargó la página de formación in-company. Lleva `locale`. */
+  TRAINING_PAGE_VIEWED: "TrainingPageViewed",
+  /** Solicitud de formación. Lleva `format` y el `value` de ese formato. */
+  TRAINING_REQUESTED: "TrainingRequested",
 
   // Eventos de apoyo: sirven para entender el recorrido, no para optimizar campañas.
   PAGE_VIEW: "page_view",
@@ -56,12 +60,17 @@ const CONVERSION_EVENTS = new Set([
   EVENTS.SERVICE_DETAIL_VIEWED,
   EVENTS.SERVICE_CATEGORY_VIEWED,
   EVENTS.CHAT_STARTED,
+  EVENTS.TRAINING_PAGE_VIEWED,
+  EVENTS.TRAINING_REQUESTED,
 ]);
 
 /**
  * Valor monetario por evento. Meta necesita `value` y `currency` para poder
  * optimizar hacia ingreso y no solo hacia volumen de conversiones. Sale de
  * `config/pricing.js`, así que un reprecio lo arrastra solo.
+ *
+ * Un evento cuyo valor depende de lo que el visitante eligió —el formato de
+ * formación— no cabe en esta tabla: lo manda quien llama, en `params.value`.
  */
 const EVENT_VALUE = {
   [EVENTS.AUDIT_REQUESTED]: () => PRICES.audit,
@@ -125,7 +134,9 @@ export function track(event, params = {}) {
   if (!isBrowser) return;
 
   const eventId = newEventId();
-  const value = EVENT_VALUE[event]?.();
+  // La moneda acompaña al valor venga de donde venga: un `value` suelto, sin
+  // `currency`, Meta lo interpreta en la moneda de la cuenta y no en la nuestra.
+  const value = params.value ?? EVENT_VALUE[event]?.();
   const payload = {
     ...params,
     locale: params.locale ?? currentLocale,

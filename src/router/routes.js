@@ -18,6 +18,12 @@ export const ROUTE_KEYS = {
   WEB_DEV: "webDev",
   AUTOMATION: "automation",
   AUDIT: "audit",
+  /**
+   * Formación in-company. No es una categoría de servicio y por eso no entra en
+   * `SERVICE_CATEGORIES`: los servicios son cosas que hacemos *para* el cliente
+   * y la formación es algo que hacemos *con* él. Mezclarlas diluye las dos.
+   */
+  TRAINING: "training",
   CONTACT: "contact",
   PRIVACY: "privacy",
   /** No tiene URL propia: es lo que se muestra cuando ninguna ruta coincide. */
@@ -40,6 +46,7 @@ export const PATHS = {
     webDev: "/es/servicios/desarrollo-web",
     automation: "/es/servicios/automatizacion",
     audit: "/es/servicios/auditoria",
+    training: "/es/formacion",
     contact: "/es/contacto",
     privacy: "/es/privacidad",
   },
@@ -49,6 +56,7 @@ export const PATHS = {
     webDev: "/en/services/web-development",
     automation: "/en/services/automation",
     audit: "/en/services/process-audit",
+    training: "/en/training",
     contact: "/en/contact",
     privacy: "/en/privacy",
   },

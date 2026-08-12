@@ -3,6 +3,7 @@ import {
   ArrowRight,
   FileCheck2,
   GitBranch,
+  GraduationCap,
   LayoutTemplate,
   LineChart,
   Rocket,
@@ -27,6 +28,7 @@ const commitmentIcons = {
   CalendarCheck,
   FileCheck2,
   GitBranch,
+  GraduationCap,
 };
 
 function PhaseCard({ phase, index }) {
@@ -144,7 +146,9 @@ export default function Process({ copy, onNavigate }) {
             </p>
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+          {/* Con el cuarto compromiso, tres columnas dejaban una tarjeta sola en
+              la segunda fila: dos y cuatro reparten parejo en cada tamaño. */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {copy.commitments.map((commitment, i) => {
               const Icon = commitmentIcons[commitment.iconName] ?? CalendarCheck;
               return (

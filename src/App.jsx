@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage.jsx";
 import ServicesPage from "./pages/ServicesPage.jsx";
 import CategoryPage from "./pages/CategoryPage.jsx";
 import AuditPage from "./pages/AuditPage.jsx";
+import TrainingPage from "./pages/TrainingPage.jsx";
 import PrivacyPage from "./pages/PrivacyPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import AutomationDetail from "./components/AutomationDetail.jsx";
@@ -25,10 +26,17 @@ import { setAnalyticsLocale, trackPageView } from "./analytics/track.js";
 // tiene por qué retrasar el primer contenido útil.
 const ParticleField = lazy(() => import("./components/ParticleField.jsx"));
 
-/** Enlaces sueltos del menú. Servicios va aparte: es un desplegable. */
+/**
+ * Enlaces sueltos del menú. Servicios va aparte: es un desplegable.
+ *
+ * Formación es ítem propio y no una cuarta categoría dentro de Servicios: los
+ * servicios son cosas que hacemos para el cliente, la formación es algo que
+ * hacemos con él.
+ */
 const NAV_LINKS = [
   { routeKey: ROUTE_KEYS.HOME, labelKey: "home" },
   { routeKey: ROUTE_KEYS.AUDIT, labelKey: "audit" },
+  { routeKey: ROUTE_KEYS.TRAINING, labelKey: "training" },
   { routeKey: ROUTE_KEYS.CONTACT, labelKey: "contact" },
 ];
 
@@ -61,7 +69,12 @@ function Navbar() {
             <Logo className="h-8 w-auto md:h-10 text-current" viewBox="0 0 324 210" />
           </Link>
 
-          <div className="hidden md:flex items-center gap-8 text-xs tracking-[0.15em] uppercase font-medium">
+          {/* La fila de enlaces aparece desde `lg` y no desde `md`: con cinco
+              ítems —Formación entró como uno más— a 768 px no cabían junto al
+              logotipo y los controles, y la barra empujaba scroll horizontal a
+              toda la página. Entre 768 y 1024 se usa el mismo panel plegable
+              del móvil, que ya lista todo, incluido el acordeón de servicios. */}
+          <div className="hidden lg:flex items-center gap-8 text-xs tracking-[0.15em] uppercase font-medium">
             <Link to={ROUTE_KEYS.HOME} className={linkClass}>
               {copy.nav.home}
             </Link>
@@ -74,6 +87,10 @@ function Navbar() {
 
             <Link to={ROUTE_KEYS.AUDIT} className={linkClass}>
               {copy.nav.audit}
+            </Link>
+
+            <Link to={ROUTE_KEYS.TRAINING} className={linkClass}>
+              {copy.nav.training}
             </Link>
 
             <Link to={ROUTE_KEYS.CONTACT} className={linkClass}>
@@ -122,7 +139,7 @@ function Navbar() {
             onClick={() => setOpenForPath(mobileOpen ? null : path)}
             variant="outline"
             size="icon"
-            className="md:hidden h-8 w-8 rounded-xl"
+            className="lg:hidden h-8 w-8 rounded-xl"
           >
             {mobileOpen ? <X size={15} /> : <Menu size={15} />}
           </Button>
@@ -132,7 +149,7 @@ function Navbar() {
       <div
         id="mobile-nav"
         hidden={!mobileOpen}
-        className="md:hidden mt-3 rounded-2xl border border-slate-200/90 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md p-4 max-h-[70svh] overflow-y-auto"
+        className="lg:hidden mt-3 rounded-2xl border border-slate-200/90 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md p-4 max-h-[70svh] overflow-y-auto"
       >
         <div className="flex flex-col gap-1 mb-4">
           {NAV_LINKS.map((link) => (
@@ -187,6 +204,8 @@ function RouteContent() {
       />
     ) : routeKey === ROUTE_KEYS.AUDIT ? (
       <AuditPage copy={copy.audit} process={copy.process} chrome={copy.chrome} />
+    ) : routeKey === ROUTE_KEYS.TRAINING ? (
+      <TrainingPage copy={copy.training} />
     ) : routeKey === ROUTE_KEYS.PRIVACY ? (
       <PrivacyPage copy={copy.privacy} />
     ) : routeKey === ROUTE_KEYS.NOT_FOUND ? (

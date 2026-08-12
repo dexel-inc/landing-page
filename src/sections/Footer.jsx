@@ -44,7 +44,9 @@ export default function Footer({ whatsappNumber = SITE.whatsapp, copy }) {
           </div>
           {/* Enlaces reales con href localizado: un rastreador tiene que poder
               seguirlos sin ejecutar JavaScript. */}
-          <div className="flex flex-col md:flex-row gap-6 md:text-start">
+          {/* Con cinco enlaces la fila ya no cabe de una sola línea en una
+              tableta: envuelve en vez de empujar scroll horizontal. */}
+          <div className="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-4 md:gap-x-6 md:gap-y-3 md:text-start">
             <Link
               to={ROUTE_KEYS.SERVICES}
               className="cursor-pointer text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
@@ -56,6 +58,12 @@ export default function Footer({ whatsappNumber = SITE.whatsapp, copy }) {
               className="cursor-pointer text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
             >
               {copy.audit}
+            </Link>
+            <Link
+              to={ROUTE_KEYS.TRAINING}
+              className="cursor-pointer text-slate-500 dark:text-gray-600 hover:text-slate-900 dark:hover:text-white uppercase"
+            >
+              {copy.training}
             </Link>
             <Link
               to={ROUTE_KEYS.CONTACT}

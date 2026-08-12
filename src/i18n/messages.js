@@ -1,6 +1,7 @@
 import { auditCopy, servicesCopy } from "./services.js";
 import { categoriesCopy, categoryChromeCopy } from "./categories.js";
 import { consentCopy, notFoundCopy, privacyCopy } from "./legal.js";
+import { trainingCopy } from "./training.js";
 import { formatPrice } from "../config/pricing.js";
 
 export const messages = {
@@ -22,6 +23,12 @@ export const messages = {
       auditTitle: "Auditoría de procesos | Dexel",
       auditDescription:
         "Le decimos qué procesos se pueden automatizar, cuántas horas al mes recuperaría y cuánto costaría cada implementación. Ocho entregables en 5 a 7 días hábiles.",
+      trainingTitle: "Formación en automatización e IA para equipos | Dexel",
+      trainingDescription: `Formación in-company en automatización e IA para equipos que van a hacer el trabajo. Cada participante sale con una automatización real de su operación funcionando. ${formatPrice(
+        "trainingExecutive",
+        "es",
+        { from: true },
+      )}.`,
       contactTitle: "Dexel | Contacto y cotización de software",
       contactDescription:
         "Cuéntenos qué proceso le está consumiendo más tiempo y le decimos qué se puede automatizar. Respondemos en menos de 4 horas hábiles.",
@@ -39,6 +46,7 @@ export const messages = {
       menu: "Abrir menú",
       menuClose: "Cerrar menú",
       audit: "Auditoría",
+      training: "Formación",
       contact: "Contacto",
       language: "Idioma",
       spanish: "ES",
@@ -348,7 +356,7 @@ export const messages = {
           output: "Reporte de métricas y plan de mejoras priorizado.",
         },
       ],
-      commitmentsTitle: "Tres compromisos por escrito",
+      commitmentsTitle: "Cuatro compromisos por escrito",
       commitmentsSubtitle:
         "No son eslóganes: quedan en el contrato y puede exigirlos.",
       commitments: [
@@ -366,6 +374,14 @@ export const messages = {
           iconName: "GitBranch",
           title: "El código es suyo desde el día 1",
           desc: "Repositorio a nombre de su empresa desde el primer commit. Nunca quedará secuestrado por su proveedor.",
+        },
+        {
+          // La capacitación ya se hacía en todos los proyectos y no aparecía en
+          // ninguna parte del sitio. Es la respuesta directa al miedo de quien
+          // compra software a la medida: pagar por algo que su gente no va a usar.
+          iconName: "GraduationCap",
+          title: "Capacitamos a su equipo antes de irnos",
+          desc: "Toda entrega incluye una sesión de capacitación en vivo con las personas que van a usar el sistema, y resolución de dudas en directo. No entregamos un manual y desaparecemos.",
         },
       ],
       cta: "Agendar llamada de discovery sin costo",
@@ -424,6 +440,7 @@ export const messages = {
     },
     services: servicesCopy.es,
     categories: categoriesCopy.es,
+    training: trainingCopy.es,
     chrome: categoryChromeCopy.es,
     audit: auditCopy.es,
     privacy: privacyCopy.es,
@@ -435,6 +452,7 @@ export const messages = {
       responseTime: "Respondemos en menos de 4 horas hábiles",
       services: "Servicios",
       audit: "Auditoría de procesos",
+      training: "Formación",
       contact: "Contáctenos",
       privacy: "Privacidad",
       rights: "Todos los derechos reservados.",
@@ -460,6 +478,12 @@ export const messages = {
       auditTitle: "Process audit | Dexel",
       auditDescription:
         "We tell you which processes can be automated, how many hours a month you would get back, and what each implementation would cost. Eight deliverables in 5 to 7 business days.",
+      trainingTitle: "Automation and AI training for teams | Dexel",
+      trainingDescription: `In-company automation and AI training for teams that will do the work. Every participant leaves with a real automation from their operation up and running. ${formatPrice(
+        "trainingExecutive",
+        "en",
+        { from: true },
+      )}.`,
       contactTitle: "Dexel | Contact and software quote",
       contactDescription:
         "Tell us which process is eating the most time and we'll tell you what can be automated. We reply in under 4 business hours.",
@@ -477,6 +501,7 @@ export const messages = {
       menu: "Open menu",
       menuClose: "Close menu",
       audit: "Audit",
+      training: "Training",
       contact: "Contact",
       language: "Language",
       spanish: "ES",
@@ -780,7 +805,7 @@ export const messages = {
           output: "A metrics report and a prioritized improvement plan.",
         },
       ],
-      commitmentsTitle: "Three commitments in writing",
+      commitmentsTitle: "Four commitments in writing",
       commitmentsSubtitle: "These aren't slogans: they go in the contract and you can hold us to them.",
       commitments: [
         {
@@ -797,6 +822,11 @@ export const messages = {
           iconName: "GitBranch",
           title: "The code is yours from day 1",
           desc: "Repository under your company's name from the first commit. It will never be held hostage by your vendor.",
+        },
+        {
+          iconName: "GraduationCap",
+          title: "We train your team before we leave",
+          desc: "Every delivery includes a live training session with the people who will actually use the system, plus live Q&A. We don't hand over a manual and disappear.",
         },
       ],
       cta: "Book a free discovery call",
@@ -855,6 +885,7 @@ export const messages = {
     },
     services: servicesCopy.en,
     categories: categoriesCopy.en,
+    training: trainingCopy.en,
     chrome: categoryChromeCopy.en,
     audit: auditCopy.en,
     privacy: privacyCopy.en,
@@ -866,6 +897,7 @@ export const messages = {
       responseTime: "We reply in under 4 business hours",
       services: "Services",
       audit: "Process audit",
+      training: "Training",
       contact: "Contact us",
       privacy: "Privacy",
       rights: "All rights reserved.",

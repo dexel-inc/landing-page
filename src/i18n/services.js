@@ -191,6 +191,11 @@ const es = {
         "El precio se cierra antes de escribir la primera línea de código. Si aparece algo nuevo, lo cotizamos aparte y usted decide si entra ahora o después. Nunca le llega una factura con sorpresas.",
     },
     {
+      question: "¿Nos enseñan a usar lo que construyen?",
+      answer:
+        "Sí. Toda entrega incluye una sesión de capacitación en vivo con las personas que van a usar el sistema y un espacio para resolver dudas en directo. Si más adelante entra alguien nuevo al equipo, podemos repetir la sesión.",
+    },
+    {
       question: "¿Firman acuerdos de confidencialidad?",
       answer:
         "Sí, y los cumplimos. La mayor parte de nuestro trabajo son sistemas internos que no podemos mostrar públicamente, justamente por eso. Su proyecto recibiría la misma discreción.",
@@ -271,7 +276,7 @@ const auditEs = {
       label: "Paso 3",
       title: "Propuesta cerrada",
       when: "48 horas",
-      text: "Alcance cerrado, precio fijo y cronograma. Lo que no está escrito no está incluido, y lo decimos de frente.",
+      text: "Alcance cerrado, precio fijo y cronograma. Lo que no está escrito no está incluido, y lo decimos de frente. Si la auditoría desemboca en implementación, esa propuesta ya incluye la sesión de capacitación en vivo con las personas que van a usar el sistema.",
     },
     {
       label: "Paso 4",
@@ -506,6 +511,11 @@ const en = {
         "The price is closed before we write the first line of code. If something new comes up, we quote it separately and you decide whether it goes in now or later. You never get an invoice with surprises.",
     },
     {
+      question: "Do you teach us how to use what you build?",
+      answer:
+        "Yes. Every delivery includes a live training session with the people who will use the system, plus time for live questions. If someone new joins the team later on, we can run the session again.",
+    },
+    {
       question: "Do you sign non-disclosure agreements?",
       answer:
         "Yes, and we honor them. Most of our work is internal systems we can't show publicly, precisely for that reason. Your project would get the same discretion.",
@@ -586,7 +596,7 @@ const auditEn = {
       label: "Step 3",
       title: "Closed proposal",
       when: "48 hours",
-      text: "Closed scope, fixed price, and timeline. If it isn't written down, it isn't included, and we say so upfront.",
+      text: "Closed scope, fixed price, and timeline. If it isn't written down, it isn't included, and we say so upfront. If the audit leads to an implementation, that proposal already includes the live training session with the people who will use the system.",
     },
     {
       label: "Step 4",
