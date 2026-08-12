@@ -32,10 +32,14 @@ const ParticleField = lazy(() => import("./components/ParticleField.jsx"));
  * Formación es ítem propio y no una cuarta categoría dentro de Servicios: los
  * servicios son cosas que hacemos para el cliente, la formación es algo que
  * hacemos con él.
+ *
+ * Auditoría no está aquí porque ya es uno de los tres grupos del desplegable
+ * —`serviceMenuGroups` la lista junto a desarrollo web y automatización, y
+ * apunta a esta misma ruta—. Tenerla además suelta daba dos entradas al mismo
+ * destino en la misma barra, que se lee como si fueran dos cosas distintas.
  */
 const NAV_LINKS = [
   { routeKey: ROUTE_KEYS.HOME, labelKey: "home" },
-  { routeKey: ROUTE_KEYS.AUDIT, labelKey: "audit" },
   { routeKey: ROUTE_KEYS.TRAINING, labelKey: "training" },
   { routeKey: ROUTE_KEYS.CONTACT, labelKey: "contact" },
 ];
@@ -103,11 +107,13 @@ function Navbar() {
             <Logo className="h-8 w-auto md:h-10 text-current" viewBox="0 0 324 210" />
           </Link>
 
-          {/* La fila de enlaces aparece desde `lg` y no desde `md`: con cinco
-              ítems —Formación entró como uno más— a 768 px no cabían junto al
-              logotipo y los controles, y la barra empujaba scroll horizontal a
-              toda la página. Entre 768 y 1024 se usa el mismo panel plegable
-              del móvil, que ya lista todo, incluido el acordeón de servicios. */}
+          {/* La fila de enlaces aparece desde `lg` y no desde `md`: a 768 px no
+              cabía junto al logotipo y los controles, y la barra empujaba scroll
+              horizontal a toda la página. Sigue en `lg` ahora que son cuatro
+              ítems y no cinco: el margen que sobra a 768 px es de unos pocos
+              píxeles, y en inglés las etiquetas no miden lo mismo. Entre 768 y
+              1024 se usa el mismo panel plegable del móvil, que ya lista todo,
+              incluido el acordeón de servicios. */}
           <div className="hidden lg:flex items-center gap-8 text-xs tracking-[0.15em] uppercase font-medium">
             <Link to={ROUTE_KEYS.HOME} className={linkClass}>
               {copy.nav.home}
@@ -118,10 +124,6 @@ function Navbar() {
               label={copy.nav.services}
               indexLabel={copy.chrome.menuIndex}
             />
-
-            <Link to={ROUTE_KEYS.AUDIT} className={linkClass}>
-              {copy.nav.audit}
-            </Link>
 
             <Link to={ROUTE_KEYS.TRAINING} className={linkClass}>
               {copy.nav.training}
