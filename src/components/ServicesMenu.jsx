@@ -66,7 +66,7 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
   return (
     <div
       ref={containerRef}
-      className="static"
+      className="relative"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={close}
       onBlur={handleBlur}
@@ -93,17 +93,25 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
       {/* El panel se mantiene en el DOM y solo se oculta: así los enlaces a las
           tres categorías siguen siendo rastreables sin abrir nada.
 
-          El contenedor va de borde a borde de la fila del encabezado y la
-          tarjeta se centra dentro: así el panel no depende de dónde caiga el
-          ítem "Servicios" y nunca se sale de la ventana. De paso cubre el
-          trayecto del puntero entre el disparador y la tarjeta, que con un
-          panel centrado queda lejos del ítem. */}
+          Cuelga del ítem —no de la fila del encabezado— y arranca pegado a él:
+          el `pt-4` es parte del panel, así que bajar el puntero del disparador
+          a la tarjeta nunca sale del bloque. Centrarlo en la ventana dejaba esa
+          franja fuera y el menú se cerraba justo al ir a elegir un servicio.
+
+          El ancho se limita contra la ventana para que la tarjeta no se salga
+          por la derecha: `16rem` es lo que hay desde el borde izquierdo de la
+          ventana hasta este ítem, más un margen. El desbordamiento anterior era
+          por la izquierda, y con el panel anclado a la izquierda del ítem ya no
+          puede ocurrir. */}
       <div
         id={panelId}
         hidden={!open}
-        className="absolute left-0 right-0 top-full pt-4 flex justify-center"
+        className="absolute left-0 top-full pt-4 w-max max-w-[min(56rem,calc(100vw-16rem))]"
       >
-        <div className="w-max max-w-[min(56rem,calc(100vw-3rem))] rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md shadow-[0_24px_60px_-24px_rgba(15,23,42,0.45)] p-6 grid grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-6">
+        {/* Tope de altura por si el panel crece más que la ventana —dos
+            columnas en pantallas de 768 px, o un idioma con nombres largos—:
+            antes que salirse por abajo, se desplaza por dentro. */}
+        <div className="max-h-[calc(100svh-7rem)] overflow-y-auto rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md shadow-[0_24px_60px_-24px_rgba(15,23,42,0.45)] p-6 grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
           {groups.map((group) => (
             <div key={group.key} className="min-w-44">
               <Link to={group.routeKey} onClick={() => { close(); onNavigate?.(group); }} className={groupLinkClass}>

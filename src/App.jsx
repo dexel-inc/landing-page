@@ -49,10 +49,7 @@ function Navbar() {
 
   return (
     <nav className="fixed top-0 w-full z-50 px-3 py-3 md:p-6 bg-gradient-to-b from-white/90 to-transparent dark:from-black/90 backdrop-blur-sm">
-      {/* `relative` para el desplegable: el panel se ancla a esta fila, que
-          ocupa todo el ancho, y no al ítem del menú. Anclado al ítem se salía
-          por el borde izquierdo de la ventana y cortaba la primera columna. */}
-      <div className="relative flex items-center justify-between gap-2">
+      <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-4 md:gap-8">
           <Link
             to={ROUTE_KEYS.HOME}
