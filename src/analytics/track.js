@@ -161,6 +161,48 @@ function sendToConversionsApi(event, params, eventId, eventTime) {
 }
 
 /**
+ * Eventos disparados antes de que el visitante respondiera el banner.
+ *
+ * Hay eventos que ocurren al montar la página —la vista de una categoría, la de
+ * formación—, y en una visita desde un anuncio eso pasa siempre con el banner
+ * todavía sin responder. Descartarlos ahí los perdía para siempre: al aceptar
+ * solo se repetía la vista de página, y la vista de categoría no volvía a
+ * ocurrir porque el componente ya estaba montado. El resultado era que el evento
+ * no aparecía nunca en el Administrador de Eventos justo para el tráfico
+ * pagado, que es el único que importa medir.
+ *
+ * Se guardan con su `event_id` y su `event_time` originales, así que al enviarse
+ * declaran el instante real en que ocurrieron y no el del clic en "Aceptar".
+ * Nada sale de aquí sin aceptación: si el visitante rechaza, la cola se tira.
+ */
+const MAX_PENDING = 20;
+let pending = [];
+
+/** Envía a los proveedores. Solo se llama cuando ya hay consentimiento. */
+function dispatch(event, payload, eventId, eventTime) {
+  if (typeof window.gtag === "function") {
+    window.gtag("event", event, { ...payload, event_id: eventId });
+  }
+
+  if (typeof window.fbq === "function") {
+    window.fbq("trackCustom", event, payload, { eventID: eventId });
+  }
+
+  if (CONVERSION_EVENTS.has(event)) {
+    sendToConversionsApi(event, payload, eventId, eventTime);
+  }
+}
+
+/** Vacía la cola tras la aceptación. */
+function flushPending() {
+  const queued = pending;
+  pending = [];
+  for (const item of queued) {
+    dispatch(item.event, item.payload, item.eventId, item.eventTime);
+  }
+}
+
+/**
  * Registra un evento en todos los proveedores configurados.
  *
  * @param {string} event - una de las constantes de EVENTS
@@ -192,19 +234,17 @@ export function track(event, params = {}) {
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event, ...payload, event_id: eventId });
 
-  if (!hasConsent()) return;
-
-  if (typeof window.gtag === "function") {
-    window.gtag("event", event, { ...payload, event_id: eventId });
+  if (!hasConsent()) {
+    // Solo se guarda mientras la decisión está pendiente. Un `denied` explícito
+    // no encola nada: el visitante ya dijo que no. El tope evita que una sesión
+    // larga sin responder el banner acumule memoria sin límite.
+    if (readConsent() === null && pending.length < MAX_PENDING) {
+      pending.push({ event, payload, eventId, eventTime });
+    }
+    return;
   }
 
-  if (typeof window.fbq === "function") {
-    window.fbq("trackCustom", event, payload, { eventID: eventId });
-  }
-
-  if (CONVERSION_EVENTS.has(event)) {
-    sendToConversionsApi(event, payload, eventId, eventTime);
-  }
+  dispatch(event, payload, eventId, eventTime);
 }
 
 /** Vista de página. Se llama en cada cambio de ruta, no solo al cargar. */
@@ -368,6 +408,13 @@ export function initAnalytics() {
     if (value === CONSENT.GRANTED) {
       grantConsent();
       trackPageView({ path: window.location.pathname, locale: currentLocale });
+      // Después de la vista de página y del `init` del pixel: lo que estaba en
+      // espera se envía sobre un pixel ya inicializado, no sobre uno a medias.
+      flushPending();
+      return;
     }
+
+    // Rechazo explícito: lo acumulado no se envía nunca y se suelta.
+    pending = [];
   });
 }
