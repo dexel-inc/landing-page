@@ -46,13 +46,25 @@ export const EVENTS = {
   /** Solicitud de uno de los tres packs de automatización. Lleva `pack_name`. */
   PACK_REQUESTED: "PackRequested",
 
-  // Eventos de apoyo: sirven para entender el recorrido, no para optimizar campañas.
+  // Eventos de apoyo: sirven para entender el recorrido, no para optimizar
+  // campañas. Van en PascalCase igual que los de conversión: el Administrador de
+  // Eventos los lista todos juntos y en la misma columna, y mezclar dos
+  // convenciones ahí obliga a recordar cuál se escribió de qué manera cada vez
+  // que se arma un público o una conversión personalizada.
+  CTA_CLICK: "CtaClicked",
+  CHAT_COMPLETED: "ChatCompleted",
+  WHATSAPP_OPENED: "WhatsAppOpened",
+  CASE_STUDY_VISITED: "CaseStudyVisited",
+  TEAM_PROFILE_CLICK: "TeamProfileClicked",
+
+  /**
+   * Se queda en `snake_case` a propósito: `page_view` es un nombre reservado de
+   * GA4, no una elección nuestra. Renombrarlo lo convertiría en un evento
+   * personalizado y la vista de página dejaría de alimentar los informes
+   * estándar de Google. El equivalente de Meta es `PageView`, que manda
+   * `trackPageView()` con el nombre que Meta espera.
+   */
   PAGE_VIEW: "page_view",
-  CTA_CLICK: "cta_click",
-  CHAT_COMPLETED: "chat_completed",
-  WHATSAPP_OPENED: "whatsapp_opened",
-  CASE_STUDY_VISITED: "case_study_visited",
-  TEAM_PROFILE_CLICK: "team_profile_click",
 };
 
 /**
