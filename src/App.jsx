@@ -48,13 +48,19 @@ function Navbar() {
 
   return (
     <nav className="fixed top-0 w-full z-50 px-3 py-3 md:p-6 bg-gradient-to-b from-white/90 to-transparent dark:from-black/90 backdrop-blur-sm">
-      <div className="flex items-center justify-between gap-2">
+      {/* `relative` para el desplegable: el panel se ancla a esta fila, que
+          ocupa todo el ancho, y no al ítem del menú. Anclado al ítem se salía
+          por el borde izquierdo de la ventana y cortaba la primera columna. */}
+      <div className="relative flex items-center justify-between gap-2">
         <div className="flex items-center gap-4 md:gap-8">
           <Link
             to={ROUTE_KEYS.HOME}
             className="inline-flex items-center gap-2 px-2.5 py-1.5 md:px-3 text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-300 transition-colors"
           >
-            <Logo className="w-7 h-7 md:w-8 md:h-8 text-current" viewBox="0 0 324 210" />
+            {/* Alto fijo y ancho libre. Dentro de una caja cuadrada el lockup
+                —la palabra más el monograma— se encogía hasta quedar de 21 px
+                de alto y no se distinguía ninguno de los dos. */}
+            <Logo className="h-8 w-auto md:h-10 text-current" viewBox="0 0 324 210" />
           </Link>
 
           <div className="hidden md:flex items-center gap-8 text-xs tracking-[0.15em] uppercase font-medium">
@@ -225,11 +231,13 @@ export default function DexelLanding() {
         )}
       </div>
 
-      {/* Marca de agua. Grande y muy tenue en vez de pequeña y media: a este
-          tamaño el trazo se percibe sin competir con el texto que va encima,
-          que es justo lo que fallaba cuando el logo era chico y casi opaco. */}
-      <div className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center text-slate-400 dark:text-white overflow-hidden">
-        <Logo className="h-[55vh] w-auto max-w-none md:h-[70vh] opacity-40 dark:opacity-[0.16]" />
+      {/* Marca de agua: vuelve al tamaño de borde a borde que tenía antes de la
+          tarea de navegación, pero más tenue. Con la opacidad original —0.20 en
+          oscuro— los trazos del logotipo cruzan el titular del hero y compiten
+          con él; una marca de agua se percibe cuando se la busca, no mientras
+          se lee lo que va encima. */}
+      <div className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center text-slate-300 dark:text-white">
+        <Logo className="opacity-[0.14] dark:opacity-[0.06]" />
         <div className="absolute inset-0 bg-linear-to-b from-white/20 via-transparent to-slate-50 dark:from-black/30 dark:to-[#050505]" />
       </div>
 

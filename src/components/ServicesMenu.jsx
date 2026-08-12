@@ -66,7 +66,7 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
   return (
     <div
       ref={containerRef}
-      className="relative"
+      className="static"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={close}
       onBlur={handleBlur}
@@ -91,13 +91,19 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
       </button>
 
       {/* El panel se mantiene en el DOM y solo se oculta: así los enlaces a las
-          tres categorías siguen siendo rastreables sin abrir nada. */}
+          tres categorías siguen siendo rastreables sin abrir nada.
+
+          El contenedor va de borde a borde de la fila del encabezado y la
+          tarjeta se centra dentro: así el panel no depende de dónde caiga el
+          ítem "Servicios" y nunca se sale de la ventana. De paso cubre el
+          trayecto del puntero entre el disparador y la tarjeta, que con un
+          panel centrado queda lejos del ítem. */}
       <div
         id={panelId}
         hidden={!open}
-        className="absolute left-1/2 -translate-x-1/2 top-full pt-4 w-max max-w-[min(56rem,90vw)]"
+        className="absolute left-0 right-0 top-full pt-4 flex justify-center"
       >
-        <div className="rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md shadow-[0_24px_60px_-24px_rgba(15,23,42,0.45)] p-6 grid grid-cols-3 gap-8">
+        <div className="w-max max-w-[min(56rem,calc(100vw-3rem))] rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md shadow-[0_24px_60px_-24px_rgba(15,23,42,0.45)] p-6 grid grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-6">
           {groups.map((group) => (
             <div key={group.key} className="min-w-44">
               <Link to={group.routeKey} onClick={() => { close(); onNavigate?.(group); }} className={groupLinkClass}>
@@ -114,7 +120,7 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
             </div>
           ))}
 
-          <div className="col-span-3 pt-1 border-t border-slate-200 dark:border-zinc-800">
+          <div className="col-span-full pt-1 border-t border-slate-200 dark:border-zinc-800">
             <Link
               to={ROUTE_KEYS.SERVICES}
               onClick={close}
