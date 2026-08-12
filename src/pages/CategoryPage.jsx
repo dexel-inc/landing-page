@@ -14,9 +14,9 @@ import {
   LayoutDashboard,
   LineChart,
   MessageSquare,
-  MessageSquareCode,
   Plug,
   ScanSearch,
+  Search,
   Tag,
   Workflow,
   Wrench,
@@ -40,7 +40,10 @@ import { INTENT, setIntent } from "../analytics/intent.js";
  *
  * `children` es el hueco para lo que solo tiene una categoría —los cuatro pasos
  * posteriores y la nota de alcance de la auditoría— sin obligar a las otras dos
- * a cargar con secciones vacías.
+ * a cargar con secciones vacías. `afterFronts` es el mismo hueco, pero justo
+ * después de los frentes: ahí van las piezas que explican qué se contrata
+ * —la comparación entre responder y hacer— y que leídas después del alcance
+ * llegarían tarde.
  */
 
 const frontIcons = {
@@ -51,12 +54,12 @@ const frontIcons = {
   CreditCard,
   Wrench,
   Workflow,
-  MessageSquareCode,
   MessageSquare,
   Bot,
   LineChart,
   FileScan,
   ScanSearch,
+  Search,
 };
 
 function FrontCard({ front, index }) {
@@ -95,6 +98,7 @@ export default function CategoryPage({
   chrome,
   fronts,
   tiers,
+  afterFronts,
   intentType = INTENT.QUOTE,
   serviceId,
   children,
@@ -250,6 +254,9 @@ export default function CategoryPage({
           </div>
         </section>
       )}
+
+      {/* 2a — Lo que explica qué se contrata, antes del alcance */}
+      {afterFronts}
 
       {/* 2b — Niveles: hoy solo los tiene presencia web, dentro de desarrollo. */}
       {tiers?.length > 0 && (

@@ -9,6 +9,7 @@ import CategoryPage from "./pages/CategoryPage.jsx";
 import AuditPage from "./pages/AuditPage.jsx";
 import PrivacyPage from "./pages/PrivacyPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
+import AutomationDetail from "./components/AutomationDetail.jsx";
 import ConsentBanner from "./components/ConsentBanner.jsx";
 import Contact from "./sections/Contact.jsx";
 import { ServicesAccordion, ServicesDropdown } from "./components/ServicesMenu.jsx";
@@ -184,6 +185,7 @@ function RouteContent() {
         copy={copy.categories.automation}
         process={copy.process}
         chrome={copy.chrome}
+        afterFronts={<AutomationDetail copy={copy.categories.automation} />}
         serviceId="automatizacion"
       />
     ) : routeKey === ROUTE_KEYS.AUDIT ? (

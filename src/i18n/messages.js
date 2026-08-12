@@ -15,10 +15,10 @@ export const messages = {
         "Cinco servicios: auditoría de procesos, automatización e integración, software a la medida, presencia web y mantenimiento. Precios en USD y tiempos de entrega por escrito.",
       webDevTitle: "Desarrollo web a la medida | Dexel",
       webDevDescription:
-        "Sitios, aplicaciones web y paneles de administración construidos alrededor de su operación. Integraciones, APIs y pasarelas de pago. Desde $300 USD.",
+        "Sitios, aplicaciones web y paneles de administración construidos alrededor de su operación. SEO técnico, integraciones, APIs y pasarelas de pago. Desde $300 USD.",
       automationTitle: "Automatización de procesos e integración | Dexel",
       automationDescription:
-        "Workflows con n8n, chatbots de WhatsApp con y sin IA, integración entre sistemas y lectura automática de documentos. Desde $1,500 USD, entrega en 2 a 6 semanas.",
+        "Atención automatizada por WhatsApp, agentes a la medida, workflows con n8n, integración entre sistemas y lectura automática de documentos. Desde $1,500 USD, entrega en 2 a 6 semanas.",
       auditTitle: "Auditoría de procesos | Dexel",
       auditDescription:
         "Le decimos qué procesos se pueden automatizar, cuántas horas al mes recuperaría y cuánto costaría cada implementación. Ocho entregables en 5 a 7 días hábiles.",
@@ -453,10 +453,10 @@ export const messages = {
         "Five services: process audit, automation and integration, custom software, web presence, and maintenance. Prices in USD and delivery times in writing.",
       webDevTitle: "Custom web development | Dexel",
       webDevDescription:
-        "Websites, web applications, and admin panels built around your operation. Integrations, APIs, and payment gateways. From $300 USD.",
+        "Websites, web applications, and admin panels built around your operation. Technical SEO, integrations, APIs, and payment gateways. From $300 USD.",
       automationTitle: "Process automation and integration | Dexel",
       automationDescription:
-        "n8n workflows, WhatsApp chatbots with and without AI, system integration, and automated document reading. From $1,500 USD, delivered in 2 to 6 weeks.",
+        "Automated WhatsApp support, custom agents, n8n workflows, system integration, and automated document reading. From $1,500 USD, delivered in 2 to 6 weeks.",
       auditTitle: "Process audit | Dexel",
       auditDescription:
         "We tell you which processes can be automated, how many hours a month you would get back, and what each implementation would cost. Eight deliverables in 5 to 7 business days.",

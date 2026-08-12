@@ -32,7 +32,7 @@ const es = {
     delivery: "5 días a 8 semanas",
 
     frontsTitle: "Frentes de trabajo",
-    frontsIntro: "Seis frentes. Se contrata el que resuelve su problema, no el paquete completo.",
+    frontsIntro: "Siete frentes. Se contrata el que resuelve su problema, no el paquete completo.",
     fronts: [
       {
         iconName: "Globe",
@@ -48,6 +48,11 @@ const es = {
         iconName: "LayoutDashboard",
         name: "Paneles de administración",
         text: "Para que su equipo gestione la operación sin depender de nosotros.",
+      },
+      {
+        iconName: "Search",
+        name: "SEO y visibilidad",
+        text: "Que su sitio aparezca cuando alguien busca lo que usted vende. Estructura técnica, contenido y medición.",
       },
       {
         iconName: "Plug",
@@ -66,6 +71,15 @@ const es = {
         meta: formatPrice("maintenance", "es", { from: true, perMonth: true }),
       },
     ],
+
+    /**
+     * El frente de SEO se explica como trabajo técnico y no como servicio de
+     * marketing: es lo que efectivamente se entrega, y prometer posiciones o
+     * plazos de posicionamiento sería prometer algo que no depende de nosotros.
+     */
+    noteTitle: "SEO técnico, no promesas de posicionamiento",
+    noteText:
+      "Lo que construimos es la parte que sí depende de nosotros: renderizado del lado del servidor para que el buscador reciba contenido y no una página vacía, metadatos y datos estructurados, velocidad de carga, arquitectura de URLs y medición configurada desde el primer día. No vendemos posiciones ni plazos para llegar a ellas. Este mismo sitio tenía ese problema —entregaba HTML vacío a los rastreadores— y se resolvió con el trabajo que le estamos describiendo.",
 
     tiersTitle: "Los dos niveles de presencia web",
     tiersIntro: "La misma decisión de siempre: una página que convierta, o un sitio que su equipo administre.",
@@ -145,28 +159,29 @@ const es = {
     deliveryLabel: "Entrega",
     delivery: "2 a 6 semanas",
 
+    /**
+     * Los frentes se ordenan por capacidad y no por canal. La lista anterior
+     * mezclaba las dos cosas —WhatsApp con IA, WhatsApp sin IA, agente—, y
+     * obligaba al visitante a elegir tecnología antes de describir su proceso,
+     * que es exactamente al revés de cómo se decide.
+     */
     frontsTitle: "Frentes de trabajo",
-    frontsIntro: "Siete frentes. Se empieza por el proceso que más horas está consumiendo.",
+    frontsIntro: "Seis frentes. Se empieza por el proceso que más horas está consumiendo.",
     fronts: [
+      {
+        iconName: "MessageSquare",
+        name: "Atención automatizada por WhatsApp",
+        text: "Responde, califica y deriva a una persona cuando hace falta. Con reglas o con IA, según lo que pida el proceso.",
+      },
+      {
+        iconName: "Bot",
+        name: "Agentes a la medida",
+        text: "No solo responden: consultan sus sistemas, deciden y ejecutan la acción que cierra el proceso.",
+      },
       {
         iconName: "Workflow",
         name: "Workflows con n8n",
         text: "Automatización alojada en su propia infraestructura, sin costos por operación que crecen con el volumen.",
-      },
-      {
-        iconName: "MessageSquareCode",
-        name: "Chatbot de WhatsApp con IA",
-        text: "Responde, califica y deriva a una persona cuando hace falta.",
-      },
-      {
-        iconName: "MessageSquare",
-        name: "Chatbot de WhatsApp sin IA",
-        text: "Flujos de respuesta con reglas fijas, para procesos que no necesitan un modelo de lenguaje. Más barato, más predecible.",
-      },
-      {
-        iconName: "Bot",
-        name: "Agentes conversacionales",
-        text: "Agendan, cotizan y hacen seguimiento dentro del flujo de su operación.",
       },
       {
         iconName: "Plug",
@@ -186,13 +201,96 @@ const es = {
     ],
 
     /**
-     * El chatbot sin IA es el diferenciador y va explicado, no escondido: la
-     * mayoría de proveedores vende IA para todo, y decir de frente cuándo un
-     * flujo con reglas es la mejor opción es lo que genera confianza.
+     * Que un proceso no necesite IA es el diferenciador y va explicado, no
+     * escondido: la mayoría de proveedores vende IA para todo, y decir de
+     * frente cuándo un flujo con reglas es la mejor opción genera confianza.
      */
     noteTitle: "No todo necesita inteligencia artificial",
     noteText:
       "La mayoría de proveedores vende IA para todo. Hay procesos donde un flujo con reglas fijas es mejor: cuesta menos, responde siempre igual y no alucina. Si su caso es uno de esos, se lo decimos y lo construimos así. La IA entra donde aporta —conversaciones abiertas, clasificación, documentos sin formato— y no donde solo encarece.",
+
+    /**
+     * Con IA o sin IA es una decisión de diseño, no dos productos distintos.
+     * La comparación existe para que el visitante describa su proceso en vez
+     * de pedir una tecnología por nombre.
+     */
+    comparison: {
+      lead: "Un chatbot responde. Un agente hace cosas.",
+      intro:
+        "La diferencia no es la marca de la tecnología, es dónde termina el proceso: en una respuesta o en una acción.",
+      rowLabels: {
+        does: "Qué hace",
+        example: "Ejemplo",
+        when: "Cuándo conviene",
+        cost: "Costo relativo",
+      },
+      columns: [
+        {
+          key: "rules",
+          name: "Respuestas con reglas",
+          does: "Responde según un árbol de opciones definido",
+          example: "«Marque 1 para horarios»",
+          when: "Procesos con reglas fijas y pocas variantes",
+          cost: "Bajo",
+        },
+        {
+          key: "ai",
+          name: "Respuestas con IA",
+          does: "Entiende lenguaje natural y responde",
+          example: "«¿A qué hora abren los sábados?»",
+          when: "Preguntas abiertas sobre información que ya existe",
+          cost: "Medio",
+        },
+        {
+          key: "agent",
+          name: "Agente",
+          does: "Entiende, decide y ejecuta acciones en sus sistemas",
+          example:
+            "«Necesito 20 unidades del código A-12» → consulta stock, crea el pedido, descuenta inventario, avisa a bodega",
+          when: "Cuando el proceso termina en una acción, no en una respuesta",
+          cost: "Alto",
+        },
+      ],
+      note: "Usted describe el proceso; nosotros elegimos con qué se construye. No son tres productos de catálogo entre los que haya que escoger a ciegas.",
+    },
+
+    /**
+     * El bloque de agentes a la medida es la oferta que otra agencia de
+     * automatización no puede sostener, y por eso va con espacio propio: la
+     * herramienta que le falta al agente es trabajo de desarrollo, que es la
+     * otra mitad de lo que hacemos.
+     */
+    agents: {
+      title: "Agentes a la medida",
+      leadTitle: "Qué lo hace «a la medida»",
+      leadText:
+        "Un agente solo puede hacer aquello para lo que existe una herramienta. Un agente genérico usa herramientas que ya existen: leer un calendario, buscar en documentos, enviar un correo. Un agente a la medida usa herramientas que hay que construir, porque solo existen dentro de la operación de su empresa.",
+      examplesTitle: "Cuatro ejemplos",
+      examples: [
+        {
+          name: "Agente de cotización",
+          text: "Recibe la solicitud, consulta la lista de precios, aplica las reglas de descuento del cliente, arma la cotización y la registra.",
+        },
+        {
+          name: "Agente de pedidos",
+          text: "Recibe el pedido, valida disponibilidad, crea la orden, descuenta inventario y notifica a despacho.",
+        },
+        {
+          name: "Agente de conciliación",
+          text: "Cruza extractos bancarios contra facturas y marca las diferencias.",
+        },
+        {
+          name: "Agente de soporte interno",
+          text: "El equipo pregunta por procedimientos y responde desde la documentación de la propia empresa.",
+        },
+      ],
+      edgeTitle: "Por qué se lo podemos construir",
+      edgeText:
+        "Cuando el sistema de un cliente no expone lo que el agente necesita, una agencia de automatización se queda sin oferta. Nosotros construimos la herramienta que falta: es el mismo trabajo de desarrollo que ya hacemos todos los días.",
+      warningTitle: "Lo que hay que tener en cuenta",
+      warningText:
+        "Un agente que ejecuta acciones sobre sistemas reales puede equivocarse haciendo, no solo diciendo. Por eso se construyen con límites definidos, confirmación humana en las acciones críticas y registro de todo lo que ejecuta.",
+    },
 
     includesTitle: "Qué incluye",
     includesIntro: "El alcance completo, antes de que firme.",
@@ -219,7 +317,7 @@ const es = {
           "Porque queda alojado en su propia infraestructura. Las plataformas por suscripción cobran por operación ejecutada: la automatización que hoy le sale barata se vuelve cara justo cuando empieza a funcionar y el volumen sube. Con n8n el costo no crece con el uso.",
       },
       {
-        question: "¿Cuándo conviene un chatbot sin IA?",
+        question: "¿Cuándo conviene responder con reglas y no con IA?",
         answer:
           "Cuando el proceso tiene respuestas conocidas: horarios, estados de pedido, agendamiento, preguntas frecuentes. Un flujo con reglas cuesta menos, responde siempre igual y no inventa. La IA vale la pena cuando la conversación es abierta o hay que interpretar texto libre.",
       },
@@ -269,7 +367,7 @@ const en = {
     delivery: "5 days to 8 weeks",
 
     frontsTitle: "What we build",
-    frontsIntro: "Six fronts. You hire the one that solves your problem, not the whole package.",
+    frontsIntro: "Seven fronts. You hire the one that solves your problem, not the whole package.",
     fronts: [
       {
         iconName: "Globe",
@@ -285,6 +383,11 @@ const en = {
         iconName: "LayoutDashboard",
         name: "Admin panels",
         text: "So your team runs the operation without depending on us.",
+      },
+      {
+        iconName: "Search",
+        name: "SEO and visibility",
+        text: "So your site shows up when someone searches for what you sell. Technical structure, content, and measurement.",
       },
       {
         iconName: "Plug",
@@ -303,6 +406,10 @@ const en = {
         meta: formatPrice("maintenance", "en", { from: true, perMonth: true }),
       },
     ],
+
+    noteTitle: "Technical SEO, not ranking promises",
+    noteText:
+      "What we build is the part that actually depends on us: server-side rendering so search engines get content instead of an empty page, metadata and structured data, load speed, URL architecture, and measurement configured from day one. We don't sell positions or deadlines to reach them. This very site had that problem — it served empty HTML to crawlers — and it was fixed with the work we're describing here.",
 
     tiersTitle: "The two web presence tiers",
     tiersIntro: "The same decision as always: one page that converts, or a site your team manages.",
@@ -383,27 +490,22 @@ const en = {
     delivery: "2 to 6 weeks",
 
     frontsTitle: "What we build",
-    frontsIntro: "Seven fronts. You start with the process eating the most hours.",
+    frontsIntro: "Six fronts. You start with the process eating the most hours.",
     fronts: [
+      {
+        iconName: "MessageSquare",
+        name: "Automated WhatsApp support",
+        text: "It answers, qualifies, and hands off to a person when it needs to. With rules or with AI, depending on what the process calls for.",
+      },
+      {
+        iconName: "Bot",
+        name: "Custom agents",
+        text: "They don't just answer: they query your systems, decide, and carry out the action that closes the process.",
+      },
       {
         iconName: "Workflow",
         name: "n8n workflows",
         text: "Automation hosted on your own infrastructure, with no per-operation costs that grow with volume.",
-      },
-      {
-        iconName: "MessageSquareCode",
-        name: "WhatsApp chatbot with AI",
-        text: "It answers, qualifies, and hands off to a person when it needs to.",
-      },
-      {
-        iconName: "MessageSquare",
-        name: "WhatsApp chatbot without AI",
-        text: "Rule-based reply flows, for processes that don't need a language model. Cheaper, more predictable.",
-      },
-      {
-        iconName: "Bot",
-        name: "Conversational agents",
-        text: "They book, quote, and follow up inside your actual operation.",
       },
       {
         iconName: "Plug",
@@ -425,6 +527,78 @@ const en = {
     noteTitle: "Not everything needs artificial intelligence",
     noteText:
       "Most vendors sell AI for everything. There are processes where a fixed-rule flow is simply better: it costs less, it answers the same way every time, and it doesn't hallucinate. If yours is one of those, we'll say so and build it that way. AI goes where it earns its place — open conversations, classification, unstructured documents — and not where it only adds cost.",
+
+    comparison: {
+      lead: "A chatbot answers. An agent does things.",
+      intro:
+        "The difference isn't the brand of technology, it's where the process ends: in an answer, or in an action.",
+      rowLabels: {
+        does: "What it does",
+        example: "Example",
+        when: "When it fits",
+        cost: "Relative cost",
+      },
+      columns: [
+        {
+          key: "rules",
+          name: "Rule-based replies",
+          does: "Answers according to a defined option tree",
+          example: "“Press 1 for opening hours”",
+          when: "Processes with fixed rules and few variations",
+          cost: "Low",
+        },
+        {
+          key: "ai",
+          name: "AI replies",
+          does: "Understands natural language and answers",
+          example: "“What time do you open on Saturdays?”",
+          when: "Open questions about information that already exists",
+          cost: "Medium",
+        },
+        {
+          key: "agent",
+          name: "Agent",
+          does: "Understands, decides, and carries out actions in your systems",
+          example:
+            "“I need 20 units of item A-12” → checks stock, creates the order, deducts inventory, notifies the warehouse",
+          when: "When the process ends in an action, not in an answer",
+          cost: "High",
+        },
+      ],
+      note: "You describe the process; we choose what it's built with. These aren't three catalog products you have to pick between blindly.",
+    },
+
+    agents: {
+      title: "Custom agents",
+      leadTitle: "What makes one “custom”",
+      leadText:
+        "An agent can only do what there's a tool for. A generic agent uses tools that already exist: reading a calendar, searching documents, sending an email. A custom agent uses tools that have to be built, because they only exist inside your company's operation.",
+      examplesTitle: "Four examples",
+      examples: [
+        {
+          name: "Quoting agent",
+          text: "Takes the request, checks the price list, applies that client's discount rules, builds the quote, and records it.",
+        },
+        {
+          name: "Ordering agent",
+          text: "Takes the order, validates availability, creates it, deducts inventory, and notifies dispatch.",
+        },
+        {
+          name: "Reconciliation agent",
+          text: "Matches bank statements against invoices and flags the differences.",
+        },
+        {
+          name: "Internal support agent",
+          text: "Your team asks about procedures and it answers from your own company's documentation.",
+        },
+      ],
+      edgeTitle: "Why we can build it",
+      edgeText:
+        "When a client's system doesn't expose what the agent needs, an automation agency runs out of offer. We build the missing tool: it's the same development work we already do every day.",
+      warningTitle: "What to keep in mind",
+      warningText:
+        "An agent that carries out actions on real systems can get things wrong by doing, not just by saying. That's why they're built with defined limits, human confirmation on critical actions, and a log of everything they execute.",
+    },
 
     includesTitle: "What's included",
     includesIntro: "The full scope, before you sign.",
@@ -451,7 +625,7 @@ const en = {
           "Because it runs on your own infrastructure. Subscription platforms charge per operation executed: the automation that looks cheap today gets expensive precisely when it starts working and volume goes up. With n8n the cost doesn't grow with usage.",
       },
       {
-        question: "When is a chatbot without AI the right call?",
+        question: "When is answering with rules the right call instead of AI?",
         answer:
           "When the process has known answers: opening hours, order status, booking, frequently asked questions. A rule-based flow costs less, answers the same way every time, and doesn't make things up. AI earns its place when the conversation is open-ended or there's free text to interpret.",
       },
