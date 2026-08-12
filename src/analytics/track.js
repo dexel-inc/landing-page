@@ -34,6 +34,8 @@ export const EVENTS = {
   DISCOVERY_BOOKED: "DiscoveryBooked",
   /** Abrió el detalle de un servicio. Lleva `service_name`. */
   SERVICE_DETAIL_VIEWED: "ServiceDetailViewed",
+  /** Cargó una de las tres páginas de categoría. Lleva `category`. */
+  SERVICE_CATEGORY_VIEWED: "ServiceCategoryViewed",
   /** Primer mensaje enviado al asistente conversacional. */
   CHAT_STARTED: "ChatStarted",
 
@@ -52,6 +54,7 @@ const CONVERSION_EVENTS = new Set([
   EVENTS.QUOTE_REQUESTED,
   EVENTS.DISCOVERY_BOOKED,
   EVENTS.SERVICE_DETAIL_VIEWED,
+  EVENTS.SERVICE_CATEGORY_VIEWED,
   EVENTS.CHAT_STARTED,
 ]);
 

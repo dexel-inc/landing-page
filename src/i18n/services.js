@@ -19,7 +19,9 @@ const es = {
   badge: "Servicios Dexel",
   subtitle: "Empiece por donde más le duela: no hace falta contratar todo.",
   intro:
-    "Cinco servicios. El primero mide, los demás construyen. Todos los precios están en dólares estadounidenses.",
+    "Tres categorías. La primera mide, las otras dos construyen. Cada una tiene su propia página con el alcance completo. Todos los precios están en dólares estadounidenses.",
+  categoryLabel: "Incluye",
+  categoryCta: "Ver la página",
 
   featuredLabel: "Empiece por aquí",
   serviceLabel: "Servicio",
@@ -202,6 +204,7 @@ const es = {
 };
 
 const auditEs = {
+  navLabel: "Auditoría de procesos",
   badge: "Producto de entrada",
   title: "Auditoría de procesos",
   subtitle:
@@ -282,6 +285,46 @@ const auditEs = {
   scopeNote:
     "La auditoría tiene sentido a partir de 8-10 personas en el equipo o cuando hay varios procesos corriendo en paralelo. Si su operación es más pequeña, dígalo en la llamada de discovery y le ahorramos el gasto.",
 
+  processTitle: "Cómo trabajamos",
+  processIntro:
+    "Las seis fases completas, para que vea dónde encaja la auditoría antes de comprarla.",
+
+  faqTitle: "Preguntas frecuentes",
+  faqSubtitle: "Lo que nos preguntan antes de comprar la auditoría",
+  faqs: [
+    {
+      question: "¿La auditoría se descuenta de verdad?",
+      answer: `Sí, completa. Si decide avanzar con la implementación dentro de los 60 días siguientes a la entrega del informe, los ${formatPrice(
+        "audit",
+        "es",
+      )} se descuentan del precio del proyecto. Antes de la auditoría hay una llamada de discovery de 30 minutos sin costo, para confirmar que la auditoría tiene sentido en su caso.`,
+    },
+    {
+      question: "¿Y si la auditoría concluye que no necesito construir nada?",
+      answer:
+        "Se lo decimos por escrito, en el mismo informe. Es un resultado posible y no nos incomoda: el informe es suyo y le sirve igual, con nosotros o con cualquier otro proveedor. Preferimos perder un proyecto a venderle uno que no necesita.",
+    },
+    {
+      question: "¿Desde qué tamaño de equipo tiene sentido?",
+      answer:
+        "Desde 8-10 personas, o cuando hay varios procesos corriendo en paralelo. Si su operación es más pequeña, dígalo en la llamada de discovery y le ahorramos el gasto: con un solo proceso identificado se puede cotizar la automatización directamente.",
+    },
+    {
+      question: "¿Cuánto tiempo le toma a mi equipo?",
+      answer:
+        "La auditoría se entrega en 5 a 7 días hábiles y el trabajo pesado es nuestro. De su lado se necesitan las conversaciones con quienes ejecutan los procesos y acceso de lectura a las herramientas que ya usa, más la sesión de resultados en vivo al final.",
+    },
+    {
+      question: "¿El informe sirve si trabajo con otro proveedor?",
+      answer:
+        "Sí. El informe es suyo y está escrito para que cualquier equipo técnico pueda ejecutarlo: mapa de procesos, matriz de oportunidades, horas cuantificadas y roadmap por fases. No lleva candado ni depende de que nos contrate.",
+    },
+  ],
+
+  ctaTitle: "Empiece por medir",
+  ctaText:
+    "Cinco a siete días hábiles y sabrá exactamente qué automatizar, cuánto cuesta y cuántas horas al mes recupera.",
+
   cta: `Solicitar auditoría — ${formatPrice("audit", "es")}`,
   backLabel: "Ver todos los servicios",
 };
@@ -291,7 +334,9 @@ const en = {
   badge: "Dexel Services",
   subtitle: "Start wherever it hurts most: you don't have to buy all of it.",
   intro:
-    "Five services. The first one measures, the rest build. All prices are in US dollars.",
+    "Three categories. The first one measures, the other two build. Each has its own page with the full scope. All prices are in US dollars.",
+  categoryLabel: "Includes",
+  categoryCta: "Open the page",
 
   featuredLabel: "Start here",
   serviceLabel: "Service",
@@ -474,6 +519,7 @@ const en = {
 };
 
 const auditEn = {
+  navLabel: "Process audit",
   badge: "Entry product",
   title: "Process audit",
   subtitle:
@@ -553,6 +599,45 @@ const auditEn = {
   scopeTitle: "When it makes sense",
   scopeNote:
     "The audit makes sense from about 8-10 people on the team, or when you have several processes running in parallel. If your operation is smaller, say so on the discovery call and we'll save you the expense.",
+
+  processTitle: "How we work",
+  processIntro: "All six phases, so you can see where the audit fits before you buy it.",
+
+  faqTitle: "Frequently asked questions",
+  faqSubtitle: "What people ask before buying the audit",
+  faqs: [
+    {
+      question: "Is the audit really credited back?",
+      answer: `Yes, in full. If you move forward with implementation within 60 days of receiving the report, the ${formatPrice(
+        "audit",
+        "en",
+      )} come off the project price. Before the audit there's a free 30-minute discovery call to confirm the audit makes sense in your case.`,
+    },
+    {
+      question: "What if the audit concludes I don't need to build anything?",
+      answer:
+        "We say so in writing, in the report itself. It's a possible outcome and it doesn't bother us: the report is yours and it's useful either way, with us or with any other vendor. We'd rather lose a project than sell you one you don't need.",
+    },
+    {
+      question: "How big does my team need to be for this to make sense?",
+      answer:
+        "From about 8-10 people, or when several processes run in parallel. If your operation is smaller, say so on the discovery call and we'll save you the expense: with a single identified process, the automation can be quoted directly.",
+    },
+    {
+      question: "How much of my team's time does it take?",
+      answer:
+        "The audit is delivered in 5 to 7 business days and the heavy lifting is ours. On your side we need conversations with the people who actually run the processes and read access to the tools you already use, plus the live results session at the end.",
+    },
+    {
+      question: "Is the report useful if I work with another vendor?",
+      answer:
+        "Yes. The report is yours and it's written so any technical team can execute it: process map, opportunity matrix, quantified hours, and a phased roadmap. It isn't locked, and it doesn't depend on you hiring us.",
+    },
+  ],
+
+  ctaTitle: "Start by measuring",
+  ctaText:
+    "Five to seven business days and you'll know exactly what to automate, what it costs, and how many hours a month you get back.",
 
   cta: `Request the audit — ${formatPrice("audit", "en")}`,
   backLabel: "See all services",

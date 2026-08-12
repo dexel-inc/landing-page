@@ -15,6 +15,8 @@ export const DEFAULT_LOCALE = "es";
 export const ROUTE_KEYS = {
   HOME: "home",
   SERVICES: "services",
+  WEB_DEV: "webDev",
+  AUTOMATION: "automation",
   AUDIT: "audit",
   CONTACT: "contact",
   PRIVACY: "privacy",
@@ -22,11 +24,21 @@ export const ROUTE_KEYS = {
   NOT_FOUND: "notFound",
 };
 
+/**
+ * Las tres categorías de servicio, en el orden en que se muestran en el menú y
+ * en la página índice. Se declara aquí y no en la interfaz porque el menú, la
+ * página índice, el SEO y la medición tienen que estar de acuerdo sobre cuáles
+ * son y en qué orden van.
+ */
+export const SERVICE_CATEGORIES = [ROUTE_KEYS.WEB_DEV, ROUTE_KEYS.AUTOMATION, ROUTE_KEYS.AUDIT];
+
 /** Ruta canónica de cada página por idioma. */
 export const PATHS = {
   es: {
     home: "/es",
     services: "/es/servicios",
+    webDev: "/es/servicios/desarrollo-web",
+    automation: "/es/servicios/automatizacion",
     audit: "/es/servicios/auditoria",
     contact: "/es/contacto",
     privacy: "/es/privacidad",
@@ -34,6 +46,8 @@ export const PATHS = {
   en: {
     home: "/en",
     services: "/en/services",
+    webDev: "/en/services/web-development",
+    automation: "/en/services/automation",
     audit: "/en/services/process-audit",
     contact: "/en/contact",
     privacy: "/en/privacy",
@@ -56,6 +70,32 @@ export const LEGACY_REDIRECTS = {
   "/contact": PATHS.en.contact,
   "/privacy": PATHS.en.privacy,
 };
+
+/**
+ * Anclas de la antigua página única de servicios.
+ *
+ * Un `#hash` nunca llega al servidor, así que esto no se puede resolver con una
+ * redirección de Vercel: lo aplica el router al montar, cuando la URL que
+ * alguien abrió o compartió trae una de estas anclas.
+ */
+export const ANCHOR_REDIRECTS = {
+  auditoria: ROUTE_KEYS.AUDIT,
+  "process-audit": ROUTE_KEYS.AUDIT,
+  "automatizacion-e-integracion": ROUTE_KEYS.AUTOMATION,
+  "automation-and-integration": ROUTE_KEYS.AUTOMATION,
+  "software-a-la-medida": ROUTE_KEYS.WEB_DEV,
+  "custom-software": ROUTE_KEYS.WEB_DEV,
+  "presencia-web": ROUTE_KEYS.WEB_DEV,
+  "web-presence": ROUTE_KEYS.WEB_DEV,
+  mantenimiento: ROUTE_KEYS.WEB_DEV,
+  maintenance: ROUTE_KEYS.WEB_DEV,
+};
+
+/** Página de categoría a la que apunta un ancla vieja, o `null`. */
+export function routeKeyForAnchor(hash) {
+  if (!hash) return null;
+  return ANCHOR_REDIRECTS[String(hash).replace(/^#/, "")] ?? null;
+}
 
 const lookup = new Map();
 for (const locale of LOCALES) {

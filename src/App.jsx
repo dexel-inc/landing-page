@@ -1,15 +1,18 @@
-import React, { Suspense, lazy, useEffect } from "react";
-import { Moon, Sun } from "lucide-react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
+import { Menu, Moon, Sun, X } from "lucide-react";
 import Logo from "./icons/logo.jsx";
 import Button from "./components/ui/Button.jsx";
 import Footer from "./sections/Footer.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import ServicesPage from "./pages/ServicesPage.jsx";
+import CategoryPage from "./pages/CategoryPage.jsx";
 import AuditPage from "./pages/AuditPage.jsx";
 import PrivacyPage from "./pages/PrivacyPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import ConsentBanner from "./components/ConsentBanner.jsx";
 import Contact from "./sections/Contact.jsx";
+import { ServicesAccordion, ServicesDropdown } from "./components/ServicesMenu.jsx";
+import { serviceMenuGroups } from "./i18n/categories.js";
 import { useI18n } from "./i18n/I18nContext.jsx";
 import { Link, useRouter } from "./router/RouterContext.jsx";
 import { ROUTE_KEYS } from "./router/routes.js";
@@ -21,17 +24,27 @@ import { setAnalyticsLocale, trackPageView } from "./analytics/track.js";
 // tiene por qué retrasar el primer contenido útil.
 const ParticleField = lazy(() => import("./components/ParticleField.jsx"));
 
+/** Enlaces sueltos del menú. Servicios va aparte: es un desplegable. */
 const NAV_LINKS = [
   { routeKey: ROUTE_KEYS.HOME, labelKey: "home" },
-  { routeKey: ROUTE_KEYS.SERVICES, labelKey: "services" },
   { routeKey: ROUTE_KEYS.AUDIT, labelKey: "audit" },
   { routeKey: ROUTE_KEYS.CONTACT, labelKey: "contact" },
 ];
 
+const linkClass =
+  "text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors relative after:absolute after:bottom-[-5px] after:left-0 after:h-[1px] after:w-0 after:bg-blue-400 hover:after:w-full after:transition-all";
+
 function Navbar() {
   const { copy, locale } = useI18n();
-  const { setLocale } = useRouter();
+  const { setLocale, path } = useRouter();
   const { theme, toggleTheme } = useTheme();
+  // El panel móvil se guarda como "abierto en esta ruta" en vez de como un
+  // booleano: al navegar, la ruta cambia y el panel queda cerrado solo, sin un
+  // efecto que corrija el estado después de pintar.
+  const [openForPath, setOpenForPath] = useState(null);
+  const mobileOpen = openForPath === path;
+
+  const groups = serviceMenuGroups(copy);
 
   return (
     <nav className="fixed top-0 w-full z-50 px-3 py-3 md:p-6 bg-gradient-to-b from-white/90 to-transparent dark:from-black/90 backdrop-blur-sm">
@@ -44,16 +57,24 @@ function Navbar() {
             <Logo className="w-7 h-7 md:w-8 md:h-8 text-current" viewBox="0 0 324 210" />
           </Link>
 
-          <div className="hidden md:flex gap-8 text-xs tracking-[0.15em] uppercase font-medium">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.routeKey}
-                to={link.routeKey}
-                className="text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors relative after:absolute after:bottom-[-5px] after:left-0 after:h-[1px] after:w-0 after:bg-blue-400 hover:after:w-full after:transition-all"
-              >
-                {copy.nav[link.labelKey]}
-              </Link>
-            ))}
+          <div className="hidden md:flex items-center gap-8 text-xs tracking-[0.15em] uppercase font-medium">
+            <Link to={ROUTE_KEYS.HOME} className={linkClass}>
+              {copy.nav.home}
+            </Link>
+
+            <ServicesDropdown
+              groups={groups}
+              label={copy.nav.services}
+              indexLabel={copy.chrome.menuIndex}
+            />
+
+            <Link to={ROUTE_KEYS.AUDIT} className={linkClass}>
+              {copy.nav.audit}
+            </Link>
+
+            <Link to={ROUTE_KEYS.CONTACT} className={linkClass}>
+              {copy.nav.contact}
+            </Link>
           </div>
         </div>
 
@@ -89,19 +110,43 @@ function Navbar() {
               {copy.nav.english}
             </Button>
           </div>
+
+          <Button
+            aria-label={mobileOpen ? copy.nav.menuClose : copy.nav.menu}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setOpenForPath(mobileOpen ? null : path)}
+            variant="outline"
+            size="icon"
+            className="md:hidden h-8 w-8 rounded-xl"
+          >
+            {mobileOpen ? <X size={15} /> : <Menu size={15} />}
+          </Button>
         </div>
       </div>
 
-      <div className="md:hidden mt-2 flex items-center justify-center gap-1.5">
-        {NAV_LINKS.map((link) => (
-          <Link
-            key={link.routeKey}
-            to={link.routeKey}
-            className="text-[10px] uppercase tracking-[0.12em] px-2 py-1 rounded-lg border border-slate-200/90 dark:border-zinc-800 bg-white/70 dark:bg-black/30 text-slate-700 dark:text-gray-200"
-          >
-            {copy.nav[link.labelKey]}
-          </Link>
-        ))}
+      <div
+        id="mobile-nav"
+        hidden={!mobileOpen}
+        className="md:hidden mt-3 rounded-2xl border border-slate-200/90 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md p-4 max-h-[70svh] overflow-y-auto"
+      >
+        <div className="flex flex-col gap-1 mb-4">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.routeKey}
+              to={link.routeKey}
+              className="px-1 py-2 text-xs uppercase tracking-[0.12em] text-slate-800 dark:text-white"
+            >
+              {copy.nav[link.labelKey]}
+            </Link>
+          ))}
+        </div>
+
+        <ServicesAccordion
+          groups={groups}
+          label={copy.nav.services}
+          indexLabel={copy.chrome.menuIndex}
+        />
       </div>
     </nav>
   );
@@ -115,11 +160,28 @@ function RouteContent() {
     return <HomePage copy={copy} />;
   }
 
+  const webPresence = copy.services.items.find((item) => item.id === "presencia-web");
+
   const page =
     routeKey === ROUTE_KEYS.SERVICES ? (
-      <ServicesPage copy={copy.services} />
+      <ServicesPage copy={copy.services} categories={copy.categories} audit={copy.audit} />
+    ) : routeKey === ROUTE_KEYS.WEB_DEV ? (
+      <CategoryPage
+        copy={copy.categories.webDev}
+        process={copy.process}
+        chrome={copy.chrome}
+        tiers={webPresence?.tiers}
+        serviceId="presencia-web"
+      />
+    ) : routeKey === ROUTE_KEYS.AUTOMATION ? (
+      <CategoryPage
+        copy={copy.categories.automation}
+        process={copy.process}
+        chrome={copy.chrome}
+        serviceId="automatizacion"
+      />
     ) : routeKey === ROUTE_KEYS.AUDIT ? (
-      <AuditPage copy={copy.audit} />
+      <AuditPage copy={copy.audit} process={copy.process} chrome={copy.chrome} />
     ) : routeKey === ROUTE_KEYS.PRIVACY ? (
       <PrivacyPage copy={copy.privacy} />
     ) : routeKey === ROUTE_KEYS.NOT_FOUND ? (
@@ -163,8 +225,11 @@ export default function DexelLanding() {
         )}
       </div>
 
-      <div className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center text-slate-300 dark:text-white">
-        <Logo className="opacity-30 dark:opacity-20" />
+      {/* Marca de agua. Grande y muy tenue en vez de pequeña y media: a este
+          tamaño el trazo se percibe sin competir con el texto que va encima,
+          que es justo lo que fallaba cuando el logo era chico y casi opaco. */}
+      <div className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center text-slate-400 dark:text-white overflow-hidden">
+        <Logo className="h-[55vh] w-auto max-w-none md:h-[70vh] opacity-40 dark:opacity-[0.16]" />
         <div className="absolute inset-0 bg-linear-to-b from-white/20 via-transparent to-slate-50 dark:from-black/30 dark:to-[#050505]" />
       </div>
 

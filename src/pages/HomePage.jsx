@@ -10,7 +10,6 @@ import Contact from "../sections/Contact.jsx";
 import Footer from "../sections/Footer.jsx";
 import Process from "../sections/Process.jsx";
 import Services from "../sections/Services.jsx";
-import Stack from "../sections/Stack.jsx";
 import Team from "../sections/Team.jsx";
 import { useRouter } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
@@ -92,7 +91,7 @@ export default function HomePage({ copy }) {
       </section>
 
       {/* Orden deliberado: prueba social → oferta → criterio → método.
-          Casos → Servicios → Asesoría → Proceso → Stack → Contacto. */}
+          Casos → Servicios → Asesoría → Proceso → Equipo → Contacto. */}
       <CaseStudies copy={copy.cases} />
       <Services copy={copy.services} audit={copy.audit} />
       {/* "Primero auditamos" es la sección que más argumenta a favor de la
@@ -118,7 +117,6 @@ export default function HomePage({ copy }) {
         }}
       />
       <Team copy={copy.team} />
-      <Stack copy={copy.stack} />
       <Contact copy={copy.contact} />
       <Footer copy={copy.footer} />
     </>

@@ -115,6 +115,9 @@ const ChatbotForm = ({ copy }) => {
     const intent = readIntent();
     const shared = {
       location: "chatbot",
+      // `category` viaja desde las páginas de categoría: sin él las tres
+      // páginas nuevas convertirían dentro de un mismo montón indistinguible.
+      category: intent?.category,
       service_id: intent?.service_id,
       service_name: intent?.service_name,
       entry: intent?.location,
@@ -127,7 +130,7 @@ const ChatbotForm = ({ copy }) => {
     } else {
       // Sin intención declarada, la conversación abierta equivale a pedir la
       // llamada de discovery, que es el paso gratuito por defecto.
-      track(EVENTS.DISCOVERY_BOOKED, { location: "chatbot" });
+      track(EVENTS.DISCOVERY_BOOKED, shared);
     }
 
     clearIntent();

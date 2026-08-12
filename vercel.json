@@ -26,6 +26,31 @@
       "permanent": true
     },
     {
+      "source": "/es/servicios/software-a-la-medida",
+      "destination": "/es/servicios/desarrollo-web",
+      "permanent": true
+    },
+    {
+      "source": "/es/servicios/presencia-web",
+      "destination": "/es/servicios/desarrollo-web",
+      "permanent": true
+    },
+    {
+      "source": "/en/services/custom-software",
+      "destination": "/en/services/web-development",
+      "permanent": true
+    },
+    {
+      "source": "/en/services/web-presence",
+      "destination": "/en/services/web-development",
+      "permanent": true
+    },
+    {
+      "source": "/en/services/automation-and-integration",
+      "destination": "/en/services/automation",
+      "permanent": true
+    },
+    {
       "source": "/privacidad",
       "destination": "/es/privacidad",
       "permanent": true

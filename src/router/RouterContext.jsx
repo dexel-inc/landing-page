@@ -8,6 +8,7 @@ import {
   matchRoute,
   normalizePathname,
   pathFor,
+  routeKeyForAnchor,
 } from "./routes.js";
 
 const RouterContext = createContext(null);
@@ -96,7 +97,11 @@ export function RouterProvider({ children, initialPath }) {
 
       if (isBrowser) {
         window.history[replace ? "replaceState" : "pushState"]({}, "", next.path);
-        if (!replace) window.scrollTo({ top: 0, behavior: "smooth" });
+        // Salto instantáneo, no `smooth`: con scroll animado la página nueva
+        // monta mientras el viaje sigue en curso, y las animaciones de entrada
+        // miden como "ya visible" todo lo que el scroll atraviesa. El resultado
+        // era una página que aparecía de golpe, sin ninguna animación.
+        if (!replace) window.scrollTo({ top: 0, behavior: "auto" });
       }
 
       setState(next);
@@ -126,6 +131,17 @@ export function RouterProvider({ children, initialPath }) {
     if (!isBrowser || !state.cameFromRoot) return;
     window.history.replaceState({}, "", state.path);
   }, [state.cameFromRoot, state.path]);
+
+  // Enlaces viejos del tipo `/es/servicios#automatizacion-e-integracion`: el
+  // ancla ya no existe porque cada categoría tiene página propia. Se reemplaza
+  // en el historial en vez de empujar una entrada nueva, para que "atrás" lleve
+  // al sitio de origen y no de vuelta al índice.
+  useEffect(() => {
+    if (!isBrowser || state.routeKey !== ROUTE_KEYS.SERVICES) return;
+
+    const target = routeKeyForAnchor(window.location.hash);
+    if (target) go(pathFor(target, state.locale), { replace: true });
+  }, [go, state.routeKey, state.locale]);
 
   useEffect(() => {
     if (!isBrowser) return;

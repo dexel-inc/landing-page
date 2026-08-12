@@ -1,5 +1,5 @@
 import { LOCALES, DEFAULT_LOCALE, ROUTE_KEYS, pathFor } from "../router/routes.js";
-import { priceAmountForService } from "../config/pricing.js";
+import { PRICES, priceAmountForService } from "../config/pricing.js";
 import { SITE } from "../config/site.js";
 import { messages } from "../i18n/messages.js";
 
@@ -16,6 +16,8 @@ import { messages } from "../i18n/messages.js";
 const META_KEY = {
   [ROUTE_KEYS.HOME]: "home",
   [ROUTE_KEYS.SERVICES]: "services",
+  [ROUTE_KEYS.WEB_DEV]: "webDev",
+  [ROUTE_KEYS.AUTOMATION]: "automation",
   [ROUTE_KEYS.AUDIT]: "audit",
   [ROUTE_KEYS.CONTACT]: "contact",
   [ROUTE_KEYS.PRIVACY]: "privacy",
@@ -86,14 +88,61 @@ function serviceNodes(services, locale) {
   });
 }
 
-function faqNode(services) {
+function faqNode({ faqs }) {
   return {
     "@type": "FAQPage",
-    mainEntity: services.faqs.map((faq) => ({
+    mainEntity: faqs.map((faq) => ({
       "@type": "Question",
       name: faq.question,
       acceptedAnswer: { "@type": "Answer", text: faq.answer },
     })),
+  };
+}
+
+/**
+ * Nodo `Service` de una página de categoría.
+ *
+ * A diferencia de `serviceNodes`, que describe un ítem del catálogo dentro de
+ * la página índice, este describe la página completa: su `@id` es su propia
+ * URL, y los frentes van como `hasOfferCatalog` para que el buscador entienda
+ * que la categoría agrupa varios servicios y no es uno solo con nombre largo.
+ */
+function categoryServiceNode({ category, locale, routeKey, priceKey }) {
+  const canonical = absolute(pathFor(routeKey, locale));
+  const amount = PRICES[priceKey];
+
+  return {
+    "@type": "Service",
+    "@id": `${canonical}#service`,
+    name: category.navLabel,
+    description: category.subtitle,
+    serviceType: category.navLabel,
+    url: canonical,
+    provider: { "@id": `${SITE.url}/#organization` },
+    areaServed: ["CO", "LATAM", "US"],
+    inLanguage: locale,
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: category.frontsTitle,
+      itemListElement: category.fronts.map((front) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: front.name, description: front.text },
+      })),
+    },
+    offers: {
+      "@type": "Offer",
+      price: amount,
+      priceCurrency: "USD",
+      // El precio publicado es el piso, no el precio final: declararlo como
+      // mínimo evita prometer una cifra cerrada en los resultados de búsqueda.
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        minPrice: amount,
+        priceCurrency: "USD",
+      },
+      availability: "https://schema.org/InStock",
+      url: canonical,
+    },
   };
 }
 
@@ -123,9 +172,34 @@ function buildJsonLd({ routeKey, locale, copy, title, description, canonical }) 
     graph.push(...serviceNodes(copy.services, locale), faqNode(copy.services));
   }
 
+  if (routeKey === ROUTE_KEYS.WEB_DEV) {
+    graph.push(
+      categoryServiceNode({
+        category: copy.categories.webDev,
+        locale,
+        routeKey,
+        priceKey: "webPresence",
+      }),
+      faqNode(copy.categories.webDev),
+    );
+  }
+
+  if (routeKey === ROUTE_KEYS.AUTOMATION) {
+    graph.push(
+      categoryServiceNode({
+        category: copy.categories.automation,
+        locale,
+        routeKey,
+        priceKey: "automation",
+      }),
+      faqNode(copy.categories.automation),
+    );
+  }
+
   if (routeKey === ROUTE_KEYS.AUDIT) {
     const audit = copy.services.items.find((item) => item.id === "auditoria");
     if (audit) graph.push(...serviceNodes({ items: [audit] }, locale));
+    graph.push(faqNode(copy.audit));
   }
 
   if (routeKey === ROUTE_KEYS.HOME) {

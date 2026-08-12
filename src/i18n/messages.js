@@ -1,4 +1,5 @@
 import { auditCopy, servicesCopy } from "./services.js";
+import { categoriesCopy, categoryChromeCopy } from "./categories.js";
 import { consentCopy, notFoundCopy, privacyCopy } from "./legal.js";
 import { formatPrice } from "../config/pricing.js";
 
@@ -12,6 +13,12 @@ export const messages = {
       servicesTitle: "Dexel | Auditoría de procesos, automatización y software",
       servicesDescription:
         "Cinco servicios: auditoría de procesos, automatización e integración, software a la medida, presencia web y mantenimiento. Precios en USD y tiempos de entrega por escrito.",
+      webDevTitle: "Desarrollo web a la medida | Dexel",
+      webDevDescription:
+        "Sitios, aplicaciones web y paneles de administración construidos alrededor de su operación. Integraciones, APIs y pasarelas de pago. Desde $300 USD.",
+      automationTitle: "Automatización de procesos e integración | Dexel",
+      automationDescription:
+        "Workflows con n8n, chatbots de WhatsApp con y sin IA, integración entre sistemas y lectura automática de documentos. Desde $1,500 USD, entrega en 2 a 6 semanas.",
       auditTitle: "Auditoría de procesos | Dexel",
       auditDescription:
         "Le decimos qué procesos se pueden automatizar, cuántas horas al mes recuperaría y cuánto costaría cada implementación. Ocho entregables en 5 a 7 días hábiles.",
@@ -29,8 +36,9 @@ export const messages = {
     nav: {
       home: "Inicio",
       services: "Servicios",
+      menu: "Abrir menú",
+      menuClose: "Cerrar menú",
       audit: "Auditoría",
-      stack: "Stack",
       contact: "Contacto",
       language: "Idioma",
       spanish: "ES",
@@ -415,15 +423,12 @@ export const messages = {
       },
     },
     services: servicesCopy.es,
+    categories: categoriesCopy.es,
+    chrome: categoryChromeCopy.es,
     audit: auditCopy.es,
     privacy: privacyCopy.es,
     notFound: notFoundCopy.es,
     consent: consentCopy.es,
-    stack: {
-      title: "Stack tecnológico",
-      subtitle:
-        "Trabajamos con tecnologías estables y con comunidad activa. Nada experimental en producción.",
-    },
     footer: {
       title: "¿Qué está esperando?",
       contactButton: "Contáctenos",
@@ -446,6 +451,12 @@ export const messages = {
       servicesTitle: "Dexel | Process audit, automation, and custom software",
       servicesDescription:
         "Five services: process audit, automation and integration, custom software, web presence, and maintenance. Prices in USD and delivery times in writing.",
+      webDevTitle: "Custom web development | Dexel",
+      webDevDescription:
+        "Websites, web applications, and admin panels built around your operation. Integrations, APIs, and payment gateways. From $300 USD.",
+      automationTitle: "Process automation and integration | Dexel",
+      automationDescription:
+        "n8n workflows, WhatsApp chatbots with and without AI, system integration, and automated document reading. From $1,500 USD, delivered in 2 to 6 weeks.",
       auditTitle: "Process audit | Dexel",
       auditDescription:
         "We tell you which processes can be automated, how many hours a month you would get back, and what each implementation would cost. Eight deliverables in 5 to 7 business days.",
@@ -463,8 +474,9 @@ export const messages = {
     nav: {
       home: "Home",
       services: "Services",
+      menu: "Open menu",
+      menuClose: "Close menu",
       audit: "Audit",
-      stack: "Stack",
       contact: "Contact",
       language: "Language",
       spanish: "ES",
@@ -842,15 +854,12 @@ export const messages = {
       },
     },
     services: servicesCopy.en,
+    categories: categoriesCopy.en,
+    chrome: categoryChromeCopy.en,
     audit: auditCopy.en,
     privacy: privacyCopy.en,
     notFound: notFoundCopy.en,
     consent: consentCopy.en,
-    stack: {
-      title: "Technology stack",
-      subtitle:
-        "We work with stable, well-supported technologies. Nothing experimental in production.",
-    },
     footer: {
       title: "What are you waiting for?",
       contactButton: "Contact us",
