@@ -28,9 +28,9 @@ const es = {
     "Formación en automatización e IA para equipos que van a hacer el trabajo, no para asistir a una charla. Cada participante sale con una automatización real de su propia operación funcionando.",
 
   priceLabel: "Desde",
-  price: formatPrice("trainingExecutive", "es"),
+  price: formatPrice("mentoringSession", "es"),
   formatLabel: "Formatos",
-  formatSummary: "Medio día, un día o programa a la medida",
+  formatSummary: "Una sesión 1:1, un grupo o un programa a la medida",
 
   cta: "Solicitar formación para mi equipo",
   secondaryCta: "Agendar una llamada sin costo (30 min)",
@@ -96,7 +96,7 @@ const es = {
   ],
 
   formatsTitle: "Formatos y precios",
-  formatsIntro: "Tres formas de contratarlo, según cuánta gente y cuánto tiempo.",
+  formatsIntro: "Cinco formas de contratarlo, según cuánta gente y cuánto tiempo.",
   formatLabels: {
     duration: "Duración",
     participants: "Participantes",
@@ -104,6 +104,24 @@ const es = {
     cta: "Solicitar este formato",
   },
   formats: [
+    {
+      key: "mentoring-session",
+      name: "Sesión 1:1",
+      duration: "1 hora",
+      participants: "1 persona",
+      price: formatPrice("mentoringSession", "es"),
+      value: "mentoringSession",
+      workload: "PT1H",
+    },
+    {
+      key: "mentoring-pack4",
+      name: "Pack 4 sesiones",
+      duration: "30 días",
+      participants: "1 persona",
+      price: formatPrice("mentoringPack4", "es"),
+      value: "mentoringPack4",
+      workload: "PT4H",
+    },
     {
       key: "executive",
       name: "Sesión ejecutiva",
@@ -195,9 +213,9 @@ const en = {
     "Automation and AI training for teams that will do the work, not attend a talk. Every participant leaves with a real automation from their own operation up and running.",
 
   priceLabel: "From",
-  price: formatPrice("trainingExecutive", "en"),
+  price: formatPrice("mentoringSession", "en"),
   formatLabel: "Formats",
-  formatSummary: "Half a day, a full day, or a custom program",
+  formatSummary: "A 1:1 session, a group format, or a custom program",
 
   cta: "Request training for my team",
   secondaryCta: "Book a free discovery call",
@@ -257,7 +275,7 @@ const en = {
   ],
 
   formatsTitle: "Formats and pricing",
-  formatsIntro: "Three ways to run it, depending on how many people and how much time.",
+  formatsIntro: "Five ways to run it, depending on how many people and how much time.",
   formatLabels: {
     duration: "Duration",
     participants: "Participants",
@@ -265,6 +283,24 @@ const en = {
     cta: "Request this format",
   },
   formats: [
+    {
+      key: "mentoring-session",
+      name: "1:1 session",
+      duration: "1 hour",
+      participants: "1 person",
+      price: formatPrice("mentoringSession", "en"),
+      value: "mentoringSession",
+      workload: "PT1H",
+    },
+    {
+      key: "mentoring-pack4",
+      name: "4-session pack",
+      duration: "30 days",
+      participants: "1 person",
+      price: formatPrice("mentoringPack4", "en"),
+      value: "mentoringPack4",
+      workload: "PT4H",
+    },
     {
       key: "executive",
       name: "Executive session",

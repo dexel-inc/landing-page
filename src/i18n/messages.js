@@ -73,8 +73,8 @@ export const messages = {
         { from: true, perMonth: true },
       )}.`,
       trainingTitle: "Formación en automatización e IA para equipos | Dexel",
-      trainingDescription: `Formación virtual en automatización e IA para equipos que van a hacer el trabajo. Cada participante sale con una automatización real de su operación funcionando. ${formatPrice(
-        "trainingExecutive",
+      trainingDescription: `Formación virtual en automatización e IA, desde una sesión 1:1 hasta un programa a la medida. Cada participante sale con una automatización real de su operación funcionando. ${formatPrice(
+        "mentoringSession",
         "es",
         { from: true },
       )}.`,
@@ -543,8 +543,8 @@ export const messages = {
         { from: true, perMonth: true },
       )}.`,
       trainingTitle: "Automation and AI training for teams | Dexel",
-      trainingDescription: `Live virtual automation and AI training for teams that will do the work. Every participant leaves with a real automation from their operation up and running. ${formatPrice(
-        "trainingExecutive",
+      trainingDescription: `Live virtual automation and AI training, from a 1:1 session to a custom program. Every participant leaves with a real automation from their operation up and running. ${formatPrice(
+        "mentoringSession",
         "en",
         { from: true },
       )}.`,
