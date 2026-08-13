@@ -17,7 +17,7 @@ import { formatPrice } from "../config/pricing.js";
 const es = {
   title: "Nuestros servicios",
   badge: "Servicios Dexel",
-  subtitle: "Empiece por donde más le duela: no hace falta contratar todo.",
+  subtitle: "Empiece por lo que más tiempo le está costando; no hace falta contratar todo.",
   intro:
     "Tres categorías. La primera mide, las otras dos construyen. Cada una tiene su propia página con el alcance completo. Todos los precios están en dólares estadounidenses.",
   categoryLabel: "Incluye",
@@ -173,12 +173,12 @@ const es = {
       answer: `Sí, completa. Si decide avanzar con la implementación dentro de los 60 días siguientes a la entrega del informe, los ${formatPrice(
         "audit",
         "es",
-      )} se descuentan del precio del proyecto. Antes de la auditoría hay una llamada de discovery de 30 minutos sin costo, para confirmar que la auditoría tiene sentido en su caso.`,
+      )} se descuentan del precio del proyecto. Antes de la auditoría hay una llamada de 30 minutos sin costo, para confirmar que la auditoría tiene sentido en su caso.`,
     },
     {
       question: "¿Y si la auditoría concluye que no necesito construir nada?",
       answer:
-        "Se lo decimos por escrito, en el mismo informe. Es un resultado posible y no nos incomoda: el informe es suyo y le sirve igual, con nosotros o con cualquier otro proveedor. Preferimos perder un proyecto a venderle uno que no necesita.",
+        "Se lo decimos por escrito, en el mismo informe. Es un resultado posible y no nos incomoda: el informe es suyo y le sirve igual, con nosotros o con cualquier otro proveedor.",
     },
     {
       question: "¿De quién es el código que ustedes desarrollan?",
@@ -203,7 +203,7 @@ const es = {
     {
       question: "¿Cuánto tiempo toma tener algo funcionando?",
       answer:
-        "Depende del servicio: la auditoría de procesos en 5 a 7 días hábiles, presencia web entre 5 días y 4 semanas, una automatización o integración en 2 a 6 semanas, y software a la medida en 4 a 8 semanas. En todos los casos ve una demo funcionando cada viernes, no un informe de avance.",
+        "Depende del servicio: la auditoría de procesos en 5 a 7 días hábiles, presencia web entre 5 días y 4 semanas, una automatización o integración en 2 a 6 semanas, y software a la medida en 4 a 8 semanas. En todos los casos ve una demo funcionando cada viernes: avance real, no reportado.",
     },
   ],
 };
@@ -288,7 +288,7 @@ const auditEs = {
 
   scopeTitle: "Cuándo tiene sentido",
   scopeNote:
-    "La auditoría tiene sentido a partir de 8-10 personas en el equipo o cuando hay varios procesos corriendo en paralelo. Si su operación es más pequeña, dígalo en la llamada de discovery y le ahorramos el gasto.",
+    "La auditoría tiene sentido a partir de 8-10 personas en el equipo o cuando hay varios procesos corriendo en paralelo. Si su operación es más pequeña, se lo decimos con franqueza en la llamada inicial, antes de que incurra en el gasto.",
 
   processTitle: "Cómo trabajamos",
   processIntro:
@@ -302,17 +302,17 @@ const auditEs = {
       answer: `Sí, completa. Si decide avanzar con la implementación dentro de los 60 días siguientes a la entrega del informe, los ${formatPrice(
         "audit",
         "es",
-      )} se descuentan del precio del proyecto. Antes de la auditoría hay una llamada de discovery de 30 minutos sin costo, para confirmar que la auditoría tiene sentido en su caso.`,
+      )} se descuentan del precio del proyecto. Antes de la auditoría hay una llamada de 30 minutos sin costo, para confirmar que la auditoría tiene sentido en su caso.`,
     },
     {
       question: "¿Y si la auditoría concluye que no necesito construir nada?",
       answer:
-        "Se lo decimos por escrito, en el mismo informe. Es un resultado posible y no nos incomoda: el informe es suyo y le sirve igual, con nosotros o con cualquier otro proveedor. Preferimos perder un proyecto a venderle uno que no necesita.",
+        "Se lo decimos por escrito, en el mismo informe. Es un resultado posible y no nos incomoda: el informe es suyo y le sirve igual, con nosotros o con cualquier otro proveedor.",
     },
     {
       question: "¿Desde qué tamaño de equipo tiene sentido?",
       answer:
-        "Desde 8-10 personas, o cuando hay varios procesos corriendo en paralelo. Si su operación es más pequeña, dígalo en la llamada de discovery y le ahorramos el gasto: con un solo proceso identificado se puede cotizar la automatización directamente.",
+        "Desde 8-10 personas, o cuando hay varios procesos corriendo en paralelo. Si su operación es más pequeña, se lo decimos con franqueza en la llamada inicial: con un solo proceso identificado se puede cotizar la automatización directamente.",
     },
     {
       question: "¿Cuánto tiempo le toma a mi equipo?",
@@ -337,7 +337,7 @@ const auditEs = {
 const en = {
   title: "Our services",
   badge: "Dexel Services",
-  subtitle: "Start wherever it hurts most: you don't have to buy all of it.",
+  subtitle: "Start with what's costing you the most time; you don't have to buy all of it.",
   intro:
     "Three categories. The first one measures, the other two build. Each has its own page with the full scope. All prices are in US dollars.",
   categoryLabel: "Includes",
@@ -498,7 +498,7 @@ const en = {
     {
       question: "What if the audit concludes I don't need to build anything?",
       answer:
-        "We say so in writing, in the report itself. It's a possible outcome and it doesn't bother us: the report is yours and it's useful either way, with us or with any other vendor. We'd rather lose a project than sell you one you don't need.",
+        "We say so in writing, in the report itself. It's a possible outcome and it doesn't bother us: the report is yours and it's useful either way, with us or with any other vendor.",
     },
     {
       question: "Who owns the code you write?",
@@ -523,7 +523,7 @@ const en = {
     {
       question: "How long until something is working?",
       answer:
-        "It depends on the service: the process audit in 5 to 7 business days, web presence between 5 days and 4 weeks, an automation or integration in 2 to 6 weeks, and custom software in 4 to 8 weeks. In every case you see a working demo every Friday, not a status report.",
+        "It depends on the service: the process audit in 5 to 7 business days, web presence between 5 days and 4 weeks, an automation or integration in 2 to 6 weeks, and custom software in 4 to 8 weeks. In every case you see a working demo every Friday: real progress, not reported progress.",
     },
   ],
 };
@@ -608,7 +608,7 @@ const auditEn = {
 
   scopeTitle: "When it makes sense",
   scopeNote:
-    "The audit makes sense from about 8-10 people on the team, or when you have several processes running in parallel. If your operation is smaller, say so on the discovery call and we'll save you the expense.",
+    "The audit makes sense from about 8-10 people on the team, or when you have several processes running in parallel. If your operation is smaller, we'll tell you plainly on the discovery call, before you take on the cost.",
 
   processTitle: "How we work",
   processIntro: "All six phases, so you can see where the audit fits before you buy it.",
@@ -626,12 +626,12 @@ const auditEn = {
     {
       question: "What if the audit concludes I don't need to build anything?",
       answer:
-        "We say so in writing, in the report itself. It's a possible outcome and it doesn't bother us: the report is yours and it's useful either way, with us or with any other vendor. We'd rather lose a project than sell you one you don't need.",
+        "We say so in writing, in the report itself. It's a possible outcome and it doesn't bother us: the report is yours and it's useful either way, with us or with any other vendor.",
     },
     {
       question: "How big does my team need to be for this to make sense?",
       answer:
-        "From about 8-10 people, or when several processes run in parallel. If your operation is smaller, say so on the discovery call and we'll save you the expense: with a single identified process, the automation can be quoted directly.",
+        "From about 8-10 people, or when several processes run in parallel. If your operation is smaller, we'll tell you plainly on the discovery call: with a single identified process, the automation can be quoted directly.",
     },
     {
       question: "How much of my team's time does it take?",

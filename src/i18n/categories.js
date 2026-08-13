@@ -114,7 +114,7 @@ const es = {
       {
         question: "¿Voy a poder actualizar el contenido sin llamarlos?",
         answer:
-          "Sí. El nivel de sitio completo y todas las aplicaciones incluyen panel de administración, y la entrega incluye capacitación a su equipo y documentación en lenguaje claro. Depender del proveedor para cambiar un texto no es un modelo de negocio que nos interese.",
+          "Sí. El nivel de sitio completo y todas las aplicaciones incluyen panel de administración, y la entrega incluye capacitación a su equipo y documentación en lenguaje claro. Usted queda con el control de su contenido.",
       },
       {
         question: "¿De quién queda el código?",
@@ -206,9 +206,9 @@ const es = {
      * escondido: la mayoría de proveedores vende IA para todo, y decir de
      * frente cuándo un flujo con reglas es la mejor opción genera confianza.
      */
-    noteTitle: "No todo necesita inteligencia artificial",
+    noteTitle: "Usamos IA donde aporta",
     noteText:
-      "La mayoría de proveedores vende IA para todo. Hay procesos donde un flujo con reglas fijas es mejor: cuesta menos, responde siempre igual y no alucina. Si su caso es uno de esos, se lo decimos y lo construimos así. La IA entra donde aporta —conversaciones abiertas, clasificación, documentos sin formato— y no donde solo encarece.",
+      "Hay procesos donde un flujo con reglas fijas es mejor: cuesta menos, responde siempre igual y no alucina. Si su caso es uno de esos, se lo decimos y lo construimos así. La IA entra donde aporta —conversaciones abiertas, clasificación, documentos sin formato— y no donde solo encarece.",
 
     /**
      * Tres packs con alcance en unidades contables —procesos, integraciones,
@@ -221,7 +221,7 @@ const es = {
       featuredLabel: "El más elegido",
       cta: "Solicitar este pack",
       discoveryNote:
-        "¿No sabe cuál necesita? Agende una llamada de discovery sin costo y se lo decimos en 30 minutos.",
+        "Si no está seguro de cuál elegir, agende una llamada de 30 minutos sin costo y se lo decimos ahí mismo.",
       items: [
         {
           key: "puntual",
@@ -363,7 +363,7 @@ const es = {
     ],
 
     processTitle: "Cómo trabajamos",
-    processIntro: "Seis fases. Usted ve una demo funcionando cada viernes, no un informe de avance.",
+    processIntro: "Seis fases. Cada viernes ve una demo funcionando: evidencia en vivo del avance.",
 
     faqTitle: "Preguntas frecuentes",
     faqSubtitle: "Lo que nos preguntan antes de automatizar",
@@ -405,7 +405,7 @@ const es = {
     ctaTitle: "¿Sabe qué proceso le está consumiendo más horas?",
     ctaText: "Cuéntenoslo y le decimos si se puede automatizar, cuánto costaría y cuántas horas al mes recuperaría.",
     cta: "Solicitar cotización",
-    secondaryCta: "Agendar llamada de discovery sin costo",
+    secondaryCta: "Agendar una llamada sin costo (30 min)",
   },
 };
 
@@ -501,7 +501,7 @@ const en = {
       {
         question: "Will I be able to update the content without calling you?",
         answer:
-          "Yes. The full-site tier and every application include an admin panel, and delivery includes training for your team plus documentation in plain language. Depending on your vendor to change a paragraph isn't a business model we're interested in.",
+          "Yes. The full-site tier and every application include an admin panel, and delivery includes training for your team plus documentation in plain language. You stay in control of your content.",
       },
       {
         question: "Who owns the code?",
@@ -582,9 +582,9 @@ const en = {
       },
     ],
 
-    noteTitle: "Not everything needs artificial intelligence",
+    noteTitle: "We use AI where it earns its place",
     noteText:
-      "Most vendors sell AI for everything. There are processes where a fixed-rule flow is simply better: it costs less, it answers the same way every time, and it doesn't hallucinate. If yours is one of those, we'll say so and build it that way. AI goes where it earns its place — open conversations, classification, unstructured documents — and not where it only adds cost.",
+      "There are processes where a fixed-rule flow is simply better: it costs less, it answers the same way every time, and it doesn't hallucinate. If yours is one of those, we'll say so and build it that way. AI goes where it earns its place — open conversations, classification, unstructured documents — and not where it only adds cost.",
 
     packs: {
       title: "Three ways to start",
@@ -592,7 +592,7 @@ const en = {
       featuredLabel: "Most chosen",
       cta: "Request this pack",
       discoveryNote:
-        "Not sure which one you need? Book a free discovery call and we'll tell you in 30 minutes.",
+        "If you're not sure which one to pick, book a free discovery call and we'll tell you in 30 minutes.",
       items: [
         {
           key: "puntual",
@@ -723,7 +723,7 @@ const en = {
     ],
 
     processTitle: "How we work",
-    processIntro: "Six phases. You see a working demo every Friday, not a status report.",
+    processIntro: "Six phases. Every Friday you see a working demo: live evidence of progress.",
 
     faqTitle: "Frequently asked questions",
     faqSubtitle: "What people ask before automating",
@@ -785,7 +785,7 @@ export const categoryChromeCopy = {
     menuIndex: "Ver todos los servicios",
     backLabel: "Ver todos los servicios",
     quoteCta: "Solicitar cotización",
-    discoveryCta: "Agendar llamada de discovery sin costo",
+    discoveryCta: "Agendar una llamada sin costo (30 min)",
     vatLabel: "IVA incluido",
     vatNote: "Todos nuestros precios en pesos incluyen IVA. Lo que ve es lo que factura.",
   },

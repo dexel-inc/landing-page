@@ -30,7 +30,7 @@ export const messages = {
       auditDescription:
         "Le decimos qué procesos se pueden automatizar, cuántas horas al mes recuperaría y cuánto costaría cada implementación. Ocho entregables en 5 a 7 días hábiles.",
       trainingTitle: "Formación en automatización e IA para equipos | Dexel",
-      trainingDescription: `Formación in-company en automatización e IA para equipos que van a hacer el trabajo. Cada participante sale con una automatización real de su operación funcionando. ${formatPrice(
+      trainingDescription: `Formación virtual en automatización e IA para equipos que van a hacer el trabajo. Cada participante sale con una automatización real de su operación funcionando. ${formatPrice(
         "trainingExecutive",
         "es",
         { from: true },
@@ -70,7 +70,7 @@ export const messages = {
       // pago a un desconocido es la acción de mayor fricción del catálogo. El
       // hero abre por la llamada gratuita; la auditoría se argumenta —y se
       // cobra— donde se explica su valor.
-      primaryCta: "Agendar llamada de discovery sin costo",
+      primaryCta: "Agendar una llamada sin costo (30 min)",
       secondaryCta: "Ver casos reales",
       responseTime: "Respondemos en menos de 4 horas hábiles",
     },
@@ -125,7 +125,7 @@ export const messages = {
           ],
           metrics: [
             { value: 2, label: "Idiomas · 1 código" },
-            { value: 0, label: "Horas/mes de gestión" },
+            { value: 300, suffix: "+", label: "Visitas/mes sostenidas" },
             { value: 100, suffix: "%", label: "Contenido auto-sync" },
           ],
           highlight:
@@ -142,7 +142,7 @@ export const messages = {
         ctaTitle: "¿Quiere ver estos casos con detalle?",
         ctaText:
           "En una llamada podemos mostrarle arquitectura, métricas y aprendizajes sin exponer datos de nuestros clientes.",
-        ctaButton: "Agendar una llamada sin costo",
+        ctaButton: "Agendar una llamada sin costo (30 min)",
         // Caso bajo NDA con cifra real. Sin nombre de cliente, sin nombre de
         // herramienta y sin capturas: es todo lo que el acuerdo permite mostrar.
         featured: {
@@ -187,43 +187,6 @@ export const messages = {
         ],
       },
     },
-    team: {
-      badge: "Quiénes somos",
-      title: "Cinco personas con nombre y apellido",
-      subtitle:
-        "No somos una agencia con rotación ni un intermediario que subcontrata. El equipo que ve aquí es el mismo que va a construir su proyecto, y puede verificar a cada uno en LinkedIn.",
-      location: "Colombia · Trabajamos con clientes en LATAM y EE.UU.",
-      // ⚠️ Confirmar nombres visibles y roles con cada integrante antes de publicar.
-      // Los roles están redactados en forma neutra a propósito.
-      members: [
-        {
-          name: "Alejandro Castrillón Ciro",
-          role: "Desarrollo Full Stack",
-          linkedin: "https://www.linkedin.com/in/alejandro-castrillon-ciro-9539491ba/",
-        },
-        {
-          name: "Ana María Granada Rodas",
-          role: "Desarrollo Full Stack",
-          linkedin: "https://www.linkedin.com/in/ana-maria-granada-rodas-945712244/",
-        },
-        {
-          name: "Valeria Granada Rodas",
-          role: "Desarrollo Full Stack",
-          linkedin: "https://www.linkedin.com/in/vale0722/",
-        },
-        {
-          name: "Anderson Cardona",
-          role: "Desarrollo Full Stack",
-          linkedin: "https://www.linkedin.com/in/anderson-cardona-dev/",
-        },
-        {
-          name: "Alejandro Cristancho", // ⚠️ confirmar apellido
-          role: "Desarrollo Full Stack",
-          linkedin: "https://www.linkedin.com/in/alejandrocristm/",
-        },
-      ],
-      note: "Trabajamos con inteligencia artificial en nuestro propio proceso de desarrollo. Por eso entregamos en semanas lo que a un equipo del mismo tamaño le tomaría meses, y por eso sabemos implementarla en el suyo.",
-    },
     advisory: {
       badge: "Más que desarrollo",
       title: "Primero auditamos. Después construimos.",
@@ -245,7 +208,7 @@ export const messages = {
         {
           asked: "Queremos reemplazar todo el sistema actual, ya no nos sirve.",
           found:
-            "El sistema funcionaba bien. Lo que fallaba era que nadie había configurado los reportes y el equipo los armaba en Excel cada semana.",
+            "Al revisar el proceso encontramos que el sistema funcionaba bien: lo que faltaba eran los reportes configurados, y el equipo los armaba a mano en Excel cada semana.",
           proposed:
             "Una integración de dos semanas en lugar de un desarrollo de seis meses. Costó una fracción y resolvió lo que dolía.",
         },
@@ -303,9 +266,9 @@ export const messages = {
         },
       ],
       pledgeTitle:
-        "Si la auditoría concluye que no necesita desarrollar nada, se lo decimos.",
+        "Si la auditoría muestra que no hace falta desarrollar nada, se lo decimos con la misma claridad.",
       pledgeText:
-        "Preferimos perder un proyecto que entregar algo que no le sirva. Un cliente que resolvió su problema con dos semanas de integración vuelve; uno al que le vendimos seis meses innecesarios, no.",
+        "El informe es suyo y le sirve de todas formas, y usted invierte solo en lo que su operación realmente necesita.",
       // Esta sección es la que más argumenta a favor de la auditoría, así que
       // su botón lleva a comprarla, no a agendar la llamada gratuita.
       cta: `Solicitar auditoría de procesos — ${formatPrice("audit", "es")}`,
@@ -314,11 +277,11 @@ export const messages = {
       badge: "Cómo trabajamos",
       title: "Sin cajas negras ni sorpresas",
       subtitle:
-        "El miedo de todo cliente es pagar y no volver a saber nada. Por eso nuestro proceso es visible de principio a fin: usted sabe en qué fase está, qué recibe y cuándo.",
+        "Nuestro proceso es visible de principio a fin: usted sabe en qué fase está, qué recibe y cuándo.",
       phases: [
         {
           iconName: "Search",
-          title: "Llamada de discovery",
+          title: "Llamada inicial",
           duration: "30–45 min · sin costo",
           desc: "Escuchamos cómo funciona su operación hoy y dónde se pierde el tiempo. Sin vender nada todavía.",
           outputLabel: "Usted recibe",
@@ -393,13 +356,13 @@ export const messages = {
           desc: "Toda entrega incluye una sesión de capacitación en vivo con las personas que van a usar el sistema, y resolución de dudas en directo. No entregamos un manual y desaparecemos.",
         },
       ],
-      cta: "Agendar llamada de discovery sin costo",
+      cta: "Agendar una llamada sin costo (30 min)",
     },
     contact: {
       titleStart: "Iniciemos el",
       titleHighlight: "Proceso.",
       description:
-        "Olvídese de los formularios estáticos. Interactúe directamente con nuestro núcleo de pre-análisis. Cuéntenos su problema técnico y obtenga una evaluación preliminar en tiempo real.",
+        "Interactúe directamente con nuestro núcleo de pre-análisis. Cuéntenos su problema técnico y obtenga una evaluación preliminar en tiempo real.",
       chat: {
         status: "DEXEL - ONLINE",
         placeholder: "Escriba su requerimiento...",
@@ -422,7 +385,7 @@ export const messages = {
               "field": "volumen"
             },
             {
-              "bot": "Perfecto, con eso ya puedo ubicarlo. 📊\n\nUn proceso así normalmente se resuelve en implementaciones de 2 a 6 semanas, y la inversión se recupera con las horas que deja de gastar el equipo.\n\nEl siguiente paso es una llamada de discovery de 30 minutos, sin costo, donde confirmamos si la auditoría de procesos tiene sentido en su caso.",
+              "bot": "Perfecto, con eso ya puedo ubicarlo. 📊\n\nUn proceso así normalmente se resuelve en implementaciones de 2 a 6 semanas, y la inversión se recupera con las horas que deja de gastar el equipo.\n\nEl siguiente paso es una llamada de 30 minutos sin costo, donde confirmamos si la auditoría de procesos tiene sentido en su caso.",
               "field": null
             },
             {
@@ -443,7 +406,7 @@ export const messages = {
               "problema": "*Proceso que consume más tiempo:*",
               "volumen": "*Personas y tiempo dedicado:*"
             },
-            "outro": "Quedo atento para agendar la llamada de discovery de 30 minutos."
+            "outro": "Quedo atento para agendar la llamada de 30 minutos."
           }
       },
     },
@@ -456,7 +419,7 @@ export const messages = {
     notFound: notFoundCopy.es,
     consent: consentCopy.es,
     footer: {
-      title: "¿Qué está esperando?",
+      title: "Hablemos de su proyecto",
       contactButton: "Contáctenos",
       responseTime: "Respondemos en menos de 4 horas hábiles",
       services: "Servicios",
@@ -494,7 +457,7 @@ export const messages = {
       auditDescription:
         "We tell you which processes can be automated, how many hours a month you would get back, and what each implementation would cost. Eight deliverables in 5 to 7 business days.",
       trainingTitle: "Automation and AI training for teams | Dexel",
-      trainingDescription: `In-company automation and AI training for teams that will do the work. Every participant leaves with a real automation from their operation up and running. ${formatPrice(
+      trainingDescription: `Live virtual automation and AI training for teams that will do the work. Every participant leaves with a real automation from their operation up and running. ${formatPrice(
         "trainingExecutive",
         "en",
         { from: true },
@@ -585,7 +548,7 @@ export const messages = {
           ],
           metrics: [
             { value: 2, label: "Languages · 1 codebase" },
-            { value: 0, label: "Hours/month of upkeep" },
+            { value: 300, suffix: "+", label: "Sustained monthly visits" },
             { value: 100, suffix: "%", label: "Content auto-synced" },
           ],
           highlight:
@@ -645,42 +608,6 @@ export const messages = {
         ],
       },
     },
-    team: {
-      badge: "Who we are",
-      title: "Five people with names and faces",
-      subtitle:
-        "We're not an agency with constant turnover, nor a middleman who subcontracts. The team you see here is the same one that will build your project, and you can verify each of us on LinkedIn.",
-      location: "Colombia · Working with clients across LATAM and the US",
-      // ⚠️ Confirm display names and roles with each member before going live.
-      members: [
-        {
-          name: "Alejandro Castrillón Ciro",
-          role: "Full Stack Development",
-          linkedin: "https://www.linkedin.com/in/alejandro-castrillon-ciro-9539491ba/",
-        },
-        {
-          name: "Ana María Granada Rodas",
-          role: "Full Stack Development",
-          linkedin: "https://www.linkedin.com/in/ana-maria-granada-rodas-945712244/",
-        },
-        {
-          name: "Valeria Granada Rodas",
-          role: "Full Stack Development",
-          linkedin: "https://www.linkedin.com/in/vale0722/",
-        },
-        {
-          name: "Anderson Cardona",
-          role: "Full Stack Development",
-          linkedin: "https://www.linkedin.com/in/anderson-cardona-dev/",
-        },
-        {
-          name: "Alejandro Cristancho", // ⚠️ confirm last name
-          role: "Full Stack Development",
-          linkedin: "https://www.linkedin.com/in/alejandrocristm/",
-        },
-      ],
-      note: "We use AI inside our own development process. That's why we ship in weeks what a team our size would normally take months to deliver — and why we know how to implement it in yours.",
-    },
     advisory: {
       badge: "More than development",
       title: "We audit first. Then we build.",
@@ -702,7 +629,7 @@ export const messages = {
         {
           asked: "We want to replace the whole current system, it no longer works for us.",
           found:
-            "The system worked fine. What failed was that nobody had configured the reports, so the team rebuilt them in Excel every week.",
+            "Reviewing the process, we found the system worked fine: what was missing were the configured reports, so the team rebuilt them by hand in Excel every week.",
           proposed:
             "A two-week integration instead of a six-month build. It cost a fraction and fixed what actually hurt.",
         },
@@ -759,16 +686,17 @@ export const messages = {
           desc: "Improvements nobody considered because nobody had looked at the whole process.",
         },
       ],
-      pledgeTitle: "If the audit concludes you don't need to build anything, we'll say so.",
+      pledgeTitle:
+        "If the audit shows you don't need to build anything, we'll say so with the same clarity.",
       pledgeText:
-        "We'd rather lose a project than deliver something that doesn't help. A client who solved their problem with a two-week integration comes back; one we sold six unnecessary months to does not.",
+        "The report is yours and it's useful either way, and you invest only in what your operation actually needs.",
       cta: `Request a process audit — ${formatPrice("audit", "en")}`,
     },
     process: {
       badge: "How we work",
       title: "No black boxes, no surprises",
       subtitle:
-        "Every client's fear is paying and never hearing back. That's why our process is visible end to end: you always know what phase you're in, what you get, and when.",
+        "Our process is visible end to end: you always know what phase you're in, what you get, and when.",
       phases: [
         {
           iconName: "Search",
@@ -849,7 +777,7 @@ export const messages = {
       titleStart: "Let's start the",
       titleHighlight: "Process.",
       description:
-          "Forget static forms. Interact directly with our pre-analysis core. Tell us your technical challenge and get a preliminary read in real time.",
+          "Interact directly with our pre-analysis core. Tell us your technical challenge and get a preliminary read in real time.",
       chat: {
         status: "DEXEL - ONLINE",
         placeholder: "Type your requirement...",
@@ -906,7 +834,7 @@ export const messages = {
     notFound: notFoundCopy.en,
     consent: consentCopy.en,
     footer: {
-      title: "What are you waiting for?",
+      title: "Let's talk about your project",
       contactButton: "Contact us",
       responseTime: "We reply in under 4 business hours",
       services: "Services",
