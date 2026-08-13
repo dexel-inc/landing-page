@@ -68,7 +68,7 @@ const es = {
         iconName: "Wrench",
         name: "Mantenimiento",
         text: "Actualizaciones, respaldos y corrección de errores.",
-        meta: formatPrice("maintenance", "es", { from: true, perMonth: true }),
+        meta: formatPrice("careBasic", "es", { from: true, perMonth: true }),
       },
     ],
 
@@ -129,7 +129,7 @@ const es = {
       {
         question: "¿Qué pasa después de que el proyecto sale a producción?",
         answer: `El mantenimiento es opcional y mensual, sin permanencia, ${formatPrice(
-          "maintenance",
+          "careBasic",
           "es",
           { from: true, perMonth: true },
         )}. Incluye actualizaciones de seguridad, corrección de errores, respaldos automáticos y monitoreo. Si prefiere manejarlo con su propio equipo, la documentación se lo permite.`,
@@ -460,7 +460,7 @@ const en = {
         iconName: "Wrench",
         name: "Maintenance",
         text: "Updates, backups, and bug fixes.",
-        meta: formatPrice("maintenance", "en", { from: true, perMonth: true }),
+        meta: formatPrice("careBasic", "en", { from: true, perMonth: true }),
       },
     ],
 
@@ -516,7 +516,7 @@ const en = {
       {
         question: "What happens once the project is in production?",
         answer: `Maintenance is optional and monthly, with no lock-in, ${formatPrice(
-          "maintenance",
+          "careBasic",
           "en",
           { from: true, perMonth: true },
         )}. It covers security updates, bug fixes, automated backups, and monitoring. If you'd rather handle it with your own team, the documentation lets you.`,

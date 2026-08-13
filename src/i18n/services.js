@@ -149,7 +149,7 @@ const es = {
       slug: "mantenimiento",
       iconName: "Wrench",
       title: "Mantenimiento",
-      price: formatPrice("maintenance", "es", { from: true, perMonth: true }),
+      price: formatPrice("careBasic", "es", { from: true, perMonth: true }),
       delivery: "Mensual, sin permanencia",
       desc: "Soporte continuo y actualizaciones para proyectos desarrollados por Dexel, garantizando su óptimo funcionamiento.",
       forWho:
@@ -469,7 +469,7 @@ const en = {
       slug: "maintenance",
       iconName: "Wrench",
       title: "Maintenance",
-      price: formatPrice("maintenance", "en", { from: true, perMonth: true }),
+      price: formatPrice("careBasic", "en", { from: true, perMonth: true }),
       delivery: "Monthly, no lock-in",
       desc: "Continuous support and updates for projects built by Dexel, keeping them running the way they should.",
       forWho:

@@ -34,20 +34,42 @@ export const PRICES = {
 
   // Los tres packs de automatización. `automation` es el de entrada: es el
   // precio que muestran la tarjeta de la categoría y los datos estructurados.
-  automation: { COP: 2200000, USD: 850 },
-  automationAgent: { COP: 5900000, USD: 2200 },
-  automationSystem: { COP: 12900000, USD: 4500 },
+  automation: { COP: 2090000, USD: 700 },
+  automationAgent: { COP: 5390000, USD: 1800 },
+  automationSystem: { COP: 10900000, USD: 3700 },
 
-  customSoftware: { COP: 3200000, USD: 1000 },
-  webPresence: { COP: 950000, USD: 300 },
   // Solo se muestra dentro del detalle del nivel "Landing", nunca como precio
   // principal de una tarjeta, en un resumen ni en JSON-LD: abrir por el precio
   // más bajo ancla la marca como proveedor barato.
-  webPresenceLanding: { COP: 350000, USD: 100 },
-  maintenance: { COP: 450000, USD: 150 },
+  webPresenceLanding: { COP: 490000, USD: 160 },
+  webPresence: { COP: 2090000, USD: 700 },
+  webCatalog: { COP: 4290000, USD: 1430 },
 
-  trainingExecutive: { COP: 1800000, USD: 600 },
-  trainingFull: { COP: 3500000, USD: 1200 },
+  customTool: { COP: 1350000, USD: 450 },
+  customSoftware: { COP: 2490000, USD: 830 },
+
+  careBasic: { COP: 210000, USD: 70 },
+  careStandard: { COP: 540000, USD: 180 },
+  carePriority: { COP: 980000, USD: 330 },
+
+  seoAudit: { COP: 1290000, USD: 430 },
+  seoLocal: { COP: 790000, USD: 260 },
+  seoGrowth: { COP: 1690000, USD: 560 },
+  seoAuthority: { COP: 3490000, USD: 1160 },
+
+  integration: { COP: 690000, USD: 230 },
+  paymentGateway: { COP: 890000, USD: 300 },
+
+  // Micropáginas es el precio de entrada más barato del catálogo: por diseño
+  // no abre ninguna tarjeta ni resumen fuera de su propio frente y página.
+  micropageEssential: { COP: 135000, USD: 45 },
+  micropagePremium: { COP: 220000, USD: 75 },
+
+  mentoringSession: { COP: 210000, USD: 70 },
+  mentoringPack4: { COP: 760000, USD: 260 },
+  trainingExecutive: { COP: 1590000, USD: 530 },
+  trainingFull: { COP: 2990000, USD: 990 },
+  trainingProgram: { COP: 5390000, USD: 1800 },
 };
 
 /** Relaciona el id de servicio con su monto, para JSON-LD y medición. */
@@ -56,7 +78,7 @@ export const SERVICE_PRICE_KEY = {
   automatizacion: "automation",
   "software-medida": "customSoftware",
   "presencia-web": "webPresence",
-  mantenimiento: "maintenance",
+  mantenimiento: "careBasic",
 };
 
 const LABELS = {

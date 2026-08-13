@@ -126,10 +126,10 @@ const es = {
     {
       key: "custom",
       name: "Programa a la medida",
-      duration: "Varias sesiones",
+      duration: "12 semanas",
       participants: "A convenir",
-      price: "Cotización",
-      value: null,
+      price: formatPrice("trainingProgram", "es"),
+      value: "trainingProgram",
     },
   ],
 
@@ -287,10 +287,10 @@ const en = {
     {
       key: "custom",
       name: "Custom program",
-      duration: "Several sessions",
+      duration: "12 weeks",
       participants: "To be agreed",
-      price: "On request",
-      value: null,
+      price: formatPrice("trainingProgram", "en"),
+      value: "trainingProgram",
     },
   ],
 
