@@ -26,7 +26,7 @@ import { EVENTS, track } from "../analytics/track.js";
 import { INTENT, setIntent } from "../analytics/intent.js";
 
 /**
- * Formación in-company.
+ * Formación para equipos.
  *
  * No usa `CategoryPage`: esa plantilla describe un servicio que Dexel ejecuta
  * —frentes, alcance, entrega— y aquí lo que se compra es que el equipo del

@@ -150,7 +150,7 @@ function categoryServiceNode({ category, locale, routeKey, priceKey }) {
 }
 
 /**
- * Nodo `Course` de la formación in-company.
+ * Nodo `Course` de la formación para equipos.
  *
  * Se declara como curso y no como servicio porque es lo que es: un programa con
  * temario y con quien lo dicta declarado como `Organization`. Cada formato de
@@ -173,9 +173,8 @@ function trainingNode({ training, locale, canonical, description }) {
     hasCourseInstance: priced.map((format) => ({
       "@type": "CourseInstance",
       name: format.name,
-      // Los dos formatos se dictan presencial en Colombia o en remoto, así que
-      // ambos modos son ciertos para cada uno.
-      courseMode: ["onsite", "online"],
+      // Los formatos son 100% virtuales en vivo.
+      courseMode: ["online"],
       courseWorkload: format.workload,
       inLanguage: locale,
       offers: {

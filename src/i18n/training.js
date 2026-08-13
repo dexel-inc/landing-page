@@ -2,7 +2,7 @@ import { formatPrice } from "../config/pricing.js";
 import { ROUTE_KEYS } from "../router/routes.js";
 
 /**
- * Formación in-company: contenido de `/es/formacion` y `/en/training`.
+ * Formación para equipos: contenido de `/es/formacion` y `/en/training`.
  *
  * Es una línea propia, no una categoría de servicio, y por eso vive en su
  * archivo y no dentro de `categories.js`. La diferencia importa para el copy:
@@ -21,7 +21,7 @@ const es = {
   key: "training",
   routeKey: ROUTE_KEYS.TRAINING,
   navLabel: "Formación",
-  badge: "Formación in-company",
+  badge: "Formación para equipos",
 
   title: "Enseñamos lo que aprendimos implementando.",
   subtitle:
@@ -33,7 +33,7 @@ const es = {
   formatSummary: "Medio día, un día o programa a la medida",
 
   cta: "Solicitar formación para mi equipo",
-  secondaryCta: "Agendar llamada de discovery sin costo",
+  secondaryCta: "Agendar una llamada sin costo (30 min)",
 
   /**
    * El dato va con fuente porque es de un tercero y porque es el argumento
@@ -47,9 +47,9 @@ const es = {
     note: "Ese es exactamente el problema que esta formación previene: el trabajo del último día no es entender la herramienta, es dejar algo corriendo dentro de su operación.",
   },
 
-  noteTitle: "Esto no es un curso de inteligencia artificial",
+  noteTitle: "Formación para operar, hecha desde la implementación",
   noteText:
-    "De cómo usar ChatGPT hay contenido gratuito de sobra y no tendría sentido cobrar por repetirlo. Lo que no se consigue gratis es qué falla cuando esto entra en una operación real: qué procesos no conviene automatizar, qué costos aparecen después del piloto y por qué un equipo abandona la herramienta a los tres meses. Eso no se aprende leyendo; se aprende implementando, que es lo que llevamos años haciendo.",
+    "Aquí se cubre lo que falla cuando esto entra en una operación real: qué procesos no conviene automatizar, qué costos aparecen después del piloto y por qué un equipo abandona la herramienta a los tres meses. Eso se aprende implementando, que es lo que llevamos años haciendo.",
 
   programTitle: "Contenido del programa",
   programIntro:
@@ -60,7 +60,7 @@ const es = {
       key: "what-not",
       iconName: "Ban",
       title: "Qué NO automatizar",
-      text: "Procesos sin reglas claras. Procesos que van a cambiar en seis meses. Procesos que corren dos veces al mes. Y el más importante: el proceso roto que hay que arreglar antes, no automatizar. Automatizar un proceso malo multiplica el problema.",
+      text: "Procesos sin reglas claras. Procesos que van a cambiar en seis meses. Procesos que corren dos veces al mes. Y el más importante: el proceso roto que hay que arreglar antes, no automatizar. Ordenarlo primero es lo que hace que la automatización funcione.",
     },
     {
       key: "arithmetic",
@@ -135,7 +135,7 @@ const es = {
 
   includedTitle: "Incluido en todos los formatos",
   included: [
-    "Modalidad presencial en Colombia o remota",
+    "Modalidad virtual en vivo, para equipos en cualquier ciudad",
     "Material de referencia para el equipo",
     "Sesión de seguimiento a las dos semanas, para resolver dudas de lo que hayan intentado por su cuenta",
   ],
@@ -153,9 +153,9 @@ const es = {
         "No. La formación está hecha para las personas que conocen el proceso, no para un equipo técnico: quien sabe cómo se hace hoy el trabajo es quien puede decidir qué vale la pena automatizar. Si alguien de sistemas participa, mejor, pero no es requisito de nadie.",
     },
     {
-      question: "¿Es presencial o remoto?",
+      question: "¿Cómo es la modalidad?",
       answer:
-        "Ambos. Presencial en Colombia y remoto para el resto. El bloque de manos a la obra funciona igual en los dos casos: cada participante trabaja sobre su propia operación.",
+        "100% virtual en vivo, para equipos en cualquier ciudad. El bloque de manos a la obra funciona igual que en persona: cada participante trabaja sobre su propia operación, con acompañamiento en tiempo real.",
     },
     {
       question: "¿Qué pasa si después queremos que ustedes lo implementen?",
@@ -175,7 +175,7 @@ const es = {
     {
       question: "¿Nos dan material o grabación?",
       answer:
-        "Material de referencia sí, en todos los formatos, y queda en manos de su equipo. La grabación depende de la modalidad: en remoto se puede grabar si todos los participantes están de acuerdo; en presencial no grabamos.",
+        "Material de referencia sí, en todos los formatos, y queda en manos de su equipo. La sesión se puede grabar si todos los participantes están de acuerdo.",
     },
   ],
 
@@ -188,7 +188,7 @@ const en = {
   key: "training",
   routeKey: ROUTE_KEYS.TRAINING,
   navLabel: "Training",
-  badge: "In-company training",
+  badge: "Team training",
 
   title: "We teach what we learned building.",
   subtitle:
@@ -209,9 +209,9 @@ const en = {
     note: "That is exactly what this training prevents: the work on the last day isn't understanding the tool, it's leaving something running inside your operation.",
   },
 
-  noteTitle: "This is not an AI course",
+  noteTitle: "Training to operate, built from implementation",
   noteText:
-    "There is plenty of free content on how to use ChatGPT, and charging to repeat it would make no sense. What you can't get for free is what breaks when this reaches a real operation: which processes shouldn't be automated, which costs show up after the pilot, and why a team abandons the tool three months in. You don't learn that by reading; you learn it by building, which is what we have been doing for years.",
+    "This covers what breaks when this reaches a real operation: which processes shouldn't be automated, which costs show up after the pilot, and why a team abandons the tool three months in. You learn that by building, which is what we have been doing for years.",
 
   programTitle: "What the program covers",
   programIntro: "Six blocks, in the order they're needed. Tap each one to see what's inside.",
@@ -221,7 +221,7 @@ const en = {
       key: "what-not",
       iconName: "Ban",
       title: "What NOT to automate",
-      text: "Processes without clear rules. Processes that will change in six months. Processes that run twice a month. And the most important one: the broken process that has to be fixed first, not automated. Automating a bad process multiplies the problem.",
+      text: "Processes without clear rules. Processes that will change in six months. Processes that run twice a month. And the most important one: the broken process that has to be fixed first, not automated. Fixing it first is what makes the automation work.",
     },
     {
       key: "arithmetic",
@@ -296,7 +296,7 @@ const en = {
 
   includedTitle: "Included in every format",
   included: [
-    "On-site in Colombia or remote",
+    "Live virtual format, for teams in any city",
     "Reference material for the team",
     "A follow-up session two weeks later, for questions about what they tried on their own",
   ],
@@ -314,9 +314,9 @@ const en = {
         "No. The training is built for the people who know the process, not for a technical team: whoever knows how the work gets done today is the one who can decide what's worth automating. If someone from IT joins, all the better, but it isn't a requirement for anyone.",
     },
     {
-      question: "Is it on-site or remote?",
+      question: "How does the format work?",
       answer:
-        "Both. On-site in Colombia and remote everywhere else. The hands-on block works the same either way: each participant works on their own operation.",
+        "100% live and virtual, for teams in any city. The hands-on block works the same as in person: each participant works on their own operation, with real-time guidance.",
     },
     {
       question: "What if afterwards we want you to build it?",
@@ -336,7 +336,7 @@ const en = {
     {
       question: "Do we get materials or a recording?",
       answer:
-        "Reference material, yes, in every format, and it stays with your team. A recording depends on the format: remote sessions can be recorded if every participant agrees; on-site sessions we don't record.",
+        "Reference material, yes, in every format, and it stays with your team. The session can be recorded if every participant agrees.",
     },
   ],
 

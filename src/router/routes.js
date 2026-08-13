@@ -19,7 +19,7 @@ export const ROUTE_KEYS = {
   AUTOMATION: "automation",
   AUDIT: "audit",
   /**
-   * Formación in-company. No es una categoría de servicio y por eso no entra en
+   * Formación para equipos. No es una categoría de servicio y por eso no entra en
    * `SERVICE_CATEGORIES`: los servicios son cosas que hacemos *para* el cliente
    * y la formación es algo que hacemos *con* él. Mezclarlas diluye las dos.
    */

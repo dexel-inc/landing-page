@@ -39,7 +39,7 @@ export const EVENTS = {
   SERVICE_CATEGORY_VIEWED: "ServiceCategoryViewed",
   /** Primer mensaje enviado al asistente conversacional. */
   CHAT_STARTED: "ChatStarted",
-  /** Cargó la página de formación in-company. Lleva `locale`. */
+  /** Cargó la página de formación para equipos. Lleva `locale`. */
   TRAINING_PAGE_VIEWED: "TrainingPageViewed",
   /** Solicitud de formación. Lleva `format` y el `value` de ese formato. */
   TRAINING_REQUESTED: "TrainingRequested",
