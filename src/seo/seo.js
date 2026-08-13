@@ -20,9 +20,30 @@ const META_KEY = {
   [ROUTE_KEYS.AUTOMATION]: "automation",
   [ROUTE_KEYS.AUDIT]: "audit",
   [ROUTE_KEYS.TRAINING]: "training",
+  [ROUTE_KEYS.WEBSITES]: "websites",
+  [ROUTE_KEYS.CUSTOM_SOFTWARE]: "customSoftwareDetail",
+  [ROUTE_KEYS.MICROPAGES]: "micropages",
+  [ROUTE_KEYS.SEO]: "seoDetail",
+  [ROUTE_KEYS.INTEGRATIONS]: "integrations",
+  [ROUTE_KEYS.PAYMENT_GATEWAYS]: "paymentGateways",
+  [ROUTE_KEYS.MAINTENANCE]: "maintenanceDetail",
   [ROUTE_KEYS.CONTACT]: "contact",
   [ROUTE_KEYS.PRIVACY]: "privacy",
   [ROUTE_KEYS.NOT_FOUND]: "notFound",
+};
+
+/**
+ * Clave dentro de `copy.serviceDetails` para cada una de las siete páginas de
+ * servicio individuales, en el mismo orden en que se muestran en el hub.
+ */
+const SERVICE_DETAIL_KEY = {
+  [ROUTE_KEYS.WEBSITES]: "websites",
+  [ROUTE_KEYS.CUSTOM_SOFTWARE]: "customSoftware",
+  [ROUTE_KEYS.MICROPAGES]: "micropages",
+  [ROUTE_KEYS.SEO]: "seo",
+  [ROUTE_KEYS.INTEGRATIONS]: "integrations",
+  [ROUTE_KEYS.PAYMENT_GATEWAYS]: "paymentGateways",
+  [ROUTE_KEYS.MAINTENANCE]: "maintenanceDetail",
 };
 
 function absolute(path) {
@@ -150,6 +171,35 @@ function categoryServiceNode({ category, locale, routeKey, priceKey }) {
 }
 
 /**
+ * Nodo `Service` de una página de servicio individual (sitios web, software a
+ * la medida, micropáginas, SEO, integraciones, pasarelas de pago,
+ * mantenimiento). Un `Offer` por nivel, con su propio precio: a diferencia de
+ * `categoryServiceNode`, aquí no hay un solo precio de entrada sino un nivel
+ * por tarjeta.
+ */
+function serviceDetailNode({ service, locale, canonical }) {
+  return {
+    "@type": "Service",
+    "@id": `${canonical}#service`,
+    name: service.title,
+    description: service.intro,
+    serviceType: service.title,
+    url: canonical,
+    provider: { "@id": `${SITE.url}/#organization` },
+    areaServed: ["CO", "LATAM", "US"],
+    inLanguage: locale,
+    offers: service.tiers.map((tier) => ({
+      "@type": "Offer",
+      name: tier.name,
+      price: priceAmount(tier.priceKey, locale),
+      priceCurrency: currencyFor(locale),
+      availability: "https://schema.org/InStock",
+      url: canonical,
+    })),
+  };
+}
+
+/**
  * Nodo `Course` de la formación para equipos.
  *
  * Se declara como curso y no como servicio porque es lo que es: un programa con
@@ -261,6 +311,12 @@ function buildJsonLd({ routeKey, locale, copy, title, description, canonical }) 
 
   if (routeKey === ROUTE_KEYS.HOME) {
     graph.push(...serviceNodes(copy.services, locale));
+  }
+
+  const serviceDetailKey = SERVICE_DETAIL_KEY[routeKey];
+  if (serviceDetailKey) {
+    const service = copy.serviceDetails[serviceDetailKey];
+    graph.push(serviceDetailNode({ service, locale, canonical }), faqNode(service));
   }
 
   return { "@context": "https://schema.org", "@graph": graph };

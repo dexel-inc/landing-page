@@ -2,6 +2,7 @@ import { auditCopy, servicesCopy } from "./services.js";
 import { categoriesCopy, categoryChromeCopy } from "./categories.js";
 import { consentCopy, notFoundCopy, privacyCopy } from "./legal.js";
 import { trainingCopy } from "./training.js";
+import { serviceDetailsCopy } from "./serviceDetails.js";
 import { formatPrice } from "../config/pricing.js";
 
 export const messages = {
@@ -29,6 +30,48 @@ export const messages = {
       auditTitle: "Auditoría de procesos | Dexel",
       auditDescription:
         "Le decimos qué procesos se pueden automatizar, cuántas horas al mes recuperaría y cuánto costaría cada implementación. Ocho entregables en 5 a 7 días hábiles.",
+      websitesTitle: "Sitios web a la medida | Dexel",
+      websitesDescription: `Landing, sitio completo con panel o catálogo en línea. ${formatPrice(
+        "webPresence",
+        "es",
+        { from: true },
+      )}, entrega desde 5 días hábiles.`,
+      customSoftwareDetailTitle: "Software a la medida | Dexel",
+      customSoftwareDetailDescription: `Herramientas y aplicaciones construidas alrededor de su operación, con panel de administración incluido. ${formatPrice(
+        "customTool",
+        "es",
+        { from: true },
+      )}.`,
+      micropagesTitle: "Micropáginas e invitaciones digitales | Dexel",
+      micropagesDescription: `Invitaciones digitales para bodas, XV años, grados y otros eventos: cuenta regresiva, galería, música y confirmación por WhatsApp. ${formatPrice(
+        "micropageEssential",
+        "es",
+        { from: true },
+      )}, entrega en 24-48 horas.`,
+      seoDetailTitle: "SEO: posicionamiento en buscadores | Dexel",
+      seoDetailDescription: `Auditoría SEO, contenido mensual y link building, con reporte de trabajo entregado cada mes. ${formatPrice(
+        "seoAudit",
+        "es",
+        { from: true },
+      )}.`,
+      integrationsTitle: "Integraciones y APIs | Dexel",
+      integrationsDescription: `Conectamos los sistemas que ya tiene para que nadie tenga que copiar datos entre ellos. ${formatPrice(
+        "integration",
+        "es",
+        { from: true },
+      )} por integración.`,
+      paymentGatewaysTitle: "Pasarelas de pago | Dexel",
+      paymentGatewaysDescription: `Cobre en línea en su sitio actual, con las pasarelas que se usan en Colombia y la región. ${formatPrice(
+        "paymentGateway",
+        "es",
+        { from: true },
+      )}.`,
+      maintenanceDetailTitle: "Mantenimiento web mensual | Dexel",
+      maintenanceDetailDescription: `Actualizaciones, respaldos y soporte para sitios, aplicaciones y agentes en producción, en tres niveles. ${formatPrice(
+        "careBasic",
+        "es",
+        { from: true, perMonth: true },
+      )}.`,
       trainingTitle: "Formación en automatización e IA para equipos | Dexel",
       trainingDescription: `Formación virtual en automatización e IA para equipos que van a hacer el trabajo. Cada participante sale con una automatización real de su operación funcionando. ${formatPrice(
         "trainingExecutive",
@@ -415,6 +458,7 @@ export const messages = {
     training: trainingCopy.es,
     chrome: categoryChromeCopy.es,
     audit: auditCopy.es,
+    serviceDetails: serviceDetailsCopy.es,
     privacy: privacyCopy.es,
     notFound: notFoundCopy.es,
     consent: consentCopy.es,
@@ -456,6 +500,48 @@ export const messages = {
       auditTitle: "Process audit | Dexel",
       auditDescription:
         "We tell you which processes can be automated, how many hours a month you would get back, and what each implementation would cost. Eight deliverables in 5 to 7 business days.",
+      websitesTitle: "Custom websites | Dexel",
+      websitesDescription: `Landing page, full site with an admin panel, or an online catalog. ${formatPrice(
+        "webPresence",
+        "en",
+        { from: true },
+      )}, delivery from 5 business days.`,
+      customSoftwareDetailTitle: "Custom software | Dexel",
+      customSoftwareDetailDescription: `Tools and applications built around your operation, with an admin panel included. ${formatPrice(
+        "customTool",
+        "en",
+        { from: true },
+      )}.`,
+      micropagesTitle: "Micropages and digital invitations | Dexel",
+      micropagesDescription: `Digital invitations for weddings, quinceañeras, graduations, and other events: countdown, gallery, music, and WhatsApp RSVP. ${formatPrice(
+        "micropageEssential",
+        "en",
+        { from: true },
+      )}, delivered in 24-48 hours.`,
+      seoDetailTitle: "SEO: search engine positioning | Dexel",
+      seoDetailDescription: `SEO audit, monthly content, and link building, with a monthly report of work delivered. ${formatPrice(
+        "seoAudit",
+        "en",
+        { from: true },
+      )}.`,
+      integrationsTitle: "Integrations and APIs | Dexel",
+      integrationsDescription: `We connect the systems you already have so nobody has to copy data between them. ${formatPrice(
+        "integration",
+        "en",
+        { from: true },
+      )} per integration.`,
+      paymentGatewaysTitle: "Payment gateways | Dexel",
+      paymentGatewaysDescription: `Take payments online on your existing site, with the gateways used in Colombia and the region. ${formatPrice(
+        "paymentGateway",
+        "en",
+        { from: true },
+      )}.`,
+      maintenanceDetailTitle: "Monthly web maintenance | Dexel",
+      maintenanceDetailDescription: `Updates, backups, and support for sites, applications, and agents in production, in three tiers. ${formatPrice(
+        "careBasic",
+        "en",
+        { from: true, perMonth: true },
+      )}.`,
       trainingTitle: "Automation and AI training for teams | Dexel",
       trainingDescription: `Live virtual automation and AI training for teams that will do the work. Every participant leaves with a real automation from their operation up and running. ${formatPrice(
         "trainingExecutive",
@@ -830,6 +916,7 @@ export const messages = {
     training: trainingCopy.en,
     chrome: categoryChromeCopy.en,
     audit: auditCopy.en,
+    serviceDetails: serviceDetailsCopy.en,
     privacy: privacyCopy.en,
     notFound: notFoundCopy.en,
     consent: consentCopy.en,

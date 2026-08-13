@@ -14,6 +14,7 @@ import {
   LayoutDashboard,
   LineChart,
   MessageSquare,
+  PartyPopper,
   Plug,
   ScanSearch,
   Search,
@@ -25,7 +26,7 @@ import Button from "../components/ui/Button.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
 import FaqList from "../components/ui/FaqList.jsx";
 import ProcessCompact from "../components/ProcessCompact.jsx";
-import { useRouter } from "../router/RouterContext.jsx";
+import { Link, useRouter } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
 import { EVENTS, track } from "../analytics/track.js";
 import { INTENT, setIntent } from "../analytics/intent.js";
@@ -50,6 +51,7 @@ const frontIcons = {
   Globe,
   Cpu,
   LayoutDashboard,
+  PartyPopper,
   Plug,
   CreditCard,
   Wrench,
@@ -62,12 +64,20 @@ const frontIcons = {
   Search,
 };
 
+/**
+ * Tarjeta clickeable cuando el frente tiene página propia (`routeKey`); de lo
+ * contrario, se queda como tarjeta informativa —automatización y auditoría
+ * todavía no tienen páginas hijas—.
+ */
 function FrontCard({ front }) {
   const Icon = frontIcons[front.iconName] ?? Cpu;
+  const Wrapper = front.routeKey ? Link : "div";
+  const wrapperProps = front.routeKey ? { to: front.routeKey } : {};
 
   return (
-    <div
-      className="group relative rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/40 p-5 md:p-6 hover:border-blue-500/30 transition-colors duration-500"
+    <Wrapper
+      {...wrapperProps}
+      className="group relative block rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/40 p-5 md:p-6 hover:border-blue-500/30 transition-colors duration-500"
     >
       <div className="flex items-start gap-4">
         <div className="shrink-0 text-slate-800 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-all duration-300 p-2.5 bg-white/80 dark:bg-black/50 rounded-xl border border-slate-200 dark:border-zinc-800 group-hover:scale-110">
@@ -87,7 +97,7 @@ function FrontCard({ front }) {
           <p className="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">{front.text}</p>
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 }
 

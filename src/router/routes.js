@@ -24,6 +24,18 @@ export const ROUTE_KEYS = {
    * y la formación es algo que hacemos *con* él. Mezclarlas diluye las dos.
    */
   TRAINING: "training",
+  /**
+   * Páginas de servicio individuales, hijas del hub de desarrollo web. No
+   * entran en `SERVICE_CATEGORIES`: esa lista sigue siendo las tres
+   * categorías, y estas siete son contenido *dentro* de una de ellas.
+   */
+  WEBSITES: "websites",
+  CUSTOM_SOFTWARE: "customSoftware",
+  MICROPAGES: "micropages",
+  SEO: "seo",
+  INTEGRATIONS: "integrations",
+  PAYMENT_GATEWAYS: "paymentGateways",
+  MAINTENANCE: "maintenance",
   CONTACT: "contact",
   PRIVACY: "privacy",
   /** No tiene URL propia: es lo que se muestra cuando ninguna ruta coincide. */
@@ -46,6 +58,13 @@ export const PATHS = {
     webDev: "/es/servicios/desarrollo-web",
     automation: "/es/servicios/automatizacion",
     audit: "/es/servicios/auditoria",
+    websites: "/es/servicios/desarrollo-web/sitios-web",
+    customSoftware: "/es/servicios/desarrollo-web/software-a-la-medida",
+    micropages: "/es/servicios/desarrollo-web/micropaginas",
+    seo: "/es/servicios/desarrollo-web/seo",
+    integrations: "/es/servicios/desarrollo-web/integraciones",
+    paymentGateways: "/es/servicios/desarrollo-web/pasarelas-de-pago",
+    maintenance: "/es/servicios/desarrollo-web/mantenimiento",
     training: "/es/formacion",
     contact: "/es/contacto",
     privacy: "/es/privacidad",
@@ -56,6 +75,13 @@ export const PATHS = {
     webDev: "/en/services/web-development",
     automation: "/en/services/automation",
     audit: "/en/services/process-audit",
+    websites: "/en/services/web-development/websites",
+    customSoftware: "/en/services/web-development/custom-software",
+    micropages: "/en/services/web-development/micropages",
+    seo: "/en/services/web-development/seo",
+    integrations: "/en/services/web-development/integrations",
+    paymentGateways: "/en/services/web-development/payment-gateways",
+    maintenance: "/en/services/web-development/maintenance",
     training: "/en/training",
     contact: "/en/contact",
     privacy: "/en/privacy",
@@ -91,12 +117,12 @@ export const ANCHOR_REDIRECTS = {
   "process-audit": ROUTE_KEYS.AUDIT,
   "automatizacion-e-integracion": ROUTE_KEYS.AUTOMATION,
   "automation-and-integration": ROUTE_KEYS.AUTOMATION,
-  "software-a-la-medida": ROUTE_KEYS.WEB_DEV,
-  "custom-software": ROUTE_KEYS.WEB_DEV,
+  "software-a-la-medida": ROUTE_KEYS.CUSTOM_SOFTWARE,
+  "custom-software": ROUTE_KEYS.CUSTOM_SOFTWARE,
   "presencia-web": ROUTE_KEYS.WEB_DEV,
   "web-presence": ROUTE_KEYS.WEB_DEV,
-  mantenimiento: ROUTE_KEYS.WEB_DEV,
-  maintenance: ROUTE_KEYS.WEB_DEV,
+  mantenimiento: ROUTE_KEYS.MAINTENANCE,
+  maintenance: ROUTE_KEYS.MAINTENANCE,
 };
 
 /** Página de categoría a la que apunta un ancla vieja, o `null`. */

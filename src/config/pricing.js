@@ -79,6 +79,14 @@ export const SERVICE_PRICE_KEY = {
   "software-medida": "customSoftware",
   "presencia-web": "webPresence",
   mantenimiento: "careBasic",
+
+  // Páginas de servicio individuales del hub de desarrollo web.
+  "sitios-web": "webPresence",
+  "software-a-la-medida": "customSoftware",
+  micropaginas: "micropageEssential",
+  seo: "seoAudit",
+  integraciones: "integration",
+  "pasarelas-de-pago": "paymentGateway",
 };
 
 const LABELS = {

@@ -37,38 +37,45 @@ const es = {
       {
         iconName: "Globe",
         name: "Sitios web",
-        text: "Presencia profesional, en dos niveles según lo que necesite resolver.",
+        text: "Presencia profesional, en tres niveles según lo que necesite resolver.",
+        routeKey: ROUTE_KEYS.WEBSITES,
       },
       {
         iconName: "Cpu",
-        name: "Aplicaciones web a la medida",
-        text: "Cuando ninguna herramienta del mercado se ajusta a su operación.",
+        name: "Software a la medida",
+        text: "Cuando ninguna herramienta del mercado se ajusta a su operación, con panel de administración incluido.",
+        routeKey: ROUTE_KEYS.CUSTOM_SOFTWARE,
       },
       {
-        iconName: "LayoutDashboard",
-        name: "Paneles de administración",
-        text: "Para que su equipo gestione la operación sin depender de nosotros.",
+        iconName: "PartyPopper",
+        name: "Micropáginas e invitaciones digitales",
+        text: "Invitaciones para bodas, XV años, grados y otros eventos, con cuenta regresiva, galería y confirmación por WhatsApp.",
+        routeKey: ROUTE_KEYS.MICROPAGES,
       },
       {
         iconName: "Search",
         name: "SEO y visibilidad",
         text: "Que su sitio aparezca cuando alguien busca lo que usted vende. Estructura técnica, contenido y medición.",
+        routeKey: ROUTE_KEYS.SEO,
       },
       {
         iconName: "Plug",
         name: "Integraciones y APIs",
         text: "Conectar lo que ya tiene con lo que va a construir.",
+        routeKey: ROUTE_KEYS.INTEGRATIONS,
       },
       {
         iconName: "CreditCard",
         name: "Pasarelas de pago",
         text: "Cobrar en línea, con las pasarelas que se usan en Colombia y la región.",
+        routeKey: ROUTE_KEYS.PAYMENT_GATEWAYS,
       },
       {
         iconName: "Wrench",
         name: "Mantenimiento",
         text: "Actualizaciones, respaldos y corrección de errores.",
         meta: formatPrice("careBasic", "es", { from: true, perMonth: true }),
+        routeKey: ROUTE_KEYS.MAINTENANCE,
       },
     ],
 
@@ -428,39 +435,46 @@ const en = {
     fronts: [
       {
         iconName: "Globe",
-        name: "Websites and landing pages",
-        text: "A professional presence, in two tiers depending on what you need to solve.",
+        name: "Websites",
+        text: "A professional presence, in three tiers depending on what you need to solve.",
+        routeKey: ROUTE_KEYS.WEBSITES,
       },
       {
         iconName: "Cpu",
-        name: "Custom web applications",
-        text: "For when no off-the-shelf tool fits how you actually work.",
+        name: "Custom software",
+        text: "For when no off-the-shelf tool fits how you actually work, with an admin panel included.",
+        routeKey: ROUTE_KEYS.CUSTOM_SOFTWARE,
       },
       {
-        iconName: "LayoutDashboard",
-        name: "Admin panels",
-        text: "So your team runs the operation without depending on us.",
+        iconName: "PartyPopper",
+        name: "Micropages and digital invitations",
+        text: "Invitations for weddings, quinceañeras, graduations, and other events, with a countdown, gallery, and WhatsApp RSVP.",
+        routeKey: ROUTE_KEYS.MICROPAGES,
       },
       {
         iconName: "Search",
         name: "SEO and visibility",
         text: "So your site shows up when someone searches for what you sell. Technical structure, content, and measurement.",
+        routeKey: ROUTE_KEYS.SEO,
       },
       {
         iconName: "Plug",
         name: "Integrations and APIs",
         text: "Connecting what you already have to what you're about to build.",
+        routeKey: ROUTE_KEYS.INTEGRATIONS,
       },
       {
         iconName: "CreditCard",
         name: "Payment gateways",
         text: "Charging online, with the gateways actually used in Colombia and the region.",
+        routeKey: ROUTE_KEYS.PAYMENT_GATEWAYS,
       },
       {
         iconName: "Wrench",
         name: "Maintenance",
         text: "Updates, backups, and bug fixes.",
         meta: formatPrice("careBasic", "en", { from: true, perMonth: true }),
+        routeKey: ROUTE_KEYS.MAINTENANCE,
       },
     ],
 
@@ -788,6 +802,8 @@ export const categoryChromeCopy = {
     discoveryCta: "Agendar una llamada sin costo (30 min)",
     vatLabel: "IVA incluido",
     vatNote: "Todos nuestros precios en pesos incluyen IVA. Lo que ve es lo que factura.",
+    featuredLabel: "El más elegido",
+    addsLabel: "Incluye todo lo anterior, más:",
   },
   en: {
     menuLabel: "Services",
@@ -797,6 +813,8 @@ export const categoryChromeCopy = {
     discoveryCta: "Book a free discovery call",
     vatLabel: null,
     vatNote: null,
+    featuredLabel: "Most chosen",
+    addsLabel: "Includes everything above, plus:",
   },
 };
 
@@ -812,19 +830,25 @@ export function serviceMenuGroups(copy) {
       key: "webDev",
       routeKey: ROUTE_KEYS.WEB_DEV,
       label: copy.categories.webDev.navLabel,
-      items: copy.categories.webDev.fronts.map((front) => front.name),
+      items: copy.categories.webDev.fronts.map((front) => ({
+        label: front.name,
+        routeKey: front.routeKey ?? null,
+      })),
     },
     {
       key: "automation",
       routeKey: ROUTE_KEYS.AUTOMATION,
       label: copy.categories.automation.navLabel,
-      items: copy.categories.automation.fronts.map((front) => front.name),
+      items: copy.categories.automation.fronts.map((front) => ({
+        label: front.name,
+        routeKey: front.routeKey ?? null,
+      })),
     },
     {
       key: "audit",
       routeKey: ROUTE_KEYS.AUDIT,
       label: copy.audit.navLabel,
-      items: copy.audit.deliverables.map((item) => item.title),
+      items: copy.audit.deliverables.map((item) => ({ label: item.title, routeKey: null })),
     },
   ];
 }

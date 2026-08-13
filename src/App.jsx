@@ -6,6 +6,8 @@ import Footer from "./sections/Footer.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import ServicesPage from "./pages/ServicesPage.jsx";
 import CategoryPage from "./pages/CategoryPage.jsx";
+import ServiceDetailPage from "./pages/ServiceDetailPage.jsx";
+import MicropagesDemos from "./components/MicropagesDemos.jsx";
 import AuditPage from "./pages/AuditPage.jsx";
 import TrainingPage from "./pages/TrainingPage.jsx";
 import PrivacyPage from "./pages/PrivacyPage.jsx";
@@ -209,6 +211,21 @@ function Navbar() {
   );
 }
 
+/**
+ * Las siete páginas de servicio individuales comparten `ServiceDetailPage`;
+ * solo cambian la clave de copy, el id de servicio (para medición e intent) y
+ * si llevan un slot `children` propio (hoy, solo micropáginas).
+ */
+const SERVICE_DETAIL_ROUTES = {
+  [ROUTE_KEYS.WEBSITES]: { detailKey: "websites", serviceId: "sitios-web" },
+  [ROUTE_KEYS.CUSTOM_SOFTWARE]: { detailKey: "customSoftware", serviceId: "software-a-la-medida" },
+  [ROUTE_KEYS.MICROPAGES]: { detailKey: "micropages", serviceId: "micropaginas", Children: MicropagesDemos },
+  [ROUTE_KEYS.SEO]: { detailKey: "seo", serviceId: "seo" },
+  [ROUTE_KEYS.INTEGRATIONS]: { detailKey: "integrations", serviceId: "integraciones" },
+  [ROUTE_KEYS.PAYMENT_GATEWAYS]: { detailKey: "paymentGateways", serviceId: "pasarelas-de-pago" },
+  [ROUTE_KEYS.MAINTENANCE]: { detailKey: "maintenanceDetail", serviceId: "mantenimiento" },
+};
+
 function RouteContent() {
   const { routeKey } = useRouter();
   const { copy } = useI18n();
@@ -218,9 +235,20 @@ function RouteContent() {
   }
 
   const webPresence = copy.services.items.find((item) => item.id === "presencia-web");
+  const serviceDetailRoute = SERVICE_DETAIL_ROUTES[routeKey];
 
-  const page =
-    routeKey === ROUTE_KEYS.SERVICES ? (
+  const page = serviceDetailRoute ? (
+    <ServiceDetailPage
+      copy={copy.serviceDetails[serviceDetailRoute.detailKey]}
+      chrome={copy.chrome}
+      categoryRouteKey={ROUTE_KEYS.WEB_DEV}
+      serviceId={serviceDetailRoute.serviceId}
+    >
+      {serviceDetailRoute.Children ? (
+        <serviceDetailRoute.Children copy={copy.serviceDetails[serviceDetailRoute.detailKey].demos} />
+      ) : null}
+    </ServiceDetailPage>
+  ) : routeKey === ROUTE_KEYS.SERVICES ? (
       <ServicesPage
         copy={copy.services}
         categories={copy.categories}

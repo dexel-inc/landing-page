@@ -16,7 +16,33 @@ import { ROUTE_KEYS } from "../router/routes.js";
 const groupLinkClass =
   "block py-2.5 text-xs tracking-[0.15em] uppercase font-semibold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-300 transition-colors";
 
-const itemClass = "text-sm text-slate-600 dark:text-gray-400 leading-relaxed";
+const itemClass = "block text-sm text-slate-600 dark:text-gray-400 leading-relaxed";
+const itemLinkClass =
+  "block text-sm text-slate-600 dark:text-gray-400 leading-relaxed hover:text-blue-600 dark:hover:text-blue-400 transition-colors";
+
+/**
+ * Un ítem de submenú es un enlace real cuando su frente tiene página propia
+ * (`routeKey`) y texto plano cuando no —automatización y auditoría siguen sin
+ * páginas hijas—. El panel se queda `hidden` y rastreable en los dos casos.
+ */
+function MenuItem({ item, onClose, small = false }) {
+  const textClass = small ? "text-xs text-slate-600 dark:text-gray-400" : itemClass;
+  const linkClass = small
+    ? "block text-xs text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+    : itemLinkClass;
+
+  if (!item.routeKey) {
+    return <li className={textClass}>{item.label}</li>;
+  }
+
+  return (
+    <li>
+      <Link to={item.routeKey} onClick={onClose} className={linkClass}>
+        {item.label}
+      </Link>
+    </li>
+  );
+}
 
 /**
  * Desplegable de escritorio.
@@ -122,9 +148,7 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
               <div className="w-8 h-0.5 bg-blue-500 mt-2 mb-3" />
               <ul className="space-y-1.5">
                 {group.items.map((item) => (
-                  <li key={item} className={itemClass}>
-                    {item}
-                  </li>
+                  <MenuItem key={item.label} item={item} onClose={close} />
                 ))}
               </ul>
             </div>
@@ -207,9 +231,7 @@ export function ServicesAccordion({ groups, label, indexLabel, onNavigate }) {
                 <div className="overflow-hidden">
                   <ul className="px-4 pb-3 space-y-1">
                     {group.items.map((item) => (
-                      <li key={item} className="text-xs text-slate-600 dark:text-gray-400">
-                        {item}
-                      </li>
+                      <MenuItem key={item.label} item={item} small />
                     ))}
                   </ul>
                 </div>
