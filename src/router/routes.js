@@ -1,12 +1,14 @@
 /**
- * Tabla de rutas localizadas.
+ * Localized route table.
  *
- * Cada página se identifica por una clave estable (`home`, `services`, ...)
- * independiente del idioma. La URL sí cambia por idioma, porque una ruta en
- * español que dice `/services` no la posiciona ningún buscador hispanohablante.
+ * Each page is identified by a stable key (`home`, `services`, ...)
+ * independent of the language. The URL does change per language, because a
+ * Spanish route that reads `/services` won't rank with any Spanish-speaking
+ * search engine.
  *
- * La clave es lo que usan el router, el SEO y el selector de idioma: cambiar de
- * idioma es resolver la misma clave en el otro locale, no adivinar una traducción.
+ * The key is what the router, SEO, and the language switcher all use:
+ * switching language means resolving the same key in the other locale, not
+ * guessing a translation.
  */
 
 export const LOCALES = ["es", "en"];
@@ -19,15 +21,15 @@ export const ROUTE_KEYS = {
   AUTOMATION: "automation",
   AUDIT: "audit",
   /**
-   * Formación para equipos. No es una categoría de servicio y por eso no entra en
-   * `SERVICE_CATEGORIES`: los servicios son cosas que hacemos *para* el cliente
-   * y la formación es algo que hacemos *con* él. Mezclarlas diluye las dos.
+   * Training for teams. It isn't a service category, which is why it isn't
+   * in `SERVICE_CATEGORIES`: services are things we do *for* the client and
+   * training is something we do *with* them. Mixing them dilutes both.
    */
   TRAINING: "training",
   /**
-   * Páginas de servicio individuales, hijas del hub de desarrollo web. No
-   * entran en `SERVICE_CATEGORIES`: esa lista sigue siendo las tres
-   * categorías, y estas siete son contenido *dentro* de una de ellas.
+   * Individual service pages, children of the web development hub. They
+   * aren't in `SERVICE_CATEGORIES`: that list stays the three categories,
+   * and these seven are content *inside* one of them.
    */
   WEBSITES: "websites",
   CUSTOM_SOFTWARE: "customSoftware",
@@ -36,21 +38,38 @@ export const ROUTE_KEYS = {
   INTEGRATIONS: "integrations",
   PAYMENT_GATEWAYS: "paymentGateways",
   MAINTENANCE: "maintenance",
+  /**
+   * Individual service pages, children of the automation hub. Same
+   * criterion as the seven web development ones: they aren't in
+   * `SERVICE_CATEGORIES`, they're content *inside* the category.
+   *
+   * `SYSTEM_INTEGRATION` is a different key from `INTEGRATIONS`: the latter
+   * is connecting a new build with what already exists, the former is
+   * connecting systems that already exist with each other. They sound
+   * similar and are different offerings, which is why they don't share a
+   * key or a route.
+   */
+  WHATSAPP_AUTOMATION: "whatsappAutomation",
+  CUSTOM_AGENTS: "customAgents",
+  N8N_WORKFLOWS: "n8nWorkflows",
+  SYSTEM_INTEGRATION: "systemIntegration",
+  AUTOMATED_REPORTS: "automatedReports",
+  DOCUMENT_READING: "documentReading",
   CONTACT: "contact",
   PRIVACY: "privacy",
-  /** No tiene URL propia: es lo que se muestra cuando ninguna ruta coincide. */
+  /** Has no URL of its own: it's what shows when no route matches. */
   NOT_FOUND: "notFound",
 };
 
 /**
- * Las tres categorías de servicio, en el orden en que se muestran en el menú y
- * en la página índice. Se declara aquí y no en la interfaz porque el menú, la
- * página índice, el SEO y la medición tienen que estar de acuerdo sobre cuáles
- * son y en qué orden van.
+ * The three service categories, in the order they're shown in the menu and
+ * on the index page. Declared here and not in the UI because the menu, the
+ * index page, SEO, and analytics all need to agree on which ones there are
+ * and in what order.
  */
 export const SERVICE_CATEGORIES = [ROUTE_KEYS.WEB_DEV, ROUTE_KEYS.AUTOMATION, ROUTE_KEYS.AUDIT];
 
-/** Ruta canónica de cada página por idioma. */
+/** Canonical route for each page, per language. */
 export const PATHS = {
   es: {
     home: "/es",
@@ -65,6 +84,12 @@ export const PATHS = {
     integrations: "/es/servicios/desarrollo-web/integraciones",
     paymentGateways: "/es/servicios/desarrollo-web/pasarelas-de-pago",
     maintenance: "/es/servicios/desarrollo-web/mantenimiento",
+    whatsappAutomation: "/es/servicios/automatizacion/atencion-whatsapp",
+    customAgents: "/es/servicios/automatizacion/agentes-a-la-medida",
+    n8nWorkflows: "/es/servicios/automatizacion/workflows-n8n",
+    systemIntegration: "/es/servicios/automatizacion/integracion-de-sistemas",
+    automatedReports: "/es/servicios/automatizacion/reportes-automaticos",
+    documentReading: "/es/servicios/automatizacion/lectura-de-documentos",
     training: "/es/formacion",
     contact: "/es/contacto",
     privacy: "/es/privacidad",
@@ -82,6 +107,12 @@ export const PATHS = {
     integrations: "/en/services/web-development/integrations",
     paymentGateways: "/en/services/web-development/payment-gateways",
     maintenance: "/en/services/web-development/maintenance",
+    whatsappAutomation: "/en/services/automation/whatsapp-support",
+    customAgents: "/en/services/automation/custom-agents",
+    n8nWorkflows: "/en/services/automation/n8n-workflows",
+    systemIntegration: "/en/services/automation/system-integration",
+    automatedReports: "/en/services/automation/automated-reports",
+    documentReading: "/en/services/automation/document-reading",
     training: "/en/training",
     contact: "/en/contact",
     privacy: "/en/privacy",
@@ -89,13 +120,13 @@ export const PATHS = {
 };
 
 /**
- * `/` sirve el contenido del idioma por defecto en vez de redirigir en el
- * servidor: así los rastreadores y los previews de WhatsApp encuentran HTML
- * en la raíz. El canónico apunta a `/es`, que es la URL real.
+ * `/` serves the default language's content instead of redirecting on the
+ * server: that way crawlers and WhatsApp previews find HTML at the root.
+ * The canonical points to `/es`, which is the real URL.
  */
 export const ROOT_PATH = "/";
 
-/** Rutas viejas que ya pueden estar indexadas o compartidas por ahí. */
+/** Old routes that may already be indexed or shared out there. */
 export const LEGACY_REDIRECTS = {
   "/servicios": PATHS.es.services,
   "/contacto": PATHS.es.contact,
@@ -106,11 +137,11 @@ export const LEGACY_REDIRECTS = {
 };
 
 /**
- * Anclas de la antigua página única de servicios.
+ * Anchors from the old single-page services layout.
  *
- * Un `#hash` nunca llega al servidor, así que esto no se puede resolver con una
- * redirección de Vercel: lo aplica el router al montar, cuando la URL que
- * alguien abrió o compartió trae una de estas anclas.
+ * A `#hash` never reaches the server, so this can't be resolved with a
+ * Vercel redirect: the router applies it on mount, when the URL someone
+ * opened or shared carries one of these anchors.
  */
 export const ANCHOR_REDIRECTS = {
   auditoria: ROUTE_KEYS.AUDIT,
@@ -125,7 +156,7 @@ export const ANCHOR_REDIRECTS = {
   maintenance: ROUTE_KEYS.MAINTENANCE,
 };
 
-/** Página de categoría a la que apunta un ancla vieja, o `null`. */
+/** Category page an old anchor points to, or `null`. */
 export function routeKeyForAnchor(hash) {
   if (!hash) return null;
   return ANCHOR_REDIRECTS[String(hash).replace(/^#/, "")] ?? null;
@@ -138,7 +169,7 @@ for (const locale of LOCALES) {
   }
 }
 
-/** Quita la barra final y las barras repetidas, sin vaciar la raíz. */
+/** Strips the trailing slash and repeated slashes, without emptying the root. */
 export function normalizePathname(pathname) {
   if (!pathname) return ROOT_PATH;
   const clean = pathname.replace(/\/{2,}/g, "/").replace(/\/+$/, "");
@@ -146,9 +177,9 @@ export function normalizePathname(pathname) {
 }
 
 /**
- * Traduce una URL a `{ locale, routeKey }`.
- * Devuelve `null` cuando la ruta no existe, para que quien llame decida si
- * redirige, muestra un 404 o cae al inicio.
+ * Resolves a URL to `{ locale, routeKey }`.
+ * Returns `null` when the route doesn't exist, so the caller decides
+ * whether to redirect, show a 404, or fall back to home.
  */
 export function matchRoute(pathname) {
   const clean = normalizePathname(pathname);
@@ -166,15 +197,15 @@ export function matchRoute(pathname) {
 }
 
 /**
- * URL de una página en un idioma. `notFound` no tiene URL propia, así que
- * cambiar de idioma desde un 404 lleva al inicio en vez de a ninguna parte.
+ * URL of a page in a given language. `notFound` has no URL of its own, so
+ * switching language from a 404 leads to home instead of nowhere.
  */
 export function pathFor(routeKey, locale) {
   const paths = PATHS[locale] ?? PATHS[DEFAULT_LOCALE];
   return paths[routeKey] ?? PATHS[DEFAULT_LOCALE][routeKey] ?? paths[ROUTE_KEYS.HOME];
 }
 
-/** Todas las URLs públicas, para prerenderizar y para el sitemap. */
+/** All public URLs, for prerendering and for the sitemap. */
 export function allRoutes() {
   const routes = [{ path: ROOT_PATH, locale: DEFAULT_LOCALE, routeKey: ROUTE_KEYS.HOME, isRoot: true }];
 
@@ -188,20 +219,22 @@ export function allRoutes() {
 }
 
 /**
- * Idioma preferido del navegador, limitado a los que el sitio realmente tiene.
+ * Browser's preferred language, limited to the ones the site actually has.
  *
- * El orden es deliberado y el español es el respaldo, no el inglés: la empresa
- * es colombiana y el tráfico pagado apunta a LATAM.
+ * The order is deliberate and Spanish is the fallback, not English: the
+ * company is Colombian and paid traffic targets LATAM.
  *
- * 1. Cualquier variante de español —`es`, `es-CO`, `es-419`…— resuelve a
- *    español, aunque no venga primera en la lista.
- * 2. Con cualquier otro idioma declarado —inglés, francés, portugués— resuelve
- *    a inglés, que es la versión internacional del sitio.
- * 3. Sin ninguna señal —un rastreador que no manda idioma— resuelve a español.
+ * 1. Any Spanish variant —`es`, `es-CO`, `es-419`…— resolves to Spanish,
+ *    even if it isn't first in the list.
+ * 2. With any other declared language —English, French, Portuguese— it
+ *    resolves to English, which is the site's international version.
+ * 3. With no signal at all —a crawler that sends no language— it resolves
+ *    to Spanish.
  *
- * Esto solo decide a dónde va quien entra por la raíz. Una URL con prefijo de
- * idioma jamás se redirige: `/en/services` sirve inglés aunque el navegador
- * pida español, porque si no la versión en inglés dejaría de indexarse.
+ * This only decides where someone entering through the root goes. A URL with
+ * a language prefix is never redirected: `/en/services` serves English even
+ * if the browser asks for Spanish, because otherwise the English version
+ * would stop getting indexed.
  */
 export function detectBrowserLocale(languages) {
   const list = (languages ?? []).map((tag) => String(tag).toLowerCase()).filter(Boolean);

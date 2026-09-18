@@ -6,12 +6,12 @@ import { ROUTE_KEYS } from "../router/routes.js";
 import { EVENTS, track } from "../analytics/track.js";
 
 /**
- * Bloque de servicios del inicio: enruta, no vende.
+ * Home page's services block: it routes, it doesn't sell.
  *
- * Antes eran cinco tarjetas con el detalle completo de cada servicio,
- * duplicando lo que ya cuenta cada página propia. Ahora son las mismas tres
- * tarjetas de categoría que usa `ServicesPage` —mismo componente, mismo
- * copy—, así que el inicio y el índice de servicios nunca se desincronizan.
+ * Used to be five cards with the full detail of each service, duplicating
+ * what each page already tells on its own. Now they're the same three
+ * category cards `ServicesPage` uses —same component, same copy—, so the
+ * home page and the services index never drift out of sync.
  */
 export default function Services({ copy, categories, audit, chrome }) {
   const cards = buildCategoryCards({ categories, audit, routeKeys: ROUTE_KEYS });

@@ -26,25 +26,26 @@ import { EVENTS, track } from "../analytics/track.js";
 import { INTENT, setIntent } from "../analytics/intent.js";
 
 /**
- * Formación para equipos.
+ * Team training.
  *
- * No usa `CategoryPage`: esa plantilla describe un servicio que Dexel ejecuta
- * —frentes, alcance, entrega— y aquí lo que se compra es que el equipo del
- * cliente termine sabiendo hacerlo. La estructura es otra: programa, formatos y
- * qué se lleva puesto cada participante.
+ * Doesn't use `CategoryPage`: that template describes a service Dexel
+ * executes —fronts, scope, delivery— and here what's being bought is the
+ * client's team ending up knowing how to do it themselves. The structure is
+ * different: program, formats, and what each participant walks away with.
  *
- * El sistema visual sí es el mismo del resto del sitio; no es un rediseño.
+ * The visual system is the same as the rest of the site, though; it isn't a redesign.
  */
 
 const blockIcons = { Ban, Calculator, Map, Hammer, AlertTriangle, Code2 };
 
 /**
- * Los seis bloques como acordeón: el orden es parte del argumento —empezar por
- * qué NO automatizar es lo que separa esto de un curso genérico— y con seis
- * tarjetas abiertas ese orden se pierde en el desplazamiento.
+ * The six blocks as an accordion: the order is part of the argument
+ * —starting with what NOT to automate is what sets this apart from a
+ * generic course— and with all six cards open that order gets lost in the
+ * scroll.
  *
- * El texto queda siempre en el HTML aunque el bloque esté cerrado, para que un
- * rastreador lea el temario completo.
+ * The text always stays in the HTML even when the block is closed, so a
+ * crawler reads the full syllabus.
  */
 function ProgramBlocks({ copy }) {
   const [openBlocks, setOpenBlocks] = useState(() => new Set());
@@ -139,16 +140,18 @@ export default function TrainingPage({ copy, chrome }) {
   const showVat = pricesIncludeVat(locale);
 
   useEffect(() => {
-    // El idioma va explícito y no por el que guarda la capa de medición: los
-    // efectos de los hijos corren antes que el del contenedor que lo inyecta.
+    // The language is passed explicitly instead of relying on the one the
+    // measurement layer holds: children's effects run before the container
+    // that injects it.
     track(EVENTS.TRAINING_PAGE_VIEWED, { locale });
   }, [locale]);
 
   /**
-   * El clic no es la conversión: la conversión es entregar la conversación a
-   * WhatsApp. Aquí solo se declara con qué intención va el visitante —y con qué
-   * formato, que es lo que le da valor monetario al evento— para que al
-   * convertir se cuente `TrainingRequested` y no la conversión genérica.
+   * The click isn't the conversion: the conversion is handing the
+   * conversation off to WhatsApp. Here we only declare which intent the
+   * visitor is going in with —and which format, which is what gives the
+   * event its monetary value— so that on converting, `TrainingRequested`
+   * gets counted instead of the generic conversion.
    */
   const requestTraining = (format, location) => {
     setIntent({
@@ -170,7 +173,7 @@ export default function TrainingPage({ copy, chrome }) {
       <div className="absolute -top-20 -left-16 w-80 h-80 rounded-full bg-blue-500/20 dark:bg-blue-600/20 blur-3xl pointer-events-none z-0" />
       <div className="absolute top-1/3 -right-24 w-96 h-96 rounded-full bg-cyan-400/20 dark:bg-cyan-500/10 blur-3xl pointer-events-none z-0" />
 
-      {/* 1 — Encabezado */}
+      {/* 1 — Header */}
       <section className="relative z-10 px-4 md:px-6">
         <Reveal className="max-w-4xl mx-auto text-center">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-400/40 bg-blue-500/10 text-blue-500 dark:text-blue-300 text-xs tracking-[0.18em] uppercase mb-6">
@@ -240,7 +243,7 @@ export default function TrainingPage({ copy, chrome }) {
         </Reveal>
       </section>
 
-      {/* 2 — El dato que explica por qué existe esta formación */}
+      {/* 2 — The stat that explains why this training exists */}
       <section className="relative z-10 px-4 md:px-6 pt-14 md:pt-20">
         <div className="max-w-5xl mx-auto rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/40 p-6 md:p-8">
           <div className="flex flex-col md:flex-row md:items-center gap-5 md:gap-8">
@@ -251,8 +254,9 @@ export default function TrainingPage({ copy, chrome }) {
               <p className="text-base md:text-lg text-slate-700 dark:text-gray-200 leading-relaxed">
                 {copy.stat.text}
               </p>
-              {/* La fuente va a la vista: el dato es de un tercero y sin fuente
-                  sería una cifra más de las que este mercado repite sin citar. */}
+              {/* The source is shown in plain sight: the figure comes from a
+                  third party, and without a source it would just be one more
+                  number this market repeats without citing. */}
               <p className="mt-2 text-xs text-slate-500 dark:text-gray-500">{copy.stat.source}</p>
             </div>
           </div>
@@ -262,7 +266,7 @@ export default function TrainingPage({ copy, chrome }) {
         </div>
       </section>
 
-      {/* 3 — Posicionamiento: qué no es esto */}
+      {/* 3 — Positioning: what this isn't */}
       <section className="relative z-10 px-4 md:px-6 pt-8 md:pt-10">
         <div className="max-w-5xl mx-auto rounded-2xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 p-6 md:p-7">
           <p className="flex items-center gap-2 text-base md:text-lg font-bold tracking-tight text-slate-900 dark:text-white mb-2">
@@ -275,7 +279,7 @@ export default function TrainingPage({ copy, chrome }) {
         </div>
       </section>
 
-      {/* 4 — Programa */}
+      {/* 4 — Program */}
       <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
         <div className="max-w-5xl mx-auto">
           <Reveal className="mb-8 md:mb-10">
@@ -292,7 +296,7 @@ export default function TrainingPage({ copy, chrome }) {
         </div>
       </section>
 
-      {/* 5 — Formatos, lo incluido y el crédito */}
+      {/* 5 — Formats, what's included, and the credit */}
       <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
         <div className="max-w-5xl mx-auto">
           <Reveal className="mb-8 md:mb-10">
@@ -386,8 +390,8 @@ export default function TrainingPage({ copy, chrome }) {
             </ul>
           </div>
 
-          {/* El crédito va en verde y no en azul: es el mismo tratamiento que
-              lleva el descuento de la auditoría, y son el mismo mecanismo. */}
+          {/* The credit is in green, not blue: it's the same treatment the
+              audit discount gets, and they're the same mechanism. */}
           <div className="mt-4 rounded-2xl border border-emerald-500/40 bg-emerald-50/80 dark:bg-emerald-950/20 p-6 md:p-7">
             <p className="flex items-center gap-2 text-base md:text-lg font-bold tracking-tight text-slate-900 dark:text-white mb-2">
               <BadgePercent size={17} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
@@ -400,7 +404,7 @@ export default function TrainingPage({ copy, chrome }) {
         </div>
       </section>
 
-      {/* 6 — Preguntas frecuentes */}
+      {/* 6 — Frequently asked questions */}
       <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
         <FaqList
           title={copy.faqTitle}

@@ -72,6 +72,42 @@ export const messages = {
         "es",
         { from: true, perMonth: true },
       )}.`,
+      whatsappAutomationTitle: "Automatización de WhatsApp Business | Dexel",
+      whatsappAutomationDescription: `Chatbots y agentes que responden, califican leads y confirman citas por WhatsApp, con reglas fijas o con IA según el proceso. ${formatPrice(
+        "whatsappBasic",
+        "es",
+        { from: true },
+      )}.`,
+      customAgentsTitle: "Agentes a la medida | Dexel",
+      customAgentsDescription: `Agentes que consultan sus sistemas, deciden y ejecutan la acción que cierra el proceso, no solo responden. ${formatPrice(
+        "automationAgent",
+        "es",
+        { from: true },
+      )}.`,
+      n8nWorkflowsTitle: "Workflows con n8n | Dexel",
+      n8nWorkflowsDescription: `Automatización alojada en su propia infraestructura, sin costos por operación que crecen con el volumen. ${formatPrice(
+        "automation",
+        "es",
+        { from: true },
+      )}.`,
+      systemIntegrationTitle: "Integración entre sistemas | Dexel",
+      systemIntegrationDescription: `Que sus sistemas dejen de necesitar que alguien copie datos entre ellos. ${formatPrice(
+        "systemIntegrationBasic",
+        "es",
+        { from: true },
+      )}.`,
+      automatedReportsTitle: "Reportes automáticos | Dexel",
+      automatedReportsDescription: `El informe que hoy alguien arma a mano cada semana, generado solo. ${formatPrice(
+        "automatedReportsBasic",
+        "es",
+        { from: true },
+      )}.`,
+      documentReadingTitle: "Lectura automática de documentos | Dexel",
+      documentReadingDescription: `Extraiga datos de facturas, PDFs e imágenes sin digitación manual. ${formatPrice(
+        "documentReadingBasic",
+        "es",
+        { from: true },
+      )}.`,
       trainingTitle: "Formación en automatización e IA para equipos | Dexel",
       trainingDescription: `Formación virtual en automatización e IA, desde una sesión 1:1 hasta un programa a la medida. Cada participante sale con una automatización real de su operación funcionando. ${formatPrice(
         "mentoringSession",
@@ -109,10 +145,10 @@ export const messages = {
         "Automatizamos procesos, integramos sus sistemas y desarrollamos software a la medida. Somos cinco desarrolladores en Colombia con más de 6 años de experiencia.",
       scroll: "Scroll para hacer su idea realidad",
       h1: "Software que le devuelve horas a su empresa",
-      // La auditoría dejó de ser la puerta de entrada: pedirle un diagnóstico
-      // pago a un desconocido es la acción de mayor fricción del catálogo. El
-      // hero abre por la llamada gratuita; la auditoría se argumenta —y se
-      // cobra— donde se explica su valor.
+      // The audit stopped being the entry point: asking a stranger to pay for
+      // a diagnosis upfront is the highest-friction action in the catalog. The
+      // hero opens with the free call; the audit is argued for — and charged
+      // for — where its value gets explained.
       primaryCta: "Agendar una llamada sin costo (30 min)",
       secondaryCta: "Ver casos reales",
       responseTime: "Respondemos en menos de 4 horas hábiles",
@@ -186,8 +222,8 @@ export const messages = {
         ctaText:
           "En una llamada podemos mostrarle arquitectura, métricas y aprendizajes sin exponer datos de nuestros clientes.",
         ctaButton: "Agendar una llamada sin costo (30 min)",
-        // Caso bajo NDA con cifra real. Sin nombre de cliente, sin nombre de
-        // herramienta y sin capturas: es todo lo que el acuerdo permite mostrar.
+        // NDA case with a real figure. No client name, no tool name, and no
+        // screenshots: that's all the agreement allows us to show.
         featured: {
           sector: "Operación interna",
           redacted: [34, 26, 42],
@@ -199,9 +235,9 @@ export const messages = {
           note: "Sistema interno bajo acuerdo de confidencialidad.",
           stack: ["Automatización", "Integración"],
         },
-        // ⚠️ IMPORTANTE: reemplazar estos ítems por proyectos reales de Dexel antes
-        // de publicar. Basta con sector, alcance y stack — sin nombres ni métricas
-        // inventadas. Un caso falso se cae en la primera reunión.
+        // ⚠️ IMPORTANT: replace these items with real Dexel projects before
+        // going live. Sector, scope, and stack are enough — no invented names
+        // or metrics. A fake case falls apart in the first meeting.
         items: [
           {
             sector: "Retail",
@@ -238,8 +274,8 @@ export const messages = {
       askedLabel: "Nos pidieron",
       foundLabel: "Al revisar el proceso",
       proposedLabel: "Lo que propusimos",
-      // ⚠️ Reemplazar por replanteos reales de proyectos de Dexel. El valor de
-      // este bloque está en que sean situaciones que de verdad ocurrieron.
+      // ⚠️ Replace with real reframes from Dexel projects. The value of this
+      // block comes entirely from these being situations that actually happened.
       reframes: [
         {
           asked: "Necesitamos una página web para mostrar nuestro catálogo.",
@@ -312,8 +348,8 @@ export const messages = {
         "Si la auditoría muestra que no hace falta desarrollar nada, se lo decimos con la misma claridad.",
       pledgeText:
         "El informe es suyo y le sirve de todas formas, y usted invierte solo en lo que su operación realmente necesita.",
-      // Esta sección es la que más argumenta a favor de la auditoría, así que
-      // su botón lleva a comprarla, no a agendar la llamada gratuita.
+      // This section argues for the audit more than any other, so its button
+      // leads to buying it, not to booking the free call.
       cta: `Solicitar auditoría de procesos — ${formatPrice("audit", "es")}`,
     },
     process: {
@@ -391,9 +427,10 @@ export const messages = {
           desc: "Repositorio a nombre de su empresa desde el primer commit. Nunca quedará secuestrado por su proveedor.",
         },
         {
-          // La capacitación ya se hacía en todos los proyectos y no aparecía en
-          // ninguna parte del sitio. Es la respuesta directa al miedo de quien
-          // compra software a la medida: pagar por algo que su gente no va a usar.
+          // Training was already happening on every project and appeared
+          // nowhere on the site. It's the direct answer to the fear anyone
+          // buying custom software has: paying for something their people
+          // won't use.
           iconName: "GraduationCap",
           title: "Capacitamos a su equipo antes de irnos",
           desc: "Toda entrega incluye una sesión de capacitación en vivo con las personas que van a usar el sistema, y resolución de dudas en directo. No entregamos un manual y desaparecemos.",
@@ -411,9 +448,10 @@ export const messages = {
         placeholder: "Escriba su requerimiento...",
           "whatsappButton": "Continuar en WhatsApp",
           "responseTime": "Respondemos en menos de 4 horas hábiles",
-          // Flujo invertido: primero entendemos el problema y devolvemos algo
-          // útil, y solo al final pedimos el contacto. Los pasos sin "field"
-          // son informativos y avanzan solos.
+          // Inverted flow: first we understand the problem and hand back
+          // something useful, and only at the end do we ask for contact
+          // details. Steps without a "field" are informational and advance
+          // on their own.
           "flow": [
             {
               "bot": "👋 Hola, soy el asistente de DEXEL.\n\nPara ayudarle rápido necesito una sola cosa: ¿qué tarea o proceso le está quitando más tiempo a su equipo hoy?",
@@ -541,6 +579,42 @@ export const messages = {
         "careBasic",
         "en",
         { from: true, perMonth: true },
+      )}.`,
+      whatsappAutomationTitle: "WhatsApp Business automation | Dexel",
+      whatsappAutomationDescription: `Chatbots and agents that answer, qualify leads, and confirm appointments over WhatsApp, with fixed rules or AI depending on the process. ${formatPrice(
+        "whatsappBasic",
+        "en",
+        { from: true },
+      )}.`,
+      customAgentsTitle: "Custom agents | Dexel",
+      customAgentsDescription: `Agents that query your systems, decide, and carry out the action that closes the process, not just respond. ${formatPrice(
+        "automationAgent",
+        "en",
+        { from: true },
+      )}.`,
+      n8nWorkflowsTitle: "n8n workflows | Dexel",
+      n8nWorkflowsDescription: `Automation hosted on your own infrastructure, with no per-operation costs that grow with volume. ${formatPrice(
+        "automation",
+        "en",
+        { from: true },
+      )}.`,
+      systemIntegrationTitle: "System integration | Dexel",
+      systemIntegrationDescription: `Getting your systems to stop needing someone to copy data between them. ${formatPrice(
+        "systemIntegrationBasic",
+        "en",
+        { from: true },
+      )}.`,
+      automatedReportsTitle: "Automated reports | Dexel",
+      automatedReportsDescription: `The report somebody builds by hand every week today, generated on its own. ${formatPrice(
+        "automatedReportsBasic",
+        "en",
+        { from: true },
+      )}.`,
+      documentReadingTitle: "Automated document reading | Dexel",
+      documentReadingDescription: `Pull data out of invoices, PDFs, and images without any manual retyping. ${formatPrice(
+        "documentReadingBasic",
+        "en",
+        { from: true },
       )}.`,
       trainingTitle: "Automation and AI training for teams | Dexel",
       trainingDescription: `Live virtual automation and AI training, from a 1:1 session to a custom program. Every participant leaves with a real automation from their operation up and running. ${formatPrice(

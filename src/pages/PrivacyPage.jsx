@@ -8,15 +8,15 @@ import { CONSENT, setConsent } from "../consent/consent.js";
 import { useConsent } from "../consent/useConsent.js";
 
 /**
- * Política de tratamiento de datos.
+ * Data processing policy.
  *
- * Además del texto, incluye el control para cambiar la decisión sobre cookies:
- * la ley exige que revocar sea tan fácil como autorizar, y un banner que solo
- * aparece una vez no cumple eso por sí solo.
+ * Besides the text, it includes the control for changing the cookie
+ * decision: the law requires revoking to be as easy as authorizing, and a
+ * banner that only shows up once doesn't satisfy that on its own.
  */
 function ConsentControl({ copy }) {
-  // El estado sale del store de consentimiento, no de un efecto: en el HTML
-  // prerenderizado no existe `localStorage` y el valor llega como `undefined`.
+  // The state comes from the consent store, not from an effect: in the
+  // prerendered HTML `localStorage` doesn't exist and the value arrives as `undefined`.
   const state = useConsent();
 
   const stateText =

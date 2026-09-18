@@ -2,18 +2,18 @@ import { formatPrice } from "../config/pricing.js";
 import { ROUTE_KEYS } from "../router/routes.js";
 
 /**
- * Las tres categorías de servicio, cada una con su propia página.
+ * The three service categories, each with its own page.
  *
- * Antes esto era una sola página con anclas. La estructura de cada categoría es
- * idéntica —encabezado, frentes, qué incluye, cómo trabajamos, preguntas, CTA—
- * y solo cambia el contenido: es lo que permite que `CategoryPage` sea una
- * plantilla y no tres páginas que se van desincronizando.
+ * This used to be a single anchor-based page. Each category's structure is
+ * identical —header, fronts, what's included, how we work, questions,
+ * CTA— and only the content changes: that's what lets `CategoryPage` be a
+ * template instead of three pages drifting out of sync.
  *
- * `navLabel` y `navItems` alimentan el desplegable del menú. Los subservicios
- * del menú son los mismos frentes de la página, escritos corto: si aquí se
- * agrega un frente, el menú lo muestra sin tocar nada más.
+ * `navLabel` and `navItems` feed the menu's dropdown. The menu's
+ * sub-services are the same page fronts, written short: adding a front here
+ * makes the menu show it without touching anything else.
  *
- * Ninguna cifra se escribe a mano: todas salen de `config/pricing.js`.
+ * No figure is hand-written: they all come from `config/pricing.js`.
  */
 
 const es = {
@@ -80,9 +80,10 @@ const es = {
     ],
 
     /**
-     * El frente de SEO se explica como trabajo técnico y no como servicio de
-     * marketing: es lo que efectivamente se entrega, y prometer posiciones o
-     * plazos de posicionamiento sería prometer algo que no depende de nosotros.
+     * The SEO front is explained as technical work and not as a marketing
+     * service: it's what actually gets delivered, and promising rankings or
+     * timelines to reach them would be promising something that doesn't
+     * depend on us.
      */
     noteTitle: "SEO técnico, no promesas de posicionamiento",
     noteText:
@@ -168,10 +169,11 @@ const es = {
     delivery: "2 a 6 semanas",
 
     /**
-     * Los frentes se ordenan por capacidad y no por canal. La lista anterior
-     * mezclaba las dos cosas —WhatsApp con IA, WhatsApp sin IA, agente—, y
-     * obligaba al visitante a elegir tecnología antes de describir su proceso,
-     * que es exactamente al revés de cómo se decide.
+     * The fronts are ordered by capability, not by channel. The previous
+     * list mixed the two things —WhatsApp with AI, WhatsApp without AI,
+     * agent— and forced the visitor to choose a technology before
+     * describing their process, which is exactly backwards from how the
+     * decision actually gets made.
      */
     frontsTitle: "Frentes de trabajo",
     frontsIntro: "Seis frentes. Se empieza por el proceso que más horas está consumiendo.",
@@ -180,47 +182,54 @@ const es = {
         iconName: "MessageSquare",
         name: "Atención automatizada por WhatsApp",
         text: "Responde, califica y deriva a una persona cuando hace falta. Con reglas o con IA, según lo que pida el proceso.",
+        routeKey: ROUTE_KEYS.WHATSAPP_AUTOMATION,
       },
       {
         iconName: "Bot",
         name: "Agentes a la medida",
         text: "No solo responden: consultan sus sistemas, deciden y ejecutan la acción que cierra el proceso.",
+        routeKey: ROUTE_KEYS.CUSTOM_AGENTS,
       },
       {
         iconName: "Workflow",
         name: "Workflows con n8n",
         text: "Automatización alojada en su propia infraestructura, sin costos por operación que crecen con el volumen.",
+        routeKey: ROUTE_KEYS.N8N_WORKFLOWS,
       },
       {
         iconName: "Plug",
         name: "Integración entre sistemas",
         text: "Que sus herramientas dejen de necesitar que alguien copie datos entre ellas.",
+        routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION,
       },
       {
         iconName: "LineChart",
         name: "Reportes automáticos",
         text: "Los informes que hoy alguien arma a mano cada semana.",
+        routeKey: ROUTE_KEYS.AUTOMATED_REPORTS,
       },
       {
         iconName: "FileScan",
         name: "Lectura automática de documentos",
         text: "Extraer datos de facturas, PDFs e imágenes sin digitación manual.",
+        routeKey: ROUTE_KEYS.DOCUMENT_READING,
       },
     ],
 
     /**
-     * Que un proceso no necesite IA es el diferenciador y va explicado, no
-     * escondido: la mayoría de proveedores vende IA para todo, y decir de
-     * frente cuándo un flujo con reglas es la mejor opción genera confianza.
+     * A process not needing AI is the differentiator and gets explained,
+     * not hidden: most providers sell AI for everything, and saying upfront
+     * when a rules-based flow is the better option builds trust.
      */
     noteTitle: "Usamos IA donde aporta",
     noteText:
       "Hay procesos donde un flujo con reglas fijas es mejor: cuesta menos, responde siempre igual y no alucina. Si su caso es uno de esos, se lo decimos y lo construimos así. La IA entra donde aporta —conversaciones abiertas, clasificación, documentos sin formato— y no donde solo encarece.",
 
     /**
-     * Tres packs con alcance en unidades contables —procesos, integraciones,
-     * semanas, días de soporte—. "Desde $X" no dice qué recibe nadie por ese
-     * dinero, y lo que no se puede comparar no se compra sin escribir un correo.
+     * Three packs with scope stated in countable units —processes,
+     * integrations, weeks, days of support—. "From $X" doesn't say what
+     * anyone actually gets for that money, and what can't be compared
+     * doesn't get bought without writing an email.
      */
     packs: {
       title: "Tres formas de empezar",
@@ -277,9 +286,9 @@ const es = {
     },
 
     /**
-     * Con IA o sin IA es una decisión de diseño, no dos productos distintos.
-     * La comparación existe para que el visitante describa su proceso en vez
-     * de pedir una tecnología por nombre.
+     * With AI or without AI is a design decision, not two different
+     * products. The comparison exists so the visitor describes their
+     * process instead of requesting a technology by name.
      */
     comparison: {
       lead: "Un chatbot responde. Un agente hace cosas.",
@@ -322,10 +331,9 @@ const es = {
     },
 
     /**
-     * El bloque de agentes a la medida es la oferta que otra agencia de
-     * automatización no puede sostener, y por eso va con espacio propio: la
-     * herramienta que le falta al agente es trabajo de desarrollo, que es la
-     * otra mitad de lo que hacemos.
+     * The custom agents block is the offer another automation agency can't
+     * sustain, which is why it gets its own space: the tool an agent is
+     * missing is development work, which is the other half of what we do.
      */
     agents: {
       title: "Agentes a la medida",
@@ -571,31 +579,37 @@ const en = {
         iconName: "MessageSquare",
         name: "Automated WhatsApp support",
         text: "It answers, qualifies, and hands off to a person when it needs to. With rules or with AI, depending on what the process calls for.",
+        routeKey: ROUTE_KEYS.WHATSAPP_AUTOMATION,
       },
       {
         iconName: "Bot",
         name: "Custom agents",
         text: "They don't just answer: they query your systems, decide, and carry out the action that closes the process.",
+        routeKey: ROUTE_KEYS.CUSTOM_AGENTS,
       },
       {
         iconName: "Workflow",
         name: "n8n workflows",
         text: "Automation hosted on your own infrastructure, with no per-operation costs that grow with volume.",
+        routeKey: ROUTE_KEYS.N8N_WORKFLOWS,
       },
       {
         iconName: "Plug",
         name: "System integration",
         text: "So your tools stop needing someone to copy data between them.",
+        routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION,
       },
       {
         iconName: "LineChart",
         name: "Automated reports",
         text: "The reports somebody builds by hand every week today.",
+        routeKey: ROUTE_KEYS.AUTOMATED_REPORTS,
       },
       {
         iconName: "FileScan",
         name: "Automated document reading",
         text: "Pulling data out of invoices, PDFs, and images without retyping any of it.",
+        routeKey: ROUTE_KEYS.DOCUMENT_READING,
       },
     ],
 
@@ -792,12 +806,12 @@ const en = {
 export const categoriesCopy = { es, en };
 
 /**
- * Etiquetas compartidas por la plantilla de categoría, en los dos idiomas.
+ * Labels shared by the category template, in both languages.
  *
- * `vatLabel` y `vatNote` solo existen en español: los precios en pesos se
- * publican con IVA incluido y eso se dice junto a cada cifra, no en una nota al
- * pie. En dólares no aplica IVA colombiano y por eso van en `null`, que es lo
- * que hace que la interfaz no pinte nada en inglés.
+ * `vatLabel` and `vatNote` only exist in Spanish: peso prices are published
+ * with VAT included and that's stated next to every figure, not in a
+ * footnote. Colombian VAT doesn't apply to dollar prices, which is why
+ * they're `null` — that's what makes the UI render nothing in English.
  */
 export const categoryChromeCopy = {
   es: {
@@ -825,10 +839,10 @@ export const categoryChromeCopy = {
 };
 
 /**
- * Los tres grupos del menú de servicios, derivados del mismo contenido que
- * renderizan las páginas: un frente nuevo aparece en el desplegable sin tocar
- * el componente. La auditoría entra desde `audit` porque su contenido vive en
- * `services.js` desde antes de que existieran las categorías.
+ * The three service-menu groups, derived from the same content the pages
+ * render: a new front shows up in the dropdown without touching the
+ * component. Audit comes in from `audit` because its content has lived in
+ * `services.js` since before categories existed.
  */
 export function serviceMenuGroups(copy) {
   return [

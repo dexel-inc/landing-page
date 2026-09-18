@@ -2,19 +2,20 @@ import { formatPrice } from "../config/pricing.js";
 import { ROUTE_KEYS } from "../router/routes.js";
 
 /**
- * Formación para equipos: contenido de `/es/formacion` y `/en/training`.
+ * Team training: content for `/es/formacion` and `/en/training`.
  *
- * Es una línea propia, no una categoría de servicio, y por eso vive en su
- * archivo y no dentro de `categories.js`. La diferencia importa para el copy:
- * los servicios se contratan para que Dexel haga el trabajo; la formación se
- * contrata para que lo haga el equipo del cliente.
+ * It's its own line, not a service category, which is why it lives in its
+ * own file rather than inside `categories.js`. The difference matters for
+ * the copy: services are hired so Dexel does the work; training is hired so
+ * the client's own team does it.
  *
- * El eje es "lo que aprendimos implementando". No es un curso de IA: de eso hay
- * contenido gratuito de sobra y competir ahí sería competir por precio. Lo que
- * no se consigue gratis es la lista de lo que falla cuando esto entra en una
- * operación real, y esa lista solo la tiene quien ya implementó.
+ * The angle is "what we learned by implementing it." It's not an AI course:
+ * there's plenty of free content for that already, and competing there would
+ * mean competing on price. What you can't get for free is the list of what
+ * breaks when this enters a real operation, and only someone who has already
+ * implemented it has that list.
  *
- * Ninguna cifra se escribe a mano: todas salen de `config/pricing.js`.
+ * No figure is ever hand-written: they all come from `config/pricing.js`.
  */
 
 const es = {
@@ -36,9 +37,9 @@ const es = {
   secondaryCta: "Agendar una llamada sin costo (30 min)",
 
   /**
-   * El dato va con fuente porque es de un tercero y porque es el argumento
-   * central: el problema no es aprender la herramienta, es que lo aprendido
-   * llegue a la operación.
+   * The figure is sourced because it comes from a third party and because
+   * it's the central argument: the problem isn't learning the tool, it's
+   * getting what's learned into the operation.
    */
   stat: {
     value: "70%",

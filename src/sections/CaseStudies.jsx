@@ -145,9 +145,9 @@ function PublishedCase({ item, copy }) {
 }
 
 /**
- * Caso bajo NDA con cifra real. Va aparte de la grilla de tarjetas porque es
- * el único que puede mostrar un número: el resultado manda, y meterlo entre
- * cuatro tarjetas de alcance genérico lo desperdiciaría.
+ * NDA-covered case with a real figure. Kept apart from the card grid
+ * because it's the only one that can show a number: the result should lead,
+ * and burying it among four generically-scoped cards would waste it.
  */
 function ConfidentialFeatured({ item, lockLabel }) {
   return (
@@ -176,7 +176,7 @@ function ConfidentialFeatured({ item, lockLabel }) {
             <Lock size={14} className="shrink-0 text-slate-400 dark:text-zinc-600" />
           </div>
 
-          {/* Nombre censurado: bloques sólidos, nunca texto real oculto con CSS */}
+          {/* Redacted name: solid blocks, never real text hidden with CSS */}
           <div className="flex items-center gap-1 mb-4" aria-label={lockLabel}>
             {item.redacted.map((width, i) => (
               <span
@@ -218,7 +218,7 @@ function ConfidentialCard({ item, lockLabel }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Línea de escaneo: reacciona al hover, sugiere "documento clasificado" */}
+      {/* Scan line: reacts to hover, suggests a "classified document" */}
       <div
         className={`pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-blue-500/70 to-transparent transition-opacity duration-300 ${
           hovered ? "opacity-100 animate-dexel-scan" : "opacity-0"
@@ -236,7 +236,7 @@ function ConfidentialCard({ item, lockLabel }) {
           />
         </div>
 
-        {/* Nombre censurado: bloques sólidos, nunca texto real oculto con CSS */}
+        {/* Redacted name: solid blocks, never real text hidden with CSS */}
         <div className="flex items-center gap-1 mb-4" aria-label={lockLabel}>
           {item.redacted.map((width, i) => (
             <span
@@ -293,8 +293,8 @@ export default function CaseStudies({ copy }) {
           ))}
         </div>
 
-        {/* Proyectos bajo NDA: la confidencialidad se presenta como señal de
-            seriedad y como razón para agendar una llamada, no como una excusa. */}
+        {/* NDA-covered projects: confidentiality is presented as a signal of
+            seriousness and as a reason to book a call, not as an excuse. */}
         <div className="mt-14 md:mt-20">
           <Reveal className="text-center mb-8 md:mb-10">
             <div className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] text-slate-500 dark:text-gray-500 border border-slate-200 dark:border-zinc-800 rounded-full px-3 py-1 mb-4">

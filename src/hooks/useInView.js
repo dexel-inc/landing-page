@@ -4,25 +4,26 @@ const isBrowser = typeof window !== "undefined";
 const supportsObserver = isBrowser && typeof IntersectionObserver !== "undefined";
 
 /**
- * `useLayoutEffect` avisa cuando se ejecuta en el servidor, donde no hay
- * layout que medir. En el prerenderizado cae a `useEffect`, que allí no corre.
+ * `useLayoutEffect` warns when it runs on the server, where there's no
+ * layout to measure. During prerendering it falls back to `useEffect`,
+ * which doesn't run there either.
  */
 export const useIsomorphicLayoutEffect = isBrowser ? useLayoutEffect : useEffect;
 
 /**
- * Observa un elemento y devuelve `true` la primera vez que entra en viewport.
- * Se desuscribe tras el primer disparo: las animaciones de entrada no se
- * repiten al hacer scroll hacia arriba.
+ * Observes an element and returns `true` the first time it enters the
+ * viewport. Unsubscribes after the first trigger: entrance animations don't
+ * repeat when scrolling back up.
  *
- * Lo que ya está a la vista se resuelve de forma síncrona antes del primer
- * pintado, midiendo el rectángulo en un layout effect. Esperar al observer
- * dejaba un fotograma con el contenido en opacidad cero, que es justo el
- * parpadeo que la animación pretende evitar.
+ * Whatever is already visible gets resolved synchronously before the first
+ * paint, by measuring the rect in a layout effect. Waiting for the observer
+ * left a frame with the content at zero opacity, which is exactly the
+ * flicker the animation is meant to avoid.
  */
 export function useInView({ threshold = 0.15, rootMargin = "0px 0px -10% 0px" } = {}) {
   const ref = useRef(null);
-  // Sin IntersectionObserver —incluido el prerenderizado en Node— nada queda
-  // oculto: el contenido nunca depende de que una animación llegue a correr.
+  // Without IntersectionObserver —prerendering in Node included— nothing
+  // stays hidden: the content never depends on an animation actually running.
   const [inView, setInView] = useState(!supportsObserver);
 
   useIsomorphicLayoutEffect(() => {

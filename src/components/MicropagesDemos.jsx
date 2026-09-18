@@ -12,10 +12,10 @@ const GALLERY = [
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 /**
- * Cuenta regresiva contra una fecha objetivo calculada al montar en el
- * navegador, nunca en el prerenderizado: el servidor no tiene por qué animar
- * nada, y como el cliente monta de cero (no hidrata), no hay riesgo de
- * desfase entre lo que pintó Node y lo que calcula el navegador.
+ * Countdown against a target date calculated on mount in the browser,
+ * never during prerendering: the server has no reason to animate anything,
+ * and since the client mounts from scratch (it doesn't hydrate), there's no
+ * risk of drift between what Node painted and what the browser computes.
  */
 function useCountdown() {
   const [remaining, setRemaining] = useState(null);
@@ -46,9 +46,9 @@ function pad(value) {
 }
 
 /**
- * Tres demos interactivos —boda, XV años, baby shower— dentro de un marco de
- * celular hecho con CSS. Viven en la propia página de micropáginas, sin ruta
- * propia: cero impacto en sitemap y prerenderizado.
+ * Three interactive demos —wedding, quinceañera, baby shower— inside a
+ * phone frame built with CSS. They live on the micropages page itself, with
+ * no route of their own: zero impact on the sitemap and prerendering.
  */
 export default function MicropagesDemos({ copy }) {
   const [activeKey, setActiveKey] = useState(copy.types[0].key);
@@ -143,7 +143,7 @@ export default function MicropagesDemos({ copy }) {
                 ))}
               </div>
 
-              {/* Galería */}
+              {/* Gallery */}
               <p className="text-[10px] uppercase tracking-[0.15em] text-slate-400 dark:text-gray-500 mb-1.5 self-start">
                 {copy.galleryTitle}
               </p>
@@ -164,7 +164,7 @@ export default function MicropagesDemos({ copy }) {
                 {active.location}
               </p>
 
-              {/* Música */}
+              {/* Music */}
               <button
                 type="button"
                 onClick={() => setMusicOn((value) => !value)}

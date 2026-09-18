@@ -1,18 +1,18 @@
 /**
- * Identificadores de medición.
+ * Measurement identifiers.
  *
- * El Pixel ID es público —viaja en el bundle del navegador de cualquier sitio
- * que lo use— así que lleva valor por defecto: el conjunto de datos `Dexel Web`
- * ya existe y no queremos que la medición dependa de que alguien recuerde
- * configurar una variable en Vercel. Todo lo demás sí queda vacío por defecto.
+ * The Pixel ID is public —it travels in the browser bundle of any site that
+ * uses it— so it carries a default value: the `Dexel Web` dataset already
+ * exists and we don't want measurement to depend on someone remembering to
+ * set a variable in Vercel. Everything else does default to empty.
  *
- * El token de la Conversions API NO está aquí: es una credencial de servidor y
- * vive únicamente en `process.env` de la función serverless.
+ * The Conversions API token is NOT here: it's a server credential and lives
+ * only in the serverless function's `process.env`.
  */
 
 const env = (key) => (typeof import.meta !== "undefined" ? import.meta.env?.[key] : undefined);
 
-/** Conjunto de datos `Dexel Web` en el Administrador de Eventos de Meta. */
+/** `Dexel Web` dataset in Meta's Events Manager. */
 export const DEFAULT_META_PIXEL_ID = "1065161589428764";
 
 export const ANALYTICS = {

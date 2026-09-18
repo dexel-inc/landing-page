@@ -1,17 +1,17 @@
 import { ROUTE_KEYS } from "../router/routes.js";
 
 /**
- * Copy de las siete páginas de servicio individuales del hub de desarrollo
- * web: sitios web, software a la medida, micropáginas, SEO, integraciones,
- * pasarelas de pago y mantenimiento.
+ * Copy for the seven individual service pages in the web-development hub:
+ * websites, custom software, micropages, SEO, integrations, payment gateways,
+ * and maintenance.
  *
- * Cada entrada sigue la misma forma: `{ key, badge, title, intro, tiers,
- * faqs, cases?, related? }`. `tiers` lleva `priceKey` —no un precio ya
- * formateado— porque `ServiceDetailPage` calcula el precio con `formatPrice`
- * según el idioma activo, y el mismo `priceKey` alimenta el `Offer` de
- * `seo/seo.js`.
+ * Every entry follows the same shape: `{ key, badge, title, intro, tiers,
+ * faqs, cases?, related? }`. `tiers` carries a `priceKey` — not an already
+ * formatted price — because `ServiceDetailPage` computes the price with
+ * `formatPrice` for the active language, and the same `priceKey` feeds the
+ * `Offer` in `seo/seo.js`.
  *
- * Ninguna cifra se escribe a mano: todas salen de `config/pricing.js`.
+ * No figure is ever hand-written: they all come from `config/pricing.js`.
  */
 
 const es = {
@@ -583,6 +583,608 @@ const es = {
     ctaTitle: "¿Qué tiene en producción hoy?",
     ctaText: "Cuéntenos qué construimos o qué tiene funcionando, y le confirmamos el nivel.",
   },
+
+  whatsappAutomation: {
+    key: "whatsappAutomation",
+    badge: "Automatización",
+    title: "Que su WhatsApp responda solo, sin perder el tono de su negocio",
+    intro:
+      "Horarios, preguntas frecuentes, calificación de leads, confirmación de citas. Con reglas fijas cuando el proceso es predecible, con IA cuando la conversación es abierta: usted describe el proceso y nosotros elegimos con qué se construye.",
+    tiers: [
+      {
+        key: "puntual",
+        name: "Automatización de WhatsApp",
+        priceKey: "whatsappBasic",
+        delivery: "2 a 3 semanas",
+        includes: [
+          "Un flujo de WhatsApp de principio a fin: recibe, responde y deriva a una persona cuando hace falta",
+          "Reglas fijas, respuestas con IA, o una combinación, según lo que pida el proceso",
+          "1 a 2 integraciones con su calendario, CRM o sistema de turnos",
+          "30 días de soporte",
+          "Capacitación en vivo para su equipo",
+          "50% al iniciar, 50% contra entrega",
+        ],
+        cta: "Solicitar automatización de WhatsApp",
+      },
+      {
+        key: "agente",
+        name: "Agente de WhatsApp",
+        priceKey: "whatsappAgent",
+        featured: true,
+        delivery: "4 a 6 semanas",
+        includes: [
+          "Todo lo del pack anterior",
+          "Un agente que además de responder consulta sus sistemas, decide y ejecuta la acción que cierra el proceso",
+          "3 a 4 integraciones",
+          "Construcción de las herramientas que su sistema no expone",
+          "60 días de soporte",
+          "40% al iniciar, 30% a mitad de proyecto, 30% contra entrega",
+        ],
+        adds: [
+          "Un agente que agenda, cotiza o hace el pedido, no solo responde",
+          "3 a 4 integraciones y las herramientas que su sistema no expone",
+          "60 días de soporte",
+        ],
+        cta: "Solicitar agente de WhatsApp",
+      },
+      {
+        key: "sistema",
+        name: "Sistema de atención completo",
+        priceKey: "whatsappSystem",
+        from: true,
+        delivery: "6 a 10 semanas",
+        includes: [
+          "Todo lo del pack anterior",
+          "Varios agentes coordinados entre sí, atendiendo distintos procesos además de WhatsApp",
+          "Integraciones profundas con el resto de su operación",
+          "90 días de soporte",
+          "40% al iniciar, 30% a mitad de proyecto, 30% contra entrega",
+        ],
+        adds: [
+          "Varios agentes coordinados, no uno solo",
+          "Integraciones profundas con el resto de su operación",
+          "90 días de soporte",
+        ],
+        cta: "Solicitar sistema de atención completo",
+      },
+    ],
+    faqTitle: "Preguntas frecuentes",
+    faqSubtitle: "Lo que nos preguntan antes de automatizar WhatsApp",
+    faqs: [
+      {
+        question: "¿Necesito la API oficial de WhatsApp Business?",
+        answer:
+          "Para un volumen serio de conversaciones, sí: es lo que permite automatizar sin que Meta bloquee el número. La damos de alta como parte del proyecto si todavía no la tiene.",
+      },
+      {
+        question: "¿Qué pasa si el cliente pide hablar con una persona?",
+        answer:
+          "El flujo siempre tiene una salida a un humano. Un chatbot que atrapa a alguien en un árbol de opciones sin salida es peor que no tener automatización.",
+      },
+      {
+        question: "¿Puede funcionar sin IA?",
+        answer:
+          "Sí, y muchas veces conviene: horarios, estados de pedido o preguntas frecuentes se responden mejor con reglas fijas, que cuestan menos y no alucinan. La IA entra donde la conversación es abierta.",
+      },
+      {
+        question: "¿Cuánto se demora en estar funcionando?",
+        answer:
+          "Una automatización puntual, de 2 a 3 semanas. Un agente que además ejecuta acciones en sus sistemas, de 4 a 6 semanas, según cuántas integraciones necesite.",
+      },
+      {
+        question: "¿Se conecta con mi CRM o mi sistema de agendamiento?",
+        answer:
+          "Sí, es parte del alcance desde el primer pack: sin esa conexión, alguien termina copiando a mano lo que el bot ya recogió.",
+      },
+    ],
+    related: [
+      { routeKey: ROUTE_KEYS.CUSTOM_AGENTS, label: "Agentes a la medida" },
+      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "Integración entre sistemas" },
+      { routeKey: ROUTE_KEYS.AUDIT, label: "Auditoría de procesos" },
+    ],
+    ctaTitle: "¿Cuántas horas al día se van en responder WhatsApp?",
+    ctaText: "Cuéntenos cómo es hoy esa conversación y le decimos qué se puede automatizar y en cuánto tiempo.",
+  },
+
+  customAgents: {
+    key: "customAgents",
+    badge: "Automatización",
+    title: "Un agente que no solo responde: ejecuta",
+    intro:
+      "Un agente genérico usa herramientas que ya existen: leer un calendario, buscar en documentos, enviar un correo. Un agente a la medida usa herramientas que hay que construir, porque solo existen dentro de la operación de su empresa.",
+    tiers: [
+      {
+        key: "puntual",
+        name: "Agente a la medida",
+        priceKey: "automationAgent",
+        delivery: "4 a 6 semanas",
+        includes: [
+          "Un agente que consulta sus sistemas, decide y ejecuta la acción que cierra el proceso",
+          "1 a 2 integraciones con sistemas existentes",
+          "Construcción de las herramientas que su sistema no expone: es el mismo trabajo de desarrollo que hacemos todos los días",
+          "Límites definidos y confirmación humana en las acciones críticas",
+          "45 días de soporte",
+          "Capacitación en vivo para su equipo",
+          "40% al iniciar, 30% a mitad de proyecto, 30% contra entrega",
+        ],
+        cta: "Solicitar agente a la medida",
+      },
+      {
+        key: "agente",
+        name: "Agente con herramientas propias",
+        priceKey: "customAgentsStandard",
+        featured: true,
+        delivery: "6 a 8 semanas",
+        includes: [
+          "Todo lo del pack anterior",
+          "3 a 4 integraciones, incluyendo sistemas sin API pública",
+          "Herramientas adicionales construidas a la medida, para ampliar lo que el agente puede hacer",
+          "60 días de soporte",
+          "40% al iniciar, 30% a mitad de proyecto, 30% contra entrega",
+        ],
+        adds: [
+          "3 a 4 integraciones, incluyendo sistemas sin API pública",
+          "Herramientas adicionales construidas a la medida",
+          "60 días de soporte",
+        ],
+        cta: "Solicitar agente con más herramientas",
+      },
+      {
+        key: "sistema",
+        name: "Sistema multiagente",
+        priceKey: "customAgentsSystem",
+        from: true,
+        delivery: "8 a 12 semanas",
+        includes: [
+          "Todo lo del pack anterior",
+          "Varios agentes coordinados entre sí, no uno solo",
+          "Desarrollo propio de los componentes que hagan falta",
+          "Integraciones profundas con la operación",
+          "90 días de soporte",
+          "40% al iniciar, 30% a mitad de proyecto, 30% contra entrega",
+        ],
+        adds: [
+          "Varios agentes coordinados entre sí",
+          "Desarrollo propio de los componentes que hagan falta",
+          "Integraciones profundas con toda la operación",
+        ],
+        cta: "Solicitar sistema multiagente",
+      },
+    ],
+    faqTitle: "Preguntas frecuentes",
+    faqSubtitle: "Lo que nos preguntan antes de construir un agente",
+    faqs: [
+      {
+        question: "¿Cuál es la diferencia entre un chatbot y un agente?",
+        answer:
+          "Un chatbot responde. Un agente entiende, decide y ejecuta una acción en sus sistemas: crea el pedido, descuenta el inventario, arma la cotización. La diferencia no es la tecnología, es dónde termina el proceso.",
+      },
+      {
+        question: "¿Qué pasa si el agente se equivoca?",
+        answer:
+          "Por eso se construyen con límites definidos, confirmación humana en las acciones críticas y registro de todo lo que ejecuta. Un agente que actúa sobre sistemas reales puede equivocarse haciendo, no solo diciendo, y hay que diseñarlo sabiendo eso.",
+      },
+      {
+        question: "¿Qué herramientas necesita el agente?",
+        answer:
+          "Las que ya existen en sus sistemas —si tienen API— y las que no existen, que construimos nosotros. Cuando el sistema de un cliente no expone lo que el agente necesita, ahí es donde una agencia de automatización se queda sin oferta y nosotros seguimos, porque es el mismo trabajo de desarrollo que hacemos siempre.",
+      },
+      {
+        question: "¿Cuánto se demora construir uno?",
+        answer:
+          "De 4 a 6 semanas para un agente con 1 a 2 integraciones. Con más herramientas propias o varios agentes coordinados entre sí, de 6 a 12 semanas, según cuántos procesos cubran.",
+      },
+      {
+        question: "¿Cómo se controla lo que el agente puede hacer?",
+        answer:
+          "Con permisos y alcance definidos desde el diseño: qué sistemas puede tocar, qué acciones puede ejecutar solo y cuáles necesitan que alguien las confirme antes de salir.",
+      },
+    ],
+    related: [
+      { routeKey: ROUTE_KEYS.N8N_WORKFLOWS, label: "Workflows con n8n" },
+      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "Integración entre sistemas" },
+      { routeKey: ROUTE_KEYS.CUSTOM_SOFTWARE, label: "Software a la medida" },
+    ],
+    ctaTitle: "¿Qué proceso termina siempre en una acción, no en una respuesta?",
+    ctaText: "Cuéntenoslo y le decimos si conviene un agente, qué herramientas hay que construirle y cuánto costaría.",
+  },
+
+  n8nWorkflows: {
+    key: "n8nWorkflows",
+    badge: "Automatización",
+    title: "Automatización que corre en su propia infraestructura",
+    intro:
+      "n8n se aloja donde usted decide, no en la nube de un tercero que cobra por cada operación ejecutada. La automatización que hoy le sale barata no se vuelve cara justo cuando empieza a funcionar y el volumen sube.",
+    tiers: [
+      {
+        key: "puntual",
+        name: "Automatización puntual",
+        priceKey: "automation",
+        delivery: "2 a 3 semanas",
+        includes: [
+          "1 flujo de trabajo automatizado de principio a fin",
+          "1 a 2 integraciones con sistemas existentes",
+          "Manejo de errores y reintentos: si el flujo falla, alguien se entera",
+          "30 días de soporte",
+          "Capacitación en vivo para su equipo",
+          "50% al iniciar, 50% contra entrega",
+        ],
+        cta: "Solicitar workflow con n8n",
+      },
+      {
+        key: "agente",
+        name: "Agente a la medida",
+        priceKey: "automationAgent",
+        featured: true,
+        delivery: "4 a 6 semanas",
+        includes: [
+          "Todo lo del pack anterior",
+          "Flujos con lógica condicional y pasos de aprobación humana antes de ejecutar una acción sensible",
+          "3 a 4 integraciones",
+          "Un agente que decide dentro del flujo, no solo lo dispara",
+          "60 días de soporte",
+          "40% al iniciar, 30% a mitad de proyecto, 30% contra entrega",
+        ],
+        adds: [
+          "Lógica condicional y aprobación humana antes de una acción sensible",
+          "3 a 4 integraciones",
+          "Un agente que decide dentro del flujo",
+        ],
+        cta: "Solicitar flujo con agente",
+      },
+      {
+        key: "sistema",
+        name: "Sistema completo",
+        priceKey: "automationSystem",
+        from: true,
+        delivery: "6 a 10 semanas",
+        includes: [
+          "Todo lo del pack anterior",
+          "Varios flujos coordinados entre sí, cubriendo procesos completos y no pasos sueltos",
+          "Tablero de monitoreo de qué corrió, cuándo y con qué resultado",
+          "Integraciones profundas con toda la operación",
+          "90 días de soporte",
+          "40% al iniciar, 30% a mitad de proyecto, 30% contra entrega",
+        ],
+        adds: [
+          "Varios flujos coordinados cubriendo procesos completos",
+          "Tablero de monitoreo de qué corrió y con qué resultado",
+          "Integraciones profundas con toda la operación",
+        ],
+        cta: "Solicitar sistema completo",
+      },
+    ],
+    faqTitle: "Preguntas frecuentes",
+    faqSubtitle: "Lo que nos preguntan antes de automatizar con n8n",
+    faqs: [
+      {
+        question: "¿Qué es n8n, en una frase?",
+        answer:
+          "Una herramienta de automatización de flujos que se puede alojar en su propia infraestructura, en vez de pagarle a un tercero por cada operación que ejecuta.",
+      },
+      {
+        question: "¿Por qué n8n y no Zapier o Make?",
+        answer:
+          "Porque esas plataformas cobran por operación ejecutada: lo que hoy le sale barato se vuelve caro justo cuando el volumen sube. Alojado en su propia infraestructura, el costo no crece con el uso.",
+      },
+      {
+        question: "¿Quién administra los flujos después de entregados?",
+        answer:
+          "Quedan documentados y a nombre de su empresa. Su equipo puede operarlos con la capacitación que incluye el proyecto, o dejarlos con nosotros bajo un plan de mantenimiento mensual.",
+      },
+      {
+        question: "¿Qué pasa si un flujo falla en producción?",
+        answer:
+          "Todo flujo se entrega con manejo de errores, reintentos y alertas: si algo falla, alguien de su equipo se entera el mismo día. Un flujo que falla en silencio es peor que no tenerlo.",
+      },
+      {
+        question: "¿Puedo pedir cambios después de que el flujo esté funcionando?",
+        answer:
+          "Sí, es trabajo de mantenimiento o un ajuste de alcance, según el tamaño del cambio. Al quedar documentado, modificarlo no es empezar de nuevo.",
+      },
+    ],
+    related: [
+      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "Integración entre sistemas" },
+      { routeKey: ROUTE_KEYS.AUTOMATED_REPORTS, label: "Reportes automáticos" },
+      { routeKey: ROUTE_KEYS.CUSTOM_AGENTS, label: "Agentes a la medida" },
+    ],
+    ctaTitle: "¿Qué proceso manual le gustaría dejar de tocar?",
+    ctaText: "Descríbanoslo y le decimos si se puede automatizar con n8n, con qué integra y cuánto costaría.",
+  },
+
+  systemIntegration: {
+    key: "systemIntegration",
+    badge: "Automatización",
+    title: "Que sus sistemas se hablen entre sí",
+    intro:
+      "Su facturación no habla con su CRM, su inventario no se actualiza solo cuando vende en línea. Esto no es construir nada nuevo: es que lo que ya tiene deje de necesitar que alguien copie datos de un lado a otro. (Si lo que necesita es conectar un desarrollo nuevo con sus sistemas actuales, ese es el frente de Integraciones y APIs de desarrollo web; este frente conecta sistemas que ya existen entre sí.)",
+    tiers: [
+      {
+        key: "puntual",
+        name: "Integración puntual",
+        priceKey: "systemIntegrationBasic",
+        delivery: "2 a 3 semanas",
+        includes: [
+          "1 a 2 integraciones entre los sistemas que ya tiene",
+          "Sincronización de datos automática, sin digitación manual",
+          "Manejo de errores y reintentos si un sistema falla",
+          "30 días de soporte",
+          "50% al iniciar, 50% contra entrega",
+        ],
+        cta: "Solicitar integración entre sistemas",
+      },
+      {
+        key: "agente",
+        name: "Integración con agente",
+        priceKey: "systemIntegrationStandard",
+        featured: true,
+        delivery: "4 a 6 semanas",
+        includes: [
+          "Todo lo del pack anterior",
+          "3 a 4 integraciones, incluyendo sistemas sin API pública",
+          "Un agente que consulta varios sistemas a la vez y decide con esa información",
+          "60 días de soporte",
+          "40% al iniciar, 30% a mitad de proyecto, 30% contra entrega",
+        ],
+        adds: [
+          "3 a 4 integraciones, incluyendo sistemas sin API pública",
+          "Un agente que consulta varios sistemas y decide con esa información",
+        ],
+        cta: "Solicitar integraciones con agente",
+      },
+      {
+        key: "sistema",
+        name: "Integración de toda la operación",
+        priceKey: "systemIntegrationSystem",
+        from: true,
+        delivery: "6 a 10 semanas",
+        includes: [
+          "Todo lo del pack anterior",
+          "Integraciones profundas con toda la operación, no sistemas sueltos",
+          "Varios agentes coordinados usando esa información en conjunto",
+          "90 días de soporte",
+          "40% al iniciar, 30% a mitad de proyecto, 30% contra entrega",
+        ],
+        adds: [
+          "Integraciones profundas con toda la operación",
+          "Varios agentes coordinados usando esa información en conjunto",
+        ],
+        cta: "Solicitar integración completa",
+      },
+    ],
+    faqTitle: "Preguntas frecuentes",
+    faqSubtitle: "Lo que nos preguntan antes de integrar sistemas",
+    faqs: [
+      {
+        question: "¿Qué diferencia hay con \"Integraciones y APIs\" de desarrollo web?",
+        answer:
+          "Ese frente conecta algo nuevo que construimos con lo que usted ya tiene. Este conecta sistemas que ya existen entre sí, sin construir nada nuevo: es automatización, no desarrollo.",
+      },
+      {
+        question: "¿Qué pasa si mi sistema no tiene API pública?",
+        answer:
+          "Muchas veces igual se puede: por webhooks, archivos, correo o incluso automatización de la interfaz cuando no queda otra vía. Revisamos su caso puntual antes de cotizar.",
+      },
+      {
+        question: "¿Cuántas integraciones necesito?",
+        answer:
+          "Depende de cuántos sistemas tiene que dejen de requerir copiar datos a mano. Cuéntenos cuáles son y le confirmamos si entran en el pack puntual o si necesita el de agente.",
+      },
+      {
+        question: "¿Qué pasa si un sistema cambia después?",
+        answer:
+          "La integración queda documentada, así que ajustarla si un sistema cambia su forma de conectarse es un trabajo acotado, no empezar de nuevo.",
+      },
+      {
+        question: "¿Necesito la auditoría antes de integrar?",
+        answer:
+          "No es obligatoria. Si ya sabe qué dos sistemas necesita que se hablen, se cotiza directo. La auditoría ayuda cuando hay varios sistemas sueltos y no está seguro de por dónde empezar.",
+      },
+    ],
+    related: [
+      { routeKey: ROUTE_KEYS.N8N_WORKFLOWS, label: "Workflows con n8n" },
+      { routeKey: ROUTE_KEYS.AUTOMATED_REPORTS, label: "Reportes automáticos" },
+      { routeKey: ROUTE_KEYS.INTEGRATIONS, label: "Integraciones y APIs" },
+    ],
+    ctaTitle: "¿Qué dos sistemas necesita que dejen de vivir aislados?",
+    ctaText: "Cuéntenos cuáles son y le confirmamos si es una integración puntual o algo más grande.",
+  },
+
+  automatedReports: {
+    key: "automatedReports",
+    badge: "Automatización",
+    title: "El informe que hoy arma alguien a mano, cada semana",
+    intro:
+      "Consolidar números de varios sistemas en una hoja de cálculo y mandarlos por correo cada lunes es trabajo que no necesita a una persona haciéndolo cada vez. El reporte se genera solo, con los mismos datos que ya tiene.",
+    tiers: [
+      {
+        key: "puntual",
+        name: "Reporte automático",
+        priceKey: "automatedReportsBasic",
+        delivery: "2 a 3 semanas",
+        includes: [
+          "1 reporte automatizado, con la periodicidad que necesite (diaria, semanal o mensual)",
+          "Consolidación de 1 a 2 fuentes de datos en un solo entregable",
+          "Entrega por correo, WhatsApp o tablero, según lo que prefiera",
+          "30 días de soporte",
+          "50% al iniciar, 50% contra entrega",
+        ],
+        cta: "Solicitar reporte automático",
+      },
+      {
+        key: "agente",
+        name: "Tablero con alertas",
+        priceKey: "automatedReportsStandard",
+        featured: true,
+        delivery: "4 a 6 semanas",
+        includes: [
+          "Todo lo del pack anterior",
+          "3 a 4 fuentes de datos consolidadas en un solo reporte o tablero",
+          "Alertas automáticas cuando una métrica sale del rango que usted defina",
+          "60 días de soporte",
+          "40% al iniciar, 30% a mitad de proyecto, 30% contra entrega",
+        ],
+        adds: [
+          "3 a 4 fuentes de datos en un solo reporte",
+          "Alertas cuando una métrica sale de rango",
+        ],
+        cta: "Solicitar tablero con alertas",
+      },
+      {
+        key: "sistema",
+        name: "Reportes de toda la operación",
+        priceKey: "automatedReportsSystem",
+        from: true,
+        delivery: "6 a 10 semanas",
+        includes: [
+          "Todo lo del pack anterior",
+          "Varios reportes y tableros coordinados, para distintas áreas de la operación",
+          "Integraciones profundas con las fuentes de datos de toda la empresa",
+          "90 días de soporte",
+          "40% al iniciar, 30% a mitad de proyecto, 30% contra entrega",
+        ],
+        adds: [
+          "Varios reportes y tableros coordinados para distintas áreas",
+          "Integraciones profundas con toda la operación",
+        ],
+        cta: "Solicitar sistema de reportes",
+      },
+    ],
+    faqTitle: "Preguntas frecuentes",
+    faqSubtitle: "Lo que nos preguntan antes de automatizar un reporte",
+    faqs: [
+      {
+        question: "¿De dónde saca los datos el reporte?",
+        answer:
+          "De los sistemas que ya usa: su CRM, su facturación, sus hojas de cálculo o la herramienta que hoy alguien revisa a mano. No hay que migrar nada para automatizarlo.",
+      },
+      {
+        question: "¿En qué formato llega?",
+        answer:
+          "El que necesite: PDF o Excel por correo, mensaje por WhatsApp, o un tablero que se actualiza solo y consulta cuando quiera. Se define en la cotización.",
+      },
+      {
+        question: "¿Puedo pedir que cambien las métricas después?",
+        answer:
+          "Sí, es un ajuste de alcance normal. El reporte queda documentado, así que agregar o quitar una métrica no es rehacerlo desde cero.",
+      },
+      {
+        question: "¿Reemplaza mi herramienta de analítica o de BI?",
+        answer:
+          "No necesariamente. Muchas veces el reporte automático consulta esa misma herramienta y entrega el resumen ya armado, para que nadie tenga que entrar a revisarla manualmente.",
+      },
+      {
+        question: "¿Qué tan seguido se genera?",
+        answer:
+          "Con la periodicidad que decida: diaria, semanal, mensual, o disparado por un evento puntual (por ejemplo, al cerrar el día de ventas).",
+      },
+    ],
+    related: [
+      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "Integración entre sistemas" },
+      { routeKey: ROUTE_KEYS.DOCUMENT_READING, label: "Lectura automática de documentos" },
+      { routeKey: ROUTE_KEYS.AUDIT, label: "Auditoría de procesos" },
+    ],
+    ctaTitle: "¿Qué reporte arma alguien de su equipo a mano cada semana?",
+    ctaText: "Cuéntenos cómo lo arman hoy y le decimos si se puede automatizar y en qué formato le llegaría.",
+  },
+
+  documentReading: {
+    key: "documentReading",
+    badge: "Automatización",
+    title: "Cero digitación: los datos salen solos de sus documentos",
+    intro:
+      "Facturas, recibos, formularios en papel o PDFs de proveedores. Extraemos los datos y los cargamos directo en su sistema, sin que nadie los transcriba a mano ni cometa el error de siempre al hacerlo.",
+    tiers: [
+      {
+        key: "puntual",
+        name: "Lectura de documentos",
+        priceKey: "documentReadingBasic",
+        delivery: "2 a 3 semanas",
+        includes: [
+          "Lectura automática de 1 tipo de documento (facturas, recibos o formularios)",
+          "Extracción de los campos que defina y carga en el sistema de destino",
+          "Validación básica contra lo que ya existe en su sistema",
+          "30 días de soporte",
+          "50% al iniciar, 50% contra entrega",
+        ],
+        cta: "Solicitar lectura de documentos",
+      },
+      {
+        key: "agente",
+        name: "Lectura con agente",
+        priceKey: "documentReadingStandard",
+        featured: true,
+        delivery: "4 a 6 semanas",
+        includes: [
+          "Todo lo del pack anterior",
+          "2 a 3 tipos de documento distintos, incluyendo manuscritos o de calidad variable",
+          "Un agente que valida los datos extraídos y decide qué hacer con las excepciones",
+          "60 días de soporte",
+          "40% al iniciar, 30% a mitad de proyecto, 30% contra entrega",
+        ],
+        adds: [
+          "2 a 3 tipos de documento, incluyendo manuscritos o de calidad variable",
+          "Un agente que decide qué hacer con las excepciones",
+        ],
+        cta: "Solicitar lectura con agente",
+      },
+      {
+        key: "sistema",
+        name: "Lectura de grandes volúmenes",
+        priceKey: "documentReadingSystem",
+        from: true,
+        delivery: "6 a 10 semanas",
+        includes: [
+          "Todo lo del pack anterior",
+          "Grandes volúmenes de documentos, de cualquier tipo, en un flujo continuo",
+          "Integración directa con su sistema contable u operativo",
+          "90 días de soporte",
+          "40% al iniciar, 30% a mitad de proyecto, 30% contra entrega",
+        ],
+        adds: [
+          "Grandes volúmenes en un flujo continuo, no lotes puntuales",
+          "Integración directa con su sistema contable u operativo",
+        ],
+        cta: "Solicitar lectura a gran escala",
+      },
+    ],
+    faqTitle: "Preguntas frecuentes",
+    faqSubtitle: "Lo que nos preguntan antes de automatizar la lectura de documentos",
+    faqs: [
+      {
+        question: "¿Qué tan exacta es la extracción?",
+        answer:
+          "Depende de la calidad del documento de origen. Por eso el pack puntual valida contra lo que ya existe en su sistema y el de agente decide qué hacer con las excepciones: nunca se carga un dato sin poder confirmarlo.",
+      },
+      {
+        question: "¿Funciona con documentos manuscritos o de mala calidad?",
+        answer:
+          "Sí, con reconocimiento de caracteres manuscritos, aunque la precisión baja frente a un documento digital limpio. Es justo lo que cubre el pack de agente, con validación de excepciones.",
+      },
+      {
+        question: "¿A dónde van los datos extraídos?",
+        answer:
+          "Al sistema que usted defina: su contabilidad, su ERP, una hoja de cálculo o el sistema que hoy alimenta a mano. No se quedan en un archivo suelto que alguien tiene que volver a copiar.",
+      },
+      {
+        question: "¿Cómo manejan la información sensible?",
+        answer:
+          "El procesamiento corre en la infraestructura del proyecto, con los mismos controles de acceso que el resto de la automatización, y los documentos no se comparten con nadie fuera del alcance acordado.",
+      },
+      {
+        question: "¿Sirve para grandes volúmenes?",
+        answer:
+          "Sí, es justo el pack de sistema completo: un flujo continuo en vez de lotes puntuales, con integración directa a su sistema contable u operativo.",
+      },
+    ],
+    related: [
+      { routeKey: ROUTE_KEYS.AUTOMATED_REPORTS, label: "Reportes automáticos" },
+      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "Integración entre sistemas" },
+      { routeKey: ROUTE_KEYS.CUSTOM_AGENTS, label: "Agentes a la medida" },
+    ],
+    ctaTitle: "¿Cuántas horas al mes se van digitando facturas o formularios?",
+    ctaText: "Cuéntenos qué documentos son y le decimos qué tan automatizable es y cuánto costaría.",
+  },
 };
 
 const en = {
@@ -1149,6 +1751,608 @@ const en = {
     ],
     ctaTitle: "What do you have in production today?",
     ctaText: "Tell us what we built or what you're running, and we'll confirm the tier.",
+  },
+
+  whatsappAutomation: {
+    key: "whatsappAutomation",
+    badge: "Automation",
+    title: "Your WhatsApp, answering on its own, without losing your tone",
+    intro:
+      "Hours, FAQs, lead qualification, appointment confirmation. Fixed rules when the process is predictable, AI when the conversation is open-ended: you describe the process and we choose what it's built with.",
+    tiers: [
+      {
+        key: "puntual",
+        name: "WhatsApp automation",
+        priceKey: "whatsappBasic",
+        delivery: "2 to 3 weeks",
+        includes: [
+          "One WhatsApp flow end to end: it receives, answers, and hands off to a person when it needs to",
+          "Fixed rules, AI replies, or a mix, depending on what the process calls for",
+          "1 to 2 integrations with your calendar, CRM, or booking system",
+          "30 days of support",
+          "Live training for your team",
+          "50% up front, 50% on delivery",
+        ],
+        cta: "Request WhatsApp automation",
+      },
+      {
+        key: "agente",
+        name: "WhatsApp agent",
+        priceKey: "whatsappAgent",
+        featured: true,
+        delivery: "4 to 6 weeks",
+        includes: [
+          "Everything in the previous pack",
+          "An agent that, besides answering, queries your systems, decides, and carries out the action that closes the process",
+          "3 to 4 integrations",
+          "Building the tools your system doesn't expose",
+          "60 days of support",
+          "40% up front, 30% at the midpoint, 30% on delivery",
+        ],
+        adds: [
+          "An agent that books, quotes, or places the order, not just answers",
+          "3 to 4 integrations and the tools your system doesn't expose",
+          "60 days of support",
+        ],
+        cta: "Request a WhatsApp agent",
+      },
+      {
+        key: "sistema",
+        name: "Full support system",
+        priceKey: "whatsappSystem",
+        from: true,
+        delivery: "6 to 10 weeks",
+        includes: [
+          "Everything in the previous pack",
+          "Several agents coordinated with each other, covering other processes beyond WhatsApp",
+          "Deep integrations with the rest of your operation",
+          "90 days of support",
+          "40% up front, 30% at the midpoint, 30% on delivery",
+        ],
+        adds: [
+          "Several agents coordinated with each other, not just one",
+          "Deep integrations with the rest of your operation",
+          "90 days of support",
+        ],
+        cta: "Request the full support system",
+      },
+    ],
+    faqTitle: "Frequently asked questions",
+    faqSubtitle: "What people ask before automating WhatsApp",
+    faqs: [
+      {
+        question: "Do I need the official WhatsApp Business API?",
+        answer:
+          "For any serious volume of conversations, yes: it's what lets you automate without Meta blocking the number. We set it up as part of the project if you don't have it yet.",
+      },
+      {
+        question: "What happens if the customer asks for a person?",
+        answer:
+          "The flow always has an exit to a human. A chatbot that traps someone in an option tree with no way out is worse than having no automation.",
+      },
+      {
+        question: "Can it work without AI?",
+        answer:
+          "Yes, and often it should: opening hours, order status, or FAQs are better answered with fixed rules, which cost less and don't hallucinate. AI earns its place where the conversation is open-ended.",
+      },
+      {
+        question: "How long until it's up and running?",
+        answer:
+          "A single automation, 2 to 3 weeks. An agent that also executes actions in your systems, 4 to 6 weeks, depending on how many integrations it needs.",
+      },
+      {
+        question: "Does it connect to my CRM or booking system?",
+        answer:
+          "Yes, it's part of the scope from the first pack: without that connection, someone ends up retyping by hand what the bot already collected.",
+      },
+    ],
+    related: [
+      { routeKey: ROUTE_KEYS.CUSTOM_AGENTS, label: "Custom agents" },
+      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "System integration" },
+      { routeKey: ROUTE_KEYS.AUDIT, label: "Process audit" },
+    ],
+    ctaTitle: "How many hours a day go into answering WhatsApp?",
+    ctaText: "Tell us what that conversation looks like today and we'll say what can be automated, and how long it takes.",
+  },
+
+  customAgents: {
+    key: "customAgents",
+    badge: "Automation",
+    title: "An agent that doesn't just answer: it executes",
+    intro:
+      "A generic agent uses tools that already exist: reading a calendar, searching documents, sending an email. A custom agent uses tools that have to be built, because they only exist inside your company's operation.",
+    tiers: [
+      {
+        key: "puntual",
+        name: "Custom agent",
+        priceKey: "automationAgent",
+        delivery: "4 to 6 weeks",
+        includes: [
+          "An agent that queries your systems, decides, and carries out the action that closes the process",
+          "1 to 2 integrations with existing systems",
+          "Building the tools your system doesn't expose: the same development work we do every day",
+          "Defined limits and human confirmation on critical actions",
+          "45 days of support",
+          "Live training for your team",
+          "40% up front, 30% at the midpoint, 30% on delivery",
+        ],
+        cta: "Request a custom agent",
+      },
+      {
+        key: "agente",
+        name: "Agent with custom tools",
+        priceKey: "customAgentsStandard",
+        featured: true,
+        delivery: "6 to 8 weeks",
+        includes: [
+          "Everything in the previous pack",
+          "3 to 4 integrations, including systems with no public API",
+          "Additional custom-built tools, expanding what the agent can do",
+          "60 days of support",
+          "40% up front, 30% at the midpoint, 30% on delivery",
+        ],
+        adds: [
+          "3 to 4 integrations, including systems with no public API",
+          "Additional custom-built tools",
+          "60 days of support",
+        ],
+        cta: "Request an agent with more tools",
+      },
+      {
+        key: "sistema",
+        name: "Multi-agent system",
+        priceKey: "customAgentsSystem",
+        from: true,
+        delivery: "8 to 12 weeks",
+        includes: [
+          "Everything in the previous pack",
+          "Several agents coordinated with each other, not just one",
+          "Custom development of whatever components are missing",
+          "Deep integrations with your operation",
+          "90 days of support",
+          "40% up front, 30% at the midpoint, 30% on delivery",
+        ],
+        adds: [
+          "Several agents coordinated with each other",
+          "Custom development of whatever components are missing",
+          "Deep integrations with your entire operation",
+        ],
+        cta: "Request a multi-agent system",
+      },
+    ],
+    faqTitle: "Frequently asked questions",
+    faqSubtitle: "What people ask before building an agent",
+    faqs: [
+      {
+        question: "What's the difference between a chatbot and an agent?",
+        answer:
+          "A chatbot answers. An agent understands, decides, and carries out an action in your systems: creates the order, deducts inventory, builds the quote. The difference isn't the technology, it's where the process ends.",
+      },
+      {
+        question: "What happens if the agent gets it wrong?",
+        answer:
+          "That's why they're built with defined limits, human confirmation on critical actions, and a log of everything they execute. An agent acting on real systems can get things wrong by doing, not just by saying, and it has to be designed knowing that.",
+      },
+      {
+        question: "What tools does the agent need?",
+        answer:
+          "The ones that already exist in your systems — if they have an API — and the ones that don't, which we build. When a client's system doesn't expose what the agent needs, that's where an automation agency runs out of offer, and we keep going, because it's the same development work we already do.",
+      },
+      {
+        question: "How long does it take to build one?",
+        answer:
+          "4 to 6 weeks for an agent with 1 to 2 integrations. With more custom tools or several agents coordinated with each other, 6 to 12 weeks, depending on how many processes they cover.",
+      },
+      {
+        question: "How is what the agent can do controlled?",
+        answer:
+          "With defined permissions and scope from the design stage: what systems it can touch, what actions it can execute on its own, and which ones need someone to confirm before they go out.",
+      },
+    ],
+    related: [
+      { routeKey: ROUTE_KEYS.N8N_WORKFLOWS, label: "n8n workflows" },
+      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "System integration" },
+      { routeKey: ROUTE_KEYS.CUSTOM_SOFTWARE, label: "Custom software" },
+    ],
+    ctaTitle: "Which process always ends in an action, not an answer?",
+    ctaText: "Tell us, and we'll say whether an agent fits, what tools it would need, and what it would cost.",
+  },
+
+  n8nWorkflows: {
+    key: "n8nWorkflows",
+    badge: "Automation",
+    title: "Automation that runs on your own infrastructure",
+    intro:
+      "n8n runs wherever you decide, not on a third party's cloud that charges per operation executed. The automation that looks cheap today doesn't get expensive right when it starts working and volume goes up.",
+    tiers: [
+      {
+        key: "puntual",
+        name: "Single automation",
+        priceKey: "automation",
+        delivery: "2 to 3 weeks",
+        includes: [
+          "1 workflow automated end to end",
+          "1 to 2 integrations with existing systems",
+          "Error handling and retries: if the flow fails, somebody finds out",
+          "30 days of support",
+          "Live training for your team",
+          "50% up front, 50% on delivery",
+        ],
+        cta: "Request an n8n workflow",
+      },
+      {
+        key: "agente",
+        name: "Custom agent",
+        priceKey: "automationAgent",
+        featured: true,
+        delivery: "4 to 6 weeks",
+        includes: [
+          "Everything in the previous pack",
+          "Conditional logic and human-approval steps before executing a sensitive action",
+          "3 to 4 integrations",
+          "An agent that decides inside the flow, not just triggers it",
+          "60 days of support",
+          "40% up front, 30% at the midpoint, 30% on delivery",
+        ],
+        adds: [
+          "Conditional logic and human approval before a sensitive action",
+          "3 to 4 integrations",
+          "An agent that decides inside the flow",
+        ],
+        cta: "Request a flow with an agent",
+      },
+      {
+        key: "sistema",
+        name: "Full system",
+        priceKey: "automationSystem",
+        from: true,
+        delivery: "6 to 10 weeks",
+        includes: [
+          "Everything in the previous pack",
+          "Several flows coordinated with each other, covering full processes rather than loose steps",
+          "A monitoring dashboard showing what ran, when, and with what result",
+          "Deep integrations with your entire operation",
+          "90 days of support",
+          "40% up front, 30% at the midpoint, 30% on delivery",
+        ],
+        adds: [
+          "Several flows coordinated, covering full processes",
+          "A monitoring dashboard of what ran and with what result",
+          "Deep integrations with your entire operation",
+        ],
+        cta: "Request the full system",
+      },
+    ],
+    faqTitle: "Frequently asked questions",
+    faqSubtitle: "What people ask before automating with n8n",
+    faqs: [
+      {
+        question: "What is n8n, in one sentence?",
+        answer:
+          "A workflow automation tool that can run on your own infrastructure, instead of paying a third party for every operation it executes.",
+      },
+      {
+        question: "Why n8n instead of Zapier or Make?",
+        answer:
+          "Because those platforms charge per operation executed: what looks cheap today gets expensive right when volume goes up. Hosted on your own infrastructure, cost doesn't grow with usage.",
+      },
+      {
+        question: "Who manages the workflows after they're delivered?",
+        answer:
+          "They're documented and in your company's name. Your team can run them with the training included in the project, or leave them with us under a monthly maintenance plan.",
+      },
+      {
+        question: "What happens if a workflow fails in production?",
+        answer:
+          "Every workflow ships with error handling, retries, and alerts: if something fails, someone on your team finds out the same day. A workflow that fails silently is worse than not having one.",
+      },
+      {
+        question: "Can I request changes after the workflow is running?",
+        answer:
+          "Yes, it's either maintenance work or a scope adjustment, depending on the size of the change. Since it's documented, modifying it isn't starting over.",
+      },
+    ],
+    related: [
+      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "System integration" },
+      { routeKey: ROUTE_KEYS.AUTOMATED_REPORTS, label: "Automated reports" },
+      { routeKey: ROUTE_KEYS.CUSTOM_AGENTS, label: "Custom agents" },
+    ],
+    ctaTitle: "Which manual process would you like to stop touching?",
+    ctaText: "Describe it to us and we'll say whether it can be automated with n8n, what it connects to, and what it would cost.",
+  },
+
+  systemIntegration: {
+    key: "systemIntegration",
+    badge: "Automation",
+    title: "Getting your systems to talk to each other",
+    intro:
+      "Your billing doesn't talk to your CRM, your inventory doesn't update itself when you sell online. This isn't building anything new: it's what you already have no longer needing someone to copy data from one place to another. (If what you need is connecting a new build to your current systems, that's the Integrations and APIs front under web development; this front connects systems that already exist with each other.)",
+    tiers: [
+      {
+        key: "puntual",
+        name: "Single integration",
+        priceKey: "systemIntegrationBasic",
+        delivery: "2 to 3 weeks",
+        includes: [
+          "1 to 2 integrations between the systems you already have",
+          "Automatic data sync, with no manual retyping",
+          "Error handling and retries if a system fails",
+          "30 days of support",
+          "50% up front, 50% on delivery",
+        ],
+        cta: "Request system integration",
+      },
+      {
+        key: "agente",
+        name: "Integration with an agent",
+        priceKey: "systemIntegrationStandard",
+        featured: true,
+        delivery: "4 to 6 weeks",
+        includes: [
+          "Everything in the previous pack",
+          "3 to 4 integrations, including systems with no public API",
+          "An agent that queries several systems at once and decides using that information",
+          "60 days of support",
+          "40% up front, 30% at the midpoint, 30% on delivery",
+        ],
+        adds: [
+          "3 to 4 integrations, including systems with no public API",
+          "An agent that queries several systems and decides with that information",
+        ],
+        cta: "Request integrations with an agent",
+      },
+      {
+        key: "sistema",
+        name: "Full operation integration",
+        priceKey: "systemIntegrationSystem",
+        from: true,
+        delivery: "6 to 10 weeks",
+        includes: [
+          "Everything in the previous pack",
+          "Deep integrations across your whole operation, not standalone systems",
+          "Several agents coordinated using that information together",
+          "90 days of support",
+          "40% up front, 30% at the midpoint, 30% on delivery",
+        ],
+        adds: [
+          "Deep integrations across your whole operation",
+          "Several agents coordinated using that information together",
+        ],
+        cta: "Request full integration",
+      },
+    ],
+    faqTitle: "Frequently asked questions",
+    faqSubtitle: "What people ask before integrating systems",
+    faqs: [
+      {
+        question: "How is this different from web development's \"Integrations and APIs\"?",
+        answer:
+          "That front connects something new we build to what you already have. This one connects systems that already exist with each other, with nothing new built: it's automation, not development.",
+      },
+      {
+        question: "What if my system has no public API?",
+        answer:
+          "Often it's still possible: through webhooks, files, email, or even interface automation when there's no other way. We review your specific case before quoting.",
+      },
+      {
+        question: "How many integrations do I need?",
+        answer:
+          "It depends on how many systems need to stop requiring someone to copy data by hand. Tell us which ones and we'll confirm whether it fits the single-automation pack or you need the agent pack.",
+      },
+      {
+        question: "What happens if a system changes later?",
+        answer:
+          "The integration is documented, so adjusting it if a system changes how it connects is a scoped piece of work, not starting over.",
+      },
+      {
+        question: "Do I need the audit before integrating?",
+        answer:
+          "It isn't mandatory. If you already know which two systems need to talk, we quote it directly. The audit helps when you have several disconnected systems and aren't sure where to start.",
+      },
+    ],
+    related: [
+      { routeKey: ROUTE_KEYS.N8N_WORKFLOWS, label: "n8n workflows" },
+      { routeKey: ROUTE_KEYS.AUTOMATED_REPORTS, label: "Automated reports" },
+      { routeKey: ROUTE_KEYS.INTEGRATIONS, label: "Integrations and APIs" },
+    ],
+    ctaTitle: "Which two systems need to stop living in isolation?",
+    ctaText: "Tell us which ones, and we'll confirm whether it's a single integration or something bigger.",
+  },
+
+  automatedReports: {
+    key: "automatedReports",
+    badge: "Automation",
+    title: "The report somebody builds by hand every week today",
+    intro:
+      "Pulling numbers from several systems into a spreadsheet and emailing it out every Monday is work that doesn't need a person doing it each time. The report generates itself, from the same data you already have.",
+    tiers: [
+      {
+        key: "puntual",
+        name: "Automated report",
+        priceKey: "automatedReportsBasic",
+        delivery: "2 to 3 weeks",
+        includes: [
+          "1 automated report, at whatever frequency you need (daily, weekly, or monthly)",
+          "Consolidating 1 to 2 data sources into a single deliverable",
+          "Delivered by email, WhatsApp, or dashboard, whichever you prefer",
+          "30 days of support",
+          "50% up front, 50% on delivery",
+        ],
+        cta: "Request an automated report",
+      },
+      {
+        key: "agente",
+        name: "Dashboard with alerts",
+        priceKey: "automatedReportsStandard",
+        featured: true,
+        delivery: "4 to 6 weeks",
+        includes: [
+          "Everything in the previous pack",
+          "3 to 4 data sources consolidated into a single report or dashboard",
+          "Automatic alerts when a metric moves outside the range you define",
+          "60 days of support",
+          "40% up front, 30% at the midpoint, 30% on delivery",
+        ],
+        adds: [
+          "3 to 4 data sources in a single report",
+          "Alerts when a metric moves outside range",
+        ],
+        cta: "Request a dashboard with alerts",
+      },
+      {
+        key: "sistema",
+        name: "Company-wide reporting",
+        priceKey: "automatedReportsSystem",
+        from: true,
+        delivery: "6 to 10 weeks",
+        includes: [
+          "Everything in the previous pack",
+          "Several reports and dashboards coordinated across different areas of the operation",
+          "Deep integrations with data sources across the company",
+          "90 days of support",
+          "40% up front, 30% at the midpoint, 30% on delivery",
+        ],
+        adds: [
+          "Several reports and dashboards coordinated across areas",
+          "Deep integrations across your entire operation",
+        ],
+        cta: "Request a company-wide reporting system",
+      },
+    ],
+    faqTitle: "Frequently asked questions",
+    faqSubtitle: "What people ask before automating a report",
+    faqs: [
+      {
+        question: "Where does the report get its data from?",
+        answer:
+          "From the systems you already use: your CRM, your billing, your spreadsheets, or whatever tool someone reviews by hand today. Nothing needs to be migrated to automate it.",
+      },
+      {
+        question: "What format does it arrive in?",
+        answer:
+          "Whichever you need: PDF or Excel by email, a WhatsApp message, or a dashboard that updates itself and you check whenever you want. It's defined in the quote.",
+      },
+      {
+        question: "Can I ask for the metrics to change later?",
+        answer:
+          "Yes, it's a normal scope adjustment. The report is documented, so adding or removing a metric isn't rebuilding it from scratch.",
+      },
+      {
+        question: "Does it replace my analytics or BI tool?",
+        answer:
+          "Not necessarily. Often the automated report queries that same tool and delivers the summary already built, so nobody has to go check it manually.",
+      },
+      {
+        question: "How often does it get generated?",
+        answer:
+          "At whatever frequency you decide: daily, weekly, monthly, or triggered by a specific event (say, when the day's sales close).",
+      },
+    ],
+    related: [
+      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "System integration" },
+      { routeKey: ROUTE_KEYS.DOCUMENT_READING, label: "Automated document reading" },
+      { routeKey: ROUTE_KEYS.AUDIT, label: "Process audit" },
+    ],
+    ctaTitle: "Which report does someone on your team build by hand every week?",
+    ctaText: "Tell us how they build it today and we'll say whether it can be automated and what format you'd get it in.",
+  },
+
+  documentReading: {
+    key: "documentReading",
+    badge: "Automation",
+    title: "Zero retyping: the data comes straight out of your documents",
+    intro:
+      "Invoices, receipts, paper forms, or vendor PDFs. We pull out the data and load it straight into your system, with nobody transcribing it by hand or making the usual mistake while doing it.",
+    tiers: [
+      {
+        key: "puntual",
+        name: "Document reading",
+        priceKey: "documentReadingBasic",
+        delivery: "2 to 3 weeks",
+        includes: [
+          "Automated reading of 1 document type (invoices, receipts, or forms)",
+          "Extracting the fields you define and loading them into the target system",
+          "Basic validation against what's already in your system",
+          "30 days of support",
+          "50% up front, 50% on delivery",
+        ],
+        cta: "Request document reading",
+      },
+      {
+        key: "agente",
+        name: "Reading with an agent",
+        priceKey: "documentReadingStandard",
+        featured: true,
+        delivery: "4 to 6 weeks",
+        includes: [
+          "Everything in the previous pack",
+          "2 to 3 different document types, including handwritten or variable-quality ones",
+          "An agent that validates the extracted data and decides what to do with exceptions",
+          "60 days of support",
+          "40% up front, 30% at the midpoint, 30% on delivery",
+        ],
+        adds: [
+          "2 to 3 document types, including handwritten or variable-quality ones",
+          "An agent that decides what to do with exceptions",
+        ],
+        cta: "Request reading with an agent",
+      },
+      {
+        key: "sistema",
+        name: "High-volume reading",
+        priceKey: "documentReadingSystem",
+        from: true,
+        delivery: "6 to 10 weeks",
+        includes: [
+          "Everything in the previous pack",
+          "High document volumes, of any type, in a continuous flow",
+          "Direct integration with your accounting or operating system",
+          "90 days of support",
+          "40% up front, 30% at the midpoint, 30% on delivery",
+        ],
+        adds: [
+          "High volumes in a continuous flow, not one-off batches",
+          "Direct integration with your accounting or operating system",
+        ],
+        cta: "Request high-volume reading",
+      },
+    ],
+    faqTitle: "Frequently asked questions",
+    faqSubtitle: "What people ask before automating document reading",
+    faqs: [
+      {
+        question: "How accurate is the extraction?",
+        answer:
+          "It depends on the quality of the source document. That's why the single-automation pack validates against what's already in your system, and the agent pack decides what to do with exceptions: no data ever gets loaded without a way to confirm it.",
+      },
+      {
+        question: "Does it work with handwritten or poor-quality documents?",
+        answer:
+          "Yes, with handwritten character recognition, though accuracy drops compared to a clean digital document. That's exactly what the agent pack covers, with exception validation.",
+      },
+      {
+        question: "Where does the extracted data go?",
+        answer:
+          "Into whatever system you define: your accounting, your ERP, a spreadsheet, or the system that's fed by hand today. It doesn't sit in a loose file someone has to copy again.",
+      },
+      {
+        question: "How is sensitive information handled?",
+        answer:
+          "Processing runs on the project's own infrastructure, with the same access controls as the rest of the automation, and documents aren't shared with anyone outside the agreed scope.",
+      },
+      {
+        question: "Does it work for high volumes?",
+        answer:
+          "Yes, that's exactly what the full-system pack covers: a continuous flow instead of one-off batches, with direct integration into your accounting or operating system.",
+      },
+    ],
+    related: [
+      { routeKey: ROUTE_KEYS.AUTOMATED_REPORTS, label: "Automated reports" },
+      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "System integration" },
+      { routeKey: ROUTE_KEYS.CUSTOM_AGENTS, label: "Custom agents" },
+    ],
+    ctaTitle: "How many hours a month go into retyping invoices or forms?",
+    ctaText: "Tell us which documents they are and we'll say how automatable it is and what it would cost.",
   },
 };
 

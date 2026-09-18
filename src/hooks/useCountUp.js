@@ -4,17 +4,17 @@ import { usePrefersReducedMotion } from "./useInView.js";
 const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
 
 /**
- * Muestra `target` y, cuando `active` pasa a true, lo anima desde cero.
+ * Shows `target` and, once `active` turns true, animates it up from zero.
  *
- * El valor por defecto es el final, no el cero: antes el número dependía de que
- * la animación llegara a correr, así que la cifra aparecía en 0 si el visitante
- * no hacía scroll, si no había JavaScript o si el prerenderizado la generaba en
- * el servidor. Ahora el cero solo existe mientras hay una animación en curso, y
- * al terminar se devuelve el control al valor real.
+ * The default value is the final one, not zero: the number used to depend
+ * on the animation actually running, so the figure showed up as 0 if the
+ * visitor didn't scroll, if there was no JavaScript, or if prerendering
+ * generated it on the server. Now zero only exists while an animation is
+ * in progress, and control returns to the real value once it finishes.
  */
 export function useCountUp(target, { active = true, duration = 1600, decimals = 0 } = {}) {
   const reducedMotion = usePrefersReducedMotion();
-  // `null` significa "sin animación en curso" → se muestra el valor final.
+  // `null` means "no animation in progress" → the final value is shown.
   const [animatedValue, setAnimatedValue] = useState(null);
 
   useEffect(() => {

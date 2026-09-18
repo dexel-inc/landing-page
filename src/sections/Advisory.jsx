@@ -27,9 +27,9 @@ const auditIcons = {
 };
 
 /**
- * Tarjeta de "replanteo": lo que el cliente pidió, lo que encontramos al
- * auditar el proceso, y lo que terminamos proponiendo. Es la forma más
- * concreta de mostrar que aportamos criterio y no solo horas de código.
+ * "Reframe" card: what the client asked for, what we found when auditing
+ * the process, and what we ended up proposing. It's the most concrete way
+ * to show that we bring judgment, not just hours of code.
  */
 function ReframeCard({ item, copy }) {
   return (
@@ -38,7 +38,7 @@ function ReframeCard({ item, copy }) {
     >
 
       <div className="relative flex flex-1 flex-col">
-        {/* 1. Lo que pidió */}
+        {/* 1. What they asked for */}
         <div>
           <p className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.15em] text-slate-400 dark:text-gray-600 mb-2">
             <MessageSquareQuote size={12} />
@@ -56,7 +56,7 @@ function ReframeCard({ item, copy }) {
           />
         </div>
 
-        {/* 2. Lo que encontramos al revisar el proceso */}
+        {/* 2. What we found when reviewing the process */}
         <div>
           <p className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.15em] text-blue-500 dark:text-blue-400 mb-2">
             <ScanSearch size={12} />
@@ -72,7 +72,7 @@ function ReframeCard({ item, copy }) {
           />
         </div>
 
-        {/* 3. Lo que propusimos */}
+        {/* 3. What we proposed */}
         <div className="mt-auto rounded-xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/70 to-white dark:from-blue-900/25 dark:via-zinc-900/60 dark:to-zinc-900/30 p-4">
           <p className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.15em] text-blue-600 dark:text-blue-400 mb-2">
             <Lightbulb size={12} />
@@ -112,7 +112,7 @@ export default function Advisory({ copy, onNavigate }) {
           ))}
         </div>
 
-        {/* Qué se revisa en la auditoría: hace tangible el "analizamos" */}
+        {/* What gets reviewed in the audit: makes "we analyze" tangible */}
         <div className="mt-14 md:mt-20">
           <Reveal className="text-center mb-8 md:mb-10">
             <h3 className="text-xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">
@@ -146,7 +146,7 @@ export default function Advisory({ copy, onNavigate }) {
           </div>
         </div>
 
-        {/* Cierre: la promesa que ninguna fábrica de páginas hace */}
+        {/* Closer: the promise no page factory makes */}
         <div className="mt-12 md:mt-16">
           <div className="relative rounded-3xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 p-6 md:p-10 overflow-hidden">
             <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl" />

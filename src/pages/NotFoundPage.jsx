@@ -5,12 +5,13 @@ import { useRouter } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
 
 /**
- * Página 404.
+ * 404 page.
  *
- * Se prerenderiza en `dist/404.html`, que es lo que Vercel sirve —con estado
- * 404 real, no un 200 disfrazado— cuando ninguna ruta coincide. El HTML
- * estático sale en el idioma por defecto; al montar en el navegador, el router
- * resuelve el idioma del prefijo de la URL o del navegador y el texto cambia.
+ * Prerendered into `dist/404.html`, which is what Vercel serves —with a
+ * real 404 status, not a disguised 200— when no route matches. The static
+ * HTML comes out in the default language; once mounted in the browser, the
+ * router resolves the language from the URL's prefix or the browser and the
+ * text changes.
  */
 export default function NotFoundPage({ copy }) {
   const { navigateTo } = useRouter();

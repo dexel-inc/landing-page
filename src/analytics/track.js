@@ -1,18 +1,18 @@
 /**
- * Capa de medición agnóstica del proveedor.
+ * Provider-agnostic measurement layer.
  *
- * Un solo `track()` alimenta a la vez GA4 (directo o vía GTM), el Meta Pixel
- * del navegador y la Conversions API del lado servidor. Los componentes no
- * saben qué herramientas hay instaladas, así que agregar o quitar una no
- * obliga a tocar la interfaz.
+ * A single `track()` call feeds GA4 (direct or via GTM), the browser Meta
+ * Pixel, and the server-side Conversions API all at once. Components don't
+ * know which tools are installed, so adding or removing one doesn't require
+ * touching the interface.
  *
- * Nada se envía sin consentimiento, ni por navegador ni por servidor. GA4 se
- * carga con el modo de consentimiento en `denied` y el pixel de Meta ni
- * siquiera se descarga hasta que el visitante acepta; la Conversions API se
- * llama solo desde `track()`, después de comprobar la decisión. Si rechaza, el
- * sitio funciona igual y no sale una sola petición hacia Meta.
+ * Nothing is sent without consent, whether from the browser or the server.
+ * GA4 loads with consent mode set to `denied` and the Meta pixel isn't even
+ * downloaded until the visitor accepts; the Conversions API is only called
+ * from `track()`, after checking the decision. If the visitor declines, the
+ * site works the same and not a single request goes out to Meta.
  *
- * Identificadores en `config/analytics.js`; variables en `.env.example`.
+ * Identifiers live in `config/analytics.js`; variables in `.env.example`.
  */
 
 import { ANALYTICS } from "../config/analytics.js";
@@ -22,37 +22,37 @@ import { currencyFor, priceAmount } from "../config/pricing.js";
 const isBrowser = typeof window !== "undefined";
 
 /**
- * Eventos del sitio. Los de conversión se nombran en PascalCase porque así
- * aparecen en el Administrador de Eventos de Meta y así se configuran las
- * conversiones personalizadas sobre las que optimiza la campaña.
+ * Site events. Conversion events are named in PascalCase because that's how
+ * they appear in Meta's Events Manager and how the custom conversions that
+ * the campaign optimizes on are configured.
  */
 export const EVENTS = {
-  /** Conversión principal: alguien pidió la auditoría de procesos. */
+  /** Primary conversion: someone requested the process audit. */
   AUDIT_REQUESTED: "AuditRequested",
-  /** Cotización de cualquier servicio que no sea la auditoría. */
+  /** Quote request for any service other than the audit. */
   QUOTE_REQUESTED: "QuoteRequested",
-  /** Agendamiento de la llamada de discovery, que es gratuita. */
+  /** Booking of the discovery call, which is free. */
   DISCOVERY_BOOKED: "DiscoveryBooked",
-  /** Abrió el detalle de un servicio. Lleva `service_name`. */
+  /** Opened a service's detail view. Carries `service_name`. */
   SERVICE_DETAIL_VIEWED: "ServiceDetailViewed",
-  /** Cargó una de las tres páginas de categoría. Lleva `category`. */
+  /** Loaded one of the three category pages. Carries `category`. */
   SERVICE_CATEGORY_VIEWED: "ServiceCategoryViewed",
-  /** Primer mensaje enviado al asistente conversacional. */
+  /** First message sent to the conversational assistant. */
   CHAT_STARTED: "ChatStarted",
-  /** Cargó la página de formación para equipos. Lleva `locale`. */
+  /** Loaded the team training page. Carries `locale`. */
   TRAINING_PAGE_VIEWED: "TrainingPageViewed",
-  /** Solicitud de formación. Lleva `format` y el `value` de ese formato. */
+  /** Training request. Carries `format` and that format's `value`. */
   TRAINING_REQUESTED: "TrainingRequested",
-  /** Solicitud de uno de los tres packs de automatización. Lleva `pack_name`. */
+  /** Request for one of the three automation packs. Carries `pack_name`. */
   PACK_REQUESTED: "PackRequested",
 
-  // Eventos del recorrido. Cuáles de estos se respaldan además por servidor lo
-  // decide `CONVERSION_EVENTS`, no esta lista: `ChatCompleted` y `WhatsAppOpened`
-  // sí, porque son el final del embudo; los clics de navegación no.
-  // Van en PascalCase igual que los de conversión: el Administrador de
-  // Eventos los lista todos juntos y en la misma columna, y mezclar dos
-  // convenciones ahí obliga a recordar cuál se escribió de qué manera cada vez
-  // que se arma un público o una conversión personalizada.
+  // Journey events. Which of these are also backed server-side is decided by
+  // `CONVERSION_EVENTS`, not this list: `ChatCompleted` and `WhatsAppOpened`
+  // are, because they're the end of the funnel; navigation clicks aren't.
+  // They use PascalCase just like the conversion events: Events Manager
+  // lists them all together in the same column, and mixing two conventions
+  // there means having to remember which was spelled which way every time
+  // an audience or a custom conversion is built.
   CTA_CLICK: "CtaClicked",
   CHAT_COMPLETED: "ChatCompleted",
   WHATSAPP_OPENED: "WhatsAppOpened",
@@ -60,28 +60,29 @@ export const EVENTS = {
   TEAM_PROFILE_CLICK: "TeamProfileClicked",
 
   /**
-   * Se queda en `snake_case` a propósito: `page_view` es un nombre reservado de
-   * GA4, no una elección nuestra. Renombrarlo lo convertiría en un evento
-   * personalizado y la vista de página dejaría de alimentar los informes
-   * estándar de Google. El equivalente de Meta es `PageView`, que manda
-   * `trackPageView()` con el nombre que Meta espera.
+   * Stays in `snake_case` on purpose: `page_view` is a reserved GA4 name, not
+   * a choice we made. Renaming it would turn it into a custom event and the
+   * page view would stop feeding Google's standard reports. Meta's
+   * equivalent is `PageView`, which `trackPageView()` sends under the name
+   * Meta expects.
    */
   PAGE_VIEW: "page_view",
 };
 
 /**
- * Eventos de conversión: van a la Conversions API además del pixel.
+ * Conversion events: these also go to the Conversions API, on top of the pixel.
  *
- * `PageView` no está aquí porque no pasa por `track()`: lo manda
- * `trackPageView()` en cada cambio de ruta, por las dos vías igual que estos.
+ * `PageView` isn't here because it doesn't go through `track()`: it's sent
+ * by `trackPageView()` on every route change, through both channels just
+ * like these.
  *
- * El criterio no es "conversión" en sentido estricto sino qué pasa si el evento
- * se pierde. Un `CtaClicked` perdido cuesta una línea de un informe de recorrido.
- * Un `WhatsAppOpened` perdido cuesta la atribución de un contacto real, y es
- * justo el que más se pierde: ocurre al final de la sesión, después de que el
- * bloqueador ya tuvo tiempo de actuar y con la pestaña a punto de irse a
- * WhatsApp. Respaldar por servidor solo lo que ocurre al cargar la página deja
- * cubierto lo barato y expuesto lo caro.
+ * The criterion isn't "conversion" in the strict sense but what happens if
+ * the event is lost. A lost `CtaClicked` costs one line in a journey report.
+ * A lost `WhatsAppOpened` costs the attribution of a real contact, and it's
+ * exactly the one most likely to be lost: it happens at the end of the
+ * session, after a blocker has already had time to act and with the tab
+ * about to head off to WhatsApp. Backing up server-side only what happens on
+ * page load covers the cheap part and leaves the expensive one exposed.
  */
 const CONVERSION_EVENTS = new Set([
   EVENTS.AUDIT_REQUESTED,
@@ -93,30 +94,31 @@ const CONVERSION_EVENTS = new Set([
   EVENTS.TRAINING_PAGE_VIEWED,
   EVENTS.TRAINING_REQUESTED,
   EVENTS.PACK_REQUESTED,
-  // Cierres de la conversación. `ChatCompleted` es haber contestado el flujo
-  // entero y `WhatsAppOpened` es la entrega efectiva del contacto: son los dos
-  // puntos del recorrido que un pixel bloqueado hace desaparecer sin dejar
-  // rastro, y sin ellos la campaña optimiza contra un embudo que se corta antes
-  // del final.
+  // Conversation closers. `ChatCompleted` means the whole flow got answered
+  // and `WhatsAppOpened` is the actual handoff of the contact: they're the
+  // two points in the journey that a blocked pixel makes disappear without a
+  // trace, and without them the campaign ends up optimizing against a funnel
+  // that's cut short before the end.
   EVENTS.CHAT_COMPLETED,
   EVENTS.WHATSAPP_OPENED,
 ]);
 
 /**
- * Valor monetario por evento. Meta necesita `value` y `currency` para poder
- * optimizar hacia ingreso y no solo hacia volumen de conversiones. Sale de
- * `config/pricing.js`, así que un reprecio lo arrastra solo.
+ * Monetary value per event. Meta needs `value` and `currency` to be able to
+ * optimize toward revenue and not just conversion volume. It comes from
+ * `config/pricing.js`, so a price change carries through automatically.
  *
- * Un evento cuyo valor depende de lo que el visitante eligió —el formato de
- * formación— no cabe en esta tabla: lo manda quien llama, en `params.value`.
+ * An event whose value depends on what the visitor chose — the training
+ * format — doesn't fit in this table: the caller supplies it in
+ * `params.value`.
  */
 const EVENT_VALUE = {
   [EVENTS.AUDIT_REQUESTED]: (locale) => priceAmount("audit", locale),
 };
 
-// Idioma activo. Se inyecta desde la aplicación en cada cambio de ruta para no
-// tener que pasarlo a mano en cada llamada: el documento lo pide en todos los
-// eventos y olvidarlo en uno solo rompe la segmentación por idioma.
+// Active language. Injected by the app on every route change so it doesn't
+// have to be passed by hand on every call: the endpoint requires it on every
+// event, and forgetting it on just one breaks language segmentation.
 let currentLocale = "es";
 
 export function setAnalyticsLocale(locale) {
@@ -124,9 +126,9 @@ export function setAnalyticsLocale(locale) {
 }
 
 /**
- * Identificador único por evento. El pixel y la Conversions API mandan el
- * mismo `eventID`, que es lo que usa Meta para no contar dos veces la misma
- * conversión cuando llega por los dos caminos.
+ * Unique identifier per event. The pixel and the Conversions API send the
+ * same `eventID`, which is what Meta uses to avoid double-counting the same
+ * conversion when it arrives through both paths.
  */
 function newEventId() {
   if (isBrowser && window.crypto?.randomUUID) return window.crypto.randomUUID();
@@ -134,17 +136,17 @@ function newEventId() {
 }
 
 /**
- * Instante del evento en segundos, que es la unidad que pide Meta.
+ * Event instant in seconds, which is the unit Meta expects.
  *
- * Viaja junto al `event_id` para que las dos entregas —pixel y servidor—
- * declaren el mismo momento: el par identifica la conversión dentro de la
- * ventana en la que Meta busca duplicados.
+ * Travels alongside `event_id` so that both deliveries — pixel and server —
+ * declare the same moment: the pair is what identifies the conversion within
+ * the window Meta uses to look for duplicates.
  */
 function eventTimestamp() {
   return Math.floor(Date.now() / 1000);
 }
 
-/** Envía la conversión al servidor. Nunca bloquea ni rompe la interacción. */
+/** Sends the conversion to the server. Never blocks or breaks the interaction. */
 function sendToConversionsApi(event, params, eventId, eventTime) {
   const endpoint = ANALYTICS.capiEndpoint;
   if (!endpoint) return;
@@ -157,8 +159,8 @@ function sendToConversionsApi(event, params, eventId, eventTime) {
     custom_data: params,
   });
 
-  // `sendBeacon` sobrevive a que el usuario navegue justo después de convertir,
-  // que es exactamente cuando ocurren estos eventos.
+  // `sendBeacon` survives the user navigating away right after converting,
+  // which is exactly when these events tend to happen.
   if (navigator.sendBeacon) {
     navigator.sendBeacon(endpoint, new Blob([body], { type: "application/json" }));
     return;
@@ -170,29 +172,30 @@ function sendToConversionsApi(event, params, eventId, eventTime) {
     body,
     keepalive: true,
   }).catch(() => {
-    /* la medición nunca debe romper la página */
+    /* measurement must never break the page */
   });
 }
 
 /**
- * Eventos disparados antes de que el visitante respondiera el banner.
+ * Events fired before the visitor responded to the banner.
  *
- * Hay eventos que ocurren al montar la página —la vista de una categoría, la de
- * formación—, y en una visita desde un anuncio eso pasa siempre con el banner
- * todavía sin responder. Descartarlos ahí los perdía para siempre: al aceptar
- * solo se repetía la vista de página, y la vista de categoría no volvía a
- * ocurrir porque el componente ya estaba montado. El resultado era que el evento
- * no aparecía nunca en el Administrador de Eventos justo para el tráfico
- * pagado, que es el único que importa medir.
+ * Some events happen on mount — viewing a category, viewing the training
+ * page —, and on a visit coming from an ad that always happens with the
+ * banner still unanswered. Discarding them there lost them for good: on
+ * accepting, only the page view got repeated, and the category view never
+ * happened again because the component was already mounted. The result was
+ * that the event never showed up in Events Manager for exactly the traffic
+ * that matters to measure: paid traffic.
  *
- * Se guardan con su `event_id` y su `event_time` originales, así que al enviarse
- * declaran el instante real en que ocurrieron y no el del clic en "Aceptar".
- * Nada sale de aquí sin aceptación: si el visitante rechaza, la cola se tira.
+ * They're stored with their original `event_id` and `event_time`, so when
+ * sent they declare the real instant they happened, not the moment of the
+ * "Accept" click. Nothing leaves here without acceptance: if the visitor
+ * declines, the queue is dropped.
  */
 const MAX_PENDING = 20;
 let pending = [];
 
-/** Envía a los proveedores. Solo se llama cuando ya hay consentimiento. */
+/** Sends to the providers. Only called once there's already consent. */
 function dispatch(event, payload, eventId, eventTime) {
   if (typeof window.gtag === "function") {
     window.gtag("event", event, { ...payload, event_id: eventId });
@@ -207,7 +210,7 @@ function dispatch(event, payload, eventId, eventTime) {
   }
 }
 
-/** Vacía la cola tras la aceptación. */
+/** Flushes the queue after acceptance. */
 function flushPending() {
   const queued = pending;
   pending = [];
@@ -217,41 +220,43 @@ function flushPending() {
 }
 
 /**
- * Registra un evento en todos los proveedores configurados.
+ * Records an event across all configured providers.
  *
- * @param {string} event - una de las constantes de EVENTS
- * @param {Record<string, unknown>} [params] - contexto (servicio, ubicación...)
+ * @param {string} event - one of the EVENTS constants
+ * @param {Record<string, unknown>} [params] - context (service, location...)
  */
 export function track(event, params = {}) {
   if (!isBrowser) return;
 
   const eventId = newEventId();
   const eventTime = eventTimestamp();
-  // La moneda acompaña al valor venga de donde venga: un `value` suelto, sin
-  // `currency`, Meta lo interpreta en la moneda de la cuenta y no en la nuestra.
+  // The currency travels with the value no matter where it came from: a
+  // bare `value` with no `currency` gets interpreted by Meta in the
+  // account's currency, not ours.
   const locale = params.locale ?? currentLocale;
   const value = params.value ?? EVENT_VALUE[event]?.(locale);
   const payload = {
     ...params,
     locale,
-    // La moneda sale del idioma: en español se cotiza en pesos y en inglés en
-    // dólares, y un valor sin moneda Meta lo interpreta en la de la cuenta.
+    // Currency follows the language: Spanish quotes in pesos and English in
+    // dollars, and a value with no currency gets interpreted by Meta in the
+    // account's currency.
     ...(value ? { value, currency: params.currency ?? currencyFor(locale) } : {}),
   };
 
   if (import.meta.env?.DEV) {
-    console.debug("[analytics]", event, payload, eventId, hasConsent() ? "" : "(sin consentimiento)");
+    console.debug("[analytics]", event, payload, eventId, hasConsent() ? "" : "(no consent)");
   }
 
-  // El dataLayer se alimenta siempre: es local, no sale del navegador, y sin él
-  // GTM no podría reaccionar cuando el consentimiento llegue después.
+  // The dataLayer is always fed: it's local, it never leaves the browser,
+  // and without it GTM couldn't react once consent arrives later.
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event, ...payload, event_id: eventId });
 
   if (!hasConsent()) {
-    // Solo se guarda mientras la decisión está pendiente. Un `denied` explícito
-    // no encola nada: el visitante ya dijo que no. El tope evita que una sesión
-    // larga sin responder el banner acumule memoria sin límite.
+    // Only queued while the decision is still pending. An explicit `denied`
+    // queues nothing: the visitor already said no. The cap keeps a long
+    // session with an unanswered banner from accumulating memory without limit.
     if (readConsent() === null && pending.length < MAX_PENDING) {
       pending.push({ event, payload, eventId, eventTime });
     }
@@ -261,7 +266,7 @@ export function track(event, params = {}) {
   dispatch(event, payload, eventId, eventTime);
 }
 
-/** Vista de página. Se llama en cada cambio de ruta, no solo al cargar. */
+/** Page view. Called on every route change, not just on load. */
 export function trackPageView({ path, locale, title }) {
   if (!isBrowser) return;
 
@@ -279,11 +284,11 @@ export function trackPageView({ path, locale, title }) {
     });
   }
 
-  // La vista de página también se duplica por las dos vías, y por las mismas
-  // razones: es el evento que más pierde el pixel —es el primero que carga, y
-  // es el que bloquean los bloqueadores antes de que nada más ocurra— y es el
-  // que sostiene los públicos de remarketing. Comparte identificador e instante
-  // con la entrega del servidor para que Meta cuente una sola visita.
+  // The page view is also duplicated across both channels, for the same
+  // reasons: it's the event the pixel loses the most — it's the first thing
+  // to load, and it's what blockers stop before anything else happens — and
+  // it's what remarketing audiences rely on. It shares its identifier and
+  // instant with the server-side delivery so Meta counts a single visit.
   const eventId = newEventId();
   const eventTime = eventTimestamp();
 
@@ -305,7 +310,7 @@ function injectScript(src) {
 function ensureGtag() {
   window.dataLayer = window.dataLayer || [];
   if (typeof window.gtag === "function") return;
-  // gtag necesita `arguments`, así que no puede ser una función flecha.
+  // gtag needs `arguments`, so it can't be an arrow function.
   window.gtag = function gtag() {
     window.dataLayer.push(arguments);
   };
@@ -313,8 +318,8 @@ function ensureGtag() {
 
 function injectGa4(measurementId) {
   ensureGtag();
-  // El consentimiento por defecto se declara antes de cargar la librería: si se
-  // declara después, GA4 ya mandó el primer hit.
+  // Default consent is declared before the library loads: declaring it
+  // after means GA4 already sent its first hit.
   window.gtag("consent", "default", {
     ad_storage: "denied",
     ad_user_data: "denied",
@@ -324,8 +329,8 @@ function injectGa4(measurementId) {
 
   injectScript(`https://www.googletagmanager.com/gtag/js?id=${measurementId}`);
   window.gtag("js", new Date());
-  // El page_view lo mandamos nosotros en cada cambio de ruta: en una SPA el
-  // automático solo dispararía en la primera carga.
+  // We send the page_view ourselves on every route change: in an SPA the
+  // automatic one would only fire on the first load.
   window.gtag("config", measurementId, { send_page_view: false });
 }
 
@@ -336,7 +341,7 @@ function injectGtm(gtmId) {
 }
 
 function injectMetaPixel(pixelId) {
-  // Snippet oficial de Meta, conservado tal cual para que sea reconocible.
+  // Meta's official snippet, kept as-is so it stays recognizable.
   !(function (f, b, e, v, n, t, s) {
     if (f.fbq) return;
     n = f.fbq = function () {
@@ -354,38 +359,40 @@ function injectMetaPixel(pixelId) {
     s.parentNode.insertBefore(t, s);
   })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
 
-  // Sin `consent revoke` delante. Esa llamada existía para cargar la librería
-  // antes de preguntar y tenerla muda hasta la respuesta; ahora no se carga
-  // hasta que hay respuesta, así que sobra. Y no es inocua: encolada por
-  // delante del `init`, la librería aborta el vaciado de la cola al procesarla
-  // —se queda sin inicializar, no escribe `_fbp` y no envía un solo evento—,
-  // que es justo el fallo silencioso que este archivo intenta evitar.
+  // No `consent revoke` call in front. That call used to exist to load the
+  // library before asking and keep it silent until the response; now it
+  // isn't loaded until there's a response, so it's unnecessary. And it isn't
+  // harmless: queued ahead of `init`, the library aborts draining the queue
+  // while processing it — it's left uninitialized, doesn't write `_fbp`, and
+  // doesn't send a single event — which is exactly the silent failure this
+  // file is trying to avoid.
   window.fbq("init", pixelId);
 }
 
 /**
- * Carga el pixel. Solo se llama cuando hay consentimiento.
+ * Loads the pixel. Only called once there's consent.
  *
- * La librería no se pide hasta que el visitante acepta. Antes se cargaba
- * siempre y se mantenía en `revoke`, que impide los eventos pero no la
- * descarga: pedir `fbevents.js` ya es una conexión a Meta que entrega la IP y
- * la página que se está viendo, y eso es tratamiento de datos, exactamente lo
- * que el banner está preguntando. Quien rechaza no genera ni una petición.
+ * The library isn't requested until the visitor accepts. It used to always
+ * load and stay in `revoke`, which blocks events but not the download:
+ * requesting `fbevents.js` is already a connection to Meta that hands over
+ * the IP and the page being viewed, and that's data processing — exactly
+ * what the banner is asking about. Whoever declines generates not a single
+ * request.
  *
- * Cargar aquí y no antes no retrasa nada perceptible: el script es asíncrono y
- * los eventos posteriores a la aceptación entran en la cola del pixel, que se
- * vacía en cuanto la librería termina de cargar.
+ * Loading it here and not earlier doesn't cause any perceptible delay: the
+ * script is async and the events that follow acceptance land in the pixel's
+ * own queue, which drains as soon as the library finishes loading.
  *
- * Que esta función se llame solo tras aceptar es lo que sostiene el resto: sin
- * pixel cargado no hay nada que revocar, y por eso `injectMetaPixel` inicializa
- * directamente.
+ * This function being called only after acceptance is what the rest relies
+ * on: with no pixel loaded there's nothing to revoke, which is why
+ * `injectMetaPixel` initializes directly.
  */
 function enableMetaPixel() {
   if (!ANALYTICS.metaPixelId) return;
   if (typeof window.fbq !== "function") injectMetaPixel(ANALYTICS.metaPixelId);
 }
 
-/** Activa lo que estaba en espera del consentimiento. */
+/** Activates whatever was waiting on consent. */
 function grantConsent() {
   enableMetaPixel();
 
@@ -400,15 +407,15 @@ function grantConsent() {
 }
 
 /**
- * Prepara los proveedores configurados sin enviar nada.
+ * Prepares the configured providers without sending anything.
  *
- * Google se carga con el modo de consentimiento en `denied`, que es el
- * mecanismo que la propia Google define para este caso. El pixel de Meta no
- * tiene equivalente —su `revoke` frena los eventos, no la descarga del
- * script—, así que no se pide hasta que hay aceptación.
+ * Google loads with consent mode set to `denied`, which is the mechanism
+ * Google itself defines for this case. The Meta pixel has no equivalent —
+ * its `revoke` stops events, not the script download — so it isn't
+ * requested until there's acceptance.
  *
- * En ambos casos el cambio se aplica en el instante en que el visitante acepta,
- * sin recargar la página.
+ * In both cases the change applies the instant the visitor accepts, without
+ * reloading the page.
  */
 export function initAnalytics() {
   if (!isBrowser) return;
@@ -422,13 +429,13 @@ export function initAnalytics() {
     if (value === CONSENT.GRANTED) {
       grantConsent();
       trackPageView({ path: window.location.pathname, locale: currentLocale });
-      // Después de la vista de página y del `init` del pixel: lo que estaba en
-      // espera se envía sobre un pixel ya inicializado, no sobre uno a medias.
+      // After the page view and the pixel's `init`: whatever was waiting
+      // gets sent over an already-initialized pixel, not a half-set-up one.
       flushPending();
       return;
     }
 
-    // Rechazo explícito: lo acumulado no se envía nunca y se suelta.
+    // Explicit decline: whatever was queued is never sent and gets dropped.
     pending = [];
   });
 }

@@ -14,25 +14,25 @@ const directionClasses = {
 };
 
 /**
- * Envuelve un encabezado de sección y lo desplaza levemente al entrar en
- * viewport.
+ * Wraps a section heading and shifts it slightly as it enters the viewport.
  *
- * Dos reglas, y las dos vienen de haber roto la página con la versión anterior:
+ * Two rules, and both come from having broken the page with the previous
+ * version:
  *
- * 1. **El contenido nunca deja de verse.** El estado previo a la animación es
- *    un desplazamiento de 12 px y una atenuación parcial, no opacidad cero. Con
- *    opacidad cero, un scroll rápido dejaba secciones enteras en blanco —el
- *    bloque de "qué pasa después de la auditoría" aparecía como 300 px vacíos—
- *    porque el observador no alcanzaba a dispararse. Si la animación no llega a
- *    correr nunca, lo peor que pasa es que el bloque queda 12 px más abajo.
+ * 1. **The content never stops being visible.** The pre-animation state is
+ *    a 12px offset and partial dimming, not zero opacity. With zero
+ *    opacity, a fast scroll left whole sections blank —the "what happens
+ *    after the audit" block showed up as 300px of empty space— because the
+ *    observer never got a chance to fire. If the animation never runs at
+ *    all, the worst that happens is the block sits 12px lower.
  *
- * 2. **Solo envuelve encabezados y bloques destacados.** Las tarjetas de una
- *    grilla, los ítems de una lista y los párrafos van sin animación: eran la
- *    mayor parte de los 131 elementos animados que tenía el sitio y ninguno
- *    ganaba nada por aparecer con retraso.
+ * 2. **It only wraps headings and highlighted blocks.** Cards in a grid,
+ *    list items, and paragraphs go without animation: they made up most of
+ *    the 131 animated elements the site used to have, and none of them
+ *    gained anything by appearing with a delay.
  *
- * `delay` sigue existiendo para escalonar dos o tres bloques hermanos, no para
- * escalonar una grilla.
+ * `delay` still exists to stagger two or three sibling blocks, not to
+ * stagger a grid.
  */
 export default function Reveal({
   children,
@@ -45,14 +45,14 @@ export default function Reveal({
   const reducedMotion = usePrefersReducedMotion();
   const [mounted, setMounted] = useState(false);
 
-  // En un layout effect: el estado definitivo queda listo antes del pintado,
-  // así que nada se ve aparecer y desaparecer.
+  // In a layout effect: the final state is ready before painting, so
+  // nothing is seen popping in and out.
   useIsomorphicLayoutEffect(() => setMounted(true), []);
 
   const settled = !mounted || reducedMotion || inView;
 
-  // Sin `prefers-reduced-motion` no hay transición ni transformación: quien pide
-  // que nada se mueva recibe el marcado tal cual, sin clases de movimiento.
+  // With `prefers-reduced-motion` there's no transition or transform:
+  // whoever asks for nothing to move gets the markup as-is, with no motion classes.
   const motionClass = reducedMotion
     ? ""
     : `transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none ${

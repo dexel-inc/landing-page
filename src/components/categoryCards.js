@@ -1,4 +1,4 @@
-/** Arma las tres tarjetas de categoría a partir del mismo copy que las páginas. */
+/** Builds the three category cards from the same copy the pages use. */
 export function buildCategoryCards({ categories, audit, routeKeys }) {
   return [
     {

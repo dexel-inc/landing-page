@@ -3,14 +3,14 @@ import { ChevronDown } from "lucide-react";
 import Reveal from "./Reveal.jsx";
 
 /**
- * Acordeón de preguntas frecuentes.
+ * Frequently-asked-questions accordion.
  *
- * Vive aquí y no dentro de una página porque lo usan la página índice de
- * servicios y las tres páginas de categoría: tenerlo duplicado era la vía
- * directa a que una de ellas quedara sin la corrección de la siguiente.
+ * Lives here and not inside a page because it's used by the services index
+ * page and the three category pages: keeping it duplicated was the direct
+ * path to one of them missing the next one's fix.
  *
- * `idPrefix` evita que dos listas en el mismo documento compartan el `id` del
- * panel y rompan la relación `aria-controls`.
+ * `idPrefix` keeps two lists in the same document from sharing the panel's
+ * `id` and breaking the `aria-controls` relationship.
  */
 export default function FaqList({ title, subtitle, faqs = [], idPrefix = "faq" }) {
   const [openFaqs, setOpenFaqs] = useState(() => new Set());
@@ -53,9 +53,10 @@ export default function FaqList({ title, subtitle, faqs = [], idPrefix = "faq" }
                   : "border-slate-200 bg-white/70 dark:border-zinc-800 dark:bg-zinc-900/60 hover:border-blue-500/30"
               }`}
             >
-              {/* Botón nativo en vez del componente Button: su clase base trae
-                  justify-center, que ganaba sobre justify-between y dejaba la
-                  pregunta centrada contra una respuesta alineada a la izquierda. */}
+              {/* Native button instead of the Button component: its base
+                  class carries justify-center, which won out over
+                  justify-between and left the question centered against a
+                  left-aligned answer. */}
               <button
                 type="button"
                 onClick={() => toggleFaq(index)}
@@ -77,9 +78,9 @@ export default function FaqList({ title, subtitle, faqs = [], idPrefix = "faq" }
                 </span>
               </button>
 
-              {/* grid-rows 0fr→1fr anima la altura sin medirla en JS. La
-                  respuesta queda siempre en el HTML, así que un rastreador la
-                  lee aunque el acordeón esté cerrado. */}
+              {/* grid-rows 0fr→1fr animates the height without measuring it
+                  in JS. The answer always stays in the HTML, so a crawler
+                  reads it even while the accordion is closed. */}
               <div
                 id={answerId}
                 role="region"

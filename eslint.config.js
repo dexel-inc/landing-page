@@ -27,15 +27,15 @@ export default defineConfig([
     },
   },
   {
-    // Corren en Node, no en el navegador: la función de Vercel y el
-    // prerenderizado del build.
+    // Run in Node, not in the browser: the Vercel function and the build's
+    // prerendering.
     files: ['api/**/*.js', 'scripts/**/*.mjs'],
     languageOptions: { globals: globals.node },
     rules: { 'react-refresh/only-export-components': 'off' },
   },
   {
-    // Entrada de renderizado en servidor: exporta funciones a propósito, no
-    // es un módulo de componentes con recarga en caliente.
+    // Server-rendering entry point: it exports functions on purpose, it
+    // isn't a component module with hot reload.
     files: ['src/entry-server.jsx'],
     rules: { 'react-refresh/only-export-components': 'off' },
   },

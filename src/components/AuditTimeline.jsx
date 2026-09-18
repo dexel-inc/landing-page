@@ -2,17 +2,16 @@ import React from "react";
 import { Info } from "lucide-react";
 
 /**
- * Línea de tiempo "qué pasa después de la auditoría" y su nota de alcance.
+ * "What happens after the audit" timeline and its scope note.
  *
- * Vive en un componente propio porque aparece en dos sitios: en el detalle de
- * la auditoría y en la tarjeta destacada de la home. Es el bloque que sostiene
- * la venta de un producto de $450 —nadie paga esa cifra sin ver el camino
- * completo antes de dar clic—, así que no puede depender de que el visitante
- * navegue a otra página para encontrarlo.
+ * Lives in its own component because it appears in two places: in the
+ * audit's detail page and in the home page's featured card. It's the block
+ * that carries the sale of a $450 product —nobody pays that figure without
+ * seeing the whole path before clicking—, so it can't depend on the
+ * visitor navigating to another page to find it.
  *
- * En pantallas anchas los cuatro pasos van en fila, como la sección de proceso
- * de seis fases; en móvil la fila se convierte en columna y el conector pasa a
- * ser vertical.
+ * On wide screens the four steps run in a row, like the six-phase process
+ * section; on mobile the row becomes a column and the connector turns vertical.
  */
 function Step({ step, index, isLast, compact }) {
   const bullet = compact ? "h-7 w-7 text-[11px]" : "h-8 w-8 md:h-10 md:w-10 text-xs md:text-sm";
@@ -23,7 +22,7 @@ function Step({ step, index, isLast, compact }) {
     <div
       className={`relative flex-1 flex gap-4 md:block ${compact ? "pb-6" : "pb-8"} last:pb-0 md:pb-0`}
     >
-      {/* Conector: vertical en móvil, horizontal en escritorio. */}
+      {/* Connector: vertical on mobile, horizontal on desktop. */}
       {!isLast && (
         <span
           className={`absolute left-[13px] top-9 bottom-0 w-px md:left-auto md:bottom-auto md:h-px md:w-full ${connectorTop} ${connectorShift} bg-linear-to-b md:bg-linear-to-r from-blue-500/50 to-slate-200 dark:to-zinc-800`}
@@ -78,9 +77,9 @@ export function AuditSteps({ steps, compact = false }) {
 }
 
 /**
- * Nota de alcance mínimo. Tratamiento de aclaración y no de bloque destacado:
- * su función es filtrar al cliente demasiado pequeño antes de que pague, no
- * competir con la oferta.
+ * Minimum scope note. Treated as a clarification, not a highlighted block:
+ * its job is to filter out clients that are too small before they pay, not
+ * to compete with the offer.
  */
 export function AuditScopeNote({ title, text, compact = false }) {
   return (

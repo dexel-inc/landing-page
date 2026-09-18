@@ -32,19 +32,20 @@ import { EVENTS, track } from "../analytics/track.js";
 import { INTENT, setIntent } from "../analytics/intent.js";
 
 /**
- * Plantilla común de las tres páginas de categoría.
+ * Shared template for the three category pages.
  *
- * Encabezado → frentes → qué incluye → cómo trabajamos → preguntas → CTA. La
- * estructura es idéntica en las tres y solo cambia el contenido, que llega
- * entero por props: es lo que evita que "las tres páginas se vean consistentes"
- * dependa de acordarse de replicar cada ajuste tres veces.
+ * Header → fronts → what's included → how we work → questions → CTA. The
+ * structure is identical across all three and only the content changes,
+ * which arrives entirely through props: that's what keeps "the three pages
+ * look consistent" from depending on remembering to replicate every tweak
+ * three times.
  *
- * `children` es el hueco para lo que solo tiene una categoría —los cuatro pasos
- * posteriores y la nota de alcance de la auditoría— sin obligar a las otras dos
- * a cargar con secciones vacías. `afterFronts` es el mismo hueco, pero justo
- * después de los frentes: ahí van las piezas que explican qué se contrata
- * —la comparación entre responder y hacer— y que leídas después del alcance
- * llegarían tarde.
+ * `children` is the slot for what only one category has —the four
+ * follow-up steps and the audit's scope note— without forcing the other
+ * two to carry empty sections. `afterFronts` is the same kind of slot, but
+ * right after the fronts: that's where the pieces explaining what's being
+ * hired go —the comparison between responding and doing— which would
+ * arrive too late if read after the scope.
  */
 
 const frontIcons = {
@@ -65,9 +66,9 @@ const frontIcons = {
 };
 
 /**
- * Tarjeta clickeable cuando el frente tiene página propia (`routeKey`); de lo
- * contrario, se queda como tarjeta informativa —automatización y auditoría
- * todavía no tienen páginas hijas—.
+ * Clickable card when the front has its own page (`routeKey`); otherwise it
+ * stays an informational card —automation and audit still have no child
+ * pages—.
  */
 function FrontCard({ front }) {
   const Icon = frontIcons[front.iconName] ?? Cpu;
@@ -117,20 +118,21 @@ export default function CategoryPage({
   const items = fronts ?? copy.fronts ?? [];
 
   /**
-   * El idioma va explícito y no por el que guarda la capa de medición: esta
-   * página es hija de quien lo inyecta, y los efectos de los hijos corren
-   * primero. Sin esto, la primera vista de una página en inglés se contaba como
-   * español.
+   * The language is passed explicitly instead of relying on the one the
+   * measurement layer holds: this page is a child of whoever injects it,
+   * and children's effects run first. Without this, the first view of an
+   * English page got counted as Spanish.
    */
   useEffect(() => {
     track(EVENTS.SERVICE_CATEGORY_VIEWED, { category, locale });
   }, [category, locale]);
 
   /**
-   * El clic no es la conversión: la conversión es entregar la conversación a
-   * WhatsApp. Aquí solo se declara con qué intención va el visitante, para que
-   * al convertir se cuente `QuoteRequested`, `AuditRequested` o
-   * `DiscoveryBooked` según corresponda y no las tres como una sola cosa.
+   * The click isn't the conversion: the conversion is handing the
+   * conversation off to WhatsApp. Here we only declare which intent the
+   * visitor is going in with, so that on converting, `QuoteRequested`,
+   * `AuditRequested`, or `DiscoveryBooked` gets counted as appropriate, not
+   * all three as a single thing.
    */
   const goToContact = (type, location) => {
     setIntent({
@@ -151,7 +153,7 @@ export default function CategoryPage({
       <div className="absolute -top-20 -left-16 w-80 h-80 rounded-full bg-blue-500/20 dark:bg-blue-600/20 blur-3xl pointer-events-none z-0" />
       <div className="absolute top-1/3 -right-24 w-96 h-96 rounded-full bg-cyan-400/20 dark:bg-cyan-500/10 blur-3xl pointer-events-none z-0" />
 
-      {/* 1 — Encabezado */}
+      {/* 1 — Header */}
       <section className="relative z-10 px-4 md:px-6">
         <Reveal className="max-w-4xl mx-auto text-center">
           <div className="flex flex-wrap justify-center items-center gap-2.5 mb-6">
@@ -181,9 +183,10 @@ export default function CategoryPage({
               <p className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
                 {copy.price}
               </p>
-              {/* El IVA va pegado a la cifra, no en una nota al pie: es lo que
-                  diferencia de la competencia local, que publica "+ IVA". En
-                  inglés `vatLabel` es `null` y aquí no se pinta nada. */}
+              {/* VAT sits right next to the figure, not in a footnote: that's
+                  what sets it apart from local competitors, who publish
+                  "+ VAT". In English `vatLabel` is `null` and nothing renders
+                  here. */}
               {chrome?.vatLabel && (
                 <p className="text-xs text-slate-500 dark:text-gray-500 mt-1">{chrome.vatLabel}</p>
               )}
@@ -235,7 +238,7 @@ export default function CategoryPage({
         </Reveal>
       </section>
 
-      {/* 2 — Frentes */}
+      {/* 2 — Fronts */}
       {items.length > 0 && (
         <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
           <div className="max-w-5xl mx-auto">
@@ -274,10 +277,10 @@ export default function CategoryPage({
         </section>
       )}
 
-      {/* 2a — Lo que explica qué se contrata, antes del alcance */}
+      {/* 2a — What explains what's being hired, before the scope */}
       {afterFronts}
 
-      {/* 2b — Niveles: hoy solo los tiene presencia web, dentro de desarrollo. */}
+      {/* 2b — Tiers: today only web presence has these, within development. */}
       {tiers?.length > 0 && (
         <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
           <div className="max-w-5xl mx-auto">
@@ -332,7 +335,7 @@ export default function CategoryPage({
         </section>
       )}
 
-      {/* 3 — Qué incluye */}
+      {/* 3 — What's included */}
       {copy.includes?.length > 0 && (
         <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
           <div className="max-w-5xl mx-auto">
@@ -365,10 +368,10 @@ export default function CategoryPage({
         </section>
       )}
 
-      {/* 3b — Lo propio de una sola categoría */}
+      {/* 3b — What's specific to a single category */}
       {children}
 
-      {/* 4 — Cómo trabajamos */}
+      {/* 4 — How we work */}
       <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
         <ProcessCompact
           title={copy.processTitle}
@@ -377,7 +380,7 @@ export default function CategoryPage({
         />
       </section>
 
-      {/* 5 — Preguntas frecuentes */}
+      {/* 5 — Frequently asked questions */}
       <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
         <FaqList
           title={copy.faqTitle}

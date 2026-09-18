@@ -10,17 +10,16 @@ import { EVENTS, track } from "../analytics/track.js";
 import { INTENT, setIntent } from "../analytics/intent.js";
 
 /**
- * Plantilla común de las siete páginas de servicio individuales
- * (sitios web, software a la medida, micropáginas, SEO, integraciones,
- * pasarelas de pago, mantenimiento).
+ * Shared template for the seven individual service pages
+ * (websites, custom software, micropages, SEO, integrations,
+ * payment gateways, maintenance).
  *
- * Hermana de `CategoryPage`, con la misma factura visual, pero donde el
- * contenido principal son los niveles de precio y no los "frentes de
- * trabajo": aquí ya se sabe qué servicio es, falta elegir el alcance.
+ * Sibling of `CategoryPage`, with the same visual treatment, but where the
+ * main content is the price tiers rather than the "work fronts": here it's
+ * already known which service this is, what's left is choosing the scope.
  *
- * `children` es el hueco para lo que solo tiene una página —los demos
- * interactivos de micropáginas— sin obligar a las otras seis a cargar con un
- * hueco vacío.
+ * `children` is the slot for what only one page has —the interactive
+ * micropage demos— without forcing the other six to carry an empty slot.
  */
 export default function ServiceDetailPage({ copy, chrome, categoryRouteKey, serviceId, children }) {
   const { navigateTo, locale } = useRouter();
@@ -49,7 +48,7 @@ export default function ServiceDetailPage({ copy, chrome, categoryRouteKey, serv
       <div className="absolute -top-20 -left-16 w-80 h-80 rounded-full bg-blue-500/20 dark:bg-blue-600/20 blur-3xl pointer-events-none z-0" />
       <div className="absolute top-1/3 -right-24 w-96 h-96 rounded-full bg-cyan-400/20 dark:bg-cyan-500/10 blur-3xl pointer-events-none z-0" />
 
-      {/* 1 — Encabezado */}
+      {/* 1 — Header */}
       <section className="relative z-10 px-4 md:px-6">
         <Reveal className="max-w-4xl mx-auto text-center">
           <Link
@@ -72,7 +71,7 @@ export default function ServiceDetailPage({ copy, chrome, categoryRouteKey, serv
         </Reveal>
       </section>
 
-      {/* 2 — Niveles */}
+      {/* 2 — Tiers */}
       <section className="relative z-10 px-4 md:px-6 pt-12 md:pt-16">
         <div className="max-w-5xl mx-auto">
           <div
@@ -161,10 +160,10 @@ export default function ServiceDetailPage({ copy, chrome, categoryRouteKey, serv
         </div>
       </section>
 
-      {/* 2b — Lo propio de una sola página (demos de micropáginas) */}
+      {/* 2b — What's specific to a single page (micropage demos) */}
       {children}
 
-      {/* 3 — Casos, si el copy trae datos */}
+      {/* 3 — Cases, if the copy provides data */}
       {copy.cases?.length > 0 && (
         <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
           <div className="max-w-5xl mx-auto">
@@ -190,7 +189,7 @@ export default function ServiceDetailPage({ copy, chrome, categoryRouteKey, serv
         </section>
       )}
 
-      {/* 4 — Preguntas frecuentes */}
+      {/* 4 — Frequently asked questions */}
       <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
         <FaqList
           title={copy.faqTitle}
@@ -200,7 +199,7 @@ export default function ServiceDetailPage({ copy, chrome, categoryRouteKey, serv
         />
       </section>
 
-      {/* 5 — Servicios complementarios */}
+      {/* 5 — Complementary services */}
       {copy.related?.length > 0 && (
         <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
           <div className="max-w-5xl mx-auto">
