@@ -4,8 +4,8 @@ import { EVENTS, track } from "../analytics/track.js";
 
 /**
  * Every call to action ends here: it opens WhatsApp with a message that
- * already names the service —and the plan and its price, if one was
- * chosen—, so nobody has to explain from scratch what they came for.
+ * already names the service —and the plan, if one was chosen—, so nobody
+ * has to explain from scratch what they came for.
  *
  * The click is the conversion. The event depends on the intent the button
  * declares —buying an audit, quoting a service, requesting a pack or a
@@ -36,10 +36,12 @@ export function whatsappUrl(text) {
 }
 
 /**
- * @param {{type: string, locale: string, service?: string, plan?: string,
- *   price?: string}} params `price` is already formatted for display.
+ * The price is left out on purpose: the conversation starts from the
+ * service and the plan, and the figure gets confirmed there.
+ *
+ * @param {{type: string, locale: string, service?: string, plan?: string}} params
  */
-export function buildWhatsAppMessage({ type, locale, service, plan, price }) {
+export function buildWhatsAppMessage({ type, locale, service, plan }) {
   const copy = whatsappCopy[locale] ?? whatsappCopy.es;
   const lines = [copy.greeting, ""];
 
@@ -48,7 +50,7 @@ export function buildWhatsAppMessage({ type, locale, service, plan, price }) {
     if (service) lines.push("", copy.discoveryAbout(service));
   } else if (service) {
     lines.push(copy.service(service));
-    if (plan) lines.push(copy.plan(plan, price));
+    if (plan) lines.push(copy.plan(plan));
     lines.push("", copy.serviceClose);
   } else {
     lines.push(copy.general);
@@ -63,11 +65,11 @@ export function buildWhatsAppMessage({ type, locale, service, plan, price }) {
  * direct response to a user gesture.
  *
  * @param {{type: string, locale: string, location: string, service?: string,
- *   plan?: string, price?: string, analytics?: object}} params
+ *   plan?: string, analytics?: object}} params
  *   `analytics` carries the extra event fields —`service_id`, `category`,
  *   `value`, `format`, `pack_name`—.
  */
-export function contactOnWhatsApp({ type, locale, location, service, plan, price, analytics = {} }) {
+export function contactOnWhatsApp({ type, locale, location, service, plan, analytics = {} }) {
   const shared = {
     location,
     service_name: plan ? `${service} — ${plan}` : service,
@@ -78,6 +80,6 @@ export function contactOnWhatsApp({ type, locale, location, service, plan, price
   if (conversion) track(conversion, shared);
   track(EVENTS.WHATSAPP_OPENED, { source: location });
 
-  const url = whatsappUrl(buildWhatsAppMessage({ type, locale, service, plan, price }));
+  const url = whatsappUrl(buildWhatsAppMessage({ type, locale, service, plan }));
   window.open(url, "_blank", "noopener,noreferrer");
 }

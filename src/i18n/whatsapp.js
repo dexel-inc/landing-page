@@ -9,7 +9,7 @@ export const whatsappCopy = {
   es: {
     greeting: "Hola Dexel 👋",
     service: (service) => `Me interesa *${service}*.`,
-    plan: (plan, price) => `Plan: *${plan}*${price ? ` (${price})` : ""}.`,
+    plan: (plan) => `Plan: *${plan}*.`,
     serviceClose: "¿Me pueden dar más información?",
     discovery: "Quiero agendar la llamada de 30 minutos sin costo.",
     discoveryAbout: (service) => `Me interesa: ${service}.`,
@@ -18,7 +18,7 @@ export const whatsappCopy = {
   en: {
     greeting: "Hi Dexel 👋",
     service: (service) => `I'm interested in *${service}*.`,
-    plan: (plan, price) => `Plan: *${plan}*${price ? ` (${price})` : ""}.`,
+    plan: (plan) => `Plan: *${plan}*.`,
     serviceClose: "Could you tell me more?",
     discovery: "I'd like to book the free 30-minute call.",
     discoveryAbout: (service) => `I'm interested in: ${service}.`,

@@ -50,7 +50,6 @@ export function Packs({ copy, chrome, serviceName }) {
       location,
       service: serviceName,
       plan: pack.name,
-      price: formatPrice(pack.priceKey, locale, { from: pack.from }),
       analytics: {
         category: "automation",
         service_id: "automatizacion",

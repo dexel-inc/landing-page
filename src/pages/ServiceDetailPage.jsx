@@ -39,8 +39,8 @@ export default function ServiceDetailPage({
     formatPrice(tier.priceKey, locale, { from: !!tier.from, perMonth: !!tier.perMonth });
 
   /**
-   * Opens WhatsApp naming the service and, from a tier's button, the plan
-   * and its price: the conversation starts where the visitor already is.
+   * Opens WhatsApp naming the service and, from a tier's button, the plan:
+   * the conversation starts where the visitor already is.
    */
   const goToContact = (tier, location) => {
     track(EVENTS.CTA_CLICK, { service_id: serviceId, location });
@@ -50,7 +50,6 @@ export default function ServiceDetailPage({
       location,
       service: serviceName ?? copy.title,
       plan: tier?.name,
-      price: tier ? tierPrice(tier) : undefined,
       analytics: {
         category: categoryRouteKey,
         service_id: serviceId,

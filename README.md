@@ -88,7 +88,7 @@ Variables en `.env.example`. Eventos de conversión:
 | `WhatsAppOpened` | Cualquier botón que abre WhatsApp | `source`, `locale` |
 
 Cada botón abre WhatsApp con un mensaje ya escrito que nombra el servicio y,
-si se eligió uno, el plan y su precio (`contact/whatsapp.js`). La intención
+si se eligió uno, el plan (`contact/whatsapp.js`); el precio no va en el mensaje. La intención
 del botón decide cuál evento de conversión sale.
 
 Cada evento lleva un `event_id` compartido entre el pixel del navegador y la

@@ -147,8 +147,8 @@ export default function TrainingPage({ copy, chrome }) {
 
   /**
    * Opens WhatsApp naming the training and, from a format's button, the
-   * format and its price —which is also what gives `TrainingRequested` its
-   * monetary value—.
+   * format. The format's price travels only in the event, as the monetary
+   * value of `TrainingRequested`.
    */
   const requestTraining = (format, location) => {
     track(EVENTS.CTA_CLICK, { service_id: "formacion", format: format?.key, location });
@@ -158,7 +158,6 @@ export default function TrainingPage({ copy, chrome }) {
       location,
       service: copy.navLabel,
       plan: format?.name,
-      price: format?.price,
       analytics: {
         service_id: "formacion",
         format: format?.key ?? "unspecified",
