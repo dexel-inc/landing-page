@@ -37,8 +37,6 @@ export const EVENTS = {
   SERVICE_DETAIL_VIEWED: "ServiceDetailViewed",
   /** Loaded one of the three category pages. Carries `category`. */
   SERVICE_CATEGORY_VIEWED: "ServiceCategoryViewed",
-  /** First message sent to the conversational assistant. */
-  CHAT_STARTED: "ChatStarted",
   /** Loaded the team training page. Carries `locale`. */
   TRAINING_PAGE_VIEWED: "TrainingPageViewed",
   /** Training request. Carries `format` and that format's `value`. */
@@ -47,14 +45,13 @@ export const EVENTS = {
   PACK_REQUESTED: "PackRequested",
 
   // Journey events. Which of these are also backed server-side is decided by
-  // `CONVERSION_EVENTS`, not this list: `ChatCompleted` and `WhatsAppOpened`
-  // are, because they're the end of the funnel; navigation clicks aren't.
+  // `CONVERSION_EVENTS`, not this list: `WhatsAppOpened` is, because it's
+  // the end of the funnel; navigation clicks aren't.
   // They use PascalCase just like the conversion events: Events Manager
   // lists them all together in the same column, and mixing two conventions
   // there means having to remember which was spelled which way every time
   // an audience or a custom conversion is built.
   CTA_CLICK: "CtaClicked",
-  CHAT_COMPLETED: "ChatCompleted",
   WHATSAPP_OPENED: "WhatsAppOpened",
   CASE_STUDY_VISITED: "CaseStudyVisited",
   TEAM_PROFILE_CLICK: "TeamProfileClicked",
@@ -90,18 +87,59 @@ const CONVERSION_EVENTS = new Set([
   EVENTS.DISCOVERY_BOOKED,
   EVENTS.SERVICE_DETAIL_VIEWED,
   EVENTS.SERVICE_CATEGORY_VIEWED,
-  EVENTS.CHAT_STARTED,
   EVENTS.TRAINING_PAGE_VIEWED,
   EVENTS.TRAINING_REQUESTED,
   EVENTS.PACK_REQUESTED,
-  // Conversation closers. `ChatCompleted` means the whole flow got answered
-  // and `WhatsAppOpened` is the actual handoff of the contact: they're the
-  // two points in the journey that a blocked pixel makes disappear without a
-  // trace, and without them the campaign ends up optimizing against a funnel
-  // that's cut short before the end.
-  EVENTS.CHAT_COMPLETED,
+  // `WhatsAppOpened` is the actual handoff of the contact: the point in the
+  // journey that a blocked pixel makes disappear without a trace, and
+  // without it the campaign ends up optimizing against a funnel that's cut
+  // short before the end.
   EVENTS.WHATSAPP_OPENED,
 ]);
+
+/**
+ * Meta standard event for each of ours.
+ *
+ * Meta optimizes campaigns and builds its aggregated iOS measurement around
+ * its standard events; a custom event only works through a custom
+ * conversion built by hand. So Meta receives the standard name, and ours
+ * travels alongside as `dexel_event` —plus `service_name` and `category`—
+ * for custom conversions per service. GA4 keeps our names.
+ *
+ * The funnel reads: `ViewContent` (saw a category or a service) → `Lead`
+ * (asked for a plan, an audit, a pack, or a training format on WhatsApp)
+ * or `Schedule` (booked the free call) → `Contact` (went straight to
+ * WhatsApp without picking a service).
+ */
+const META_STANDARD_EVENT = {
+  [EVENTS.SERVICE_CATEGORY_VIEWED]: "ViewContent",
+  [EVENTS.SERVICE_DETAIL_VIEWED]: "ViewContent",
+  [EVENTS.TRAINING_PAGE_VIEWED]: "ViewContent",
+  [EVENTS.AUDIT_REQUESTED]: "Lead",
+  [EVENTS.QUOTE_REQUESTED]: "Lead",
+  [EVENTS.PACK_REQUESTED]: "Lead",
+  [EVENTS.TRAINING_REQUESTED]: "Lead",
+  [EVENTS.DISCOVERY_BOOKED]: "Schedule",
+  [EVENTS.WHATSAPP_OPENED]: "Contact",
+};
+
+/** Our event translated to what Meta expects: name and parameters. */
+function toMeta(event, payload) {
+  const standard = META_STANDARD_EVENT[event];
+  if (!standard) return { name: event, params: payload, standard: false };
+
+  return {
+    name: standard,
+    standard: true,
+    params: {
+      ...payload,
+      dexel_event: event,
+      ...(payload.service_name ? { content_name: payload.service_name } : {}),
+      ...(payload.category ? { content_category: payload.category } : {}),
+      ...(payload.service_id ? { content_ids: [payload.service_id], content_type: "product" } : {}),
+    },
+  };
+}
 
 /**
  * Monetary value per event. Meta needs `value` and `currency` to be able to
@@ -201,12 +239,16 @@ function dispatch(event, payload, eventId, eventTime) {
     window.gtag("event", event, { ...payload, event_id: eventId });
   }
 
+  // Both channels send the same name, parameters, and `eventID`: that
+  // triple is what lets Meta deduplicate the browser and server deliveries.
+  const meta = toMeta(event, payload);
+
   if (typeof window.fbq === "function") {
-    window.fbq("trackCustom", event, payload, { eventID: eventId });
+    window.fbq(meta.standard ? "track" : "trackCustom", meta.name, meta.params, { eventID: eventId });
   }
 
   if (CONVERSION_EVENTS.has(event)) {
-    sendToConversionsApi(event, payload, eventId, eventTime);
+    sendToConversionsApi(meta.name, meta.params, eventId, eventTime);
   }
 }
 

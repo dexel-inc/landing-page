@@ -17,7 +17,7 @@ export default function Services({ copy, categories, audit, chrome }) {
   const cards = buildCategoryCards({ categories, audit, routeKeys: ROUTE_KEYS });
 
   const openCategory = (card) => {
-    track(EVENTS.SERVICE_DETAIL_VIEWED, {
+    track(EVENTS.CTA_CLICK, {
       category: card.key,
       service_name: card.navLabel,
       location: "home_services",

@@ -17,6 +17,6 @@ export const SITE = {
   legalName: "Dexel Digital Excellence",
   ogImage: `${SITE_URL}/img.png`,
   logo: `${SITE_URL}/img.png`,
-  whatsapp: "573135632235",
+  whatsapp: "573216558510",
   country: "CO",
 };

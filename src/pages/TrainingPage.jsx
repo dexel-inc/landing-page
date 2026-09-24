@@ -20,10 +20,9 @@ import Button from "../components/ui/Button.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
 import FaqList from "../components/ui/FaqList.jsx";
 import { useRouter } from "../router/RouterContext.jsx";
-import { ROUTE_KEYS } from "../router/routes.js";
 import { priceAmount, pricesIncludeVat } from "../config/pricing.js";
 import { EVENTS, track } from "../analytics/track.js";
-import { INTENT, setIntent } from "../analytics/intent.js";
+import { INTENT, contactOnWhatsApp } from "../contact/whatsapp.js";
 
 /**
  * Team training.
@@ -136,35 +135,50 @@ function ProgramBlocks({ copy }) {
 }
 
 export default function TrainingPage({ copy, chrome }) {
-  const { navigateTo, locale } = useRouter();
+  const { locale } = useRouter();
   const showVat = pricesIncludeVat(locale);
 
   useEffect(() => {
     // The language is passed explicitly instead of relying on the one the
     // measurement layer holds: children's effects run before the container
     // that injects it.
-    track(EVENTS.TRAINING_PAGE_VIEWED, { locale });
-  }, [locale]);
-
-  /**
-   * The click isn't the conversion: the conversion is handing the
-   * conversation off to WhatsApp. Here we only declare which intent the
-   * visitor is going in with —and which format, which is what gives the
-   * event its monetary value— so that on converting, `TrainingRequested`
-   * gets counted instead of the generic conversion.
-   */
-  const requestTraining = (format, location) => {
-    setIntent({
-      type: INTENT.TRAINING,
+    track(EVENTS.TRAINING_PAGE_VIEWED, {
       service_id: "formacion",
       service_name: copy.navLabel,
-      format: format?.key ?? "unspecified",
-      value: format?.value ? priceAmount(format.value, locale) : undefined,
-      location,
+      category: "training",
+      locale,
     });
+  }, [copy.navLabel, locale]);
 
-    track(EVENTS.CTA_CLICK, { service_id: "formacion", format: format?.key, location });
-    navigateTo(ROUTE_KEYS.CONTACT);
+  /**
+   * Opens WhatsApp naming the training and, from a format's button, the
+   * format. The format's price travels only in the event, as the monetary
+   * value of `TrainingRequested`.
+   */
+  const requestTraining = (format, location) => {
+    contactOnWhatsApp({
+      type: INTENT.TRAINING,
+      locale,
+      location,
+      service: copy.navLabel,
+      plan: format?.name,
+      analytics: {
+        service_id: "formacion",
+        category: "training",
+        format: format?.key ?? "unspecified",
+        value: format?.value ? priceAmount(format.value, locale) : undefined,
+      },
+    });
+  };
+
+  const requestDiscovery = (location) => {
+    contactOnWhatsApp({
+      type: INTENT.DISCOVERY,
+      locale,
+      location,
+      service: copy.navLabel,
+      analytics: { service_id: "formacion", category: "training" },
+    });
   };
 
   return (
@@ -228,11 +242,7 @@ export default function TrainingPage({ copy, chrome }) {
             </Button>
 
             <Button
-              onClick={() => {
-                setIntent({ type: INTENT.DISCOVERY, location: "training_page_hero_discovery" });
-                track(EVENTS.CTA_CLICK, { location: "training_page_hero_discovery" });
-                navigateTo(ROUTE_KEYS.CONTACT);
-              }}
+              onClick={() => requestDiscovery("training_page_hero_discovery")}
               variant="secondary"
               size="lg"
               className="w-full sm:w-auto"
@@ -442,11 +452,7 @@ export default function TrainingPage({ copy, chrome }) {
               </Button>
 
               <Button
-                onClick={() => {
-                  setIntent({ type: INTENT.DISCOVERY, location: "training_page_footer_discovery" });
-                  track(EVENTS.CTA_CLICK, { location: "training_page_footer_discovery" });
-                  navigateTo(ROUTE_KEYS.CONTACT);
-                }}
+                onClick={() => requestDiscovery("training_page_footer_discovery")}
                 variant="secondary"
                 size="lg"
                 className="w-full md:w-auto"

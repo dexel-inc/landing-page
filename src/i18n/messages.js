@@ -27,9 +27,36 @@ export const messages = {
         "es",
         { from: true },
       )}, entrega en 2 a 6 semanas.`,
-      auditTitle: "Auditoría de procesos | Dexel",
-      auditDescription:
-        "Le decimos qué procesos se pueden automatizar, cuántas horas al mes recuperaría y cuánto costaría cada implementación. Ocho entregables en 5 a 7 días hábiles.",
+      auditTitle: "Auditoría de procesos, software e IA | Dexel",
+      auditDescription: `Auditoría de procesos, de herramientas y licencias, de software y diagnóstico de IA. Cifras concretas antes de construir, y el valor se descuenta del proyecto. ${formatPrice(
+        "auditFocus",
+        "es",
+        { from: true },
+      )}.`,
+      processAuditTitle: "Auditoría de procesos | Dexel",
+      processAuditDescription: `Qué procesos automatizar, cuántas horas al mes recuperaría y cuánto costaría cada implementación. Tres alcances, ${formatPrice(
+        "auditFocus",
+        "es",
+        { from: true },
+      ).toLowerCase()}.`,
+      toolsAuditTitle: "Auditoría de herramientas y licencias de software | Dexel",
+      toolsAuditDescription: `Lo que paga en software y lo que de verdad usa: qué conservar, qué consolidar y qué cancelar, con el ahorro calculado. ${formatPrice(
+        "toolsAudit",
+        "es",
+        { from: true },
+      )}.`,
+      softwareAuditTitle: "Auditoría de software: código, seguridad e infraestructura | Dexel",
+      softwareAuditDescription: `Revisión de sitios y aplicaciones: velocidad, seguridad, respaldos, código y deuda técnica, con un plan de arreglos. ${formatPrice(
+        "softwareAuditSite",
+        "es",
+        { from: true },
+      )}.`,
+      aiAssessmentTitle: "Diagnóstico de IA para empresas | Dexel",
+      aiAssessmentDescription: `Dónde aporta la IA en su operación, con qué datos y con qué riesgos, priorizado por retorno. ${formatPrice(
+        "aiWorkshop",
+        "es",
+        { from: true },
+      )}.`,
       websitesTitle: "Sitios web a la medida | Dexel",
       websitesDescription: `Landing, sitio completo con panel o catálogo en línea. ${formatPrice(
         "webPresence",
@@ -442,54 +469,9 @@ export const messages = {
       titleStart: "Iniciemos el",
       titleHighlight: "Proceso.",
       description:
-        "Interactúe directamente con nuestro núcleo de pre-análisis. Cuéntenos su problema técnico y obtenga una evaluación preliminar en tiempo real.",
-      chat: {
-        status: "DEXEL - ONLINE",
-        placeholder: "Escriba su requerimiento...",
-          "whatsappButton": "Continuar en WhatsApp",
-          "responseTime": "Respondemos en menos de 4 horas hábiles",
-          // Inverted flow: first we understand the problem and hand back
-          // something useful, and only at the end do we ask for contact
-          // details. Steps without a "field" are informational and advance
-          // on their own.
-          "flow": [
-            {
-              "bot": "👋 Hola, soy el asistente de DEXEL.\n\nPara ayudarle rápido necesito una sola cosa: ¿qué tarea o proceso le está quitando más tiempo a su equipo hoy?",
-              "field": "problema"
-            },
-            {
-              "bot": "Entendido. Ese tipo de proceso casi siempre se puede automatizar, total o parcialmente.\n\nPara darle una estimación con sentido y no una cifra al aire, me falta un dato:",
-              "field": null
-            },
-            {
-              "bot": "¿Cuántas personas lo hacen y cuánto tiempo al día, aproximadamente?\n\nCon un estimado me basta (por ejemplo: \"2 personas, unas 3 horas cada una\").",
-              "field": "volumen"
-            },
-            {
-              "bot": "Perfecto, con eso ya puedo ubicarlo. 📊\n\nUn proceso así normalmente se resuelve en implementaciones de 2 a 6 semanas, y la inversión se recupera con las horas que deja de gastar el equipo.\n\nEl siguiente paso es una llamada de 30 minutos sin costo, donde confirmamos si la auditoría de procesos tiene sentido en su caso.",
-              "field": null
-            },
-            {
-              "bot": "¿A nombre de quién agendamos la llamada?",
-              "field": "nombre"
-            },
-            {
-              "bot": "Listo, {{nombre}}. 🎉\n\nArmé el resumen de lo que me contó. Al presionar el botón pasa a WhatsApp con esa información ya escrita, y agendamos los 30 minutos.",
-              "field": null,
-              "isFinal": true
-            }
-          ],
-          "whatsappMessage": {
-            "header": "*Nuevo contacto desde el sitio — DEXEL*",
-            "intro": "¡Hola! Me comunico desde el sitio web con la siguiente información:",
-            "fields": {
-              "nombre": "*Nombre / Empresa:*",
-              "problema": "*Proceso que consume más tiempo:*",
-              "volumen": "*Personas y tiempo dedicado:*"
-            },
-            "outro": "Quedo atento para agendar la llamada de 30 minutos."
-          }
-      },
+        "Escríbanos por WhatsApp y cuéntenos qué necesita resolver. Le respondemos con el siguiente paso: una propuesta, una llamada de 30 minutos sin costo, o la franqueza de decirle que no hace falta construir nada.",
+      button: "Escribir por WhatsApp",
+      responseTime: "Respondemos en menos de 4 horas hábiles",
     },
     services: servicesCopy.es,
     categories: categoriesCopy.es,
@@ -505,7 +487,7 @@ export const messages = {
       contactButton: "Contáctenos",
       responseTime: "Respondemos en menos de 4 horas hábiles",
       services: "Servicios",
-      audit: "Auditoría de procesos",
+      audit: "Auditoría",
       training: "Formación",
       contact: "Contáctenos",
       privacy: "Privacidad",
@@ -535,9 +517,36 @@ export const messages = {
         "en",
         { from: true },
       )}, delivered in 2 to 6 weeks.`,
-      auditTitle: "Process audit | Dexel",
-      auditDescription:
-        "We tell you which processes can be automated, how many hours a month you would get back, and what each implementation would cost. Eight deliverables in 5 to 7 business days.",
+      auditTitle: "Process, software, and AI audits | Dexel",
+      auditDescription: `Process audit, tools and licenses audit, software audit, and AI assessment. Concrete numbers before building, credited toward the project. ${formatPrice(
+        "auditFocus",
+        "en",
+        { from: true },
+      )}.`,
+      processAuditTitle: "Process audit | Dexel",
+      processAuditDescription: `Which processes to automate, how many hours a month you'd get back, and what each implementation would cost. Three scopes, ${formatPrice(
+        "auditFocus",
+        "en",
+        { from: true },
+      ).toLowerCase()}.`,
+      toolsAuditTitle: "Software tools and licenses audit | Dexel",
+      toolsAuditDescription: `What you pay for in software and what you actually use: what to keep, consolidate, and cancel, with the savings calculated. ${formatPrice(
+        "toolsAudit",
+        "en",
+        { from: true },
+      )}.`,
+      softwareAuditTitle: "Software audit: code, security, and infrastructure | Dexel",
+      softwareAuditDescription: `Review of websites and applications: speed, security, backups, code, and technical debt, with a fix plan. ${formatPrice(
+        "softwareAuditSite",
+        "en",
+        { from: true },
+      )}.`,
+      aiAssessmentTitle: "AI assessment for companies | Dexel",
+      aiAssessmentDescription: `Where AI helps your operation, with what data and what risks, ranked by return. ${formatPrice(
+        "aiWorkshop",
+        "en",
+        { from: true },
+      )}.`,
       websitesTitle: "Custom websites | Dexel",
       websitesDescription: `Landing page, full site with an admin panel, or an online catalog. ${formatPrice(
         "webPresence",
@@ -937,53 +946,9 @@ export const messages = {
       titleStart: "Let's start the",
       titleHighlight: "Process.",
       description:
-          "Interact directly with our pre-analysis core. Tell us your technical challenge and get a preliminary read in real time.",
-      chat: {
-        status: "DEXEL - ONLINE",
-        placeholder: "Type your requirement...",
-        "whatsappButton": "Continue on WhatsApp",
-        "responseTime": "We reply in under 4 business hours",
-        // Inverted flow: understand the problem and give something useful
-        // first, ask for contact details last. Steps without "field" are
-        // informational and advance on their own.
-        "flow": [
-          {
-            "bot": "👋 Hi, I'm DEXEL's assistant.\n\nTo help you quickly I only need one thing: which task or process is eating the most time from your team right now?",
-            "field": "problema"
-          },
-          {
-            "bot": "Got it. That kind of process can almost always be automated, fully or partially.\n\nTo give you a meaningful estimate instead of a number out of thin air, I need one more detail:",
-            "field": null
-          },
-          {
-            "bot": "How many people handle it, and roughly how much time per day?\n\nA rough figure is enough (for example: \"2 people, about 3 hours each\").",
-            "field": "volumen"
-          },
-          {
-            "bot": "Perfect, that's enough to place you. 📊\n\nA process like this is usually solved with a 2 to 6 week implementation, and the investment pays back through the hours your team stops spending on it.\n\nThe next step is a free 30-minute discovery call, where we confirm whether the process audit makes sense in your case.",
-            "field": null
-          },
-          {
-            "bot": "Who should we book the call for?",
-            "field": "nombre"
-          },
-          {
-            "bot": "All set, {{nombre}}. 🎉\n\nI've put together a summary of what you told me. Press the button and you'll land on WhatsApp with that information already written, so we can book the 30 minutes.",
-            "field": null,
-            "isFinal": true
-          }
-        ],
-        "whatsappMessage": {
-          "header": "*New contact from the website — DEXEL*",
-          "intro": "Hello! I'm reaching out from the website with the following information:",
-          "fields": {
-            "nombre": "*Name / Company:*",
-            "problema": "*Process consuming the most time:*",
-            "volumen": "*People and time spent:*"
-          },
-          "outro": "Looking forward to booking the 30-minute discovery call."
-        },
-      },
+        "Message us on WhatsApp and tell us what you need to solve. We'll reply with the next step: a proposal, a free 30-minute call, or the honesty to tell you there's nothing you need to build.",
+      button: "Message us on WhatsApp",
+      responseTime: "We reply within 4 business hours",
     },
     services: servicesCopy.en,
     categories: categoriesCopy.en,
@@ -999,7 +964,7 @@ export const messages = {
       contactButton: "Contact us",
       responseTime: "We reply in under 4 business hours",
       services: "Services",
-      audit: "Process audit",
+      audit: "Audit",
       training: "Training",
       contact: "Contact us",
       privacy: "Privacy",

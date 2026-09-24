@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import {
-  ArrowLeft,
   ArrowRight,
   Bot,
   Check,
@@ -16,8 +15,11 @@ import {
   MessageSquare,
   PartyPopper,
   Plug,
+  Receipt,
   ScanSearch,
   Search,
+  ShieldCheck,
+  Sparkles,
   Tag,
   Workflow,
   Wrench,
@@ -27,9 +29,8 @@ import Reveal from "../components/ui/Reveal.jsx";
 import FaqList from "../components/ui/FaqList.jsx";
 import ProcessCompact from "../components/ProcessCompact.jsx";
 import { Link, useRouter } from "../router/RouterContext.jsx";
-import { ROUTE_KEYS } from "../router/routes.js";
 import { EVENTS, track } from "../analytics/track.js";
-import { INTENT, setIntent } from "../analytics/intent.js";
+import { INTENT, contactOnWhatsApp } from "../contact/whatsapp.js";
 
 /**
  * Shared template for the three category pages.
@@ -63,12 +64,14 @@ const frontIcons = {
   FileScan,
   ScanSearch,
   Search,
+  Receipt,
+  ShieldCheck,
+  Sparkles,
 };
 
 /**
  * Clickable card when the front has its own page (`routeKey`); otherwise it
- * stays an informational card —automation and audit still have no child
- * pages—.
+ * stays an informational card.
  */
 function FrontCard({ front }) {
   const Icon = frontIcons[front.iconName] ?? Cpu;
@@ -113,7 +116,7 @@ export default function CategoryPage({
   serviceId,
   children,
 }) {
-  const { navigateTo, locale } = useRouter();
+  const { locale } = useRouter();
   const category = copy.key;
   const items = fronts ?? copy.fronts ?? [];
 
@@ -124,27 +127,27 @@ export default function CategoryPage({
    * English page got counted as Spanish.
    */
   useEffect(() => {
-    track(EVENTS.SERVICE_CATEGORY_VIEWED, { category, locale });
-  }, [category, locale]);
-
-  /**
-   * The click isn't the conversion: the conversion is handing the
-   * conversation off to WhatsApp. Here we only declare which intent the
-   * visitor is going in with, so that on converting, `QuoteRequested`,
-   * `AuditRequested`, or `DiscoveryBooked` gets counted as appropriate, not
-   * all three as a single thing.
-   */
-  const goToContact = (type, location) => {
-    setIntent({
-      type,
+    track(EVENTS.SERVICE_CATEGORY_VIEWED, {
       category,
       service_id: serviceId ?? category,
-      service_name: copy.title,
-      location,
+      service_name: copy.navLabel ?? copy.title,
+      locale,
     });
+  }, [category, serviceId, copy.navLabel, copy.title, locale]);
 
-    track(EVENTS.CTA_CLICK, { category, service_id: serviceId ?? category, location });
-    navigateTo(ROUTE_KEYS.CONTACT);
+  /**
+   * Opens WhatsApp with the category already named. The intent decides
+   * whether it counts as `QuoteRequested`, `AuditRequested`, or
+   * `DiscoveryBooked`, not all three as a single thing.
+   */
+  const goToContact = (type, location) => {
+    contactOnWhatsApp({
+      type,
+      locale,
+      location,
+      service: copy.ctaService ?? copy.navLabel ?? copy.title,
+      analytics: { category, service_id: serviceId ?? category },
+    });
   };
 
   return (
@@ -430,17 +433,6 @@ export default function CategoryPage({
             </div>
           </div>
 
-          <div className="mt-8 text-center">
-            <Button
-              onClick={() => navigateTo(ROUTE_KEYS.SERVICES)}
-              variant="ghost"
-              size="md"
-              className="text-slate-500 dark:text-gray-500"
-            >
-              <ArrowLeft size={15} />
-              {copy.backLabel ?? chrome.backLabel}
-            </Button>
-          </div>
         </div>
       </section>
     </div>

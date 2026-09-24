@@ -26,7 +26,7 @@ export function buildCategoryCards({ categories, audit, routeKeys }) {
       subtitle: audit.subtitle,
       price: audit.price,
       delivery: audit.delivery,
-      fronts: audit.deliverables.map((item) => item.title),
+      fronts: audit.fronts.map((front) => front.name),
     },
   ];
 }

@@ -55,6 +55,11 @@ export const ROUTE_KEYS = {
   SYSTEM_INTEGRATION: "systemIntegration",
   AUTOMATED_REPORTS: "automatedReports",
   DOCUMENT_READING: "documentReading",
+  /** Individual service pages, children of the audit hub. */
+  PROCESS_AUDIT: "processAudit",
+  TOOLS_AUDIT: "toolsAudit",
+  SOFTWARE_AUDIT: "softwareAudit",
+  AI_ASSESSMENT: "aiAssessment",
   CONTACT: "contact",
   PRIVACY: "privacy",
   /** Has no URL of its own: it's what shows when no route matches. */
@@ -90,6 +95,10 @@ export const PATHS = {
     systemIntegration: "/es/servicios/automatizacion/integracion-de-sistemas",
     automatedReports: "/es/servicios/automatizacion/reportes-automaticos",
     documentReading: "/es/servicios/automatizacion/lectura-de-documentos",
+    processAudit: "/es/servicios/auditoria/procesos",
+    toolsAudit: "/es/servicios/auditoria/herramientas-y-licencias",
+    softwareAudit: "/es/servicios/auditoria/software",
+    aiAssessment: "/es/servicios/auditoria/diagnostico-ia",
     training: "/es/formacion",
     contact: "/es/contacto",
     privacy: "/es/privacidad",
@@ -99,7 +108,7 @@ export const PATHS = {
     services: "/en/services",
     webDev: "/en/services/web-development",
     automation: "/en/services/automation",
-    audit: "/en/services/process-audit",
+    audit: "/en/services/audit",
     websites: "/en/services/web-development/websites",
     customSoftware: "/en/services/web-development/custom-software",
     micropages: "/en/services/web-development/micropages",
@@ -113,6 +122,10 @@ export const PATHS = {
     systemIntegration: "/en/services/automation/system-integration",
     automatedReports: "/en/services/automation/automated-reports",
     documentReading: "/en/services/automation/document-reading",
+    processAudit: "/en/services/audit/process-audit",
+    toolsAudit: "/en/services/audit/tools-and-licenses",
+    softwareAudit: "/en/services/audit/software",
+    aiAssessment: "/en/services/audit/ai-assessment",
     training: "/en/training",
     contact: "/en/contact",
     privacy: "/en/privacy",
@@ -134,6 +147,8 @@ export const LEGACY_REDIRECTS = {
   "/services": PATHS.en.services,
   "/contact": PATHS.en.contact,
   "/privacy": PATHS.en.privacy,
+  // The English audit hub moved when it grew child pages.
+  "/en/services/process-audit": PATHS.en.audit,
 };
 
 /**

@@ -77,17 +77,25 @@ Para repreciar la auditoría por mercado, cambiar `ACTIVE_MARKET` a `"us"`.
 
 Variables en `.env.example`. Eventos de conversión:
 
-| Evento | Cuándo | Parámetros |
-|---|---|---|
-| `AuditRequested` | Entrega del formulario con intención de auditoría | `value`, `currency`, `locale`, `service_name` |
-| `QuoteRequested` | Entrega del formulario con intención de cotizar otro servicio | `service_name`, `locale` |
-| `DiscoveryBooked` | Entrega del formulario sin intención declarada, o desde la sección de proceso | `locale` |
-| `ServiceDetailViewed` | Se abre el detalle de un servicio | `service_name`, `locale` |
-| `ChatStarted` | Primer mensaje enviado al asistente | `locale` |
+| Evento propio | En Meta | Cuándo | Parámetros |
+|---|---|---|---|
+| `ServiceCategoryViewed` | `ViewContent` | Se abre una categoría (desarrollo web, automatización, auditoría) | `content_name`, `content_category` |
+| `ServiceDetailViewed` | `ViewContent` | Se abre la página de un servicio | `content_name`, `content_category`, `content_ids` |
+| `TrainingPageViewed` | `ViewContent` | Se abre formación | `content_name` |
+| `AuditRequested` | `Lead` | Clic en un botón de auditoría, que abre WhatsApp | `content_name`, `service_name`, `value`, `currency` |
+| `QuoteRequested` | `Lead` | Clic para cotizar otro servicio, que abre WhatsApp | `content_name`, `service_name`, `value`, `currency` |
+| `PackRequested` | `Lead` | Clic en un pack de automatización | `pack_name`, `value`, `currency` |
+| `TrainingRequested` | `Lead` | Clic en un formato de formación | `format`, `value`, `currency` |
+| `DiscoveryBooked` | `Schedule` | Clic en la llamada de 30 minutos sin costo | `content_name` si viene de un servicio |
+| `WhatsAppOpened` | `Contact` | WhatsApp directo, sin servicio: botón flotante, footer, contacto | `location` |
 
-La conversión se cuenta al entregar la conversación a WhatsApp, no al hacer
-clic: un clic no es una solicitud. El CTA solo declara la intención en
-`analytics/intent.js`, que es lo que decide cuál de los tres eventos sale.
+Meta recibe el evento estándar y el nuestro viaja como `dexel_event`, junto
+con `service_name` y `category`, para armar conversiones personalizadas por
+servicio. GA4 recibe nuestros nombres. Cada clic envía **un solo** evento.
+
+Cada botón abre WhatsApp con un mensaje ya escrito que nombra el servicio y,
+si se eligió uno, el plan (`contact/whatsapp.js`); el precio no va en el
+mensaje.
 
 Cada evento lleva un `event_id` compartido entre el pixel del navegador y la
 Conversions API, que es lo que usa Meta para deduplicar.

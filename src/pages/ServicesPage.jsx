@@ -7,6 +7,7 @@ import CategoryCard from "../components/CategoryCard.jsx";
 import { buildCategoryCards } from "../components/categoryCards.js";
 import { useRouter } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
+import { INTENT, contactOnWhatsApp } from "../contact/whatsapp.js";
 import { EVENTS, track } from "../analytics/track.js";
 
 /**
@@ -19,12 +20,12 @@ import { EVENTS, track } from "../analytics/track.js";
  */
 
 export default function ServicesPage({ copy, categories, audit, chrome }) {
-  const { navigateTo } = useRouter();
+  const { locale } = useRouter();
 
   const cards = buildCategoryCards({ categories, audit, routeKeys: ROUTE_KEYS });
 
   const openCategory = (card) => {
-    track(EVENTS.SERVICE_DETAIL_VIEWED, {
+    track(EVENTS.CTA_CLICK, {
       category: card.key,
       service_name: card.navLabel,
       location: "services_index",
@@ -81,7 +82,7 @@ export default function ServicesPage({ copy, categories, audit, chrome }) {
 
       <section className="relative z-10 px-4 md:px-6 pt-12 md:pt-16 text-center">
         <Button
-          onClick={() => navigateTo(ROUTE_KEYS.CONTACT)}
+          onClick={() => contactOnWhatsApp({ type: INTENT.QUOTE, locale, location: "services_page_footer" })}
           variant="secondary"
           size="lg"
           className="group/cta"
