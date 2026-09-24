@@ -1,7 +1,6 @@
 /**
- * Copy for the seven individual service pages in the web-development hub:
- * websites, custom software, micropages, SEO, integrations, payment gateways,
- * and maintenance.
+ * Copy for the individual service pages: seven in the web-development hub,
+ * six in the automation hub, and four in the audit hub.
  *
  * Every entry follows the same shape: `{ key, badge, title, intro, tiers,
  * faqs }`. `tiers` carries a `priceKey` — not an already
@@ -1128,6 +1127,339 @@ const es = {
     ctaTitle: "¿Cuántas horas al mes se van digitando facturas o formularios?",
     ctaText: "Cuéntenos qué documentos son y le decimos qué tan automatizable es y cuánto costaría.",
   },
+
+  processAudit: {
+    key: "processAudit",
+    badge: "Auditoría",
+    title: "Cuántas horas se van, en qué se van y cómo recuperarlas",
+    intro:
+      "Revisamos cómo trabaja su equipo hoy y le entregamos por escrito qué procesos se pueden automatizar, cuántas horas al mes recuperaría y cuánto costaría cada implementación. Tres alcances, según el tamaño de la operación.",
+    tiers: [
+      {
+        key: "focus",
+        name: "Diagnóstico de un proceso",
+        priceKey: "auditFocus",
+        delivery: "3 a 4 días hábiles",
+        includes: [
+          "1 proceso o 1 área revisada a fondo, de principio a fin",
+          "Mapa del proceso actual, paso a paso",
+          "Horas al mes que consume y cuánto cuestan",
+          "1 quick win identificado y presupuestado, con precio cerrado",
+          "Sesión de resultados en vivo (45 minutos)",
+        ],
+        cta: "Solicitar diagnóstico",
+      },
+      {
+        key: "standard",
+        name: "Auditoría de procesos",
+        priceKey: "audit",
+        featured: true,
+        delivery: "5 a 7 días hábiles",
+        includes: [
+          "Hasta 3 áreas o procesos que corren en paralelo",
+          "Mapa de procesos y matriz de oportunidades ordenada por impacto",
+          "Horas al mes y costo de cada proceso",
+          "Roadmap por fases: en qué orden conviene implementar",
+          "Revisión de las herramientas que ya paga y riesgos operativos",
+          "Sesión de resultados en vivo con su equipo",
+        ],
+        adds: [
+          "Hasta 3 áreas, no un solo proceso",
+          "Matriz de oportunidades ordenada por impacto",
+          "Roadmap por fases con el orden de implementación",
+          "Revisión de herramientas y riesgos operativos",
+        ],
+        cta: "Solicitar auditoría",
+      },
+      {
+        key: "multiArea",
+        name: "Auditoría multiárea",
+        priceKey: "auditMultiArea",
+        from: true,
+        delivery: "2 a 3 semanas",
+        includes: [
+          "Toda la operación: 4 áreas o más, o varias sedes",
+          "Entrevistas con los líderes de cada área",
+          "Mapa de cómo se pasan la información las áreas entre sí",
+          "Roadmap a 12 meses con presupuesto estimado por fase",
+          "Presentación de resultados a la dirección",
+        ],
+        adds: [
+          "4 áreas o más, o varias sedes",
+          "Entrevistas con los líderes de cada área",
+          "Mapa de cómo se pasan la información entre áreas",
+          "Roadmap a 12 meses con presupuesto por fase",
+        ],
+        cta: "Solicitar auditoría multiárea",
+      },
+    ],
+    faqTitle: "Preguntas frecuentes",
+    faqSubtitle: "Lo que nos preguntan antes de elegir el alcance",
+    faqs: [
+      {
+        question: "¿Cuál de los tres necesito?",
+        answer:
+          "Si ya sabe qué proceso le duele, el diagnóstico de un proceso. Si tiene varios procesos en paralelo y no sabe por cuál empezar, la auditoría de procesos. Si la empresa tiene varias áreas o sedes que dependen unas de otras, la multiárea. En la llamada inicial sin costo le confirmamos cuál.",
+      },
+      {
+        question: "¿Se descuenta del proyecto?",
+        answer:
+          "Sí, completa, en los tres alcances. Si decide implementar dentro de los 60 días siguientes a la entrega del informe, el valor de la auditoría se descuenta del precio del proyecto.",
+      },
+      {
+        question: "¿Y si concluyen que no necesito construir nada?",
+        answer:
+          "Se lo decimos por escrito, en el mismo informe. Es un resultado posible: el informe es suyo y le sirve igual, con nosotros o con cualquier otro proveedor.",
+      },
+      {
+        question: "¿Cuánto tiempo le toma a mi equipo?",
+        answer:
+          "El trabajo pesado es nuestro. De su lado se necesitan conversaciones con quienes ejecutan los procesos, acceso de lectura a las herramientas que ya usa y la sesión de resultados al final.",
+      },
+    ],
+    ctaTitle: "¿Qué proceso le está costando más horas?",
+    ctaText: "Cuéntenoslo y le decimos cuál de los tres alcances tiene sentido para su operación.",
+    cta: "Solicitar auditoría",
+  },
+
+  toolsAudit: {
+    key: "toolsAudit",
+    badge: "Auditoría",
+    title: "Lo que paga cada mes en software, y lo que de verdad usa",
+    intro:
+      "Licencias que nadie abre, dos herramientas que hacen lo mismo, usuarios de personas que ya no están. Revisamos todo lo que su empresa paga en software y le decimos qué conservar, qué consolidar y qué cancelar, con el ahorro calculado.",
+    tiers: [
+      {
+        key: "review",
+        name: "Revisión de herramientas",
+        priceKey: "toolsAudit",
+        delivery: "3 a 5 días hábiles",
+        includes: [
+          "Inventario de hasta 10 herramientas pagas",
+          "Costo mensual y anual de cada una",
+          "Duplicidades y licencias subutilizadas",
+          "Recomendación por herramienta: conservar, consolidar o cancelar",
+          "Informe por escrito y sesión de resultados",
+        ],
+        cta: "Solicitar revisión",
+      },
+      {
+        key: "consolidation",
+        name: "Auditoría con plan de consolidación",
+        priceKey: "toolsAuditFull",
+        featured: true,
+        delivery: "1 a 2 semanas",
+        includes: [
+          "Inventario de hasta 25 herramientas pagas",
+          "Revisión de usuarios y accesos: cuentas inactivas o de personas que ya salieron",
+          "Plan de consolidación con el ahorro anual estimado",
+          "Qué información migrar y en qué orden, si se elimina una herramienta",
+          "Sesión de resultados con quien administra las herramientas",
+        ],
+        adds: [
+          "Hasta 25 herramientas, no 10",
+          "Revisión de usuarios y accesos",
+          "Plan de consolidación con ahorro anual estimado",
+          "Plan de migración si se elimina una herramienta",
+        ],
+        cta: "Solicitar auditoría completa",
+      },
+    ],
+    faqTitle: "Preguntas frecuentes",
+    faqSubtitle: "Lo que nos preguntan antes de revisar sus herramientas",
+    faqs: [
+      {
+        question: "¿Qué acceso necesitan?",
+        answer:
+          "Acceso de lectura a la facturación de las herramientas o, si lo prefiere, un listado de lo que paga. Para revisar usuarios, acceso de administrador de solo lectura donde la herramienta lo permita. No cambiamos nada durante la auditoría.",
+      },
+      {
+        question: "¿Ustedes cancelan o migran las herramientas?",
+        answer:
+          "La auditoría entrega el plan. Ejecutarlo —cancelar, migrar datos, conectar lo que queda— se cotiza aparte, y el valor de la auditoría se descuenta si lo hace con nosotros dentro de los 60 días.",
+      },
+      {
+        question: "¿Me conviene si ya tengo pocas herramientas?",
+        answer:
+          "Con menos de 5 herramientas pagas, normalmente no. Se lo decimos en la llamada inicial, antes de que pague nada.",
+      },
+      {
+        question: "¿Esto no viene incluido en la auditoría de procesos?",
+        answer:
+          "La auditoría de procesos revisa las herramientas en función de los procesos. Esta va más a fondo en el gasto: cada licencia, cada usuario y el ahorro calculado. Si ya contrató la de procesos, le decimos si esta aporta algo o no.",
+      },
+    ],
+    ctaTitle: "¿Cuánto paga al mes en software?",
+    ctaText: "Cuéntenos cuántas herramientas tiene y le decimos si vale la pena revisarlas.",
+    cta: "Solicitar revisión",
+  },
+
+  softwareAudit: {
+    key: "softwareAudit",
+    badge: "Auditoría",
+    title: "Qué tan sano está el sistema del que depende su operación",
+    intro:
+      "Un sitio lento, una aplicación que nadie se atreve a tocar o un proveedor que se fue dejando el código a medias. Revisamos el código, la infraestructura y la seguridad, y le entregamos por escrito qué está bien, qué es riesgoso y qué arreglar primero.",
+    tiers: [
+      {
+        key: "site",
+        name: "Revisión de sitio web",
+        priceKey: "softwareAuditSite",
+        delivery: "3 a 5 días hábiles",
+        includes: [
+          "Velocidad de carga en celular y escritorio",
+          "Seguridad básica: certificados, versiones desactualizadas, formularios expuestos",
+          "Respaldos: si existen y si de verdad se pueden restaurar",
+          "Lista de arreglos ordenada por urgencia",
+          "Informe por escrito y sesión de resultados",
+        ],
+        cta: "Solicitar revisión",
+      },
+      {
+        key: "app",
+        name: "Auditoría de aplicación",
+        priceKey: "softwareAuditApp",
+        featured: true,
+        delivery: "1 a 2 semanas",
+        includes: [
+          "Revisión del código y la arquitectura de 1 aplicación",
+          "Base de datos: estructura, rendimiento y respaldos",
+          "Revisión de seguridad contra las vulnerabilidades más comunes",
+          "Dependencias desactualizadas y deuda técnica",
+          "Plan de arreglos con esfuerzo y costo estimado",
+          "Sesión de resultados con su equipo o su proveedor",
+        ],
+        adds: [
+          "Código y arquitectura, no solo lo visible",
+          "Base de datos: estructura, rendimiento y respaldos",
+          "Revisión de seguridad a fondo",
+          "Plan de arreglos con costo estimado",
+        ],
+        cta: "Solicitar auditoría",
+      },
+      {
+        key: "deep",
+        name: "Auditoría a fondo",
+        priceKey: "softwareAuditDeep",
+        from: true,
+        delivery: "2 a 4 semanas",
+        includes: [
+          "Varios sistemas y las integraciones entre ellos",
+          "Infraestructura en la nube: configuración, costos y escalabilidad",
+          "Pruebas de carga: hasta dónde aguanta antes de caerse",
+          "Plan de continuidad si un sistema falla",
+          "Roadmap técnico con presupuesto por fase",
+        ],
+        adds: [
+          "Varios sistemas y sus integraciones",
+          "Infraestructura en la nube y sus costos",
+          "Pruebas de carga",
+          "Plan de continuidad y roadmap técnico",
+        ],
+        cta: "Solicitar auditoría a fondo",
+      },
+    ],
+    faqTitle: "Preguntas frecuentes",
+    faqSubtitle: "Lo que nos preguntan antes de auditar un sistema",
+    faqs: [
+      {
+        question: "¿Necesitan el código fuente?",
+        answer:
+          "Para la revisión de sitio web, no: se hace desde afuera. Para la auditoría de aplicación y la auditoría a fondo, sí: acceso de lectura al repositorio y, si se puede, a un ambiente de pruebas. Firmamos acuerdo de confidencialidad antes de recibir cualquier acceso.",
+      },
+      {
+        question: "¿Es una prueba de penetración?",
+        answer:
+          "No. Revisamos la seguridad contra las vulnerabilidades más comunes y las configuraciones riesgosas, pero no hacemos ataques controlados. Si su caso exige una prueba de penetración formal, se lo decimos y le recomendamos quién la haga.",
+      },
+      {
+        question: "¿Sirve si el sistema lo hizo otro proveedor?",
+        answer:
+          "Es el caso más común. El informe está escrito para que cualquier equipo técnico lo ejecute, incluido su proveedor actual.",
+      },
+      {
+        question: "¿Y la auditoría SEO?",
+        answer:
+          "Es otro servicio, dentro de SEO y visibilidad: revisa cómo lo encuentran los buscadores. Esta revisa si el sistema es rápido, seguro y mantenible.",
+      },
+    ],
+    ctaTitle: "¿Hay un sistema que nadie se atreve a tocar?",
+    ctaText: "Cuéntenos qué es y cómo está construido, y le decimos qué alcance de auditoría necesita.",
+    cta: "Solicitar auditoría",
+  },
+
+  aiAssessment: {
+    key: "aiAssessment",
+    badge: "Auditoría",
+    title: "Dónde le sirve la IA a su empresa, y dónde no",
+    intro:
+      "Antes de pagar por un proyecto de IA, conviene saber en qué procesos aporta de verdad, con qué datos se alimentaría y qué riesgos trae. Le entregamos los casos de uso priorizados por retorno, incluidos los que no vale la pena hacer.",
+    tiers: [
+      {
+        key: "workshop",
+        name: "Taller de diagnóstico",
+        priceKey: "aiWorkshop",
+        delivery: "Taller de 3 horas + informe en 3 días",
+        includes: [
+          "Taller en vivo con los líderes de su equipo",
+          "Lista de casos de uso de IA para su operación",
+          "Priorización por impacto y esfuerzo",
+          "Qué casos conviene resolver sin IA, con reglas fijas",
+          "Informe por escrito",
+        ],
+        cta: "Solicitar taller",
+      },
+      {
+        key: "full",
+        name: "Diagnóstico de IA completo",
+        priceKey: "aiAssessment",
+        featured: true,
+        delivery: "2 semanas",
+        includes: [
+          "Revisión de los procesos y los datos que tiene hoy",
+          "Casos de uso con retorno estimado en horas y en dinero",
+          "Qué datos hacen falta y en qué estado están",
+          "Riesgos y política de uso de IA para su equipo",
+          "Roadmap de implementación por fases",
+          "Sesión de resultados con la dirección",
+        ],
+        adds: [
+          "Revisión de sus procesos y sus datos reales",
+          "Retorno estimado por caso de uso",
+          "Riesgos y política de uso de IA",
+          "Roadmap de implementación por fases",
+        ],
+        cta: "Solicitar diagnóstico",
+      },
+    ],
+    faqTitle: "Preguntas frecuentes",
+    faqSubtitle: "Lo que nos preguntan antes de invertir en IA",
+    faqs: [
+      {
+        question: "¿Y si concluyen que no necesito IA?",
+        answer:
+          "Se lo decimos por escrito. Muchos procesos se resuelven mejor con un flujo de reglas fijas: cuesta menos, responde siempre igual y no se inventa nada. Preferimos decirlo antes que venderle un proyecto que no le conviene.",
+      },
+      {
+        question: "¿Qué pasa con la información confidencial?",
+        answer:
+          "Firmamos acuerdo de confidencialidad antes de ver cualquier dato, y parte del diagnóstico es justamente definir qué información puede pasar por una herramienta de IA y cuál no.",
+      },
+      {
+        question: "¿Incluye la implementación?",
+        answer:
+          "No, el diagnóstico entrega qué hacer y en qué orden. Implementarlo se cotiza aparte, y el valor del diagnóstico se descuenta si lo hace con nosotros dentro de los 60 días.",
+      },
+      {
+        question: "¿Sirve para capacitar al equipo en IA?",
+        answer:
+          "Es otra cosa: la formación enseña a su equipo a usar la IA en su trabajo diario. El diagnóstico decide dónde implementarla en la operación. Muchas empresas hacen las dos.",
+      },
+    ],
+    ctaTitle: "¿Le están ofreciendo IA para todo?",
+    ctaText: "Antes de comprar, cuéntenos qué procesos tiene y le decimos dónde tiene sentido y dónde no.",
+    cta: "Solicitar diagnóstico",
+  },
 };
 
 const en = {
@@ -2241,6 +2573,339 @@ const en = {
     ],
     ctaTitle: "How many hours a month go into retyping invoices or forms?",
     ctaText: "Tell us which documents they are and we'll say how automatable it is and what it would cost.",
+  },
+
+  processAudit: {
+    key: "processAudit",
+    badge: "Audit",
+    title: "How many hours are going out, where, and how to get them back",
+    intro:
+      "We review how your team works today and give you, in writing, which processes can be automated, how many hours a month you'd get back, and what each implementation would cost. Three scopes, depending on the size of the operation.",
+    tiers: [
+      {
+        key: "focus",
+        name: "Single-process assessment",
+        priceKey: "auditFocus",
+        delivery: "3 to 4 business days",
+        includes: [
+          "1 process or 1 area reviewed in depth, end to end",
+          "Map of the current process, step by step",
+          "Hours a month it consumes, and what they cost",
+          "1 quick win identified and budgeted, at a closed price",
+          "Live results session (45 minutes)",
+        ],
+        cta: "Request the assessment",
+      },
+      {
+        key: "standard",
+        name: "Process audit",
+        priceKey: "audit",
+        featured: true,
+        delivery: "5 to 7 business days",
+        includes: [
+          "Up to 3 areas or processes running in parallel",
+          "Process map and opportunity matrix ranked by impact",
+          "Hours a month and cost of each process",
+          "Phased roadmap: what to implement first and why",
+          "Review of the tools you already pay for, and operational risks",
+          "Live results session with your team",
+        ],
+        adds: [
+          "Up to 3 areas, not a single process",
+          "Opportunity matrix ranked by impact",
+          "Phased roadmap with the implementation order",
+          "Tool review and operational risks",
+        ],
+        cta: "Request the audit",
+      },
+      {
+        key: "multiArea",
+        name: "Company-wide audit",
+        priceKey: "auditMultiArea",
+        from: true,
+        delivery: "2 to 3 weeks",
+        includes: [
+          "The whole operation: 4 or more areas, or several locations",
+          "Interviews with each area's leads",
+          "Map of how information moves between areas",
+          "12-month roadmap with an estimated budget per phase",
+          "Results presentation to leadership",
+        ],
+        adds: [
+          "4 or more areas, or several locations",
+          "Interviews with each area's leads",
+          "Map of how information moves between areas",
+          "12-month roadmap with a budget per phase",
+        ],
+        cta: "Request the company-wide audit",
+      },
+    ],
+    faqTitle: "Frequently asked questions",
+    faqSubtitle: "What people ask before choosing a scope",
+    faqs: [
+      {
+        question: "Which of the three do I need?",
+        answer:
+          "If you already know which process hurts, the single-process assessment. If several processes run in parallel and you don't know where to start, the process audit. If the company has several areas or locations that depend on each other, the company-wide one. We confirm which on the free discovery call.",
+      },
+      {
+        question: "Is it credited toward the project?",
+        answer:
+          "Yes, in full, for all three scopes. If you decide to implement within 60 days of receiving the report, the cost of the audit comes off the project price.",
+      },
+      {
+        question: "What if you conclude I don't need to build anything?",
+        answer:
+          "We say so in writing, in the report itself. It's a possible outcome: the report is yours and it's useful either way, with us or with any other vendor.",
+      },
+      {
+        question: "How much of my team's time does it take?",
+        answer:
+          "The heavy lifting is ours. On your side we need conversations with the people who run the processes, read access to the tools you already use, and the results session at the end.",
+      },
+    ],
+    ctaTitle: "Which process is costing you the most hours?",
+    ctaText: "Tell us and we'll say which of the three scopes makes sense for your operation.",
+    cta: "Request the audit",
+  },
+
+  toolsAudit: {
+    key: "toolsAudit",
+    badge: "Audit",
+    title: "What you pay for in software every month, and what you actually use",
+    intro:
+      "Licenses nobody opens, two tools doing the same job, seats for people who already left. We review everything your company pays for in software and tell you what to keep, what to consolidate, and what to cancel, with the savings calculated.",
+    tiers: [
+      {
+        key: "review",
+        name: "Tool review",
+        priceKey: "toolsAudit",
+        delivery: "3 to 5 business days",
+        includes: [
+          "Inventory of up to 10 paid tools",
+          "Monthly and annual cost of each",
+          "Duplicates and underused licenses",
+          "A call on each tool: keep, consolidate, or cancel",
+          "Written report and results session",
+        ],
+        cta: "Request the review",
+      },
+      {
+        key: "consolidation",
+        name: "Audit with a consolidation plan",
+        priceKey: "toolsAuditFull",
+        featured: true,
+        delivery: "1 to 2 weeks",
+        includes: [
+          "Inventory of up to 25 paid tools",
+          "User and access review: inactive accounts, or people who already left",
+          "Consolidation plan with estimated annual savings",
+          "What data to migrate and in what order, if a tool goes away",
+          "Results session with whoever manages the tools",
+        ],
+        adds: [
+          "Up to 25 tools, not 10",
+          "User and access review",
+          "Consolidation plan with estimated annual savings",
+          "Migration plan if a tool goes away",
+        ],
+        cta: "Request the full audit",
+      },
+    ],
+    faqTitle: "Frequently asked questions",
+    faqSubtitle: "What people ask before we review their tools",
+    faqs: [
+      {
+        question: "What access do you need?",
+        answer:
+          "Read access to the tools' billing or, if you prefer, a list of what you pay for. To review users, read-only admin access where the tool allows it. We don't change anything during the audit.",
+      },
+      {
+        question: "Do you cancel or migrate the tools?",
+        answer:
+          "The audit delivers the plan. Carrying it out —cancelling, migrating data, connecting what's left— is quoted separately, and the audit's cost is credited if you do it with us within 60 days.",
+      },
+      {
+        question: "Is it worth it if I only have a few tools?",
+        answer:
+          "With fewer than 5 paid tools, usually not. We'll tell you on the discovery call, before you pay anything.",
+      },
+      {
+        question: "Isn't this already part of the process audit?",
+        answer:
+          "The process audit looks at tools in terms of processes. This one goes deeper into the spend: every license, every user, and the savings calculated. If you already bought the process audit, we'll tell you whether this one adds anything.",
+      },
+    ],
+    ctaTitle: "How much do you pay for software every month?",
+    ctaText: "Tell us how many tools you have and we'll say whether they're worth reviewing.",
+    cta: "Request the review",
+  },
+
+  softwareAudit: {
+    key: "softwareAudit",
+    badge: "Audit",
+    title: "How healthy is the system your operation depends on",
+    intro:
+      "A slow site, an application nobody dares to touch, or a vendor who left with the code half done. We review the code, the infrastructure, and the security, and tell you in writing what's fine, what's risky, and what to fix first.",
+    tiers: [
+      {
+        key: "site",
+        name: "Website review",
+        priceKey: "softwareAuditSite",
+        delivery: "3 to 5 business days",
+        includes: [
+          "Load speed on mobile and desktop",
+          "Basic security: certificates, outdated versions, exposed forms",
+          "Backups: whether they exist and whether they can actually be restored",
+          "List of fixes ranked by urgency",
+          "Written report and results session",
+        ],
+        cta: "Request the review",
+      },
+      {
+        key: "app",
+        name: "Application audit",
+        priceKey: "softwareAuditApp",
+        featured: true,
+        delivery: "1 to 2 weeks",
+        includes: [
+          "Code and architecture review of 1 application",
+          "Database: structure, performance, and backups",
+          "Security review against the most common vulnerabilities",
+          "Outdated dependencies and technical debt",
+          "Fix plan with estimated effort and cost",
+          "Results session with your team or your vendor",
+        ],
+        adds: [
+          "Code and architecture, not just what's visible",
+          "Database: structure, performance, and backups",
+          "In-depth security review",
+          "Fix plan with estimated cost",
+        ],
+        cta: "Request the audit",
+      },
+      {
+        key: "deep",
+        name: "In-depth audit",
+        priceKey: "softwareAuditDeep",
+        from: true,
+        delivery: "2 to 4 weeks",
+        includes: [
+          "Several systems and the integrations between them",
+          "Cloud infrastructure: configuration, costs, and scalability",
+          "Load testing: how much it takes before it goes down",
+          "Continuity plan if a system fails",
+          "Technical roadmap with a budget per phase",
+        ],
+        adds: [
+          "Several systems and their integrations",
+          "Cloud infrastructure and its costs",
+          "Load testing",
+          "Continuity plan and technical roadmap",
+        ],
+        cta: "Request the in-depth audit",
+      },
+    ],
+    faqTitle: "Frequently asked questions",
+    faqSubtitle: "What people ask before we audit a system",
+    faqs: [
+      {
+        question: "Do you need the source code?",
+        answer:
+          "For the website review, no: it's done from the outside. For the application and in-depth audits, yes: read access to the repository and, if possible, to a test environment. We sign an NDA before receiving any access.",
+      },
+      {
+        question: "Is this a penetration test?",
+        answer:
+          "No. We review security against the most common vulnerabilities and risky configurations, but we don't run controlled attacks. If your case calls for a formal penetration test, we'll say so and recommend who can do it.",
+      },
+      {
+        question: "Does it work if another vendor built the system?",
+        answer:
+          "That's the most common case. The report is written so any technical team can carry it out, your current vendor included.",
+      },
+      {
+        question: "What about the SEO audit?",
+        answer:
+          "That's a different service, under SEO and visibility: it reviews how search engines find you. This one reviews whether the system is fast, secure, and maintainable.",
+      },
+    ],
+    ctaTitle: "Is there a system nobody dares to touch?",
+    ctaText: "Tell us what it is and how it's built, and we'll say which audit scope you need.",
+    cta: "Request the audit",
+  },
+
+  aiAssessment: {
+    key: "aiAssessment",
+    badge: "Audit",
+    title: "Where AI helps your company, and where it doesn't",
+    intro:
+      "Before paying for an AI project, it's worth knowing which processes it actually helps, what data it would run on, and what risks it brings. We give you the use cases ranked by return, including the ones not worth doing.",
+    tiers: [
+      {
+        key: "workshop",
+        name: "Assessment workshop",
+        priceKey: "aiWorkshop",
+        delivery: "3-hour workshop + report in 3 days",
+        includes: [
+          "Live workshop with your team's leads",
+          "List of AI use cases for your operation",
+          "Ranked by impact and effort",
+          "Which cases are better solved without AI, with fixed rules",
+          "Written report",
+        ],
+        cta: "Request the workshop",
+      },
+      {
+        key: "full",
+        name: "Full AI assessment",
+        priceKey: "aiAssessment",
+        featured: true,
+        delivery: "2 weeks",
+        includes: [
+          "Review of your processes and the data you have today",
+          "Use cases with estimated return in hours and money",
+          "What data is missing and what shape it's in",
+          "Risks and an AI usage policy for your team",
+          "Phased implementation roadmap",
+          "Results session with leadership",
+        ],
+        adds: [
+          "Review of your real processes and data",
+          "Estimated return per use case",
+          "Risks and AI usage policy",
+          "Phased implementation roadmap",
+        ],
+        cta: "Request the assessment",
+      },
+    ],
+    faqTitle: "Frequently asked questions",
+    faqSubtitle: "What people ask before investing in AI",
+    faqs: [
+      {
+        question: "What if you conclude I don't need AI?",
+        answer:
+          "We say so in writing. Many processes are better served by a fixed-rules flow: it costs less, always answers the same way, and never makes things up. We'd rather say it than sell you a project that doesn't suit you.",
+      },
+      {
+        question: "What about confidential information?",
+        answer:
+          "We sign an NDA before seeing any data, and part of the assessment is precisely defining which information can go through an AI tool and which can't.",
+      },
+      {
+        question: "Does it include the implementation?",
+        answer:
+          "No, the assessment delivers what to do and in what order. Implementing it is quoted separately, and the assessment's cost is credited if you do it with us within 60 days.",
+      },
+      {
+        question: "Does it train my team in AI?",
+        answer:
+          "That's a different thing: training teaches your team to use AI in their daily work. The assessment decides where to implement it in the operation. Many companies do both.",
+      },
+    ],
+    ctaTitle: "Being offered AI for everything?",
+    ctaText: "Before you buy, tell us about your processes and we'll say where it makes sense and where it doesn't.",
+    cta: "Request the assessment",
   },
 };
 

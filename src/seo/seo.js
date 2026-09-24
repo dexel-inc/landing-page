@@ -33,6 +33,10 @@ const META_KEY = {
   [ROUTE_KEYS.SYSTEM_INTEGRATION]: "systemIntegration",
   [ROUTE_KEYS.AUTOMATED_REPORTS]: "automatedReports",
   [ROUTE_KEYS.DOCUMENT_READING]: "documentReading",
+  [ROUTE_KEYS.PROCESS_AUDIT]: "processAudit",
+  [ROUTE_KEYS.TOOLS_AUDIT]: "toolsAudit",
+  [ROUTE_KEYS.SOFTWARE_AUDIT]: "softwareAudit",
+  [ROUTE_KEYS.AI_ASSESSMENT]: "aiAssessment",
   [ROUTE_KEYS.CONTACT]: "contact",
   [ROUTE_KEYS.PRIVACY]: "privacy",
   [ROUTE_KEYS.NOT_FOUND]: "notFound",
@@ -40,7 +44,7 @@ const META_KEY = {
 
 /**
  * Key inside `copy.serviceDetails` for each individual service page —seven
- * from the web development hub, six from the automation hub—, in the same
+ * from the web development hub, six from automation, four from audit—, in the same
  * order they're shown within each hub.
  */
 const SERVICE_DETAIL_KEY = {
@@ -57,6 +61,10 @@ const SERVICE_DETAIL_KEY = {
   [ROUTE_KEYS.SYSTEM_INTEGRATION]: "systemIntegration",
   [ROUTE_KEYS.AUTOMATED_REPORTS]: "automatedReports",
   [ROUTE_KEYS.DOCUMENT_READING]: "documentReading",
+  [ROUTE_KEYS.PROCESS_AUDIT]: "processAudit",
+  [ROUTE_KEYS.TOOLS_AUDIT]: "toolsAudit",
+  [ROUTE_KEYS.SOFTWARE_AUDIT]: "softwareAudit",
+  [ROUTE_KEYS.AI_ASSESSMENT]: "aiAssessment",
 };
 
 function absolute(path) {

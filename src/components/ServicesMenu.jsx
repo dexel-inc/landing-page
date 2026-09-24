@@ -22,8 +22,8 @@ const itemLinkClass =
 
 /**
  * A submenu item is a real link when its front has its own page
- * (`routeKey`) and plain text when it doesn't —automation and audit still
- * have no child pages—. The panel stays `hidden` and crawlable either way.
+ * (`routeKey`) and plain text when it doesn't. The panel stays `hidden`
+ * and crawlable either way.
  */
 function MenuItem({ item, onClose, small = false }) {
   const textClass = small ? "text-xs text-slate-600 dark:text-gray-400" : itemClass;

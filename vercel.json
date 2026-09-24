@@ -68,6 +68,11 @@
       "permanent": true
     },
     {
+      "source": "/en/services/process-audit",
+      "destination": "/en/services/audit",
+      "permanent": true
+    },
+    {
       "source": "/privacidad",
       "destination": "/es/privacidad",
       "permanent": true

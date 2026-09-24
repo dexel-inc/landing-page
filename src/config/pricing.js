@@ -29,7 +29,24 @@ export const VAT_INCLUDED = { COP: true, USD: false };
 
 /** Base amount per service, per currency. */
 export const PRICES = {
+  // Audit hub. `audit` —the process audit's middle scope— stays the
+  // flagship: it's the figure the home page, the CTAs, and the "credited
+  // toward the project" promise quote. The rest are priced around it: the
+  // single-process assessment is the low-friction way in for smaller teams,
+  // and every audit stays well below the implementation it leads to.
+  auditFocus: { COP: 690000, USD: 230 },
   audit: { COP: 1200000, USD: 450 },
+  auditMultiArea: { COP: 2900000, USD: 990 },
+
+  toolsAudit: { COP: 790000, USD: 260 },
+  toolsAuditFull: { COP: 1490000, USD: 500 },
+
+  softwareAuditSite: { COP: 890000, USD: 300 },
+  softwareAuditApp: { COP: 2290000, USD: 760 },
+  softwareAuditDeep: { COP: 4490000, USD: 1500 },
+
+  aiWorkshop: { COP: 990000, USD: 330 },
+  aiAssessment: { COP: 2490000, USD: 830 },
 
   // The three generic automation packs. `automation` is the entry one: it's
   // the price shown on the category card and in the structured data. n8n

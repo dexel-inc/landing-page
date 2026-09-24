@@ -9,6 +9,7 @@ import CategoryPage from "./pages/CategoryPage.jsx";
 import ServiceDetailPage from "./pages/ServiceDetailPage.jsx";
 import MicropagesDemos from "./components/MicropagesDemos.jsx";
 import AuditPage from "./pages/AuditPage.jsx";
+import { AuditDeliverables } from "./components/AuditTimeline.jsx";
 import TrainingPage from "./pages/TrainingPage.jsx";
 import PrivacyPage from "./pages/PrivacyPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
@@ -22,6 +23,7 @@ import { Link, useRouter } from "./router/RouterContext.jsx";
 import { ROUTE_KEYS } from "./router/routes.js";
 import { useTheme } from "./theme/ThemeContext.jsx";
 import { updateSeo } from "./seo/updateSeo.js";
+import { INTENT } from "./analytics/intent.js";
 import { setAnalyticsLocale, trackPageView } from "./analytics/track.js";
 
 // The 3D background loads separately: it doesn't exist during prerendering
@@ -214,11 +216,11 @@ function Navbar() {
 }
 
 /**
- * The thirteen individual service pages —seven from the web development
- * hub, six from the automation hub— share `ServiceDetailPage`; only the
- * copy key, the service id (for analytics and intent), which category the
- * "View all services" button returns to, and whether they carry their own
- * `children` slot change.
+ * The individual service pages —seven from the web development hub, six
+ * from automation, four from audit— share `ServiceDetailPage`; only the
+ * copy key, the service id (for analytics and intent), the parent category,
+ * the intent a click declares (audits count as `AuditRequested`, not as a
+ * quote), and whether they carry their own `children` slot change.
  *
  * `Children`/`childrenCopy` reuse pieces that already exist on the category
  * page —the micropage demos, the rules/AI/agent comparison, the custom
@@ -295,6 +297,36 @@ const SERVICE_DETAIL_ROUTES = {
     serviceId: "lectura-de-documentos",
     categoryRouteKey: ROUTE_KEYS.AUTOMATION,
   },
+  [ROUTE_KEYS.PROCESS_AUDIT]: {
+    detailKey: "processAudit",
+    serviceId: "auditoria",
+    categoryRouteKey: ROUTE_KEYS.AUDIT,
+    intentType: INTENT.AUDIT,
+    Children: AuditDeliverables,
+    childrenCopy: (copy) => ({
+      title: copy.audit.deliverablesTitle,
+      intro: copy.audit.deliverablesIntro,
+      items: copy.audit.deliverables,
+    }),
+  },
+  [ROUTE_KEYS.TOOLS_AUDIT]: {
+    detailKey: "toolsAudit",
+    serviceId: "auditoria-herramientas",
+    categoryRouteKey: ROUTE_KEYS.AUDIT,
+    intentType: INTENT.AUDIT,
+  },
+  [ROUTE_KEYS.SOFTWARE_AUDIT]: {
+    detailKey: "softwareAudit",
+    serviceId: "auditoria-software",
+    categoryRouteKey: ROUTE_KEYS.AUDIT,
+    intentType: INTENT.AUDIT,
+  },
+  [ROUTE_KEYS.AI_ASSESSMENT]: {
+    detailKey: "aiAssessment",
+    serviceId: "diagnostico-ia",
+    categoryRouteKey: ROUTE_KEYS.AUDIT,
+    intentType: INTENT.AUDIT,
+  },
 };
 
 function RouteContent() {
@@ -314,6 +346,7 @@ function RouteContent() {
       chrome={copy.chrome}
       categoryRouteKey={serviceDetailRoute.categoryRouteKey}
       serviceId={serviceDetailRoute.serviceId}
+      intentType={serviceDetailRoute.intentType}
     >
       {serviceDetailRoute.Children ? (
         <serviceDetailRoute.Children copy={serviceDetailRoute.childrenCopy(copy)} />

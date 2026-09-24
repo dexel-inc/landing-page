@@ -15,8 +15,11 @@ import {
   MessageSquare,
   PartyPopper,
   Plug,
+  Receipt,
   ScanSearch,
   Search,
+  ShieldCheck,
+  Sparkles,
   Tag,
   Workflow,
   Wrench,
@@ -62,12 +65,14 @@ const frontIcons = {
   FileScan,
   ScanSearch,
   Search,
+  Receipt,
+  ShieldCheck,
+  Sparkles,
 };
 
 /**
  * Clickable card when the front has its own page (`routeKey`); otherwise it
- * stays an informational card —automation and audit still have no child
- * pages—.
+ * stays an informational card.
  */
 function FrontCard({ front }) {
   const Icon = frontIcons[front.iconName] ?? Cpu;

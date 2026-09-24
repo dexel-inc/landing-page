@@ -109,10 +109,10 @@ export default function HomePage({ copy }) {
         onNavigate={() => {
           track(EVENTS.SERVICE_DETAIL_VIEWED, {
             service_id: "auditoria",
-            service_name: copy.audit.title,
+            service_name: copy.serviceDetails.processAudit.tiers.find((tier) => tier.featured)?.name,
             location: "advisory",
           });
-          navigateTo(ROUTE_KEYS.AUDIT);
+          navigateTo(ROUTE_KEYS.PROCESS_AUDIT);
         }}
       />
       <Process

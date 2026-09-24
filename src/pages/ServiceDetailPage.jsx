@@ -10,9 +10,8 @@ import { EVENTS, track } from "../analytics/track.js";
 import { INTENT, setIntent } from "../analytics/intent.js";
 
 /**
- * Shared template for the seven individual service pages
- * (websites, custom software, micropages, SEO, integrations,
- * payment gateways, maintenance).
+ * Shared template for the individual service pages of the web development,
+ * automation, and audit hubs.
  *
  * Sibling of `CategoryPage`, with the same visual treatment, but where the
  * main content is the price tiers rather than the "work fronts": here it's
@@ -21,7 +20,14 @@ import { INTENT, setIntent } from "../analytics/intent.js";
  * `children` is the slot for what only one page has —the interactive
  * micropage demos— without forcing the other six to carry an empty slot.
  */
-export default function ServiceDetailPage({ copy, chrome, categoryRouteKey, serviceId, children }) {
+export default function ServiceDetailPage({
+  copy,
+  chrome,
+  categoryRouteKey,
+  serviceId,
+  intentType = INTENT.QUOTE,
+  children,
+}) {
   const { navigateTo, locale } = useRouter();
   const service = copy.key;
 
@@ -31,7 +37,7 @@ export default function ServiceDetailPage({ copy, chrome, categoryRouteKey, serv
 
   const goToContact = (tier, location) => {
     setIntent({
-      type: INTENT.QUOTE,
+      type: intentType,
       category: categoryRouteKey,
       service_id: serviceId,
       service_name: tier ? `${copy.title} — ${tier.name}` : copy.title,
@@ -163,7 +169,7 @@ export default function ServiceDetailPage({ copy, chrome, categoryRouteKey, serv
         </div>
       </section>
 
-      {/* 2b — What's specific to a single page (micropage demos) */}
+      {/* 2b — What's specific to a single page (micropage demos, audit deliverables) */}
       {children}
 
       {/* 3 — Frequently asked questions */}
@@ -195,7 +201,7 @@ export default function ServiceDetailPage({ copy, chrome, categoryRouteKey, serv
               size="lg"
               className="group/cta w-full md:w-auto shrink-0"
             >
-              {chrome.quoteCta}
+              {copy.cta ?? chrome.quoteCta}
               <ArrowRight size={16} className="transition-transform duration-300 group-hover/cta:translate-x-1" />
             </Button>
           </div>

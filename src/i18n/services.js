@@ -1,4 +1,5 @@
 import { formatPrice } from "../config/pricing.js";
+import { ROUTE_KEYS } from "../router/routes.js";
 
 /**
  * Service catalog and audit detail, in both languages.
@@ -59,7 +60,7 @@ const es = {
         "Sesión de resultados en vivo con su equipo",
       ],
       ctaKey: "auditCta",
-      detailRouteKey: "audit",
+      detailRouteKey: "processAudit",
     },
     {
       id: "automatizacion",
@@ -210,19 +211,57 @@ const es = {
 };
 
 const auditEs = {
-  navLabel: "Auditoría de procesos",
-  badge: "Producto de entrada",
-  title: "Auditoría de procesos",
+  navLabel: "Auditoría",
+  badge: "Antes de construir",
+  title: "Primero medimos. Después decide.",
   subtitle:
-    "Antes de construir nada, medimos. Recibe cifras concretas sobre su propia operación: cuántas horas se van, en qué se van y cuánto costaría recuperarlas.",
-  priceLabel: "Precio",
+    "Antes de construir nada, medimos. Recibe cifras concretas sobre su propia operación: dónde se van las horas, el dinero o el riesgo, y cuánto costaría resolverlo.",
+  priceLabel: "Auditoría de procesos",
   price: formatPrice("audit", "es"),
+  priceNote: `Otros diagnósticos ${formatPrice("auditFocus", "es", { from: true }).toLowerCase()}`,
   deliveryLabel: "Entrega",
-  delivery: "5 a 7 días hábiles",
+  delivery: "3 días a 4 semanas",
   discountBadge: "Se descuenta 100% del proyecto",
 
+  /**
+   * The four audits, each with its own page and plans. They feed the hub's
+   * fronts, the services menu, and the category card on home.
+   */
+  frontsTitle: "Qué auditamos",
+  frontsIntro: "Cuatro auditorías. Se elige según dónde está la duda: en los procesos, en el gasto, en el sistema o en la IA.",
+  fronts: [
+    {
+      iconName: "ScanSearch",
+      name: "Auditoría de procesos",
+      text: "Qué procesos automatizar, cuántas horas al mes recuperaría y cuánto costaría cada implementación.",
+      meta: formatPrice("auditFocus", "es", { from: true }),
+      routeKey: ROUTE_KEYS.PROCESS_AUDIT,
+    },
+    {
+      iconName: "Receipt",
+      name: "Herramientas y licencias",
+      text: "Lo que paga en software y lo que de verdad usa: qué conservar, qué consolidar y qué cancelar.",
+      meta: formatPrice("toolsAudit", "es", { from: true }),
+      routeKey: ROUTE_KEYS.TOOLS_AUDIT,
+    },
+    {
+      iconName: "ShieldCheck",
+      name: "Auditoría de software",
+      text: "Código, seguridad e infraestructura del sistema del que depende su operación, con un plan de arreglos.",
+      meta: formatPrice("softwareAuditSite", "es", { from: true }),
+      routeKey: ROUTE_KEYS.SOFTWARE_AUDIT,
+    },
+    {
+      iconName: "Sparkles",
+      name: "Diagnóstico de IA",
+      text: "Dónde aporta la IA en su empresa, con qué datos y con qué riesgos. También dónde no conviene.",
+      meta: formatPrice("aiWorkshop", "es", { from: true }),
+      routeKey: ROUTE_KEYS.AI_ASSESSMENT,
+    },
+  ],
+
   deliverablesTitle: "Qué entregamos",
-  deliverablesIntro: "Ocho entregables, todos por escrito.",
+  deliverablesIntro: "Con el alcance de auditoría de procesos: ocho entregables, todos por escrito.",
   deliverables: [
     {
       title: "Mapa de procesos actuales",
@@ -281,15 +320,15 @@ const auditEs = {
     },
     {
       label: "Paso 4",
-      title: `Se descuentan los ${formatPrice("audit", "es")}`,
+      title: "Se descuenta la auditoría",
       when: "60 días",
-      text: "Si decide avanzar dentro de los 60 días siguientes, el costo completo de la auditoría se descuenta del proyecto.",
+      text: "Si decide avanzar dentro de los 60 días siguientes, el costo completo de la auditoría —cualquiera de las cuatro— se descuenta del proyecto.",
     },
   ],
 
   scopeTitle: "Cuándo tiene sentido",
   scopeNote:
-    "La auditoría tiene sentido a partir de 8-10 personas en el equipo o cuando hay varios procesos corriendo en paralelo. Si su operación es más pequeña, se lo decimos con franqueza en la llamada inicial, antes de que incurra en el gasto.",
+    "La auditoría de procesos completa tiene sentido a partir de 8-10 personas en el equipo o cuando hay varios procesos corriendo en paralelo. Si su operación es más pequeña, el diagnóstico de un proceso es el punto de partida; y si ni eso hace falta, se lo decimos con franqueza en la llamada inicial, antes de que incurra en el gasto.",
 
   processTitle: "Cómo trabajamos",
   processIntro:
@@ -329,9 +368,9 @@ const auditEs = {
 
   ctaTitle: "Empiece por medir",
   ctaText:
-    "Cinco a siete días hábiles y sabrá exactamente qué automatizar, cuánto cuesta y cuántas horas al mes recupera.",
+    "Cuéntenos dónde está la duda y le decimos qué auditoría necesita, cuánto cuesta y en cuánto tiempo la tiene.",
 
-  cta: `Solicitar auditoría — ${formatPrice("audit", "es")}`,
+  cta: `Solicitar auditoría de procesos — ${formatPrice("audit", "es")}`,
 };
 
 const en = {
@@ -378,7 +417,7 @@ const en = {
         "A live results session with your team",
       ],
       ctaKey: "auditCta",
-      detailRouteKey: "audit",
+      detailRouteKey: "processAudit",
     },
     {
       id: "automatizacion",
@@ -529,19 +568,53 @@ const en = {
 };
 
 const auditEn = {
-  navLabel: "Process audit",
-  badge: "Entry product",
-  title: "Process audit",
+  navLabel: "Audit",
+  badge: "Before we build",
+  title: "We measure first. Then you decide.",
   subtitle:
-    "Before we build anything, we measure. You get concrete numbers about your own operation: how many hours are going out, where, and what it would cost to get them back.",
-  priceLabel: "Price",
+    "Before we build anything, we measure. You get concrete numbers about your own operation: where the hours, the money, or the risk are going, and what it would cost to fix it.",
+  priceLabel: "Process audit",
   price: formatPrice("audit", "en"),
+  priceNote: `Other assessments ${formatPrice("auditFocus", "en", { from: true }).toLowerCase()}`,
   deliveryLabel: "Delivery",
-  delivery: "5 to 7 business days",
+  delivery: "3 days to 4 weeks",
   discountBadge: "100% credited toward your project",
 
+  frontsTitle: "What we audit",
+  frontsIntro: "Four audits. Pick by where the doubt is: in the processes, the spend, the system, or AI.",
+  fronts: [
+    {
+      iconName: "ScanSearch",
+      name: "Process audit",
+      text: "Which processes to automate, how many hours a month you'd get back, and what each implementation would cost.",
+      meta: formatPrice("auditFocus", "en", { from: true }),
+      routeKey: ROUTE_KEYS.PROCESS_AUDIT,
+    },
+    {
+      iconName: "Receipt",
+      name: "Tools and licenses",
+      text: "What you pay for in software and what you actually use: what to keep, consolidate, and cancel.",
+      meta: formatPrice("toolsAudit", "en", { from: true }),
+      routeKey: ROUTE_KEYS.TOOLS_AUDIT,
+    },
+    {
+      iconName: "ShieldCheck",
+      name: "Software audit",
+      text: "Code, security, and infrastructure of the system your operation depends on, with a fix plan.",
+      meta: formatPrice("softwareAuditSite", "en", { from: true }),
+      routeKey: ROUTE_KEYS.SOFTWARE_AUDIT,
+    },
+    {
+      iconName: "Sparkles",
+      name: "AI assessment",
+      text: "Where AI helps your company, with what data and what risks. And where it doesn't.",
+      meta: formatPrice("aiWorkshop", "en", { from: true }),
+      routeKey: ROUTE_KEYS.AI_ASSESSMENT,
+    },
+  ],
+
   deliverablesTitle: "What we deliver",
-  deliverablesIntro: "Eight deliverables, all in writing.",
+  deliverablesIntro: "With the process audit scope: eight deliverables, all in writing.",
   deliverables: [
     {
       title: "Map of current processes",
@@ -600,15 +673,15 @@ const auditEn = {
     },
     {
       label: "Step 4",
-      title: `The ${formatPrice("audit", "en")} comes off`,
+      title: "The audit comes off",
       when: "60 days",
-      text: "If you decide to move forward within the next 60 days, the full cost of the audit is credited toward the project.",
+      text: "If you decide to move forward within the next 60 days, the full cost of the audit —any of the four— is credited toward the project.",
     },
   ],
 
   scopeTitle: "When it makes sense",
   scopeNote:
-    "The audit makes sense from about 8-10 people on the team, or when you have several processes running in parallel. If your operation is smaller, we'll tell you plainly on the discovery call, before you take on the cost.",
+    "The full process audit makes sense from about 8-10 people on the team, or when you have several processes running in parallel. If your operation is smaller, the single-process assessment is the starting point; and if not even that is needed, we'll tell you plainly on the discovery call, before you take on the cost.",
 
   processTitle: "How we work",
   processIntro: "All six phases, so you can see where the audit fits before you buy it.",
@@ -647,9 +720,9 @@ const auditEn = {
 
   ctaTitle: "Start by measuring",
   ctaText:
-    "Five to seven business days and you'll know exactly what to automate, what it costs, and how many hours a month you get back.",
+    "Tell us where the doubt is and we'll say which audit you need, what it costs, and how soon you'll have it.",
 
-  cta: `Request the audit — ${formatPrice("audit", "en")}`,
+  cta: `Request the process audit — ${formatPrice("audit", "en")}`,
 };
 
 export const servicesCopy = { es, en };

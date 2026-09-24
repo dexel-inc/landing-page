@@ -866,7 +866,10 @@ export function serviceMenuGroups(copy) {
       key: "audit",
       routeKey: ROUTE_KEYS.AUDIT,
       label: copy.audit.navLabel,
-      items: copy.audit.deliverables.map((item) => ({ label: item.title, routeKey: null })),
+      items: copy.audit.fronts.map((front) => ({
+        label: front.name,
+        routeKey: front.routeKey ?? null,
+      })),
     },
   ];
 }
