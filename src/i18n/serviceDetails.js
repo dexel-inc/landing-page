@@ -127,6 +127,7 @@ const es = {
         key: "tool",
         name: "Herramienta a la medida",
         priceKey: "customTool",
+        from: true,
         delivery: "2 a 3 semanas",
         includes: [
           "Una función puntual resuelta a la medida: un cálculo, un flujo de aprobación, un formulario complejo",
@@ -140,6 +141,7 @@ const es = {
         key: "app",
         name: "Aplicación a la medida",
         priceKey: "customSoftware",
+        from: true,
         delivery: "Desde 4 semanas",
         featured: true,
         includes: [
@@ -412,6 +414,7 @@ const es = {
         key: "integration",
         name: "Integración individual",
         priceKey: "integration",
+        from: true,
         delivery: "1 a 2 semanas",
         includes: [
           "Conexión entre dos sistemas: el que ya tiene y el que necesita que le hable",
@@ -460,6 +463,7 @@ const es = {
         key: "gateway",
         name: "Implementación de pasarela",
         priceKey: "paymentGateway",
+        from: true,
         delivery: "1 a 2 semanas",
         includes: [
           "Conexión de la pasarela que use en Colombia o la región (tarjetas, PSE, transferencias)",
@@ -1300,6 +1304,7 @@ const en = {
         key: "tool",
         name: "Custom tool",
         priceKey: "customTool",
+        from: true,
         delivery: "2 to 3 weeks",
         includes: [
           "One specific function solved to fit: a calculation, an approval flow, a complex form",
@@ -1313,6 +1318,7 @@ const en = {
         key: "app",
         name: "Custom application",
         priceKey: "customSoftware",
+        from: true,
         delivery: "From 4 weeks",
         featured: true,
         includes: [
@@ -1581,6 +1587,7 @@ const en = {
         key: "integration",
         name: "Individual integration",
         priceKey: "integration",
+        from: true,
         delivery: "1 to 2 weeks",
         includes: [
           "Connection between two systems: the one you have and the one it needs to talk to",
@@ -1629,6 +1636,7 @@ const en = {
         key: "gateway",
         name: "Payment gateway implementation",
         priceKey: "paymentGateway",
+        from: true,
         delivery: "1 to 2 weeks",
         includes: [
           "Connection to the gateway used in Colombia and the region (cards, PSE, transfers)",
