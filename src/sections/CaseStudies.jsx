@@ -13,7 +13,7 @@ import Reveal from "../components/ui/Reveal.jsx";
 import { useCountUp } from "../hooks/useCountUp.js";
 import { useInView } from "../hooks/useInView.js";
 import { useRouter } from "../router/RouterContext.jsx";
-import { ROUTE_KEYS } from "../router/routes.js";
+import { INTENT, contactOnWhatsApp } from "../contact/whatsapp.js";
 
 function Metric({ value, suffix, prefix, label, decimals = 0, delay = 0 }) {
   const [ref, inView] = useInView({ threshold: 0.4 });
@@ -267,7 +267,7 @@ function ConfidentialCard({ item, lockLabel }) {
 }
 
 export default function CaseStudies({ copy }) {
-  const { navigateTo } = useRouter();
+  const { locale } = useRouter();
 
   return (
     <section id="casos" className="py-16 md:py-24 relative">
@@ -337,7 +337,9 @@ export default function CaseStudies({ copy }) {
                 </p>
               </div>
               <Button
-                onClick={() => navigateTo(ROUTE_KEYS.CONTACT)}
+                onClick={() =>
+                  contactOnWhatsApp({ type: INTENT.GENERAL, locale, location: "case_studies_confidential" })
+                }
                 variant="primary"
                 size="lg"
                 className="shrink-0 group/cta w-full md:w-auto"

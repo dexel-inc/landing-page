@@ -37,8 +37,6 @@ export const EVENTS = {
   SERVICE_DETAIL_VIEWED: "ServiceDetailViewed",
   /** Loaded one of the three category pages. Carries `category`. */
   SERVICE_CATEGORY_VIEWED: "ServiceCategoryViewed",
-  /** First message sent to the conversational assistant. */
-  CHAT_STARTED: "ChatStarted",
   /** Loaded the team training page. Carries `locale`. */
   TRAINING_PAGE_VIEWED: "TrainingPageViewed",
   /** Training request. Carries `format` and that format's `value`. */
@@ -47,14 +45,13 @@ export const EVENTS = {
   PACK_REQUESTED: "PackRequested",
 
   // Journey events. Which of these are also backed server-side is decided by
-  // `CONVERSION_EVENTS`, not this list: `ChatCompleted` and `WhatsAppOpened`
-  // are, because they're the end of the funnel; navigation clicks aren't.
+  // `CONVERSION_EVENTS`, not this list: `WhatsAppOpened` is, because it's
+  // the end of the funnel; navigation clicks aren't.
   // They use PascalCase just like the conversion events: Events Manager
   // lists them all together in the same column, and mixing two conventions
   // there means having to remember which was spelled which way every time
   // an audience or a custom conversion is built.
   CTA_CLICK: "CtaClicked",
-  CHAT_COMPLETED: "ChatCompleted",
   WHATSAPP_OPENED: "WhatsAppOpened",
   CASE_STUDY_VISITED: "CaseStudyVisited",
   TEAM_PROFILE_CLICK: "TeamProfileClicked",
@@ -90,16 +87,13 @@ const CONVERSION_EVENTS = new Set([
   EVENTS.DISCOVERY_BOOKED,
   EVENTS.SERVICE_DETAIL_VIEWED,
   EVENTS.SERVICE_CATEGORY_VIEWED,
-  EVENTS.CHAT_STARTED,
   EVENTS.TRAINING_PAGE_VIEWED,
   EVENTS.TRAINING_REQUESTED,
   EVENTS.PACK_REQUESTED,
-  // Conversation closers. `ChatCompleted` means the whole flow got answered
-  // and `WhatsAppOpened` is the actual handoff of the contact: they're the
-  // two points in the journey that a blocked pixel makes disappear without a
-  // trace, and without them the campaign ends up optimizing against a funnel
-  // that's cut short before the end.
-  EVENTS.CHAT_COMPLETED,
+  // `WhatsAppOpened` is the actual handoff of the contact: the point in the
+  // journey that a blocked pixel makes disappear without a trace, and
+  // without it the campaign ends up optimizing against a funnel that's cut
+  // short before the end.
   EVENTS.WHATSAPP_OPENED,
 ]);
 

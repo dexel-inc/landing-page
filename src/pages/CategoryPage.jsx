@@ -29,9 +29,8 @@ import Reveal from "../components/ui/Reveal.jsx";
 import FaqList from "../components/ui/FaqList.jsx";
 import ProcessCompact from "../components/ProcessCompact.jsx";
 import { Link, useRouter } from "../router/RouterContext.jsx";
-import { ROUTE_KEYS } from "../router/routes.js";
 import { EVENTS, track } from "../analytics/track.js";
-import { INTENT, setIntent } from "../analytics/intent.js";
+import { INTENT, contactOnWhatsApp } from "../contact/whatsapp.js";
 
 /**
  * Shared template for the three category pages.
@@ -117,7 +116,7 @@ export default function CategoryPage({
   serviceId,
   children,
 }) {
-  const { navigateTo, locale } = useRouter();
+  const { locale } = useRouter();
   const category = copy.key;
   const items = fronts ?? copy.fronts ?? [];
 
@@ -132,23 +131,19 @@ export default function CategoryPage({
   }, [category, locale]);
 
   /**
-   * The click isn't the conversion: the conversion is handing the
-   * conversation off to WhatsApp. Here we only declare which intent the
-   * visitor is going in with, so that on converting, `QuoteRequested`,
-   * `AuditRequested`, or `DiscoveryBooked` gets counted as appropriate, not
-   * all three as a single thing.
+   * Opens WhatsApp with the category already named. The intent decides
+   * whether it counts as `QuoteRequested`, `AuditRequested`, or
+   * `DiscoveryBooked`, not all three as a single thing.
    */
   const goToContact = (type, location) => {
-    setIntent({
-      type,
-      category,
-      service_id: serviceId ?? category,
-      service_name: copy.title,
-      location,
-    });
-
     track(EVENTS.CTA_CLICK, { category, service_id: serviceId ?? category, location });
-    navigateTo(ROUTE_KEYS.CONTACT);
+    contactOnWhatsApp({
+      type,
+      locale,
+      location,
+      service: copy.ctaService ?? copy.navLabel ?? copy.title,
+      analytics: { category, service_id: serviceId ?? category },
+    });
   };
 
   return (

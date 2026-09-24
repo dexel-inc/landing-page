@@ -371,6 +371,8 @@ const auditEs = {
     "Cuéntenos dónde está la duda y le decimos qué auditoría necesita, cuánto cuesta y en cuánto tiempo la tiene.",
 
   cta: `Solicitar auditoría de procesos — ${formatPrice("audit", "es")}`,
+  // The CTA sells the process audit, so that's what the WhatsApp message names.
+  ctaService: "Auditoría de procesos",
 };
 
 const en = {
@@ -723,6 +725,7 @@ const auditEn = {
     "Tell us where the doubt is and we'll say which audit you need, what it costs, and how soon you'll have it.",
 
   cta: `Request the process audit — ${formatPrice("audit", "en")}`,
+  ctaService: "Process audit",
 };
 
 export const servicesCopy = { es, en };

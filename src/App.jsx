@@ -23,7 +23,7 @@ import { Link, useRouter } from "./router/RouterContext.jsx";
 import { ROUTE_KEYS } from "./router/routes.js";
 import { useTheme } from "./theme/ThemeContext.jsx";
 import { updateSeo } from "./seo/updateSeo.js";
-import { INTENT } from "./analytics/intent.js";
+import { INTENT } from "./contact/whatsapp.js";
 import { setAnalyticsLocale, trackPageView } from "./analytics/track.js";
 
 // The 3D background loads separately: it doesn't exist during prerendering
@@ -339,6 +339,11 @@ function RouteContent() {
 
   const webPresence = copy.services.items.find((item) => item.id === "presencia-web");
   const serviceDetailRoute = SERVICE_DETAIL_ROUTES[routeKey];
+  // The short name the menu uses —"Sitios web", not the page's headline—
+  // is what goes in the pre-filled WhatsApp message.
+  const serviceName = serviceMenuGroups(copy)
+    .flatMap((group) => group.items)
+    .find((item) => item.routeKey === routeKey)?.label;
 
   const page = serviceDetailRoute ? (
     <ServiceDetailPage
@@ -346,6 +351,7 @@ function RouteContent() {
       chrome={copy.chrome}
       categoryRouteKey={serviceDetailRoute.categoryRouteKey}
       serviceId={serviceDetailRoute.serviceId}
+      serviceName={serviceName}
       intentType={serviceDetailRoute.intentType}
     >
       {serviceDetailRoute.Children ? (

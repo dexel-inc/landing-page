@@ -79,15 +79,17 @@ Variables en `.env.example`. Eventos de conversión:
 
 | Evento | Cuándo | Parámetros |
 |---|---|---|
-| `AuditRequested` | Entrega del formulario con intención de auditoría | `value`, `currency`, `locale`, `service_name` |
-| `QuoteRequested` | Entrega del formulario con intención de cotizar otro servicio | `service_name`, `locale` |
-| `DiscoveryBooked` | Entrega del formulario sin intención declarada, o desde la sección de proceso | `locale` |
+| `AuditRequested` | Clic en un botón de auditoría, que abre WhatsApp | `value`, `currency`, `locale`, `service_name` |
+| `QuoteRequested` | Clic en un botón para cotizar otro servicio, que abre WhatsApp | `service_name`, `value`, `locale` |
+| `PackRequested` | Clic en un pack de automatización | `pack_name`, `value`, `locale` |
+| `TrainingRequested` | Clic en un formato de formación | `format`, `value`, `locale` |
+| `DiscoveryBooked` | Clic en la llamada de 30 minutos sin costo | `locale` |
 | `ServiceDetailViewed` | Se abre el detalle de un servicio | `service_name`, `locale` |
-| `ChatStarted` | Primer mensaje enviado al asistente | `locale` |
+| `WhatsAppOpened` | Cualquier botón que abre WhatsApp | `source`, `locale` |
 
-La conversión se cuenta al entregar la conversación a WhatsApp, no al hacer
-clic: un clic no es una solicitud. El CTA solo declara la intención en
-`analytics/intent.js`, que es lo que decide cuál de los tres eventos sale.
+Cada botón abre WhatsApp con un mensaje ya escrito que nombra el servicio y,
+si se eligió uno, el plan y su precio (`contact/whatsapp.js`). La intención
+del botón decide cuál evento de conversión sale.
 
 Cada evento lleva un `event_id` compartido entre el pixel del navegador y la
 Conversions API, que es lo que usa Meta para deduplicar.

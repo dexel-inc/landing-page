@@ -20,10 +20,9 @@ import Button from "../components/ui/Button.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
 import FaqList from "../components/ui/FaqList.jsx";
 import { useRouter } from "../router/RouterContext.jsx";
-import { ROUTE_KEYS } from "../router/routes.js";
 import { priceAmount, pricesIncludeVat } from "../config/pricing.js";
 import { EVENTS, track } from "../analytics/track.js";
-import { INTENT, setIntent } from "../analytics/intent.js";
+import { INTENT, contactOnWhatsApp } from "../contact/whatsapp.js";
 
 /**
  * Team training.
@@ -136,7 +135,7 @@ function ProgramBlocks({ copy }) {
 }
 
 export default function TrainingPage({ copy, chrome }) {
-  const { navigateTo, locale } = useRouter();
+  const { locale } = useRouter();
   const showVat = pricesIncludeVat(locale);
 
   useEffect(() => {
@@ -147,24 +146,36 @@ export default function TrainingPage({ copy, chrome }) {
   }, [locale]);
 
   /**
-   * The click isn't the conversion: the conversion is handing the
-   * conversation off to WhatsApp. Here we only declare which intent the
-   * visitor is going in with —and which format, which is what gives the
-   * event its monetary value— so that on converting, `TrainingRequested`
-   * gets counted instead of the generic conversion.
+   * Opens WhatsApp naming the training and, from a format's button, the
+   * format and its price —which is also what gives `TrainingRequested` its
+   * monetary value—.
    */
   const requestTraining = (format, location) => {
-    setIntent({
-      type: INTENT.TRAINING,
-      service_id: "formacion",
-      service_name: copy.navLabel,
-      format: format?.key ?? "unspecified",
-      value: format?.value ? priceAmount(format.value, locale) : undefined,
-      location,
-    });
-
     track(EVENTS.CTA_CLICK, { service_id: "formacion", format: format?.key, location });
-    navigateTo(ROUTE_KEYS.CONTACT);
+    contactOnWhatsApp({
+      type: INTENT.TRAINING,
+      locale,
+      location,
+      service: copy.navLabel,
+      plan: format?.name,
+      price: format?.price,
+      analytics: {
+        service_id: "formacion",
+        format: format?.key ?? "unspecified",
+        value: format?.value ? priceAmount(format.value, locale) : undefined,
+      },
+    });
+  };
+
+  const requestDiscovery = (location) => {
+    track(EVENTS.CTA_CLICK, { location });
+    contactOnWhatsApp({
+      type: INTENT.DISCOVERY,
+      locale,
+      location,
+      service: copy.navLabel,
+      analytics: { service_id: "formacion" },
+    });
   };
 
   return (
@@ -228,11 +239,7 @@ export default function TrainingPage({ copy, chrome }) {
             </Button>
 
             <Button
-              onClick={() => {
-                setIntent({ type: INTENT.DISCOVERY, location: "training_page_hero_discovery" });
-                track(EVENTS.CTA_CLICK, { location: "training_page_hero_discovery" });
-                navigateTo(ROUTE_KEYS.CONTACT);
-              }}
+              onClick={() => requestDiscovery("training_page_hero_discovery")}
               variant="secondary"
               size="lg"
               className="w-full sm:w-auto"
@@ -442,11 +449,7 @@ export default function TrainingPage({ copy, chrome }) {
               </Button>
 
               <Button
-                onClick={() => {
-                  setIntent({ type: INTENT.DISCOVERY, location: "training_page_footer_discovery" });
-                  track(EVENTS.CTA_CLICK, { location: "training_page_footer_discovery" });
-                  navigateTo(ROUTE_KEYS.CONTACT);
-                }}
+                onClick={() => requestDiscovery("training_page_footer_discovery")}
                 variant="secondary"
                 size="lg"
                 className="w-full md:w-auto"

@@ -3,7 +3,7 @@ import { ArrowRight, Clock3 } from "lucide-react";
 import Logo from "../icons/logo.jsx";
 import Button from "../components/ui/Button.jsx";
 import { EVENTS, track } from "../analytics/track.js";
-import { INTENT, setIntent } from "../analytics/intent.js";
+import { INTENT, contactOnWhatsApp } from "../contact/whatsapp.js";
 import Advisory from "../sections/Advisory.jsx";
 import CaseStudies from "../sections/CaseStudies.jsx";
 import Contact from "../sections/Contact.jsx";
@@ -14,7 +14,7 @@ import { useRouter } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
 
 export default function HomePage({ copy }) {
-  const { navigateTo } = useRouter();
+  const { navigateTo, locale } = useRouter();
 
   return (
     <>
@@ -53,9 +53,8 @@ export default function HomePage({ copy }) {
                 losing a few hours, not looking to buy a diagnosis. */}
             <Button
               onClick={() => {
-                setIntent({ type: INTENT.DISCOVERY, location: "hero" });
                 track(EVENTS.CTA_CLICK, { location: "hero", action: "discovery" });
-                navigateTo(ROUTE_KEYS.CONTACT);
+                contactOnWhatsApp({ type: INTENT.DISCOVERY, locale, location: "hero" });
               }}
               variant="primary"
               size="lg"
@@ -118,9 +117,8 @@ export default function HomePage({ copy }) {
       <Process
         copy={copy.process}
         onNavigate={() => {
-          setIntent({ type: INTENT.DISCOVERY, location: "process" });
           track(EVENTS.CTA_CLICK, { location: "process", action: "discovery" });
-          navigateTo(ROUTE_KEYS.CONTACT);
+          contactOnWhatsApp({ type: INTENT.DISCOVERY, locale, location: "process" });
         }}
       />
       <Contact copy={copy.contact} />

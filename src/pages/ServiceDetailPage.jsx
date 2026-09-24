@@ -4,10 +4,9 @@ import Button from "../components/ui/Button.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
 import FaqList from "../components/ui/FaqList.jsx";
 import { Link, useRouter } from "../router/RouterContext.jsx";
-import { ROUTE_KEYS } from "../router/routes.js";
-import { formatPrice } from "../config/pricing.js";
+import { formatPrice, priceAmount } from "../config/pricing.js";
 import { EVENTS, track } from "../analytics/track.js";
-import { INTENT, setIntent } from "../analytics/intent.js";
+import { INTENT, contactOnWhatsApp } from "../contact/whatsapp.js";
 
 /**
  * Shared template for the individual service pages of the web development,
@@ -25,27 +24,39 @@ export default function ServiceDetailPage({
   chrome,
   categoryRouteKey,
   serviceId,
+  serviceName,
   intentType = INTENT.QUOTE,
   children,
 }) {
-  const { navigateTo, locale } = useRouter();
+  const { locale } = useRouter();
   const service = copy.key;
 
   useEffect(() => {
     track(EVENTS.SERVICE_DETAIL_VIEWED, { service_id: serviceId, service_name: copy.title, locale });
   }, [serviceId, copy.title, locale]);
 
-  const goToContact = (tier, location) => {
-    setIntent({
-      type: intentType,
-      category: categoryRouteKey,
-      service_id: serviceId,
-      service_name: tier ? `${copy.title} — ${tier.name}` : copy.title,
-      location,
-    });
+  const tierPrice = (tier) =>
+    formatPrice(tier.priceKey, locale, { from: !!tier.from, perMonth: !!tier.perMonth });
 
+  /**
+   * Opens WhatsApp naming the service and, from a tier's button, the plan
+   * and its price: the conversation starts where the visitor already is.
+   */
+  const goToContact = (tier, location) => {
     track(EVENTS.CTA_CLICK, { service_id: serviceId, location });
-    navigateTo(ROUTE_KEYS.CONTACT);
+    contactOnWhatsApp({
+      type: intentType,
+      locale,
+      location,
+      service: serviceName ?? copy.title,
+      plan: tier?.name,
+      price: tier ? tierPrice(tier) : undefined,
+      analytics: {
+        category: categoryRouteKey,
+        service_id: serviceId,
+        ...(tier ? { value: priceAmount(tier.priceKey, locale) } : {}),
+      },
+    });
   };
 
   return (
@@ -105,10 +116,7 @@ export default function ServiceDetailPage({
                   {tier.name}
                 </p>
                 <p className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-1">
-                  {formatPrice(tier.priceKey, locale, {
-                    from: !!tier.from,
-                    perMonth: !!tier.perMonth,
-                  })}
+                  {tierPrice(tier)}
                 </p>
                 {tier.delivery && (
                   <p className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.12em] text-slate-400 dark:text-gray-600 mb-4">

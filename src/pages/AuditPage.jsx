@@ -2,7 +2,7 @@ import React from "react";
 import Reveal from "../components/ui/Reveal.jsx";
 import CategoryPage from "./CategoryPage.jsx";
 import { AuditScopeNote, AuditSteps } from "../components/AuditTimeline.jsx";
-import { INTENT } from "../analytics/intent.js";
+import { INTENT } from "../contact/whatsapp.js";
 
 /**
  * Audit hub, built on the shared category template.
