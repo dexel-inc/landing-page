@@ -9,10 +9,10 @@ import { initAnalytics } from "./analytics/track.js";
 
 initAnalytics();
 
-// `createRoot` y no `hydrateRoot`: el HTML prerenderizado está pensado para
-// rastreadores y para el primer pintado, no para hidratarse. Montar de cero
-// evita tener que hacer coincidir estado que solo existe en el navegador
-// (tema del sistema, idioma guardado, elementos en viewport).
+// `createRoot` and not `hydrateRoot`: the prerendered HTML is meant for
+// crawlers and for the first paint, not for hydration. Mounting from
+// scratch avoids having to reconcile state that only exists in the browser
+// (system theme, stored language, elements in the viewport).
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ThemeProvider>

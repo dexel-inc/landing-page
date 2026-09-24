@@ -5,14 +5,14 @@ import { useRouter } from "../router/RouterContext.jsx";
 const I18nContext = createContext(null);
 
 /**
- * El idioma lo manda la URL, no un estado aparte.
+ * The URL drives the language, not separate state.
  *
- * Antes vivía en `localStorage` y la URL no cambiaba, así que `/servicios` en
- * inglés y en español eran la misma dirección: imposible de indexar por
- * separado y de compartir. Ahora `/es/servicios` y `/en/services` son URLs
- * distintas y este proveedor solo traduce la que esté activa. La preferencia
- * guardada sigue existiendo, pero solo decide a dónde mandar a quien entra
- * por la raíz (ver `RouterProvider`).
+ * It used to live in `localStorage` and the URL never changed, so
+ * `/servicios` in English and in Spanish were the same address: impossible
+ * to index separately or to share. Now `/es/servicios` and `/en/services`
+ * are different URLs and this provider just translates whichever one is
+ * active. The saved preference still exists, but it only decides where to
+ * send someone who lands on the root (see `RouterProvider`).
  */
 export function I18nProvider({ children }) {
   const { locale, setLocale } = useRouter();

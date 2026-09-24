@@ -5,18 +5,19 @@ import * as random from "maath/random/dist/maath-random.esm";
 import { useTheme } from "../theme/ThemeContext.jsx";
 
 /**
- * Fondo de partículas.
+ * Particle background.
  *
- * Vive en su propio archivo para poder importarse de forma diferida: three.js
- * y react-three-fiber necesitan WebGL, que no existe cuando el HTML se genera
- * en Node durante el build. Al cargarse solo en el navegador, el prerenderizado
- * no lo toca y de paso el bundle inicial no arrastra la librería 3D.
+ * Lives in its own file so it can be lazily imported: three.js and
+ * react-three-fiber need WebGL, which doesn't exist when the HTML gets
+ * generated in Node during the build. By loading only in the browser,
+ * prerendering never touches it, and as a bonus the initial bundle doesn't
+ * carry the 3D library.
  */
 function ParticleObject() {
   const ref = useRef({});
-  // Múltiplo de 3: cada punto son tres coordenadas. Con 5000 quedaba una
-  // coordenada suelta sin rellenar y three.js calculaba un radio NaN, que era
-  // el error que salía en la consola de todos los visitantes.
+  // Multiple of 3: each point is three coordinates. At 5000 there was one
+  // leftover coordinate unfilled and three.js computed a NaN radius, which
+  // was the error that showed up in every visitor's console.
   const [sphere] = useState(() => random.inSphere(new Float32Array(4998), { radius: 1.5 }));
   const { theme } = useTheme();
 

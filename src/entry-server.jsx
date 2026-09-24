@@ -9,16 +9,16 @@ import { allRoutes, DEFAULT_LOCALE, ROUTE_KEYS } from "./router/routes.js";
 import { SITE } from "./config/site.js";
 
 /**
- * Entrada de renderizado en servidor, usada solo durante el build.
+ * Server-rendering entry point, used only during the build.
  *
- * `renderToStaticMarkup` en vez de `renderToString` porque el cliente no
- * hidrata: vuelve a montar el árbol. El HTML generado existe para que los
- * rastreadores, los previews de WhatsApp y quien navegue sin JavaScript vean
- * el contenido real, no un `<div id="root">` vacío.
+ * `renderToStaticMarkup` instead of `renderToString` because the client
+ * doesn't hydrate: it remounts the tree from scratch. The generated HTML
+ * exists so that crawlers, WhatsApp previews, and anyone browsing without
+ * JavaScript see the real content, not an empty `<div id="root">`.
  *
- * Nada de lo que se renderiza aquí puede tocar `window`, `document` ni WebGL.
- * Los proveedores están escritos para tolerarlo y el fondo 3D se carga de
- * forma diferida, así que nunca llega a importarse en Node.
+ * Nothing rendered here can touch `window`, `document`, or WebGL. The
+ * providers are written to tolerate that and the 3D background loads
+ * lazily, so it never actually gets imported in Node.
  */
 export function render(path) {
   return renderToStaticMarkup(

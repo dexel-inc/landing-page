@@ -20,21 +20,23 @@
 }
 
 /*
- * Altura del encabezado fijo.
+ * Fixed header height.
  *
- * El encabezado es `position: fixed`: no ocupa lugar en el flujo y no empuja
- * nada hacia abajo. Cualquier bloque que sea lo primero de una página —o que
- * centre su contenido dentro de la altura completa de la ventana— tiene que
- * descontar esta franja, o su primer elemento acaba debajo del menú. En
- * pantallas altas sobra espacio y no se nota; en un portátil de 771 px sí.
+ * The header is `position: fixed`: it takes up no space in the flow and
+ * doesn't push anything down. Any block that's the first thing on a page
+ * —or that centers its content within the window's full height— has to
+ * subtract this strip, or its first element ends up under the menu. On
+ * tall screens there's space to spare and it goes unnoticed; on a 771px
+ * laptop it doesn't.
  *
- * El número sale de las piezas del propio encabezado: el relleno vertical
- * —12 px, 24 px desde `md`— más la fila de controles, que mide 58 px: un botón
- * de 44 px dentro de una caja con 6 px de relleno arriba y abajo, más su borde.
- * Si cambia cualquiera de las dos cosas, este es el único sitio que tocar.
+ * The number comes from the header's own pieces: the vertical padding
+ * —12px, 24px from `md`— plus the controls row, which measures 58px: a
+ * 44px button inside a box with 6px of padding top and bottom, plus its
+ * border. If either of those two things changes, this is the only place to touch.
  *
- * No incluye el panel plegable del móvil: ese se abre encima del contenido a
- * propósito y reservarle sitio dejaría un hueco permanente bajo el menú.
+ * Doesn't include the mobile collapsible panel: that one opens on top of
+ * the content on purpose, and reserving space for it would leave a
+ * permanent gap under the menu.
  */
 :root {
   --header-h: 82px;
@@ -49,9 +51,9 @@
 body {
   margin: 0;
   min-width: 320px;
-  /* `svh` y no `vh`: en móvil `100vh` ignora la barra de direcciones y deja la
-     página un poco más alta que la ventana, que es el mismo recorte por otra
-     vía. */
+  /* `svh` and not `vh`: on mobile `100vh` ignores the address bar and
+     leaves the page a bit taller than the viewport, which is the same
+     clipping issue from another angle. */
   min-height: 100svh;
   background: #f8fafc;
   color: #0f172a;
@@ -62,14 +64,14 @@ body {
   color: #f8fafc;
 }
 
-/* El navbar es fijo: los saltos por ancla deben dejar espacio bajo él.
-   Estaba en 6rem —96 px—, por debajo de los 106 px que mide el encabezado en
-   escritorio, así que el título de la sección quedaba tapado al saltar. */
+/* The navbar is fixed: anchor jumps need to leave space beneath it.
+   It used to be 6rem —96px—, below the 106px the header measures on
+   desktop, so the section title ended up covered when jumping to it. */
 section[id] {
   scroll-margin-top: calc(var(--header-h) + 1.5rem);
 }
 
-/* Línea de escaneo de las tarjetas bajo acuerdo de confidencialidad */
+/* Scan line for the non-disclosure-agreement cards */
 @keyframes dexel-scan {
   0% {
     transform: translateY(0);

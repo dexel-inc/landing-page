@@ -42,10 +42,10 @@ export default function Footer({ whatsappNumber = SITE.whatsapp, copy }) {
           <div className="md:mr-10 text-xl font-bold tracking-[0.2em] text-black dark:text-white flex flex-col align-middle">
             <Logo className="w-30 h-30" viewBox="0 0 324 210" />
           </div>
-          {/* Enlaces reales con href localizado: un rastreador tiene que poder
-              seguirlos sin ejecutar JavaScript. */}
-          {/* Con cinco enlaces la fila ya no cabe de una sola línea en una
-              tableta: envuelve en vez de empujar scroll horizontal. */}
+          {/* Real links with a localized href: a crawler has to be able to
+              follow them without executing JavaScript. */}
+          {/* With five links the row no longer fits on a single line on a
+              tablet: it wraps instead of pushing horizontal scroll. */}
           <div className="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-4 md:gap-x-6 md:gap-y-3 md:text-start">
             <Link
               to={ROUTE_KEYS.SERVICES}

@@ -16,15 +16,15 @@ const RouterContext = createContext(null);
 const LOCALE_STORAGE_KEY = "dexel_locale";
 const isBrowser = typeof window !== "undefined";
 
-/** Preferencia de idioma guardada, o `null` si el visitante nunca eligió. */
+/** Stored language preference, or `null` if the visitor never chose one. */
 function storedLocale() {
   if (!isBrowser) return null;
   try {
     const value = window.localStorage.getItem(LOCALE_STORAGE_KEY);
     return value === "es" || value === "en" ? value : null;
   } catch {
-    // Safari en modo privado lanza al tocar localStorage. El idioma no es
-    // motivo para tumbar la página.
+    // Safari in private mode throws when touching localStorage. Language
+    // isn't a reason to crash the page.
     return null;
   }
 }
@@ -34,7 +34,7 @@ function persistLocale(locale) {
   try {
     window.localStorage.setItem(LOCALE_STORAGE_KEY, locale);
   } catch {
-    /* sin persistencia, el idioma dura lo que dura la sesión */
+    /* without persistence, the language lasts only for the session */
   }
 }
 
@@ -42,10 +42,11 @@ function resolveState(pathname) {
   const match = matchRoute(pathname);
 
   if (!match) {
-    // Ruta desconocida: se muestra un 404 conservando la URL. Redirigir al
-    // inicio escondería el error y le diría al buscador que la página existe.
-    // El idioma sale del prefijo de la URL cuando lo hay (`/en/lo-que-sea`),
-    // y si no del navegador, para que el 404 no llegue siempre en español.
+    // Unknown route: a 404 is shown while keeping the URL. Redirecting to
+    // home would hide the error and tell the search engine the page exists.
+    // The language comes from the URL's prefix when there is one
+    // (`/en/whatever`), and otherwise from the browser, so the 404 doesn't
+    // always come back in Spanish.
     const prefix = normalizePathname(pathname).split("/")[1];
     const locale = LOCALES.includes(prefix)
       ? prefix
@@ -56,10 +57,10 @@ function resolveState(pathname) {
     return { path: normalizePathname(pathname), locale, routeKey: ROUTE_KEYS.NOT_FOUND };
   }
 
-  // `/` sirve el contenido en español para que los rastreadores encuentren
-  // HTML en la raíz. En el navegador se resuelve de una vez a la URL con
-  // idioma —la guardada si el visitante eligió alguna, y si no la que dice su
-  // navegador— para no montar el árbol dos veces.
+  // `/` serves the Spanish content so crawlers find HTML at the root. In the
+  // browser it resolves right away to the URL with a language —the stored
+  // one if the visitor picked one, and otherwise whatever the browser
+  // says— so the tree doesn't mount twice.
   if (match.isRoot && isBrowser) {
     const preferred =
       storedLocale() ?? detectBrowserLocale(navigator.languages ?? [navigator.language]);
@@ -79,17 +80,17 @@ function resolveState(pathname) {
 }
 
 /**
- * @param {{initialPath?: string}} props `initialPath` lo inyecta el
- *   prerenderizado, donde no existe `window.location`.
+ * @param {{initialPath?: string}} props `initialPath` is injected by
+ *   prerendering, where `window.location` doesn't exist.
  */
 export function RouterProvider({ children, initialPath }) {
   const [state, setState] = useState(() =>
     resolveState(initialPath ?? (isBrowser ? window.location.pathname : ROOT_PATH)),
   );
 
-  // Los efectos (historial y scroll) van fuera del updater de estado: React
-  // puede invocarlo dos veces en modo estricto, y hacerlo allí dejaba entradas
-  // duplicadas en el historial y un doble scroll.
+  // The effects (history and scroll) sit outside the state updater: React
+  // can invoke it twice in strict mode, and doing it there left duplicate
+  // history entries and a double scroll.
   const go = useCallback(
     (nextPath, { replace = false } = {}) => {
       const next = resolveState(nextPath);
@@ -97,10 +98,11 @@ export function RouterProvider({ children, initialPath }) {
 
       if (isBrowser) {
         window.history[replace ? "replaceState" : "pushState"]({}, "", next.path);
-        // Salto instantáneo, no `smooth`: con scroll animado la página nueva
-        // monta mientras el viaje sigue en curso, y las animaciones de entrada
-        // miden como "ya visible" todo lo que el scroll atraviesa. El resultado
-        // era una página que aparecía de golpe, sin ninguna animación.
+        // Instant jump, not `smooth`: with animated scrolling the new page
+        // mounts while the scroll is still in progress, and the entrance
+        // animations read everything the scroll passes over as "already
+        // visible". The result was a page that appeared all at once, with
+        // no animation at all.
         if (!replace) window.scrollTo({ top: 0, behavior: "auto" });
       }
 
@@ -109,13 +111,13 @@ export function RouterProvider({ children, initialPath }) {
     [state.path],
   );
 
-  /** Navega por clave de página, resolviendo la URL del idioma activo. */
+  /** Navigates by page key, resolving the URL for the active language. */
   const navigateTo = useCallback(
     (routeKey, locale) => go(pathFor(routeKey, locale ?? state.locale)),
     [go, state.locale],
   );
 
-  /** Cambia de idioma quedándose en la misma página. */
+  /** Switches language while staying on the same page. */
   const setLocale = useCallback(
     (nextLocale) => {
       persistLocale(nextLocale);
@@ -124,18 +126,18 @@ export function RouterProvider({ children, initialPath }) {
     [go, state.routeKey],
   );
 
-  // Al entrar por `/` la URL ya se resolvió al idioma correcto durante el
-  // primer render; aquí solo se sincroniza la barra de direcciones. Es un
-  // efecto sin estado, así que no provoca un segundo render.
+  // On entering through `/` the URL already got resolved to the right
+  // language during the first render; here only the address bar gets
+  // synced. It's a stateless effect, so it doesn't trigger a second render.
   useEffect(() => {
     if (!isBrowser || !state.cameFromRoot) return;
     window.history.replaceState({}, "", state.path);
   }, [state.cameFromRoot, state.path]);
 
-  // Enlaces viejos del tipo `/es/servicios#automatizacion-e-integracion`: el
-  // ancla ya no existe porque cada categoría tiene página propia. Se reemplaza
-  // en el historial en vez de empujar una entrada nueva, para que "atrás" lleve
-  // al sitio de origen y no de vuelta al índice.
+  // Old links like `/es/servicios#automatizacion-e-integracion`: the anchor
+  // no longer exists because every category has its own page. It's replaced
+  // in history instead of pushing a new entry, so "back" leads to the
+  // origin site and not back to the index.
   useEffect(() => {
     if (!isBrowser || state.routeKey !== ROUTE_KEYS.SERVICES) return;
 
@@ -176,17 +178,17 @@ export function useRouter() {
 }
 
 /**
- * Enlace interno. Recibe una clave de página (`services`, `audit`, ...) y
- * resuelve el `href` del idioma activo, de modo que el HTML que ven los
- * rastreadores lleve la URL localizada real y no un `#`.
+ * Internal link. Receives a page key (`services`, `audit`, ...) and
+ * resolves the `href` for the active language, so the HTML crawlers see
+ * carries the real localized URL and not a `#`.
  */
 export function Link({ to, locale, children, onClick, ...props }) {
   const { navigate, pathFor: resolve } = useRouter();
   const href = resolve(to, locale);
 
   const handleClick = (event) => {
-    // Respetamos ctrl/cmd-clic y clic con rueda: abrir en pestaña nueva es
-    // una expectativa básica de cualquier enlace.
+    // We respect ctrl/cmd-click and middle-click: opening in a new tab is a
+    // basic expectation of any link.
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
 
     event.preventDefault();

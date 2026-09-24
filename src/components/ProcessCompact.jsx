@@ -12,13 +12,13 @@ import Reveal from "./ui/Reveal.jsx";
 const phaseIcons = { Search, FileCheck2, LayoutTemplate, Code2, Rocket, LineChart };
 
 /**
- * Las mismas seis fases de la home, en versión compacta.
+ * The same six phases from the home page, in a compact version.
  *
- * Lee de `copy.process.phases`, que es la única fuente: si mañana cambia una
- * fase, cambia en la home y en las tres páginas de categoría a la vez. Aquí se
- * omiten el entregable y el riel animado —eso es lo que hace de esta la versión
- * compacta— y se conserva lo que el visitante necesita para decidir: qué pasa
- * en cada fase y cuánto dura.
+ * Reads from `copy.process.phases`, which is the single source: if a phase
+ * changes tomorrow, it changes on the home page and on all three category
+ * pages at once. The deliverable and the animated rail are left out here
+ * —that's what makes this the compact version— and what's kept is what the
+ * visitor needs to decide: what happens in each phase and how long it takes.
  */
 export default function ProcessCompact({ title, intro, phases = [] }) {
   if (!phases.length) return null;

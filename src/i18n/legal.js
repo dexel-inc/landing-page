@@ -1,23 +1,24 @@
 import { SITE } from "../config/site.js";
 
 /**
- * Contenido legal y páginas de servicio (privacidad, 404, banner de cookies).
+ * Legal content and service pages (privacy, 404, cookie banner).
  *
- * Vive aparte del copy comercial porque cambia por motivos distintos: el resto
- * del sitio se itera por conversión, esto se toca cuando cambia la ley o
- * cambian las herramientas que recogen datos.
+ * Lives apart from the commercial copy because it changes for different
+ * reasons: the rest of the site is iterated on for conversion, this is
+ * touched when the law changes or the tools that collect data change.
  *
- * ⚠️ Esta política declara con precisión lo que el sitio hace hoy: Meta Pixel,
- * Conversions API y Google Analytics 4, sin coincidencia avanzada automática.
- * No es asesoría legal. Antes de atender clientes en la Unión Europea o
- * California conviene que un abogado la revise, porque el RGPD y la CCPA
- * imponen obligaciones que la Ley 1581 de 2012 no cubre.
+ * ⚠️ This policy states precisely what the site does today: Meta Pixel,
+ * Conversions API and Google Analytics 4, with no automatic advanced
+ * matching. It is not legal advice. Before serving customers in the
+ * European Union or California, a lawyer should review it, because the
+ * GDPR and the CCPA impose obligations that Colombia's Law 1581 of 2012
+ * does not cover.
  */
 
-// ⚠️ Canal de contacto para derechos de habeas data. Hoy apunta al WhatsApp
-// que ya está publicado en el sitio, que es el único canal verificable. Si la
-// empresa tiene un correo institucional, reemplácelo aquí: un correo que no
-// existe en una política de datos es peor que no poner ninguno.
+// ⚠️ Contact channel for habeas data rights. Today it points to the
+// WhatsApp already published on the site, which is the only verifiable
+// channel. If the company gets an institutional email, replace it here: an
+// email that doesn't exist in a data policy is worse than listing none.
 const CONTACT_CHANNEL_ES = `WhatsApp +${SITE.whatsapp}`;
 const CONTACT_CHANNEL_EN = `WhatsApp +${SITE.whatsapp}`;
 

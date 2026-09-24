@@ -18,11 +18,11 @@ export default function HomePage({ copy }) {
 
   return (
     <>
-      {/* El relleno superior reserva la franja del encabezado fijo antes de
-          centrar: con `justify-center` sobre la ventana completa, el badge
-          —que es lo primero que se pinta— se metía bajo el menú en cuanto la
-          pantalla bajaba de unos 800 px de alto. La altura del encabezado vive
-          en `--header-h`, no repetida aquí como número suelto. */}
+      {/* The top padding reserves the fixed header's strip before centering:
+          with `justify-center` over the full viewport, the badge —the first
+          thing painted— slid under the menu as soon as the screen dropped
+          below about 800px tall. The header's height lives in `--header-h`,
+          not repeated here as a loose number. */}
       <section
         id="inicio"
         className="min-h-svh flex flex-col justify-center items-center text-center px-4 relative pt-[calc(var(--header-h)+1.5rem)] pb-10 md:pb-6"
@@ -37,8 +37,8 @@ export default function HomePage({ copy }) {
 
           <Logo className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 text-slate-800 dark:text-white" viewBox="0 0 324 210" />
 
-          {/* El h1 lleva la propuesta de valor, no el nombre de la marca:
-              es lo primero que leen el visitante y los buscadores. */}
+          {/* The h1 carries the value proposition, not the brand name: it's
+              the first thing the visitor and search engines read. */}
           <h1 className="max-w-3xl mx-auto text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.1] px-2">
             {copy.hero.h1}
           </h1>
@@ -48,9 +48,9 @@ export default function HomePage({ copy }) {
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center gap-3 w-full max-w-md sm:max-w-none justify-center px-2">
-            {/* La llamada de discovery es gratuita y es lo que la mayoría de
-                visitantes puede aceptar en la primera visita: llega sabiendo que
-                pierde horas, no buscando comprar un diagnóstico. */}
+            {/* The discovery call is free and is what most visitors can
+                agree to on their first visit: they come in knowing they're
+                losing a few hours, not looking to buy a diagnosis. */}
             <Button
               onClick={() => {
                 setIntent({ type: INTENT.DISCOVERY, location: "hero" });
@@ -92,8 +92,8 @@ export default function HomePage({ copy }) {
         </div>
       </section>
 
-      {/* Orden deliberado: prueba social → oferta → criterio → método.
-          Casos → Servicios → Asesoría → Proceso → Contacto. */}
+      {/* Deliberate order: social proof → offer → criterion → method.
+          Cases → Services → Advisory → Process → Contact. */}
       <CaseStudies copy={copy.cases} />
       <Services
         copy={copy.services}
@@ -101,9 +101,9 @@ export default function HomePage({ copy }) {
         audit={copy.audit}
         chrome={copy.chrome}
       />
-      {/* "Primero auditamos" es la sección que más argumenta a favor de la
-          auditoría: su botón lleva al producto pagado. El de la sección de
-          proceso lleva a la llamada gratuita, que es cosa distinta. */}
+      {/* "We audit first" is the section that argues most in favor of the
+          audit: its button leads to the paid product. The process
+          section's button leads to the free call, which is a different thing. */}
       <Advisory
         copy={copy.advisory}
         onNavigate={() => {

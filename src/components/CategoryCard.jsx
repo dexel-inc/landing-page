@@ -3,13 +3,13 @@ import { ArrowRight, Clock3, ScanSearch, Tag, Wrench, Zap } from "lucide-react";
 import { Link } from "../router/RouterContext.jsx";
 
 /**
- * Tarjeta de resumen de una categoría de servicio: precio de entrada,
- * entrega, sus frentes de trabajo y un enlace a la página completa.
+ * Summary card for a service category: entry price, delivery time, its
+ * work fronts, and a link to the full page.
  *
- * Compartida entre el índice de servicios (`ServicesPage`) y el bloque de
- * servicios del inicio (`sections/Services`): las dos tienen el mismo
- * trabajo —enrutar a la categoría, no vender el detalle— y antes tenían dos
- * diseños que se iban desincronizando.
+ * Shared between the services index (`ServicesPage`) and the homepage's
+ * services block (`sections/Services`): both have the same job —routing to
+ * the category, not selling the detail— and used to have two designs that
+ * kept drifting out of sync.
  */
 const categoryIcons = { webDev: Wrench, automation: Zap, audit: ScanSearch };
 
@@ -62,8 +62,8 @@ export default function CategoryCard({ category, copy, chrome, onOpen }) {
           ))}
         </ul>
 
-        {/* `Link` y no un botón: quien llega sin JavaScript —incluidos los
-            rastreadores— tiene que poder llegar a las tres categorías. */}
+        {/* `Link` and not a button: whoever arrives without JavaScript
+            —crawlers included— has to be able to reach the three categories. */}
         <Link
           to={category.routeKey}
           onClick={onOpen}

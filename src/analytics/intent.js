@@ -1,14 +1,15 @@
 /**
- * Intención con la que alguien llega al formulario.
+ * Intent someone arrives at the form with.
  *
- * El sitio no tiene un formulario por servicio: todos los CTA llevan al mismo
- * asistente conversacional, que termina entregando la conversación a WhatsApp.
- * Sin esto no habría forma de saber si quien completó el formulario venía a
- * comprar la auditoría, a cotizar otro servicio o a agendar la llamada gratis,
- * y las tres cosas se contarían como la misma conversión.
+ * The site doesn't have one form per service: every CTA leads to the same
+ * conversational assistant, which ends up handing the conversation off to
+ * WhatsApp. Without this there'd be no way to know whether whoever
+ * completed the form came to buy the audit, to quote another service, or to
+ * book the free call, and all three would get counted as the same
+ * conversion.
  *
- * Se guarda en `sessionStorage` y no en memoria porque entre el clic y el envío
- * puede haber una recarga o una URL compartida.
+ * Stored in `sessionStorage` and not in memory because there can be a
+ * reload or a shared URL between the click and the submission.
  */
 
 const STORAGE_KEY = "dexel_intent";
@@ -25,17 +26,17 @@ export const INTENT = {
 /**
  * @param {{type: string, service_id?: string, service_name?: string,
  *   location?: string, format?: string, value?: number}} intent
- *   `format` y `value` solo viajan desde la página de formación —el formato que
- *   el visitante eligió y su precio—, y `pack_name` desde los packs de
- *   automatización. Es lo que permite optimizar la campaña hacia ingreso y no
- *   hacia volumen de solicitudes.
+ *   `format` and `value` only travel from the training page —the format the
+ *   visitor chose and its price—, and `pack_name` from the automation
+ *   packs. This is what makes it possible to optimize the campaign toward
+ *   revenue instead of request volume.
  */
 export function setIntent(intent) {
   if (!isBrowser) return;
   try {
     window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(intent));
   } catch {
-    /* sin sessionStorage la conversión se atribuye al genérico */
+    /* without sessionStorage the conversion gets attributed to the generic case */
   }
 }
 
@@ -54,6 +55,6 @@ export function clearIntent() {
   try {
     window.sessionStorage.removeItem(STORAGE_KEY);
   } catch {
-    /* nada que limpiar */
+    /* nothing to clear */
   }
 }

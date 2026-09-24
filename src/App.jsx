@@ -12,7 +12,7 @@ import AuditPage from "./pages/AuditPage.jsx";
 import TrainingPage from "./pages/TrainingPage.jsx";
 import PrivacyPage from "./pages/PrivacyPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
-import AutomationDetail from "./components/AutomationDetail.jsx";
+import AutomationDetail, { BotComparison, CustomAgents } from "./components/AutomationDetail.jsx";
 import ConsentBanner from "./components/ConsentBanner.jsx";
 import Contact from "./sections/Contact.jsx";
 import { ServicesAccordion, ServicesDropdown } from "./components/ServicesMenu.jsx";
@@ -24,21 +24,22 @@ import { useTheme } from "./theme/ThemeContext.jsx";
 import { updateSeo } from "./seo/updateSeo.js";
 import { setAnalyticsLocale, trackPageView } from "./analytics/track.js";
 
-// El fondo 3D se carga aparte: no existe durante el prerenderizado y tampoco
-// tiene por qué retrasar el primer contenido útil.
+// The 3D background loads separately: it doesn't exist during prerendering
+// and there's no reason it should delay the first useful content.
 const ParticleField = lazy(() => import("./components/ParticleField.jsx"));
 
 /**
- * Enlaces sueltos del menú. Servicios va aparte: es un desplegable.
+ * Standalone menu links. Services is separate: it's a dropdown.
  *
- * Formación es ítem propio y no una cuarta categoría dentro de Servicios: los
- * servicios son cosas que hacemos para el cliente, la formación es algo que
- * hacemos con él.
+ * Training is its own item and not a fourth category inside Services:
+ * services are things we do for the client, training is something we do
+ * with them.
  *
- * Auditoría no está aquí porque ya es uno de los tres grupos del desplegable
- * —`serviceMenuGroups` la lista junto a desarrollo web y automatización, y
- * apunta a esta misma ruta—. Tenerla además suelta daba dos entradas al mismo
- * destino en la misma barra, que se lee como si fueran dos cosas distintas.
+ * Audit isn't here because it's already one of the three groups in the
+ * dropdown —`serviceMenuGroups` lists it alongside web development and
+ * automation, and it points to this same route—. Having it as a separate
+ * item too gave two entries to the same destination on the same bar, which
+ * reads as if they were two different things.
  */
 const NAV_LINKS = [
   { routeKey: ROUTE_KEYS.HOME, labelKey: "home" },
@@ -46,16 +47,16 @@ const NAV_LINKS = [
   { routeKey: ROUTE_KEYS.CONTACT, labelKey: "contact" },
 ];
 
-// El `py-3` no cambia el tamaño del texto: agranda el área que responde al
-// toque. Sin él los ítems medían 16 px de alto, muy por debajo de los 44 px
-// mínimos para un dedo.
+// The `py-3` doesn't change the text size: it enlarges the area that
+// responds to touch. Without it the items were 16px tall, well below the
+// 44px minimum for a finger.
 const linkClass =
   "inline-flex items-center py-3.5 text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors relative after:absolute after:bottom-1.5 after:left-0 after:h-[1px] after:w-0 after:bg-blue-400 hover:after:w-full after:transition-all";
 
 /**
- * `true` cuando la página ya se desplazó lo suficiente como para que el
- * encabezado deje de estar sobre el hero. Se escucha en pasivo: el listener no
- * puede bloquear el desplazamiento.
+ * `true` once the page has scrolled far enough that the header is no longer
+ * over the hero. Listened to passively: the listener must not block
+ * scrolling.
  */
 function useScrolled(threshold = 24) {
   const [scrolled, setScrolled] = useState(false);
@@ -77,19 +78,19 @@ function Navbar() {
   const { setLocale, path } = useRouter();
   const { theme, toggleTheme } = useTheme();
   const scrolled = useScrolled();
-  // El panel móvil se guarda como "abierto en esta ruta" en vez de como un
-  // booleano: al navegar, la ruta cambia y el panel queda cerrado solo, sin un
-  // efecto que corrija el estado después de pintar.
+  // The mobile panel is stored as "open on this route" instead of as a
+  // boolean: on navigation, the route changes and the panel closes on its
+  // own, with no effect needed to fix the state after painting.
   const [openForPath, setOpenForPath] = useState(null);
   const mobileOpen = openForPath === path;
 
   const groups = serviceMenuGroups(copy);
 
   return (
-    /* El encabezado tiene fondo propio, no solo desenfoque: con un degradado
-       transparente el texto de la página se leía por debajo del menú y al hacer
-       scroll quedaba un revoltijo de dos textos superpuestos. Sobre el hero es
-       más liviano; pasado el hero se cierra del todo. */
+    /* The header has its own background, not just blur: with a transparent
+       gradient the page text showed through below the menu, and scrolling
+       left a mess of two overlapping texts. Over the hero it's lighter;
+       past the hero it closes up completely. */
     <header
       className={`fixed top-0 w-full z-50 px-3 py-3 md:p-6 transition-colors duration-300 motion-reduce:transition-none ${
         scrolled
@@ -103,19 +104,20 @@ function Navbar() {
             to={ROUTE_KEYS.HOME}
             className="inline-flex items-center gap-2 px-2.5 py-1.5 md:px-3 text-slate-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-300 transition-colors"
           >
-            {/* Alto fijo y ancho libre. Dentro de una caja cuadrada el lockup
-                —la palabra más el monograma— se encogía hasta quedar de 21 px
-                de alto y no se distinguía ninguno de los dos. */}
+            {/* Fixed height, free width. Inside a square box the lockup
+                —the wordmark plus the monogram— shrank down to 21px tall
+                and neither one was distinguishable anymore. */}
             <Logo className="h-8 w-auto md:h-10 text-current" viewBox="0 0 324 210" />
           </Link>
 
-          {/* La fila de enlaces aparece desde `lg` y no desde `md`: a 768 px no
-              cabía junto al logotipo y los controles, y la barra empujaba scroll
-              horizontal a toda la página. Sigue en `lg` ahora que son cuatro
-              ítems y no cinco: el margen que sobra a 768 px es de unos pocos
-              píxeles, y en inglés las etiquetas no miden lo mismo. Entre 768 y
-              1024 se usa el mismo panel plegable del móvil, que ya lista todo,
-              incluido el acordeón de servicios. */}
+          {/* The link row appears from `lg` and not from `md`: at 768px it
+              didn't fit alongside the logo and the controls, and the bar
+              pushed horizontal scroll onto the whole page. It stays at `lg`
+              now that there are four items instead of five: the margin left
+              over at 768px is just a few pixels, and the labels don't measure
+              the same in English. Between 768 and 1024 the same collapsible
+              mobile panel is used, which already lists everything, including
+              the services accordion. */}
           <div className="hidden lg:flex items-center gap-8 text-xs tracking-[0.15em] uppercase font-medium">
             <Link to={ROUTE_KEYS.HOME} className={linkClass}>
               {copy.nav.home}
@@ -212,18 +214,87 @@ function Navbar() {
 }
 
 /**
- * Las siete páginas de servicio individuales comparten `ServiceDetailPage`;
- * solo cambian la clave de copy, el id de servicio (para medición e intent) y
- * si llevan un slot `children` propio (hoy, solo micropáginas).
+ * The thirteen individual service pages —seven from the web development
+ * hub, six from the automation hub— share `ServiceDetailPage`; only the
+ * copy key, the service id (for analytics and intent), which category the
+ * "View all services" button returns to, and whether they carry their own
+ * `children` slot change.
+ *
+ * `Children`/`childrenCopy` reuse pieces that already exist on the category
+ * page —the micropage demos, the rules/AI/agent comparison, the custom
+ * agents block— instead of repeating that JSX or that copy on a new page.
+ * `childrenCopy` receives the full `copy` object and returns only the
+ * portion that block needs, so `RouteContent` doesn't get coupled to each
+ * one's internal shape.
  */
 const SERVICE_DETAIL_ROUTES = {
-  [ROUTE_KEYS.WEBSITES]: { detailKey: "websites", serviceId: "sitios-web" },
-  [ROUTE_KEYS.CUSTOM_SOFTWARE]: { detailKey: "customSoftware", serviceId: "software-a-la-medida" },
-  [ROUTE_KEYS.MICROPAGES]: { detailKey: "micropages", serviceId: "micropaginas", Children: MicropagesDemos },
-  [ROUTE_KEYS.SEO]: { detailKey: "seo", serviceId: "seo" },
-  [ROUTE_KEYS.INTEGRATIONS]: { detailKey: "integrations", serviceId: "integraciones" },
-  [ROUTE_KEYS.PAYMENT_GATEWAYS]: { detailKey: "paymentGateways", serviceId: "pasarelas-de-pago" },
-  [ROUTE_KEYS.MAINTENANCE]: { detailKey: "maintenanceDetail", serviceId: "mantenimiento" },
+  [ROUTE_KEYS.WEBSITES]: {
+    detailKey: "websites",
+    serviceId: "sitios-web",
+    categoryRouteKey: ROUTE_KEYS.WEB_DEV,
+  },
+  [ROUTE_KEYS.CUSTOM_SOFTWARE]: {
+    detailKey: "customSoftware",
+    serviceId: "software-a-la-medida",
+    categoryRouteKey: ROUTE_KEYS.WEB_DEV,
+  },
+  [ROUTE_KEYS.MICROPAGES]: {
+    detailKey: "micropages",
+    serviceId: "micropaginas",
+    categoryRouteKey: ROUTE_KEYS.WEB_DEV,
+    Children: MicropagesDemos,
+    childrenCopy: (copy) => copy.serviceDetails.micropages.demos,
+  },
+  [ROUTE_KEYS.SEO]: { detailKey: "seo", serviceId: "seo", categoryRouteKey: ROUTE_KEYS.WEB_DEV },
+  [ROUTE_KEYS.INTEGRATIONS]: {
+    detailKey: "integrations",
+    serviceId: "integraciones",
+    categoryRouteKey: ROUTE_KEYS.WEB_DEV,
+  },
+  [ROUTE_KEYS.PAYMENT_GATEWAYS]: {
+    detailKey: "paymentGateways",
+    serviceId: "pasarelas-de-pago",
+    categoryRouteKey: ROUTE_KEYS.WEB_DEV,
+  },
+  [ROUTE_KEYS.MAINTENANCE]: {
+    detailKey: "maintenanceDetail",
+    serviceId: "mantenimiento",
+    categoryRouteKey: ROUTE_KEYS.WEB_DEV,
+  },
+  [ROUTE_KEYS.WHATSAPP_AUTOMATION]: {
+    detailKey: "whatsappAutomation",
+    serviceId: "atencion-whatsapp",
+    categoryRouteKey: ROUTE_KEYS.AUTOMATION,
+    Children: BotComparison,
+    childrenCopy: (copy) => copy.categories.automation.comparison,
+  },
+  [ROUTE_KEYS.CUSTOM_AGENTS]: {
+    detailKey: "customAgents",
+    serviceId: "agentes-a-la-medida",
+    categoryRouteKey: ROUTE_KEYS.AUTOMATION,
+    Children: CustomAgents,
+    childrenCopy: (copy) => copy.categories.automation.agents,
+  },
+  [ROUTE_KEYS.N8N_WORKFLOWS]: {
+    detailKey: "n8nWorkflows",
+    serviceId: "workflows-n8n",
+    categoryRouteKey: ROUTE_KEYS.AUTOMATION,
+  },
+  [ROUTE_KEYS.SYSTEM_INTEGRATION]: {
+    detailKey: "systemIntegration",
+    serviceId: "integracion-de-sistemas",
+    categoryRouteKey: ROUTE_KEYS.AUTOMATION,
+  },
+  [ROUTE_KEYS.AUTOMATED_REPORTS]: {
+    detailKey: "automatedReports",
+    serviceId: "reportes-automaticos",
+    categoryRouteKey: ROUTE_KEYS.AUTOMATION,
+  },
+  [ROUTE_KEYS.DOCUMENT_READING]: {
+    detailKey: "documentReading",
+    serviceId: "lectura-de-documentos",
+    categoryRouteKey: ROUTE_KEYS.AUTOMATION,
+  },
 };
 
 function RouteContent() {
@@ -241,11 +312,11 @@ function RouteContent() {
     <ServiceDetailPage
       copy={copy.serviceDetails[serviceDetailRoute.detailKey]}
       chrome={copy.chrome}
-      categoryRouteKey={ROUTE_KEYS.WEB_DEV}
+      categoryRouteKey={serviceDetailRoute.categoryRouteKey}
       serviceId={serviceDetailRoute.serviceId}
     >
       {serviceDetailRoute.Children ? (
-        <serviceDetailRoute.Children copy={copy.serviceDetails[serviceDetailRoute.detailKey].demos} />
+        <serviceDetailRoute.Children copy={serviceDetailRoute.childrenCopy(copy)} />
       ) : null}
     </ServiceDetailPage>
   ) : routeKey === ROUTE_KEYS.SERVICES ? (
@@ -295,14 +366,16 @@ export default function DexelLanding() {
   const { routeKey, locale, path } = useRouter();
   const { copy } = useI18n();
 
-  // El canvas solo existe en el navegador: en el prerenderizado no hay WebGL.
-  // Como el cliente monta de cero en vez de hidratar, no hace falta esperar a
-  // un efecto para pintarlo, basta con que exista el DOM.
+  // The canvas only exists in the browser: there's no WebGL during
+  // prerendering. Since the client mounts from scratch instead of
+  // hydrating, there's no need to wait for an effect to paint it — the DOM
+  // existing is enough.
   const showParticles = typeof document !== "undefined";
 
   useEffect(() => {
-    // El idioma se inyecta antes de medir: el documento pide `locale` en todos
-    // los eventos, y ponerlo a mano en cada llamada se olvida tarde o temprano.
+    // The language is injected before measuring: the endpoint requires
+    // `locale` on every event, and setting it by hand on every call gets
+    // forgotten sooner or later.
     setAnalyticsLocale(locale);
     const seo = updateSeo({ routeKey, locale });
     trackPageView({ path, locale, title: seo?.title });
@@ -318,11 +391,11 @@ export default function DexelLanding() {
         )}
       </div>
 
-      {/* Marca de agua: vuelve al tamaño de borde a borde que tenía antes de la
-          tarea de navegación, pero más tenue. Con la opacidad original —0.20 en
-          oscuro— los trazos del logotipo cruzan el titular del hero y compiten
-          con él; una marca de agua se percibe cuando se la busca, no mientras
-          se lee lo que va encima. */}
+      {/* Watermark: back to the edge-to-edge size it had before the
+          navigation work, but fainter. At the original opacity —0.20 in
+          dark mode— the logo's strokes cross the hero headline and compete
+          with it; a watermark is noticed when you look for it, not while
+          reading what sits on top of it. */}
       <div className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center text-slate-300 dark:text-white">
         <Logo className="opacity-[0.14] dark:opacity-[0.06]" />
         <div className="absolute inset-0 bg-linear-to-b from-white/20 via-transparent to-slate-50 dark:from-black/30 dark:to-[#050505]" />

@@ -5,24 +5,26 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--
-      Verificación de dominio de Meta. Va escrita en la plantilla y no inyectada
-      desde React a propósito: Meta lee el HTML tal como llega del servidor y no
-      ejecuta JavaScript, así que una etiqueta que apareciera al montar no la
-      vería nunca. El prerenderizado parte de este mismo archivo, de modo que la
-      etiqueta acaba en las diecisiete rutas sin repetirla en ninguna.
+      Meta domain verification. Written directly into the template and not
+      injected from React on purpose: Meta reads the HTML exactly as it
+      arrives from the server and doesn't execute JavaScript, so a tag that
+      only appeared on mount would never be seen. Prerendering starts from
+      this same file, so the tag ends up on all seventeen routes without
+      being repeated in any of them.
 
-      El código es público —cualquiera puede leerlo en el `<head>`— y no da
-      acceso a nada: solo demuestra ante Meta que el dominio es nuestro. Por eso
-      va literal y no por variable de entorno, igual que el id del pixel: si
-      dependiera de una variable, olvidarla en Vercel desactivaría en silencio
-      los permisos de la cuenta publicitaria sobre el dominio.
+      The code is public —anyone can read it in the `<head>`— and grants no
+      access to anything: it only proves to Meta that the domain is ours.
+      That's why it's hardcoded rather than pulled from an environment
+      variable, just like the pixel id: if it depended on a variable,
+      forgetting it in Vercel would silently disable the ad account's
+      permissions over the domain.
     -->
     <meta name="facebook-domain-verification" content="x7k57sl0qhqkbc1lyax1hvyisikx8i" />
     <title>Dexel | Automatización de procesos y software a la medida</title>
     <script>
-      // Aplica el tema antes del primer pintado. Ahora que el HTML llega
-      // renderizado desde el servidor, sin esto se vería un destello claro
-      // antes de que React monte y ponga la clase.
+      // Applies the theme before the first paint. Now that the HTML arrives
+      // pre-rendered from the server, without this you'd see a flash of
+      // light mode before React mounts and sets the class.
       (function () {
         try {
           var stored = localStorage.getItem("dexel_theme_preference");
@@ -33,7 +35,7 @@
           document.documentElement.classList.toggle("dark", dark);
           document.documentElement.style.colorScheme = dark ? "dark" : "light";
         } catch (error) {
-          /* sin localStorage el tema lo decide React al montar */
+          /* without localStorage the theme gets decided by React on mount */
         }
       })();
     </script>

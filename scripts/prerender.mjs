@@ -3,30 +3,30 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 /**
- * Convierte el build de la SPA en HTML estático por ruta.
+ * Turns the SPA build into static HTML per route.
  *
- * Corre después de los dos `vite build` (cliente y servidor). Para cada ruta
- * pública renderiza el árbol de React en Node, lo inyecta dentro del
- * `<div id="root">` de `dist/index.html` y escribe el resultado en su propia
- * carpeta. Al terminar, `curl` de cualquier URL devuelve el contenido completo
- * en lugar de un contenedor vacío.
+ * Runs after the two `vite build` calls (client and server). For each
+ * public route it renders the React tree in Node, injects it inside
+ * `dist/index.html`'s `<div id="root">`, and writes the result into its own
+ * folder. When it's done, a `curl` on any URL returns the full content
+ * instead of an empty container.
  *
- * De paso genera `sitemap.xml` y `robots.txt` a partir de la misma tabla de
- * rutas, para que no puedan quedar desincronizados con lo que existe.
+ * Along the way it also generates `sitemap.xml` and `robots.txt` from the
+ * same route table, so they can never drift out of sync with what actually exists.
  */
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = join(root, "dist");
 const serverEntry = pathToFileURL(join(root, "dist-server", "entry-server.js")).href;
 
-// Todo lo que necesita el prerenderizado sale del bundle de servidor, que ya
-// pasó por Vite y por tanto tiene resueltas las variables de entorno.
+// Everything prerendering needs comes from the server bundle, which has
+// already gone through Vite and therefore has its environment variables resolved.
 const { render, buildSeo, allRoutes, SITE, ROUTE_KEYS, DEFAULT_LOCALE } = await import(serverEntry);
 
 const escapeAttr = (value) =>
   String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 
-/** Evita que un `</script>` dentro del contenido corte la etiqueta JSON-LD. */
+/** Keeps a `</script>` inside the content from breaking the JSON-LD tag. */
 const escapeJsonLd = (data) => JSON.stringify(data).replace(/</g, "\\u003c");
 
 function renderHead(seo) {
@@ -36,8 +36,8 @@ function renderHead(seo) {
     `<meta name="robots" content="${escapeAttr(seo.robots)}" />`,
   ];
 
-  // El 404 no lleva canónico ni alternos: no es una página real y no debe
-  // reclamar ninguna URL como suya.
+  // The 404 carries no canonical or alternates: it isn't a real page and
+  // shouldn't claim any URL as its own.
   if (seo.alternates.length) {
     tags.push(`<link rel="canonical" href="${escapeAttr(seo.canonical)}" />`);
   }
@@ -76,7 +76,7 @@ const template = await readFile(join(distDir, "index.html"), "utf8");
 
 if (!template.includes('<div id="root"></div>')) {
   throw new Error(
-    'dist/index.html no contiene <div id="root"></div>: el prerenderizado no sabe dónde inyectar.',
+    'dist/index.html does not contain <div id="root"></div>: prerendering doesn\'t know where to inject.',
   );
 }
 
@@ -86,8 +86,8 @@ function renderDocument({ routeKey, locale, path, isRoot }) {
 
   return template
     .replace(/<html lang="[^"]*">/, `<html lang="${seo.lang}">`)
-    // El <title> de la plantilla se quita antes de inyectar el de la ruta: dos
-    // títulos en el mismo documento y el buscador elige el que no queremos.
+    // The template's <title> gets removed before injecting the route's own:
+    // two titles in the same document and the search engine picks the one we don't want.
     .replace(/\n?\s*<title>[\s\S]*?<\/title>/, "")
     .replace("</head>", `${renderHead(seo)}\n  </head>`)
     .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`);
@@ -108,9 +108,9 @@ for (const route of routes) {
 }
 
 // --- 404.html --------------------------------------------------------------
-// Vercel sirve este archivo, con estado 404 real, cuando ninguna ruta coincide.
-// Sale en español porque un archivo estático no puede saber el idioma; al
-// montar en el navegador, el router lo resuelve por la URL o por el navegador.
+// Vercel serves this file, with a real 404 status, when no route matches.
+// It comes out in Spanish because a static file can't know the language; once
+// mounted in the browser, the router resolves it from the URL or the browser.
 const notFoundHtml = renderDocument({
   routeKey: ROUTE_KEYS.NOT_FOUND,
   locale: DEFAULT_LOCALE,
@@ -120,8 +120,8 @@ await writeFile(join(distDir, "404.html"), notFoundHtml, "utf8");
 console.log("  prerender  404                        → dist/404.html");
 
 // --- sitemap.xml -----------------------------------------------------------
-// La raíz queda fuera: su contenido es el mismo que `/es` y su canónico apunta
-// allí, así que listar las dos sería pedirle a Google que elija.
+// The root is left out: its content is the same as `/es` and its canonical
+// points there, so listing both would be asking Google to pick one.
 const indexable = routes.filter((route) => !route.isRoot);
 
 const urlEntries = indexable
@@ -161,4 +161,4 @@ Sitemap: ${SITE.url}/sitemap.xml
 
 await writeFile(join(distDir, "robots.txt"), robots, "utf8");
 console.log("  robots     dist/robots.txt");
-console.log(`\n  ${written.length} rutas prerenderizadas.`);
+console.log(`\n  ${written.length} routes prerendered.`);

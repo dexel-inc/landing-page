@@ -4,15 +4,15 @@ import { Link } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
 
 /**
- * Menú de servicios: desplegable en escritorio, acordeón en móvil.
+ * Services menu: dropdown on desktop, accordion on mobile.
  *
- * Los grupos salen del mismo contenido que renderizan las páginas, así que un
- * frente nuevo aparece en el menú sin tocar este archivo. El encabezado de cada
- * grupo es un enlace real a su categoría, no un título: quien hace clic en
- * "Automatización" espera llegar a automatización, no a que se abra una lista.
+ * The groups come from the same content the pages render, so a new front
+ * shows up in the menu without touching this file. Each group's heading is
+ * a real link to its category, not a title: someone clicking "Automation"
+ * expects to land on automation, not to have a list open.
  */
-// `py-2` sobre un texto de 12 px deja el enlace en unos 44 px de alto sin
-// agrandar la tipografía: es el mínimo razonable para tocar con el dedo.
+// `py-2` over 12px text keeps the link at about 44px tall without enlarging
+// the type: it's the reasonable minimum for a finger to tap.
 const groupLinkClass =
   "block py-2.5 text-xs tracking-[0.15em] uppercase font-semibold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-300 transition-colors";
 
@@ -21,9 +21,9 @@ const itemLinkClass =
   "block text-sm text-slate-600 dark:text-gray-400 leading-relaxed hover:text-blue-600 dark:hover:text-blue-400 transition-colors";
 
 /**
- * Un ítem de submenú es un enlace real cuando su frente tiene página propia
- * (`routeKey`) y texto plano cuando no —automatización y auditoría siguen sin
- * páginas hijas—. El panel se queda `hidden` y rastreable en los dos casos.
+ * A submenu item is a real link when its front has its own page
+ * (`routeKey`) and plain text when it doesn't —automation and audit still
+ * have no child pages—. The panel stays `hidden` and crawlable either way.
  */
 function MenuItem({ item, onClose, small = false }) {
   const textClass = small ? "text-xs text-slate-600 dark:text-gray-400" : itemClass;
@@ -45,12 +45,12 @@ function MenuItem({ item, onClose, small = false }) {
 }
 
 /**
- * Desplegable de escritorio.
+ * Desktop dropdown.
  *
- * Abre con hover y también con clic o con Enter, porque un menú que solo
- * responde al puntero deja fuera a quien navega con teclado. Se cierra con
- * Escape —devolviendo el foco al disparador— y cuando el foco sale del bloque,
- * que es lo que ocurre al tabular más allá del último enlace.
+ * Opens on hover and also on click or Enter, because a menu that only
+ * responds to the pointer leaves out anyone navigating by keyboard. Closes
+ * on Escape —returning focus to the trigger— and when focus leaves the
+ * block, which is what happens when tabbing past the last link.
  */
 export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
   const [open, setOpen] = useState(false);
@@ -71,8 +71,8 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  // `focusout` en el contenedor: cierra al tabular fuera del menú, pero no
-  // cuando el foco se mueve entre los enlaces de adentro.
+  // `focusout` on the container: closes when tabbing out of the menu, but
+  // not when focus moves between the links inside it.
   const handleBlur = (event) => {
     if (!containerRef.current?.contains(event.relatedTarget)) setOpen(false);
   };
@@ -80,11 +80,12 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
   const close = () => setOpen(false);
 
   /**
-   * En un dispositivo con puntero, para cuando llega el clic el hover ya abrió
-   * el panel: tratar el clic como un interruptor lo cerraría justo en el gesto
-   * con el que el visitante pedía verlo. Ahí el clic no hace nada y el panel se
-   * queda abierto. Donde no hay hover —o cuando se llega con Enter desde el
-   * teclado— el clic sí abre y cierra, que es la única forma de operarlo.
+   * On a pointer-capable device, by the time the click arrives hover has
+   * already opened the panel: treating the click as a toggle would close it
+   * on the very gesture the visitor used to ask to see it. There the click
+   * does nothing and the panel stays open. Where there's no hover —or when
+   * it's reached with Enter from the keyboard— the click does open and
+   * close it, which is the only way to operate it.
    */
   const handleTriggerClick = () => {
     const hoverOpened = open && window.matchMedia?.("(hover: hover)").matches;
@@ -118,27 +119,28 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
         />
       </button>
 
-      {/* El panel se mantiene en el DOM y solo se oculta: así los enlaces a las
-          tres categorías siguen siendo rastreables sin abrir nada.
+      {/* The panel stays in the DOM and is only hidden: that way the links to
+          the three categories remain crawlable without opening anything.
 
-          Cuelga del ítem —no de la fila del encabezado— y arranca pegado a él:
-          el `pt-4` es parte del panel, así que bajar el puntero del disparador
-          a la tarjeta nunca sale del bloque. Centrarlo en la ventana dejaba esa
-          franja fuera y el menú se cerraba justo al ir a elegir un servicio.
+          It hangs off the item —not the header row— and starts flush
+          against it: the `pt-4` is part of the panel, so moving the pointer
+          down from the trigger to the card never leaves the block.
+          Centering it on the viewport left that strip uncovered and the
+          menu closed right as you went to pick a service.
 
-          El ancho se limita contra la ventana para que la tarjeta no se salga
-          por la derecha: `16rem` es lo que hay desde el borde izquierdo de la
-          ventana hasta este ítem, más un margen. El desbordamiento anterior era
-          por la izquierda, y con el panel anclado a la izquierda del ítem ya no
-          puede ocurrir. */}
+          The width is capped against the viewport so the card doesn't spill
+          off the right edge: `16rem` is what's left from the viewport's
+          left edge to this item, plus a margin. The earlier overflow was on
+          the left, and with the panel anchored to the item's left it can no
+          longer happen. */}
       <div
         id={panelId}
         hidden={!open}
         className="absolute left-0 top-full pt-4 w-max max-w-[min(56rem,calc(100vw-16rem))]"
       >
-        {/* Tope de altura por si el panel crece más que la ventana —dos
-            columnas en pantallas de 768 px, o un idioma con nombres largos—:
-            antes que salirse por abajo, se desplaza por dentro. */}
+        {/* Height cap in case the panel grows taller than the viewport —two
+            columns on 768px screens, or a language with long names—:
+            instead of spilling off the bottom, it scrolls internally. */}
         <div className="max-h-[calc(100svh-7rem)] overflow-y-auto rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 backdrop-blur-xl shadow-[0_24px_60px_-24px_rgba(15,23,42,0.45)] p-6 grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
           {groups.map((group) => (
             <div key={group.key} className="min-w-44">
@@ -170,12 +172,12 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
 }
 
 /**
- * Acordeón de móvil.
+ * Mobile accordion.
  *
- * No intenta reproducir el desplegable: en una pantalla estrecha un panel
- * flotante de tres columnas no se puede usar. Aquí la categoría es un enlace y
- * el disparador del acordeón es un botón aparte, para que tocar el nombre lleve
- * a la página en vez de obligar a abrir la lista primero.
+ * Doesn't try to reproduce the dropdown: on a narrow screen a floating
+ * three-column panel isn't usable. Here the category is a link and the
+ * accordion's trigger is a separate button, so tapping the name goes to the
+ * page instead of forcing the list open first.
  */
 export function ServicesAccordion({ groups, label, indexLabel, onNavigate }) {
   const [openGroup, setOpenGroup] = useState(null);

@@ -1,9 +1,10 @@
 /**
- * Datos del sitio que necesitan tanto el navegador como el prerenderizado.
+ * Site data needed by both the browser and prerendering.
  *
- * El origen tiene que estar escrito, no deducido de `window.location`: cuando
- * el HTML se genera en el build no hay navegador, y una URL canónica relativa
- * o apuntando a `localhost` es peor que no tener canónica.
+ * The origin has to be written out, not inferred from `window.location`:
+ * when the HTML gets generated at build time there's no browser, and a
+ * relative canonical URL or one pointing to `localhost` is worse than
+ * having no canonical at all.
  */
 
 const env = (key) => (typeof import.meta !== "undefined" ? import.meta.env?.[key] : undefined);

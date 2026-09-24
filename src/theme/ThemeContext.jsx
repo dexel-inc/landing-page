@@ -46,7 +46,7 @@ export function ThemeProvider({ children }) {
     try {
       window.localStorage.setItem(STORAGE_KEY, preference);
     } catch {
-      /* sin persistencia el tema dura lo que dura la sesión */
+      /* without persistence the theme lasts only for the session */
     }
   }, [preference]);
 

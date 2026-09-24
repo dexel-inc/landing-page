@@ -1,17 +1,18 @@
 import { formatPrice } from "../config/pricing.js";
 
 /**
- * Catálogo de servicios y detalle de la auditoría, en los dos idiomas.
+ * Service catalog and audit detail, in both languages.
  *
- * Vive fuera de `messages.js` por dos razones: es el contenido que más se
- * itera, y es el único que tiene estructura propia (niveles, entregables,
- * pasos) en vez de ser cadenas sueltas.
+ * Lives outside `messages.js` for two reasons: it's the content that gets
+ * iterated on the most, and it's the only content with its own structure
+ * (tiers, deliverables, steps) instead of being loose strings.
  *
- * Fuente única: tanto la sección de la home como la página `/servicios` leen
- * de `items`. Antes había dos catálogos distintos —seis tarjetas en la home y
- * cuatro líneas en la página— que ya se habían desincronizado entre sí.
+ * Single source: both the home section and the `/servicios` page read from
+ * `items`. There used to be two separate catalogs — six cards on the home
+ * page and four lines on the page — that had already drifted out of sync
+ * with each other.
  *
- * Ningún precio se escribe a mano aquí: todos salen de `config/pricing.js`.
+ * No price is ever hand-written here: they all come from `config/pricing.js`.
  */
 
 const es = {

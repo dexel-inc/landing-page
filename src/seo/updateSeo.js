@@ -1,12 +1,12 @@
 import { buildSeo } from "./seo.js";
 
 /**
- * Escribe en el `<head>` los metadatos de la página activa.
+ * Writes the active page's metadata to the `<head>`.
  *
- * Solo corre en el navegador y solo importa al navegar dentro de la SPA: el
- * HTML que sirve el servidor ya viene con estas mismas etiquetas, generadas en
- * el build a partir de `buildSeo`. Esta función las mantiene al día cuando el
- * visitante cambia de ruta sin recargar.
+ * Only runs in the browser and only matters when navigating within the SPA:
+ * the HTML the server serves already comes with these same tags, generated
+ * at build time from `buildSeo`. This function keeps them current when the
+ * visitor changes route without reloading.
  */
 
 const MANAGED = "data-dexel-seo";
@@ -38,8 +38,9 @@ function upsertCanonical(href) {
 }
 
 /**
- * Los `hreflang` se reemplazan enteros en vez de actualizarse uno por uno:
- * son pocos y así no queda ningún alterno de la ruta anterior colgando.
+ * The `hreflang` tags get replaced wholesale instead of updated one by one:
+ * there are few of them, and this way no alternate from the previous route
+ * is left dangling.
  */
 function replaceAlternates(alternates) {
   document.head.querySelectorAll('link[rel="alternate"]').forEach((node) => node.remove());
@@ -58,8 +59,8 @@ function upsertJsonLd(data) {
   const id = "dexel-structured-data";
   let script = document.head.querySelector(`script#${id}`);
 
-  // Sin datos estructurados —el 404— se quita el bloque de la ruta anterior en
-  // vez de dejarlo describiendo una página que ya no se está viendo.
+  // With no structured data —the 404— the previous route's block gets
+  // removed instead of left describing a page that's no longer being viewed.
   if (!data) {
     script?.remove();
     return;

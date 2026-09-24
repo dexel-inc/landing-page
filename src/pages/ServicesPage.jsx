@@ -10,12 +10,12 @@ import { ROUTE_KEYS } from "../router/routes.js";
 import { EVENTS, track } from "../analytics/track.js";
 
 /**
- * Índice de servicios: las tres categorías, cada una con su página.
+ * Services index: the three categories, each with its own page.
  *
- * Dejó de ser la página larga con anclas cuando cada categoría pasó a tener URL
- * propia. Su trabajo ahora es orientar en diez segundos —qué son las tres
- * categorías, desde cuánto y en cuánto tiempo— y mandar a la página que
- * corresponda; el alcance completo vive allí, no aquí.
+ * Stopped being the long anchor-based page once each category got its own
+ * URL. Its job now is to orient in ten seconds —what the three categories
+ * are, starting price, and turnaround— and send visitors to the matching
+ * page; the full scope lives there, not here.
  */
 
 export default function ServicesPage({ copy, categories, audit, chrome }) {

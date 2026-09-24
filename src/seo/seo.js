@@ -4,15 +4,15 @@ import { SITE } from "../config/site.js";
 import { messages } from "../i18n/messages.js";
 
 /**
- * Descripción SEO de una página, calculada sin tocar el DOM.
+ * SEO description of a page, computed without touching the DOM.
  *
- * La misma función alimenta dos consumidores: `applySeo` la escribe en el
- * `<head>` al navegar en el cliente, y el prerenderizado la convierte en
- * etiquetas dentro del HTML del build. Separarla del DOM es lo que permite que
- * un `curl` vea los mismos metadatos que ve el navegador.
+ * The same function feeds two consumers: `applySeo` writes it to the
+ * `<head>` when navigating on the client, and prerendering turns it into
+ * tags inside the build's HTML. Keeping it separate from the DOM is what
+ * lets a `curl` see the same metadata the browser sees.
  */
 
-/** Clave de `copy.meta` que corresponde a cada página. */
+/** `copy.meta` key that corresponds to each page. */
 const META_KEY = {
   [ROUTE_KEYS.HOME]: "home",
   [ROUTE_KEYS.SERVICES]: "services",
@@ -27,14 +27,21 @@ const META_KEY = {
   [ROUTE_KEYS.INTEGRATIONS]: "integrations",
   [ROUTE_KEYS.PAYMENT_GATEWAYS]: "paymentGateways",
   [ROUTE_KEYS.MAINTENANCE]: "maintenanceDetail",
+  [ROUTE_KEYS.WHATSAPP_AUTOMATION]: "whatsappAutomation",
+  [ROUTE_KEYS.CUSTOM_AGENTS]: "customAgents",
+  [ROUTE_KEYS.N8N_WORKFLOWS]: "n8nWorkflows",
+  [ROUTE_KEYS.SYSTEM_INTEGRATION]: "systemIntegration",
+  [ROUTE_KEYS.AUTOMATED_REPORTS]: "automatedReports",
+  [ROUTE_KEYS.DOCUMENT_READING]: "documentReading",
   [ROUTE_KEYS.CONTACT]: "contact",
   [ROUTE_KEYS.PRIVACY]: "privacy",
   [ROUTE_KEYS.NOT_FOUND]: "notFound",
 };
 
 /**
- * Clave dentro de `copy.serviceDetails` para cada una de las siete páginas de
- * servicio individuales, en el mismo orden en que se muestran en el hub.
+ * Key inside `copy.serviceDetails` for each individual service page —seven
+ * from the web development hub, six from the automation hub—, in the same
+ * order they're shown within each hub.
  */
 const SERVICE_DETAIL_KEY = {
   [ROUTE_KEYS.WEBSITES]: "websites",
@@ -44,6 +51,12 @@ const SERVICE_DETAIL_KEY = {
   [ROUTE_KEYS.INTEGRATIONS]: "integrations",
   [ROUTE_KEYS.PAYMENT_GATEWAYS]: "paymentGateways",
   [ROUTE_KEYS.MAINTENANCE]: "maintenanceDetail",
+  [ROUTE_KEYS.WHATSAPP_AUTOMATION]: "whatsappAutomation",
+  [ROUTE_KEYS.CUSTOM_AGENTS]: "customAgents",
+  [ROUTE_KEYS.N8N_WORKFLOWS]: "n8nWorkflows",
+  [ROUTE_KEYS.SYSTEM_INTEGRATION]: "systemIntegration",
+  [ROUTE_KEYS.AUTOMATED_REPORTS]: "automatedReports",
+  [ROUTE_KEYS.DOCUMENT_READING]: "documentReading",
 };
 
 function absolute(path) {
@@ -70,9 +83,9 @@ function organizationNode() {
 }
 
 /**
- * Un nodo `Service` por servicio, con su precio.
- * El precio sale de `config/pricing.js`, así que reprecio y datos
- * estructurados no se pueden desincronizar.
+ * One `Service` node per service, with its price.
+ * The price comes from `config/pricing.js`, so a repricing and the
+ * structured data can never drift apart.
  */
 function serviceNodes(services, locale) {
   return services.items.map((item) => {
@@ -92,12 +105,12 @@ function serviceNodes(services, locale) {
             offers: {
               "@type": "Offer",
               price: amount,
-              // La moneda sigue al idioma de la página: pesos en español,
-              // dólares en inglés. No son la misma cifra convertida.
+              // The currency follows the page's language: pesos in Spanish,
+              // dollars in English. They aren't the same figure converted.
               priceCurrency: currencyFor(locale),
-              // Los servicios se cotizan "desde": el precio publicado es el
-              // piso, no el precio final, y declararlo así evita prometer una
-              // cifra cerrada en los resultados de búsqueda.
+              // Services are quoted "from": the published price is the
+              // floor, not the final price, and declaring it this way
+              // avoids promising a fixed figure in search results.
               priceSpecification: {
                 "@type": "PriceSpecification",
                 minPrice: amount,
@@ -124,12 +137,13 @@ function faqNode({ faqs }) {
 }
 
 /**
- * Nodo `Service` de una página de categoría.
+ * `Service` node for a category page.
  *
- * A diferencia de `serviceNodes`, que describe un ítem del catálogo dentro de
- * la página índice, este describe la página completa: su `@id` es su propia
- * URL, y los frentes van como `hasOfferCatalog` para que el buscador entienda
- * que la categoría agrupa varios servicios y no es uno solo con nombre largo.
+ * Unlike `serviceNodes`, which describes a catalog item within the index
+ * page, this one describes the whole page: its `@id` is its own URL, and
+ * the fronts go in as `hasOfferCatalog` so the search engine understands
+ * that the category groups several services rather than being one with a
+ * long name.
  */
 function categoryServiceNode({ category, locale, routeKey, priceKey }) {
   const canonical = absolute(pathFor(routeKey, locale));
@@ -157,8 +171,8 @@ function categoryServiceNode({ category, locale, routeKey, priceKey }) {
       "@type": "Offer",
       price: amount,
       priceCurrency: currencyFor(locale),
-      // El precio publicado es el piso, no el precio final: declararlo como
-      // mínimo evita prometer una cifra cerrada en los resultados de búsqueda.
+      // The published price is the floor, not the final price: declaring it
+      // as a minimum avoids promising a fixed figure in search results.
       priceSpecification: {
         "@type": "PriceSpecification",
         minPrice: amount,
@@ -171,11 +185,10 @@ function categoryServiceNode({ category, locale, routeKey, priceKey }) {
 }
 
 /**
- * Nodo `Service` de una página de servicio individual (sitios web, software a
- * la medida, micropáginas, SEO, integraciones, pasarelas de pago,
- * mantenimiento). Un `Offer` por nivel, con su propio precio: a diferencia de
- * `categoryServiceNode`, aquí no hay un solo precio de entrada sino un nivel
- * por tarjeta.
+ * `Service` node for an individual service page (websites, custom software,
+ * micropages, SEO, integrations, payment gateways, maintenance). One
+ * `Offer` per tier, with its own price: unlike `categoryServiceNode`, here
+ * there isn't a single entry price but one tier per card.
  */
 function serviceDetailNode({ service, locale, canonical }) {
   return {
@@ -193,6 +206,16 @@ function serviceDetailNode({ service, locale, canonical }) {
       name: tier.name,
       price: priceAmount(tier.priceKey, locale),
       priceCurrency: currencyFor(locale),
+      // "From" tiers publish a floor, not a fixed figure.
+      ...(tier.from
+        ? {
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              minPrice: priceAmount(tier.priceKey, locale),
+              priceCurrency: currencyFor(locale),
+            },
+          }
+        : {}),
       availability: "https://schema.org/InStock",
       url: canonical,
     })),
@@ -200,13 +223,14 @@ function serviceDetailNode({ service, locale, canonical }) {
 }
 
 /**
- * Nodo `Course` de la formación para equipos.
+ * `Course` node for the team training offering.
  *
- * Se declara como curso y no como servicio porque es lo que es: un programa con
- * temario y con quien lo dicta declarado como `Organization`. Cada formato de
- * precio cerrado entra como `CourseInstance` con su duración y su oferta; el
- * programa a la medida no, porque no tiene ni duración ni precio publicados y
- * declararlo sería inventarle uno.
+ * Declared as a course and not a service because that's what it is: a
+ * program with a syllabus and its instructor declared as an `Organization`.
+ * Each fixed-price format goes in as a `CourseInstance` with its duration
+ * and its offer; the custom program doesn't, because it has neither a
+ * published duration nor a published price, and declaring it would mean
+ * making one up.
  */
 function trainingNode({ training, locale, canonical, description }) {
   const priced = training.formats.filter((format) => format.value);
@@ -223,7 +247,7 @@ function trainingNode({ training, locale, canonical, description }) {
     hasCourseInstance: priced.map((format) => ({
       "@type": "CourseInstance",
       name: format.name,
-      // Los formatos son 100% virtuales en vivo.
+      // The formats are 100% live and virtual.
       courseMode: ["online"],
       courseWorkload: format.workload,
       inLanguage: locale,
@@ -324,7 +348,7 @@ function buildJsonLd({ routeKey, locale, copy, title, description, canonical }) 
 
 /**
  * @param {{routeKey: string, locale: string, isRoot?: boolean}} params
- * @returns descriptor completo del `<head>` de esa página
+ * @returns full `<head>` descriptor for that page
  */
 export function buildSeo({ routeKey, locale, isRoot = false }) {
   const copy = messages[locale] ?? messages[DEFAULT_LOCALE];
@@ -333,8 +357,8 @@ export function buildSeo({ routeKey, locale, isRoot = false }) {
   const title = copy.meta[`${metaKey}Title`];
   const description = copy.meta[`${metaKey}Description`];
 
-  // `/` sirve el contenido en español, pero la URL real de esa página es
-  // `/es`: el canónico apunta allí para no competir consigo mismo.
+  // `/` serves the Spanish content, but that page's real URL is `/es`: the
+  // canonical points there so it doesn't compete with itself.
   const canonical = absolute(pathFor(routeKey, locale));
 
   const alternates = LOCALES.map((alt) => ({
@@ -343,8 +367,8 @@ export function buildSeo({ routeKey, locale, isRoot = false }) {
   }));
   alternates.push({ hrefLang: "x-default", href: absolute(pathFor(routeKey, DEFAULT_LOCALE)) });
 
-  // Un 404 no debe indexarse ni declararse canónico de nada: si lo hace, el
-  // buscador termina guardando la página de error como si fuera contenido.
+  // A 404 must not get indexed or declared canonical of anything: if it
+  // does, the search engine ends up storing the error page as if it were content.
   const isNotFound = routeKey === ROUTE_KEYS.NOT_FOUND;
 
   return {

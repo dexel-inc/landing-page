@@ -5,17 +5,18 @@ import { AuditScopeNote, AuditSteps } from "../components/AuditTimeline.jsx";
 import { INTENT } from "../analytics/intent.js";
 
 /**
- * Detalle de la auditoría de procesos, sobre la plantilla común de categoría.
+ * Process audit detail, built on the shared category template.
  *
- * El contenido es el mismo de siempre —los ocho entregables, los cuatro pasos
- * posteriores y la nota de alcance—; lo que cambia es que ahora se monta sobre
- * `CategoryPage`, para que las tres páginas de servicio compartan estructura en
- * vez de parecerse por casualidad.
+ * The content is the same as always —the eight deliverables, the four
+ * follow-up steps, and the scope note—; what changes is that it now mounts
+ * on top of `CategoryPage`, so the three service pages share a structure
+ * instead of merely resembling each other by coincidence.
  *
- * Los ocho entregables cumplen el papel de "frentes": responden la pregunta que
- * frena la compra de un producto de diagnóstico, que es qué recibo exactamente
- * por ese dinero. El "qué pasa después" no baja a letra pequeña: entra como
- * bloque propio, con el mismo peso visual.
+ * The eight deliverables play the role of "fronts": they answer the
+ * question that holds back the purchase of a diagnostic product, which is
+ * what exactly you get for that money. "What happens after" doesn't get
+ * relegated to fine print: it comes in as its own block, with the same
+ * visual weight.
  */
 export default function AuditPage({ copy, process, chrome }) {
   const fronts = useMemo(

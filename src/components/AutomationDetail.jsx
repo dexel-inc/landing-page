@@ -9,24 +9,36 @@ import { EVENTS, track } from "../analytics/track.js";
 import { INTENT, setIntent } from "../analytics/intent.js";
 
 /**
- * Lo propio de la página de automatización: la comparación entre responder y
- * hacer, y el bloque de agentes a la medida.
+ * What's specific to the automation page: the comparison between responding
+ * and doing, and the custom agents block.
  *
- * Va aparte de `CategoryPage` porque es contenido de una sola categoría, y va
- * junto en un archivo porque las dos piezas cuentan la misma idea: un chatbot
- * responde, un agente ejecuta, y construir el segundo exige herramientas que
- * hay que escribir.
+ * Kept apart from `CategoryPage` because it's content for a single
+ * category, and kept together in one file because the two pieces tell the
+ * same story: a chatbot responds, an agent executes, and building the
+ * latter requires tools that have to be written.
+ *
+ * `Packs`, `BotComparison`, and `CustomAgents` are exported separately
+ * because `App.jsx` also reuses them as `children` of individual service
+ * pages (WhatsApp Support reuses `BotComparison`, Custom Agents reuses
+ * `CustomAgents`): same component, same copy, zero duplication between the
+ * category page and its children.
+ *
+ * Each one wraps itself in its own `<section>` with the same margin as the
+ * rest of the page —same as `MicropagesDemos`—, instead of relying on
+ * whoever uses them to add the wrapper: that way they look the same
+ * regardless of whether `AutomationDetail` renders them on the category
+ * page or `ServiceDetailPage` renders them on a child page.
  */
 
 /**
- * Los tres packs.
+ * The three packs.
  *
- * El alcance va en unidades contables —un proceso, dos integraciones, tres
- * semanas, treinta días de soporte— porque es lo único que permite comparar sin
- * pedir una cotización. "Desde $X" obliga a escribir un correo para saber qué
- * incluye, y ese correo casi nadie lo escribe.
+ * Scope is stated in countable units —one process, two integrations, three
+ * weeks, thirty days of support— because that's the only thing that allows
+ * comparison without requesting a quote. "From $X" forces someone to write
+ * an email to find out what's included, and almost nobody writes that email.
  */
-function Packs({ copy, chrome }) {
+export function Packs({ copy, chrome }) {
   const { navigateTo, locale } = useRouter();
   const showVat = pricesIncludeVat(locale);
 
@@ -46,6 +58,7 @@ function Packs({ copy, chrome }) {
   };
 
   return (
+    <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
     <div className="max-w-5xl mx-auto">
       <Reveal className="mb-8 md:mb-10">
         <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">
@@ -54,8 +67,8 @@ function Packs({ copy, chrome }) {
         <p className="text-base md:text-lg text-slate-600 dark:text-gray-400 font-light">
           {copy.intro}
         </p>
-        {/* El IVA incluido es una decisión comercial, no una nota al pie: la
-            competencia publica "+ IVA" y aquí lo que se ve es lo que se factura. */}
+        {/* VAT included is a business decision, not a footnote: competitors
+            publish "+ VAT" and here what you see is what gets billed. */}
         {chrome?.vatNote && (
           <p className="mt-2 text-sm text-slate-500 dark:text-gray-500">{chrome.vatNote}</p>
         )}
@@ -116,16 +129,17 @@ function Packs({ copy, chrome }) {
         {copy.discoveryNote}
       </p>
     </div>
+    </section>
   );
 }
 
 /**
- * La comparación se arma por columna y no como tabla: en un teléfono una tabla
- * de cuatro columnas obliga a desplazarse en horizontal, y aquí cada opción se
- * apila como tarjeta con sus propias etiquetas. Un solo DOM para los dos
- * tamaños, sin duplicar el contenido para lectores de pantalla.
+ * The comparison is built by column and not as a table: on a phone a
+ * four-column table forces horizontal scrolling, and here each option
+ * stacks as a card with its own labels. A single DOM for both sizes, with
+ * no content duplicated for screen readers.
  */
-function BotComparison({ copy }) {
+export function BotComparison({ copy }) {
   const { lead, intro, rowLabels, columns, note } = copy;
   const rows = [
     ["does", rowLabels.does],
@@ -135,6 +149,7 @@ function BotComparison({ copy }) {
   ];
 
   return (
+    <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
     <div className="max-w-5xl mx-auto">
       <Reveal className="mb-8 md:mb-10">
         <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">
@@ -196,11 +211,13 @@ function BotComparison({ copy }) {
         </div>
       )}
     </div>
+    </section>
   );
 }
 
-function CustomAgents({ copy }) {
+export function CustomAgents({ copy }) {
   return (
+    <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
     <div className="max-w-5xl mx-auto">
       <Reveal className="mb-8 md:mb-10">
         <h2 className="flex items-center gap-2.5 text-2xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">
@@ -251,9 +268,10 @@ function CustomAgents({ copy }) {
         </p>
       </div>
 
-      {/* La advertencia va a la vista y no en letra chica: un agente que ejecuta
-          puede equivocarse haciendo, y quien lo contrata tiene que saberlo antes
-          de firmar, no después del primer pedido mal creado. */}
+      {/* The warning is in plain sight, not in fine print: an agent that
+          executes can make mistakes while doing so, and whoever hires it
+          needs to know that before signing, not after the first
+          badly-created order. */}
       <div className="rounded-2xl border border-amber-400/50 dark:border-amber-500/30 bg-amber-50/80 dark:bg-amber-950/20 p-6 md:p-7">
         <p className="flex items-center gap-2 text-base md:text-lg font-bold tracking-tight text-slate-900 dark:text-white mb-2">
           <AlertTriangle
@@ -267,29 +285,22 @@ function CustomAgents({ copy }) {
         </p>
       </div>
     </div>
+    </section>
   );
 }
 
+/**
+ * `Packs`, `BotComparison`, and `CustomAgents` already come with their own
+ * `<section>` (see the note above), so here they're just chained
+ * conditionally, the same way they'd be chained when passed as `children`
+ * of a child page.
+ */
 export default function AutomationDetail({ copy, chrome }) {
   return (
     <>
-      {copy.packs && (
-        <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
-          <Packs copy={copy.packs} chrome={chrome} />
-        </section>
-      )}
-
-      {copy.comparison && (
-        <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
-          <BotComparison copy={copy.comparison} />
-        </section>
-      )}
-
-      {copy.agents && (
-        <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
-          <CustomAgents copy={copy.agents} />
-        </section>
-      )}
+      {copy.packs && <Packs copy={copy.packs} chrome={chrome} />}
+      {copy.comparison && <BotComparison copy={copy.comparison} />}
+      {copy.agents && <CustomAgents copy={copy.agents} />}
     </>
   );
 }

@@ -38,7 +38,7 @@ function PhaseCard({ phase, index }) {
     <div
       className="group relative flex pl-14 md:pl-0 md:pt-16"
     >
-      {/* Nodo sobre la línea del timeline */}
+      {/* Node on the timeline's line */}
       <div className="absolute left-0 top-1 flex items-center justify-center md:left-1/2 md:top-6 md:-translate-x-1/2">
         <span className="absolute h-9 w-9 rounded-full bg-blue-500/15 scale-0 group-hover:scale-100 transition-transform duration-500" />
         <span className="relative flex h-3 w-3 items-center justify-center rounded-full border-2 border-blue-500 bg-slate-50 dark:bg-[#050505] group-hover:bg-blue-500 transition-colors duration-500" />
@@ -107,13 +107,13 @@ export default function Process({ copy, onNavigate }) {
           <div className="w-12 h-0.5 bg-blue-500 mx-auto" />
         </Reveal>
 
-        {/* Dos filas de 3: con 6 columnas las tarjetas quedaban demasiado
-            angostas y el texto se partía en exceso. */}
+        {/* Two rows of 3: with 6 columns the cards ended up too narrow and
+            the text wrapped excessively. */}
         <div ref={trackRef} className="relative space-y-8 md:space-y-12">
           {rows.map((row, rowIndex) => (
             <div key={rowIndex} className="relative">
-              {/* Riel de la fila: vertical en móvil, horizontal en desktop.
-                  Se "dibuja" cuando la sección entra en viewport. */}
+              {/* Row's rail: vertical on mobile, horizontal on desktop.
+                  It "draws itself" as the section enters the viewport. */}
               <div className="absolute left-[5px] top-0 bottom-0 w-px bg-slate-200 dark:bg-zinc-800 overflow-hidden md:left-0 md:right-0 md:top-[27px] md:bottom-auto md:h-px md:w-full">
                 <div
                   className={`bg-linear-to-b md:bg-linear-to-r from-blue-500 via-cyan-400 to-blue-500 transition-[height,width] duration-[1600ms] ease-out motion-reduce:transition-none ${
@@ -132,7 +132,7 @@ export default function Process({ copy, onNavigate }) {
           ))}
         </div>
 
-        {/* Compromisos: el diferenciador real frente al miedo del cliente PYME */}
+        {/* Commitments: the real differentiator against a small-business client's fear */}
         <div className="mt-16 md:mt-24">
           <Reveal className="text-center mb-8 md:mb-10">
             <h3 className="text-xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">
@@ -143,8 +143,8 @@ export default function Process({ copy, onNavigate }) {
             </p>
           </Reveal>
 
-          {/* Con el cuarto compromiso, tres columnas dejaban una tarjeta sola en
-              la segunda fila: dos y cuatro reparten parejo en cada tamaño. */}
+          {/* With the fourth commitment, three columns left one card alone
+              on the second row: two and four split evenly at every size. */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {copy.commitments.map((commitment) => {
               const Icon = commitmentIcons[commitment.iconName] ?? CalendarCheck;

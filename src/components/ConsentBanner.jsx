@@ -7,20 +7,20 @@ import { CONSENT, setConsent } from "../consent/consent.js";
 import { useConsent } from "../consent/useConsent.js";
 
 /**
- * Banner de consentimiento.
+ * Consent banner.
  *
- * Aparece solo cuando el visitante todavía no decidió, y rechazar cuesta un
- * clic igual que aceptar: un banner donde "rechazar" está escondido no
- * constituye autorización libre.
+ * Only appears when the visitor hasn't decided yet, and declining costs one
+ * click just like accepting does: a banner where "decline" is hidden
+ * doesn't amount to free authorization.
  *
- * Se monta después del primer render para no salir en el HTML prerenderizado,
- * donde no hay forma de saber qué eligió esta persona.
+ * Mounts after the first render so it doesn't show up in the prerendered
+ * HTML, where there's no way to know what this person chose.
  */
 export default function ConsentBanner({ copy }) {
   const consent = useConsent();
   const [dismissed, setDismissed] = useState(false);
 
-  // `undefined` es el prerenderizado, donde no se sabe qué eligió esta persona.
+  // `undefined` is prerendering, where what this person chose isn't known.
   if (consent !== null || dismissed) return null;
 
   const decide = (value) => setConsent(value);

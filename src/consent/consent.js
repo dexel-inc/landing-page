@@ -1,15 +1,16 @@
 /**
- * Consentimiento de cookies analíticas y publicitarias.
+ * Consent for analytics and advertising cookies.
  *
- * El sitio recoge datos de navegación y los envía a Meta y a Google, así que
- * bajo la Ley 1581 de 2012 hace falta una autorización previa e informada. Este
- * módulo es la única fuente de verdad de esa decisión: el banner la escribe, la
- * capa de medición la lee, y nadie más toca `localStorage`.
+ * The site collects browsing data and sends it to Meta and Google, so under
+ * Colombian Law 1581 of 2012 prior, informed authorization is required.
+ * This module is the single source of truth for that decision: the banner
+ * writes it, the measurement layer reads it, and nothing else touches
+ * `localStorage`.
  *
- * Estados posibles:
- *   null       el visitante todavía no decidió → se muestra el banner
- *   "granted"  aceptó → se activan pixel, Conversions API y GA4
- *   "denied"   rechazó → no se envía nada y no se vuelve a preguntar
+ * Possible states:
+ *   null       the visitor hasn't decided yet → the banner is shown
+ *   "granted"  accepted → pixel, Conversions API, and GA4 get activated
+ *   "denied"   declined → nothing is sent and it's never asked again
  */
 
 const STORAGE_KEY = "dexel_consent";
@@ -26,8 +27,8 @@ export function readConsent() {
     const value = window.localStorage.getItem(STORAGE_KEY);
     return value === CONSENT.GRANTED || value === CONSENT.DENIED ? value : null;
   } catch {
-    // Safari en modo privado lanza al tocar localStorage. Sin poder recordar la
-    // decisión, lo seguro es asumir que no hay consentimiento.
+    // Safari in private mode throws when touching localStorage. Unable to
+    // remember the decision, the safe assumption is that there's no consent.
     return null;
   }
 }
@@ -36,33 +37,33 @@ export function hasConsent() {
   return readConsent() === CONSENT.GRANTED;
 }
 
-/** Guarda la decisión y avisa a quien esté escuchando (la capa de medición). */
+/** Saves the decision and notifies whoever is listening (the measurement layer). */
 export function setConsent(value) {
   if (!isBrowser) return;
   try {
     window.localStorage.setItem(STORAGE_KEY, value);
   } catch {
-    /* sin persistencia la decisión dura lo que dura la sesión */
+    /* without persistence the decision lasts only for the session */
   }
   for (const listener of listeners) listener(value);
 }
 
-/** @returns función para desuscribirse */
+/** @returns unsubscribe function */
 export function onConsentChange(listener) {
   listeners.add(listener);
   return () => listeners.delete(listener);
 }
 
 /**
- * Estado del consentimiento como store externo.
+ * Consent state as an external store.
  *
- * `useSyncExternalStore` en vez de `useState` + efecto: la decisión vive en
- * `localStorage`, que es un sistema externo a React, y leerla en un efecto
- * provocaba un render en cascada en cada montaje.
+ * `useSyncExternalStore` instead of `useState` + effect: the decision lives
+ * in `localStorage`, which is a system external to React, and reading it in
+ * an effect caused a cascading render on every mount.
  *
- * En el prerenderizado devuelve `undefined` —"todavía no se sabe"— para
- * distinguirlo de `null`, que significa "esta persona no ha decidido". Así el
- * banner no sale en el HTML estático y nadie lo ve parpadear.
+ * During prerendering it returns `undefined` —"not known yet"— to
+ * distinguish it from `null`, which means "this person hasn't decided".
+ * That way the banner doesn't appear in the static HTML and nobody sees it flicker.
  */
 export function subscribeConsent(listener) {
   return onConsentChange(listener);

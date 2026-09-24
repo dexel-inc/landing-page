@@ -12,8 +12,8 @@ function interpolate(template, data) {
 }
 
 /**
- * Arma el mensaje de WhatsApp solo con los campos que el visitante llegó a
- * responder, para que el flujo pueda cambiar sin romper este resumen.
+ * Builds the WhatsApp message using only the fields the visitor actually
+ * answered, so the flow can change without breaking this summary.
  */
 function buildWhatsAppMessage(data, waMsgCopy) {
   const { header, intro, fields, outro } = waMsgCopy;
@@ -53,9 +53,9 @@ const ChatbotForm = ({ copy }) => {
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
   /**
-   * Muestra el paso `index` y, si ese paso no pide ningún dato y no es el
-   * final, encadena automáticamente el siguiente. Esto permite que el bot
-   * entregue valor (un rango, una estimación) antes de volver a preguntar.
+   * Shows step `index` and, if that step doesn't ask for any data and isn't
+   * the final one, automatically chains the next one. This lets the bot
+   * deliver value (a range, an estimate) before asking again.
    */
   const playFrom = (index, currentData) => {
     if (index >= flow.length) return;
@@ -76,7 +76,8 @@ const ChatbotForm = ({ copy }) => {
           return;
         }
 
-        // Paso informativo: sigue solo, sin esperar respuesta del visitante.
+        // Informational step: it continues on its own, without waiting for
+        // a reply from the visitor.
         if (!step.field) {
           timers.current.push(setTimeout(() => playFrom(index + 1, currentData), 700));
         }
@@ -93,8 +94,8 @@ const ChatbotForm = ({ copy }) => {
         ? { ...data, [currentStep.field]: userMessage }
         : { ...data };
 
-    // Primera respuesta del visitante: es el momento en que el asistente deja
-    // de ser decoración y pasa a ser una conversación.
+    // The visitor's first reply: this is the moment the assistant stops
+    // being decoration and becomes a conversation.
     if (stepIndex === 0) track(EVENTS.CHAT_STARTED, { location: "chatbot" });
 
     setData(newData);
@@ -105,18 +106,18 @@ const ChatbotForm = ({ copy }) => {
   };
 
   /**
-   * Entrega a WhatsApp: es el envío real del formulario, así que aquí es donde
-   * se cuenta la conversión. El evento depende de con qué intención llegó el
-   * visitante —comprar la auditoría, cotizar otro servicio o agendar la llamada
-   * gratuita—; contarlas todas como lo mismo haría inservible la optimización
-   * de campaña.
+   * Hands off to WhatsApp: this is the form's actual submission, so it's
+   * where the conversion gets counted. The event depends on which intent
+   * the visitor arrived with —buying the audit, quoting another service, or
+   * booking the free call—; counting them all as the same thing would make
+   * campaign optimization useless.
    */
   const handleWhatsApp = () => {
     const intent = readIntent();
     const shared = {
       location: "chatbot",
-      // `category` viaja desde las páginas de categoría: sin él las tres
-      // páginas nuevas convertirían dentro de un mismo montón indistinguible.
+      // `category` travels from the category pages: without it the three
+      // new pages would convert into one indistinguishable pile.
       category: intent?.category,
       service_id: intent?.service_id,
       service_name: intent?.service_name,
@@ -126,9 +127,9 @@ const ChatbotForm = ({ copy }) => {
     if (intent?.type === INTENT.AUDIT) {
       track(EVENTS.AUDIT_REQUESTED, shared);
     } else if (intent?.type === INTENT.TRAINING) {
-      // El formato viaja desde la página de formación: sin él no se puede saber
-      // si la campaña está trayendo sesiones ejecutivas o programas completos,
-      // que valen el doble.
+      // The format travels from the training page: without it there's no
+      // way to know whether the campaign is bringing in executive sessions
+      // or full programs, which are worth twice as much.
       track(EVENTS.TRAINING_REQUESTED, {
         ...shared,
         format: intent.format,
@@ -143,8 +144,8 @@ const ChatbotForm = ({ copy }) => {
     } else if (intent?.type === INTENT.QUOTE) {
       track(EVENTS.QUOTE_REQUESTED, shared);
     } else {
-      // Sin intención declarada, la conversación abierta equivale a pedir la
-      // llamada de discovery, que es el paso gratuito por defecto.
+      // With no declared intent, an opened conversation is equivalent to
+      // requesting the discovery call, which is the default free step.
       track(EVENTS.DISCOVERY_BOOKED, shared);
     }
 
@@ -233,10 +234,11 @@ const ChatbotForm = ({ copy }) => {
 };
 
 /**
- * `first` marca que este bloque abre la página, que es el caso de `/contacto`.
- * Ahí hay que reservar la franja del encabezado fijo antes de centrar; dentro
- * de la portada, en cambio, va a media página y el relleno normal basta:
- * sumarle la altura del encabezado dejaría un hueco injustificado encima.
+ * `first` marks that this block opens the page, which is the case on
+ * `/contacto`. There the fixed header's strip has to be reserved before
+ * centering; inside the homepage, on the other hand, it sits mid-page and
+ * the normal padding is enough: adding the header's height would leave an
+ * unjustified gap above it.
  */
 export default function Contact({ copy, first = false }) {
   return (
