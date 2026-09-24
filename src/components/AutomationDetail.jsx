@@ -4,7 +4,6 @@ import Button from "./ui/Button.jsx";
 import Reveal from "./ui/Reveal.jsx";
 import { useRouter } from "../router/RouterContext.jsx";
 import { formatPrice, priceAmount, pricesIncludeVat } from "../config/pricing.js";
-import { EVENTS, track } from "../analytics/track.js";
 import { INTENT, contactOnWhatsApp } from "../contact/whatsapp.js";
 
 /**
@@ -43,7 +42,6 @@ export function Packs({ copy, chrome, serviceName }) {
 
   const requestPack = (pack) => {
     const location = `automation_pack_${pack.key}`;
-    track(EVENTS.CTA_CLICK, { category: "automation", pack_name: pack.name });
     contactOnWhatsApp({
       type: INTENT.PACK,
       locale,

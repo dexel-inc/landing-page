@@ -7,10 +7,13 @@ import { EVENTS, track } from "../analytics/track.js";
  * already names the service —and the plan, if one was chosen—, so nobody
  * has to explain from scratch what they came for.
  *
- * The click is the conversion. The event depends on the intent the button
- * declares —buying an audit, quoting a service, requesting a pack or a
- * training format, or booking the free call—; counting them all as the same
- * thing would make campaign optimization useless.
+ * The click is the conversion, and it sends exactly one event. Which one
+ * depends on the intent the button declares —buying an audit, quoting a
+ * service, requesting a pack or a training format, or booking the free
+ * call—; a button with no service behind it counts as a plain
+ * `WhatsAppOpened`. Sending several events per click would inflate the
+ * funnel, and counting them all as the same thing would make campaign
+ * optimization useless.
  */
 
 export const INTENT = {
@@ -76,9 +79,7 @@ export function contactOnWhatsApp({ type, locale, location, service, plan, analy
     ...analytics,
   };
 
-  const conversion = CONVERSION_BY_INTENT[type];
-  if (conversion) track(conversion, shared);
-  track(EVENTS.WHATSAPP_OPENED, { source: location });
+  track(CONVERSION_BY_INTENT[type] ?? EVENTS.WHATSAPP_OPENED, shared);
 
   const url = whatsappUrl(buildWhatsAppMessage({ type, locale, service, plan }));
   window.open(url, "_blank", "noopener,noreferrer");

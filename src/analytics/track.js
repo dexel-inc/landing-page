@@ -98,6 +98,50 @@ const CONVERSION_EVENTS = new Set([
 ]);
 
 /**
+ * Meta standard event for each of ours.
+ *
+ * Meta optimizes campaigns and builds its aggregated iOS measurement around
+ * its standard events; a custom event only works through a custom
+ * conversion built by hand. So Meta receives the standard name, and ours
+ * travels alongside as `dexel_event` —plus `service_name` and `category`—
+ * for custom conversions per service. GA4 keeps our names.
+ *
+ * The funnel reads: `ViewContent` (saw a category or a service) → `Lead`
+ * (asked for a plan, an audit, a pack, or a training format on WhatsApp)
+ * or `Schedule` (booked the free call) → `Contact` (went straight to
+ * WhatsApp without picking a service).
+ */
+const META_STANDARD_EVENT = {
+  [EVENTS.SERVICE_CATEGORY_VIEWED]: "ViewContent",
+  [EVENTS.SERVICE_DETAIL_VIEWED]: "ViewContent",
+  [EVENTS.TRAINING_PAGE_VIEWED]: "ViewContent",
+  [EVENTS.AUDIT_REQUESTED]: "Lead",
+  [EVENTS.QUOTE_REQUESTED]: "Lead",
+  [EVENTS.PACK_REQUESTED]: "Lead",
+  [EVENTS.TRAINING_REQUESTED]: "Lead",
+  [EVENTS.DISCOVERY_BOOKED]: "Schedule",
+  [EVENTS.WHATSAPP_OPENED]: "Contact",
+};
+
+/** Our event translated to what Meta expects: name and parameters. */
+function toMeta(event, payload) {
+  const standard = META_STANDARD_EVENT[event];
+  if (!standard) return { name: event, params: payload, standard: false };
+
+  return {
+    name: standard,
+    standard: true,
+    params: {
+      ...payload,
+      dexel_event: event,
+      ...(payload.service_name ? { content_name: payload.service_name } : {}),
+      ...(payload.category ? { content_category: payload.category } : {}),
+      ...(payload.service_id ? { content_ids: [payload.service_id], content_type: "product" } : {}),
+    },
+  };
+}
+
+/**
  * Monetary value per event. Meta needs `value` and `currency` to be able to
  * optimize toward revenue and not just conversion volume. It comes from
  * `config/pricing.js`, so a price change carries through automatically.
@@ -195,12 +239,16 @@ function dispatch(event, payload, eventId, eventTime) {
     window.gtag("event", event, { ...payload, event_id: eventId });
   }
 
+  // Both channels send the same name, parameters, and `eventID`: that
+  // triple is what lets Meta deduplicate the browser and server deliveries.
+  const meta = toMeta(event, payload);
+
   if (typeof window.fbq === "function") {
-    window.fbq("trackCustom", event, payload, { eventID: eventId });
+    window.fbq(meta.standard ? "track" : "trackCustom", meta.name, meta.params, { eventID: eventId });
   }
 
   if (CONVERSION_EVENTS.has(event)) {
-    sendToConversionsApi(event, payload, eventId, eventTime);
+    sendToConversionsApi(meta.name, meta.params, eventId, eventTime);
   }
 }
 

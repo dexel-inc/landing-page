@@ -62,7 +62,7 @@ export default function MicropagesDemos({ copy }) {
     setActiveKey(type.key);
     setMusicOn(false);
     setRsvp(false);
-    track(EVENTS.SERVICE_DETAIL_VIEWED, {
+    track(EVENTS.CTA_CLICK, {
       service_id: "micropaginas",
       location: `micropages_demo_${type.key}`,
     });

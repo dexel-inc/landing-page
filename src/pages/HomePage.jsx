@@ -53,7 +53,6 @@ export default function HomePage({ copy }) {
                 losing a few hours, not looking to buy a diagnosis. */}
             <Button
               onClick={() => {
-                track(EVENTS.CTA_CLICK, { location: "hero", action: "discovery" });
                 contactOnWhatsApp({ type: INTENT.DISCOVERY, locale, location: "hero" });
               }}
               variant="primary"
@@ -106,7 +105,7 @@ export default function HomePage({ copy }) {
       <Advisory
         copy={copy.advisory}
         onNavigate={() => {
-          track(EVENTS.SERVICE_DETAIL_VIEWED, {
+          track(EVENTS.CTA_CLICK, {
             service_id: "auditoria",
             service_name: copy.serviceDetails.processAudit.tiers.find((tier) => tier.featured)?.name,
             location: "advisory",
@@ -117,7 +116,6 @@ export default function HomePage({ copy }) {
       <Process
         copy={copy.process}
         onNavigate={() => {
-          track(EVENTS.CTA_CLICK, { location: "process", action: "discovery" });
           contactOnWhatsApp({ type: INTENT.DISCOVERY, locale, location: "process" });
         }}
       />

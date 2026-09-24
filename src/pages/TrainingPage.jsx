@@ -142,8 +142,13 @@ export default function TrainingPage({ copy, chrome }) {
     // The language is passed explicitly instead of relying on the one the
     // measurement layer holds: children's effects run before the container
     // that injects it.
-    track(EVENTS.TRAINING_PAGE_VIEWED, { locale });
-  }, [locale]);
+    track(EVENTS.TRAINING_PAGE_VIEWED, {
+      service_id: "formacion",
+      service_name: copy.navLabel,
+      category: "training",
+      locale,
+    });
+  }, [copy.navLabel, locale]);
 
   /**
    * Opens WhatsApp naming the training and, from a format's button, the
@@ -151,7 +156,6 @@ export default function TrainingPage({ copy, chrome }) {
    * value of `TrainingRequested`.
    */
   const requestTraining = (format, location) => {
-    track(EVENTS.CTA_CLICK, { service_id: "formacion", format: format?.key, location });
     contactOnWhatsApp({
       type: INTENT.TRAINING,
       locale,
@@ -160,6 +164,7 @@ export default function TrainingPage({ copy, chrome }) {
       plan: format?.name,
       analytics: {
         service_id: "formacion",
+        category: "training",
         format: format?.key ?? "unspecified",
         value: format?.value ? priceAmount(format.value, locale) : undefined,
       },
@@ -167,13 +172,12 @@ export default function TrainingPage({ copy, chrome }) {
   };
 
   const requestDiscovery = (location) => {
-    track(EVENTS.CTA_CLICK, { location });
     contactOnWhatsApp({
       type: INTENT.DISCOVERY,
       locale,
       location,
       service: copy.navLabel,
-      analytics: { service_id: "formacion" },
+      analytics: { service_id: "formacion", category: "training" },
     });
   };
 

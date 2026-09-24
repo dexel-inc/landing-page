@@ -127,8 +127,13 @@ export default function CategoryPage({
    * English page got counted as Spanish.
    */
   useEffect(() => {
-    track(EVENTS.SERVICE_CATEGORY_VIEWED, { category, locale });
-  }, [category, locale]);
+    track(EVENTS.SERVICE_CATEGORY_VIEWED, {
+      category,
+      service_id: serviceId ?? category,
+      service_name: copy.navLabel ?? copy.title,
+      locale,
+    });
+  }, [category, serviceId, copy.navLabel, copy.title, locale]);
 
   /**
    * Opens WhatsApp with the category already named. The intent decides
@@ -136,7 +141,6 @@ export default function CategoryPage({
    * `DiscoveryBooked`, not all three as a single thing.
    */
   const goToContact = (type, location) => {
-    track(EVENTS.CTA_CLICK, { category, service_id: serviceId ?? category, location });
     contactOnWhatsApp({
       type,
       locale,

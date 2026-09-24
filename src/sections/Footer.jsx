@@ -22,7 +22,7 @@ export default function Footer({ whatsappNumber = SITE.whatsapp, copy }) {
             href={whatsappLink}
             target="_blank"
             rel="noreferrer"
-            onClick={() => track(EVENTS.WHATSAPP_OPENED, { source: "footer" })}
+            onClick={() => track(EVENTS.WHATSAPP_OPENED, { location: "footer" })}
             variant="primary"
             size="lg"
             className="w-full justify-center"
@@ -90,7 +90,7 @@ export default function Footer({ whatsappNumber = SITE.whatsapp, copy }) {
         target="_blank"
         rel="noreferrer"
         aria-label={copy.whatsappAria}
-        onClick={() => track(EVENTS.WHATSAPP_OPENED, { source: "floating_button" })}
+        onClick={() => track(EVENTS.WHATSAPP_OPENED, { location: "floating_button" })}
         variant="primary"
         size="icon"
         className="fixed bottom-4 right-4 md:bottom-5 md:right-5 z-50 rounded-full h-12 w-12 md:h-16 md:w-16"

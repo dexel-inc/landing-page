@@ -32,8 +32,13 @@ export default function ServiceDetailPage({
   const service = copy.key;
 
   useEffect(() => {
-    track(EVENTS.SERVICE_DETAIL_VIEWED, { service_id: serviceId, service_name: copy.title, locale });
-  }, [serviceId, copy.title, locale]);
+    track(EVENTS.SERVICE_DETAIL_VIEWED, {
+      service_id: serviceId,
+      service_name: serviceName ?? copy.title,
+      category: categoryRouteKey,
+      locale,
+    });
+  }, [serviceId, serviceName, copy.title, categoryRouteKey, locale]);
 
   const tierPrice = (tier) =>
     formatPrice(tier.priceKey, locale, { from: !!tier.from, perMonth: !!tier.perMonth });
@@ -43,7 +48,6 @@ export default function ServiceDetailPage({
    * the conversation starts where the visitor already is.
    */
   const goToContact = (tier, location) => {
-    track(EVENTS.CTA_CLICK, { service_id: serviceId, location });
     contactOnWhatsApp({
       type: intentType,
       locale,
