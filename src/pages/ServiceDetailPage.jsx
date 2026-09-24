@@ -99,7 +99,10 @@ export default function ServiceDetailPage({ copy, chrome, categoryRouteKey, serv
                   {tier.name}
                 </p>
                 <p className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-1">
-                  {formatPrice(tier.priceKey, locale, { perMonth: !!tier.perMonth })}
+                  {formatPrice(tier.priceKey, locale, {
+                    from: !!tier.from,
+                    perMonth: !!tier.perMonth,
+                  })}
                 </p>
                 {tier.delivery && (
                   <p className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.12em] text-slate-400 dark:text-gray-600 mb-4">

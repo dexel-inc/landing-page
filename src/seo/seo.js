@@ -206,6 +206,16 @@ function serviceDetailNode({ service, locale, canonical }) {
       name: tier.name,
       price: priceAmount(tier.priceKey, locale),
       priceCurrency: currencyFor(locale),
+      // "From" tiers publish a floor, not a fixed figure.
+      ...(tier.from
+        ? {
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              minPrice: priceAmount(tier.priceKey, locale),
+              priceCurrency: currencyFor(locale),
+            },
+          }
+        : {}),
       availability: "https://schema.org/InStock",
       url: canonical,
     })),
