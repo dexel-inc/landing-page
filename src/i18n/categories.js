@@ -817,7 +817,6 @@ export const categoryChromeCopy = {
   es: {
     menuLabel: "Servicios",
     menuIndex: "Ver todos los servicios",
-    backLabel: "Ver todos los servicios",
     quoteCta: "Solicitar cotización",
     discoveryCta: "Agendar una llamada sin costo (30 min)",
     vatLabel: "IVA incluido",
@@ -828,7 +827,6 @@ export const categoryChromeCopy = {
   en: {
     menuLabel: "Services",
     menuIndex: "See all services",
-    backLabel: "See all services",
     quoteCta: "Request a quote",
     discoveryCta: "Book a free discovery call",
     vatLabel: null,

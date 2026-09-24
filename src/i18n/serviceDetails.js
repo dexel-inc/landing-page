@@ -1,12 +1,10 @@
-import { ROUTE_KEYS } from "../router/routes.js";
-
 /**
  * Copy for the seven individual service pages in the web-development hub:
  * websites, custom software, micropages, SEO, integrations, payment gateways,
  * and maintenance.
  *
  * Every entry follows the same shape: `{ key, badge, title, intro, tiers,
- * faqs, cases?, related? }`. `tiers` carries a `priceKey` — not an already
+ * faqs }`. `tiers` carries a `priceKey` — not an already
  * formatted price — because `ServiceDetailPage` computes the price with
  * `formatPrice` for the active language, and the same `priceKey` feeds the
  * `Offer` in `seo/seo.js`.
@@ -75,14 +73,6 @@ const es = {
         cta: "Solicitar catálogo o tienda",
       },
     ],
-    casesTitle: "En producción",
-    cases: [
-      {
-        client: "Iglesia Bautista Fundamental Casa Grande",
-        summary:
-          "Sitio bilingüe ES/EN con el video y la radio sincronizados solos desde YouTube: el equipo publica como siempre y el sitio se actualiza sin que nadie toque un panel.",
-      },
-    ],
     faqTitle: "Preguntas frecuentes",
     faqSubtitle: "Lo que nos preguntan antes de elegir nivel",
     faqs: [
@@ -106,11 +96,6 @@ const es = {
         answer:
           "El texto y las fotos los aporta usted; nosotros los organizamos y los redactamos en formato web si hace falta. La estructura, el diseño y la parte técnica son nuestras.",
       },
-    ],
-    related: [
-      { routeKey: ROUTE_KEYS.SEO, label: "SEO" },
-      { routeKey: ROUTE_KEYS.MAINTENANCE, label: "Mantenimiento" },
-      { routeKey: ROUTE_KEYS.MICROPAGES, label: "Micropáginas" },
     ],
     ctaTitle: "¿Tiene claro qué necesita mostrar o administrar?",
     ctaText: "Cuéntenos y le confirmamos el nivel y el tiempo de entrega.",
@@ -177,11 +162,6 @@ const es = {
         answer:
           "Sí, es justamente el frente de integraciones. Se cotiza aparte porque el alcance depende de qué sistemas y qué tan abierta sea su API.",
       },
-    ],
-    related: [
-      { routeKey: ROUTE_KEYS.INTEGRATIONS, label: "Integraciones y APIs" },
-      { routeKey: ROUTE_KEYS.AUTOMATION, label: "Automatización" },
-      { routeKey: ROUTE_KEYS.MAINTENANCE, label: "Mantenimiento" },
     ],
     ctaTitle: "¿Qué proceso está resolviendo hoy con planillas o correos?",
     ctaText: "Cuéntenos cómo trabaja su equipo y le decimos qué se puede construir.",
@@ -253,7 +233,6 @@ const es = {
           "La página se queda como recuerdo mientras esté activa. Si más adelante quiere renovarla para otro evento, se cotiza como una nueva micropágina.",
       },
     ],
-    related: [{ routeKey: ROUTE_KEYS.WEBSITES, label: "Sitios web" }],
     ctaTitle: "¿Ya tiene la fecha de su evento?",
     ctaText: "Cuéntenos el tipo de evento y la fecha, y le confirmamos el nivel y la entrega.",
     demos: {
@@ -398,7 +377,6 @@ const es = {
           "Los planes son mensuales y se pueden cancelar de un mes a otro. El SEO acumula resultado con el tiempo, así que recomendamos al menos 3 meses para evaluarlo con datos reales.",
       },
     ],
-    related: [{ routeKey: ROUTE_KEYS.WEBSITES, label: "Sitios web" }],
     ctaTitle: "¿Quiere saber en qué estado está su SEO hoy?",
     ctaText: "Cuéntenos su sitio y le decimos si conviene empezar por la auditoría o por un plan mensual.",
   },
@@ -443,10 +421,6 @@ const es = {
         answer:
           "La integración queda documentada, así que ajustarla si un sistema cambia su forma de conectarse es un trabajo acotado, no empezar de nuevo.",
       },
-    ],
-    related: [
-      { routeKey: ROUTE_KEYS.AUTOMATION, label: "Automatización" },
-      { routeKey: ROUTE_KEYS.CUSTOM_SOFTWARE, label: "Software a la medida" },
     ],
     ctaTitle: "¿Qué dos sistemas necesita que se hablen?",
     ctaText: "Cuéntenos cuáles son y le confirmamos si es una integración directa o algo más grande.",
@@ -493,7 +467,6 @@ const es = {
           "Esa cuenta es suya y queda a nombre de su empresa, no de Dexel: es su dinero y sus condiciones comerciales con el proveedor de pagos. Nosotros hacemos la conexión técnica.",
       },
     ],
-    related: [{ routeKey: ROUTE_KEYS.WEBSITES, label: "Sitios web" }],
     ctaTitle: "¿Ya tiene sitio y quiere empezar a cobrar en línea?",
     ctaText: "Cuéntenos qué pasarela usa o quiere usar, y le confirmamos el alcance.",
   },
@@ -579,10 +552,6 @@ const es = {
         answer:
           "Una función nueva o un cambio de alcance se cotiza aparte, como cualquier proyecto. El mantenimiento cubre que lo ya construido siga funcionando, no que crezca.",
       },
-    ],
-    related: [
-      { routeKey: ROUTE_KEYS.WEBSITES, label: "Sitios web" },
-      { routeKey: ROUTE_KEYS.CUSTOM_SOFTWARE, label: "Software a la medida" },
     ],
     ctaTitle: "¿Qué tiene en producción hoy?",
     ctaText: "Cuéntenos qué construimos o qué tiene funcionando, y le confirmamos el nivel.",
@@ -680,11 +649,6 @@ const es = {
         answer:
           "Sí, es parte del alcance desde el primer pack: sin esa conexión, alguien termina copiando a mano lo que el bot ya recogió.",
       },
-    ],
-    related: [
-      { routeKey: ROUTE_KEYS.CUSTOM_AGENTS, label: "Agentes a la medida" },
-      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "Integración entre sistemas" },
-      { routeKey: ROUTE_KEYS.AUDIT, label: "Auditoría de procesos" },
     ],
     ctaTitle: "¿Cuántas horas al día se van en responder WhatsApp?",
     ctaText: "Cuéntenos cómo es hoy esa conversación y le decimos qué se puede automatizar y en cuánto tiempo.",
@@ -784,11 +748,6 @@ const es = {
           "Con permisos y alcance definidos desde el diseño: qué sistemas puede tocar, qué acciones puede ejecutar solo y cuáles necesitan que alguien las confirme antes de salir.",
       },
     ],
-    related: [
-      { routeKey: ROUTE_KEYS.N8N_WORKFLOWS, label: "Workflows con n8n" },
-      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "Integración entre sistemas" },
-      { routeKey: ROUTE_KEYS.CUSTOM_SOFTWARE, label: "Software a la medida" },
-    ],
     ctaTitle: "¿Qué proceso termina siempre en una acción, no en una respuesta?",
     ctaText: "Cuéntenoslo y le decimos si conviene un agente, qué herramientas hay que construirle y cuánto costaría.",
   },
@@ -887,11 +846,6 @@ const es = {
           "Sí, es trabajo de mantenimiento o un ajuste de alcance, según el tamaño del cambio. Al quedar documentado, modificarlo no es empezar de nuevo.",
       },
     ],
-    related: [
-      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "Integración entre sistemas" },
-      { routeKey: ROUTE_KEYS.AUTOMATED_REPORTS, label: "Reportes automáticos" },
-      { routeKey: ROUTE_KEYS.CUSTOM_AGENTS, label: "Agentes a la medida" },
-    ],
     ctaTitle: "¿Qué proceso manual le gustaría dejar de tocar?",
     ctaText: "Descríbanoslo y le decimos si se puede automatizar con n8n, con qué integra y cuánto costaría.",
   },
@@ -984,11 +938,6 @@ const es = {
         answer:
           "No es obligatoria. Si ya sabe qué dos sistemas necesita que se hablen, se cotiza directo. La auditoría ayuda cuando hay varios sistemas sueltos y no está seguro de por dónde empezar.",
       },
-    ],
-    related: [
-      { routeKey: ROUTE_KEYS.N8N_WORKFLOWS, label: "Workflows con n8n" },
-      { routeKey: ROUTE_KEYS.AUTOMATED_REPORTS, label: "Reportes automáticos" },
-      { routeKey: ROUTE_KEYS.INTEGRATIONS, label: "Integraciones y APIs" },
     ],
     ctaTitle: "¿Qué dos sistemas necesita que dejen de vivir aislados?",
     ctaText: "Cuéntenos cuáles son y le confirmamos si es una integración puntual o algo más grande.",
@@ -1083,11 +1032,6 @@ const es = {
           "Con la periodicidad que decida: diaria, semanal, mensual, o disparado por un evento puntual (por ejemplo, al cerrar el día de ventas).",
       },
     ],
-    related: [
-      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "Integración entre sistemas" },
-      { routeKey: ROUTE_KEYS.DOCUMENT_READING, label: "Lectura automática de documentos" },
-      { routeKey: ROUTE_KEYS.AUDIT, label: "Auditoría de procesos" },
-    ],
     ctaTitle: "¿Qué reporte arma alguien de su equipo a mano cada semana?",
     ctaText: "Cuéntenos cómo lo arman hoy y le decimos si se puede automatizar y en qué formato le llegaría.",
   },
@@ -1181,11 +1125,6 @@ const es = {
           "Sí, es justo el pack de sistema completo: un flujo continuo en vez de lotes puntuales, con integración directa a su sistema contable u operativo.",
       },
     ],
-    related: [
-      { routeKey: ROUTE_KEYS.AUTOMATED_REPORTS, label: "Reportes automáticos" },
-      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "Integración entre sistemas" },
-      { routeKey: ROUTE_KEYS.CUSTOM_AGENTS, label: "Agentes a la medida" },
-    ],
     ctaTitle: "¿Cuántas horas al mes se van digitando facturas o formularios?",
     ctaText: "Cuéntenos qué documentos son y le decimos qué tan automatizable es y cuánto costaría.",
   },
@@ -1252,14 +1191,6 @@ const en = {
         cta: "Request a catalog or store",
       },
     ],
-    casesTitle: "In production",
-    cases: [
-      {
-        client: "Casa Grande Fundamental Baptist Church",
-        summary:
-          "Bilingual ES/EN site with video and radio syncing automatically from YouTube: the team publishes as usual and the site updates itself, without anyone touching an admin panel.",
-      },
-    ],
     faqTitle: "Frequently asked questions",
     faqSubtitle: "What people ask before choosing a tier",
     faqs: [
@@ -1283,11 +1214,6 @@ const en = {
         answer:
           "You provide the text and photos; we organize them and write them for the web where needed. The structure, design, and technical work are on us.",
       },
-    ],
-    related: [
-      { routeKey: ROUTE_KEYS.SEO, label: "SEO" },
-      { routeKey: ROUTE_KEYS.MAINTENANCE, label: "Maintenance" },
-      { routeKey: ROUTE_KEYS.MICROPAGES, label: "Micropages" },
     ],
     ctaTitle: "Do you know what you need to show or manage?",
     ctaText: "Tell us and we'll confirm the tier and the delivery time.",
@@ -1354,11 +1280,6 @@ const en = {
         answer:
           "Yes, that's exactly the integrations service. It's quoted separately because the scope depends on which systems and how open their API is.",
       },
-    ],
-    related: [
-      { routeKey: ROUTE_KEYS.INTEGRATIONS, label: "Integrations and APIs" },
-      { routeKey: ROUTE_KEYS.AUTOMATION, label: "Automation" },
-      { routeKey: ROUTE_KEYS.MAINTENANCE, label: "Maintenance" },
     ],
     ctaTitle: "What process are you solving today with spreadsheets or email?",
     ctaText: "Tell us how your team works and we'll tell you what can be built.",
@@ -1430,7 +1351,6 @@ const en = {
           "The page stays up as a keepsake while it's active. If you want to reuse it for another event later, it's quoted as a new micropage.",
       },
     ],
-    related: [{ routeKey: ROUTE_KEYS.WEBSITES, label: "Websites" }],
     ctaTitle: "Do you already have the date for your event?",
     ctaText: "Tell us the type of event and the date, and we'll confirm the tier and delivery.",
     demos: {
@@ -1571,7 +1491,6 @@ const en = {
           "Plans are monthly and can be canceled month to month. SEO compounds over time, so we recommend at least 3 months to evaluate it with real data.",
       },
     ],
-    related: [{ routeKey: ROUTE_KEYS.WEBSITES, label: "Websites" }],
     ctaTitle: "Want to know where your SEO stands today?",
     ctaText: "Tell us about your site and we'll tell you whether to start with the audit or a monthly plan.",
   },
@@ -1616,10 +1535,6 @@ const en = {
         answer:
           "The integration is documented, so adjusting it if a system changes how it connects is a scoped fix, not starting over.",
       },
-    ],
-    related: [
-      { routeKey: ROUTE_KEYS.AUTOMATION, label: "Automation" },
-      { routeKey: ROUTE_KEYS.CUSTOM_SOFTWARE, label: "Custom software" },
     ],
     ctaTitle: "Which two systems need to talk to each other?",
     ctaText: "Tell us which ones and we'll confirm whether it's a direct integration or something bigger.",
@@ -1666,7 +1581,6 @@ const en = {
           "That account is yours and stays under your company's name, not Dexel's: it's your money and your commercial terms with the payment provider. We handle the technical connection.",
       },
     ],
-    related: [{ routeKey: ROUTE_KEYS.WEBSITES, label: "Websites" }],
     ctaTitle: "Already have a site and want to start taking payments online?",
     ctaText: "Tell us which gateway you use or want to use, and we'll confirm the scope.",
   },
@@ -1752,10 +1666,6 @@ const en = {
         answer:
           "A new feature or a change in scope is quoted separately, like any project. Maintenance covers keeping what's already built running, not growing it.",
       },
-    ],
-    related: [
-      { routeKey: ROUTE_KEYS.WEBSITES, label: "Websites" },
-      { routeKey: ROUTE_KEYS.CUSTOM_SOFTWARE, label: "Custom software" },
     ],
     ctaTitle: "What do you have in production today?",
     ctaText: "Tell us what we built or what you're running, and we'll confirm the tier.",
@@ -1853,11 +1763,6 @@ const en = {
         answer:
           "Yes, it's part of the scope from the first pack: without that connection, someone ends up retyping by hand what the bot already collected.",
       },
-    ],
-    related: [
-      { routeKey: ROUTE_KEYS.CUSTOM_AGENTS, label: "Custom agents" },
-      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "System integration" },
-      { routeKey: ROUTE_KEYS.AUDIT, label: "Process audit" },
     ],
     ctaTitle: "How many hours a day go into answering WhatsApp?",
     ctaText: "Tell us what that conversation looks like today and we'll say what can be automated, and how long it takes.",
@@ -1957,11 +1862,6 @@ const en = {
           "With defined permissions and scope from the design stage: what systems it can touch, what actions it can execute on its own, and which ones need someone to confirm before they go out.",
       },
     ],
-    related: [
-      { routeKey: ROUTE_KEYS.N8N_WORKFLOWS, label: "n8n workflows" },
-      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "System integration" },
-      { routeKey: ROUTE_KEYS.CUSTOM_SOFTWARE, label: "Custom software" },
-    ],
     ctaTitle: "Which process always ends in an action, not an answer?",
     ctaText: "Tell us, and we'll say whether an agent fits, what tools it would need, and what it would cost.",
   },
@@ -2060,11 +1960,6 @@ const en = {
           "Yes, it's either maintenance work or a scope adjustment, depending on the size of the change. Since it's documented, modifying it isn't starting over.",
       },
     ],
-    related: [
-      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "System integration" },
-      { routeKey: ROUTE_KEYS.AUTOMATED_REPORTS, label: "Automated reports" },
-      { routeKey: ROUTE_KEYS.CUSTOM_AGENTS, label: "Custom agents" },
-    ],
     ctaTitle: "Which manual process would you like to stop touching?",
     ctaText: "Describe it to us and we'll say whether it can be automated with n8n, what it connects to, and what it would cost.",
   },
@@ -2157,11 +2052,6 @@ const en = {
         answer:
           "It isn't mandatory. If you already know which two systems need to talk, we quote it directly. The audit helps when you have several disconnected systems and aren't sure where to start.",
       },
-    ],
-    related: [
-      { routeKey: ROUTE_KEYS.N8N_WORKFLOWS, label: "n8n workflows" },
-      { routeKey: ROUTE_KEYS.AUTOMATED_REPORTS, label: "Automated reports" },
-      { routeKey: ROUTE_KEYS.INTEGRATIONS, label: "Integrations and APIs" },
     ],
     ctaTitle: "Which two systems need to stop living in isolation?",
     ctaText: "Tell us which ones, and we'll confirm whether it's a single integration or something bigger.",
@@ -2256,11 +2146,6 @@ const en = {
           "At whatever frequency you decide: daily, weekly, monthly, or triggered by a specific event (say, when the day's sales close).",
       },
     ],
-    related: [
-      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "System integration" },
-      { routeKey: ROUTE_KEYS.DOCUMENT_READING, label: "Automated document reading" },
-      { routeKey: ROUTE_KEYS.AUDIT, label: "Process audit" },
-    ],
     ctaTitle: "Which report does someone on your team build by hand every week?",
     ctaText: "Tell us how they build it today and we'll say whether it can be automated and what format you'd get it in.",
   },
@@ -2353,11 +2238,6 @@ const en = {
         answer:
           "Yes, that's exactly what the full-system pack covers: a continuous flow instead of one-off batches, with direct integration into your accounting or operating system.",
       },
-    ],
-    related: [
-      { routeKey: ROUTE_KEYS.AUTOMATED_REPORTS, label: "Automated reports" },
-      { routeKey: ROUTE_KEYS.SYSTEM_INTEGRATION, label: "System integration" },
-      { routeKey: ROUTE_KEYS.CUSTOM_AGENTS, label: "Custom agents" },
     ],
     ctaTitle: "How many hours a month go into retyping invoices or forms?",
     ctaText: "Tell us which documents they are and we'll say how automatable it is and what it would cost.",

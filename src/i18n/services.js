@@ -332,7 +332,6 @@ const auditEs = {
     "Cinco a siete días hábiles y sabrá exactamente qué automatizar, cuánto cuesta y cuántas horas al mes recupera.",
 
   cta: `Solicitar auditoría — ${formatPrice("audit", "es")}`,
-  backLabel: "Ver todos los servicios",
 };
 
 const en = {
@@ -651,7 +650,6 @@ const auditEn = {
     "Five to seven business days and you'll know exactly what to automate, what it costs, and how many hours a month you get back.",
 
   cta: `Request the audit — ${formatPrice("audit", "en")}`,
-  backLabel: "See all services",
 };
 
 export const servicesCopy = { es, en };

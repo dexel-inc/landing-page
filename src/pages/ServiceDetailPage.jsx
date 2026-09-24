@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ArrowLeft, ArrowRight, Check, Clock3, CreditCard, Sparkles } from "lucide-react";
+import { ArrowRight, Check, Clock3, CreditCard, Sparkles } from "lucide-react";
 import Button from "../components/ui/Button.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
 import FaqList from "../components/ui/FaqList.jsx";
@@ -166,33 +166,7 @@ export default function ServiceDetailPage({ copy, chrome, categoryRouteKey, serv
       {/* 2b — What's specific to a single page (micropage demos) */}
       {children}
 
-      {/* 3 — Cases, if the copy provides data */}
-      {copy.cases?.length > 0 && (
-        <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
-          <div className="max-w-5xl mx-auto">
-            <Reveal className="mb-8">
-              <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">
-                {copy.casesTitle}
-              </h2>
-              <div className="w-12 h-0.5 bg-blue-500 mt-4" />
-            </Reveal>
-
-            <div className="grid md:grid-cols-2 gap-4 md:gap-5">
-              {copy.cases.map((item) => (
-                <div
-                  key={item.client}
-                  className="rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/40 p-5 md:p-6"
-                >
-                  <p className="text-sm font-semibold text-slate-900 dark:text-white mb-1">{item.client}</p>
-                  <p className="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">{item.summary}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 4 — Frequently asked questions */}
+      {/* 3 — Frequently asked questions */}
       <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
         <FaqList
           title={copy.faqTitle}
@@ -202,34 +176,7 @@ export default function ServiceDetailPage({ copy, chrome, categoryRouteKey, serv
         />
       </section>
 
-      {/* 5 — Complementary services */}
-      {copy.related?.length > 0 && (
-        <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
-          <div className="max-w-5xl mx-auto">
-            {copy.relatedTitle && (
-              <Reveal className="mb-6">
-                <h2 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                  {copy.relatedTitle}
-                </h2>
-              </Reveal>
-            )}
-            <div className="flex flex-wrap gap-3">
-              {copy.related.map((item) => (
-                <Link
-                  key={item.routeKey}
-                  to={item.routeKey}
-                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/40 text-sm text-slate-700 dark:text-gray-300 hover:border-blue-500/40 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                >
-                  {item.label}
-                  <ArrowRight size={13} />
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 6 — CTA */}
+      {/* 4 — CTA */}
       <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-20">
         <div className="max-w-5xl mx-auto">
           <div className="rounded-2xl border border-blue-300/50 dark:border-blue-500/25 bg-linear-to-br from-blue-100/60 via-white/80 to-white dark:from-blue-900/25 dark:via-zinc-900/70 dark:to-zinc-900/40 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
@@ -253,17 +200,6 @@ export default function ServiceDetailPage({ copy, chrome, categoryRouteKey, serv
             </Button>
           </div>
 
-          <div className="mt-8 text-center">
-            <Button
-              onClick={() => navigateTo(categoryRouteKey)}
-              variant="ghost"
-              size="md"
-              className="text-slate-500 dark:text-gray-500"
-            >
-              <ArrowLeft size={15} />
-              {chrome.backLabel}
-            </Button>
-          </div>
         </div>
       </section>
     </div>

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import {
-  ArrowLeft,
   ArrowRight,
   Bot,
   Check,
@@ -430,17 +429,6 @@ export default function CategoryPage({
             </div>
           </div>
 
-          <div className="mt-8 text-center">
-            <Button
-              onClick={() => navigateTo(ROUTE_KEYS.SERVICES)}
-              variant="ghost"
-              size="md"
-              className="text-slate-500 dark:text-gray-500"
-            >
-              <ArrowLeft size={15} />
-              {copy.backLabel ?? chrome.backLabel}
-            </Button>
-          </div>
         </div>
       </section>
     </div>
