@@ -114,6 +114,13 @@ export const PRICES = {
   micropageEssential: { COP: 135000, USD: 45 },
   micropagePremium: { COP: 220000, USD: 75 },
 
+  // Advertising images and videos. Quoted per piece, in pesos only: the
+  // English site says "Price on request" until dollar prices are approved,
+  // so `USD` stays empty on purpose.
+  visualEssential: { COP: 50000, USD: null },
+  visualCatalog: { COP: 30000, USD: null },
+  visualShortVideo: { COP: 89000, USD: null },
+
   mentoringSession: { COP: 210000, USD: 70 },
   mentoringPack4: { COP: 760000, USD: 260 },
   trainingExecutive: { COP: 1590000, USD: 530 },

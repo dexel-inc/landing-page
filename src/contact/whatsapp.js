@@ -63,6 +63,25 @@ export function buildWhatsAppMessage({ type, locale, service, plan }) {
 }
 
 /**
+ * Sends the conversion for a WhatsApp click, and nothing else. Split out of
+ * `contactOnWhatsApp` for links that are real `<a href>` with their own
+ * pre-written message: they need the very same event —same name, same
+ * `event_id` shared by pixel and Conversions API— without opening a second tab.
+ *
+ * @param {{type: string, location: string, service?: string, plan?: string,
+ *   analytics?: object}} params
+ */
+export function trackWhatsAppContact({ type, location, service, plan, analytics = {} }) {
+  const shared = {
+    location,
+    service_name: plan ? `${service} — ${plan}` : service,
+    ...analytics,
+  };
+
+  track(CONVERSION_BY_INTENT[type] ?? EVENTS.WHATSAPP_OPENED, shared);
+}
+
+/**
  * Tracks the conversion and opens WhatsApp in a new tab. Must be called
  * straight from the click handler: browsers only allow `window.open` as a
  * direct response to a user gesture.
@@ -73,13 +92,7 @@ export function buildWhatsAppMessage({ type, locale, service, plan }) {
  *   `value`, `format`, `pack_name`—.
  */
 export function contactOnWhatsApp({ type, locale, location, service, plan, analytics = {} }) {
-  const shared = {
-    location,
-    service_name: plan ? `${service} — ${plan}` : service,
-    ...analytics,
-  };
-
-  track(CONVERSION_BY_INTENT[type] ?? EVENTS.WHATSAPP_OPENED, shared);
+  trackWhatsAppContact({ type, location, service, plan, analytics });
 
   const url = whatsappUrl(buildWhatsAppMessage({ type, locale, service, plan }));
   window.open(url, "_blank", "noopener,noreferrer");
