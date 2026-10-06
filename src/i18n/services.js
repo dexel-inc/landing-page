@@ -167,6 +167,55 @@ const es = {
     },
   ],
 
+  // Block between the category cards and the FAQ. Prices come from
+  // `config/pricing.js`; the portfolio title stays empty until it's approved.
+  visualContent: {
+    badge: "Contenido visual",
+    title: "Imágenes y videos publicitarios",
+    promiseLead: "Solo lo necesario.",
+    promiseRest: "Imágenes y videos limpios, sobrios y alineados con su marca.",
+    packages: [
+      {
+        id: "esencial",
+        name: "Esencial",
+        price: formatPrice("visualEssential", "es"),
+        unit: "por imagen",
+        chips: ["1 a 5 imágenes", "1 revisión"],
+        description: "Para lanzar un producto o renovar sus redes con pocas piezas bien hechas.",
+      },
+      {
+        id: "catalogo",
+        name: "Catálogo",
+        price: formatPrice("visualCatalog", "es"),
+        unit: "por imagen",
+        chips: ["10 a 20 imágenes", "2 revisiones"],
+        description: "Para presentar una línea completa con un mismo estilo en todas las piezas.",
+      },
+      {
+        id: "video-corto",
+        name: "Video corto",
+        price: formatPrice("visualShortVideo", "es"),
+        unit: "por video",
+        chips: [],
+        description: "Un video breve y limpio para presentar su producto o su servicio.",
+      },
+    ],
+    includes: [
+      "Formatos para redes sociales y catálogo",
+      "Derechos de uso comercial",
+      "Entrega en 1 día o bajo demanda",
+    ],
+    cta: "Cotizar por WhatsApp",
+    ctaAria: "Cotizar imágenes y videos por WhatsApp (se abre en una pestaña nueva)",
+    portfolio: {
+      label: "Antes y después",
+      title: "",
+      subtitle: "Piezas saturadas frente a su versión minimalista.",
+      beforeLabel: "Antes · saturado",
+      afterLabel: "Después · minimalista",
+    },
+  },
+
   faqTitle: "Preguntas frecuentes",
   faqSubtitle: "Las dudas que nos hacen antes de contratar",
   faqs: [
@@ -525,6 +574,53 @@ const en = {
       ctaKey: "quoteCta",
     },
   ],
+
+  visualContent: {
+    badge: "Visual content",
+    title: "Advertising images and videos",
+    promiseLead: "Only what is necessary.",
+    promiseRest: "Clean, understated images and videos aligned with your brand.",
+    packages: [
+      {
+        id: "essential",
+        name: "Essential",
+        price: "Price on request",
+        unit: "",
+        chips: ["1 to 5 images", "1 revision"],
+        description: "To launch a product or refresh your social media with a few well-made pieces.",
+      },
+      {
+        id: "catalog",
+        name: "Catalog",
+        price: "Price on request",
+        unit: "",
+        chips: ["10 to 20 images", "2 revisions"],
+        description: "To present a complete product line with the same style across every piece.",
+      },
+      {
+        id: "short-video",
+        name: "Short video",
+        price: "Price on request",
+        unit: "",
+        chips: [],
+        description: "A brief, clean video to present your product or service.",
+      },
+    ],
+    includes: [
+      "Formats for social media and catalogs",
+      "Commercial usage rights",
+      "Delivery in 1 day or on demand",
+    ],
+    cta: "Get a quote on WhatsApp",
+    ctaAria: "Get a quote for images and videos on WhatsApp (opens in a new tab)",
+    portfolio: {
+      label: "Before and after",
+      title: "",
+      subtitle: "Cluttered pieces next to their minimalist version.",
+      beforeLabel: "Before · cluttered",
+      afterLabel: "After · minimalist",
+    },
+  },
 
   faqTitle: "Frequently asked questions",
   faqSubtitle: "What people ask us before signing",

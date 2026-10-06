@@ -5,6 +5,7 @@ import Reveal from "../components/ui/Reveal.jsx";
 import FaqList from "../components/ui/FaqList.jsx";
 import CategoryCard from "../components/CategoryCard.jsx";
 import { buildCategoryCards } from "../components/categoryCards.js";
+import VisualContent from "../sections/VisualContent.jsx";
 import { useRouter } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
 import { INTENT, contactOnWhatsApp } from "../contact/whatsapp.js";
@@ -70,6 +71,8 @@ export default function ServicesPage({ copy, categories, audit, chrome }) {
           ))}
         </div>
       </section>
+
+      <VisualContent copy={copy.visualContent} includesLabel={copy.categoryLabel} />
 
       <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
         <FaqList
