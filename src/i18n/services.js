@@ -321,11 +321,6 @@ const es = {
         ],
       },
     ],
-    includes: [
-      "Formatos para redes sociales y catálogo",
-      "Derechos de uso comercial",
-      "Entrega en 1 día o bajo demanda",
-    ],
     cta: "Cotizar por WhatsApp",
     ctaAria: "Cotizar imágenes y videos por WhatsApp (se abre en una pestaña nueva)",
     portfolio: {
@@ -848,11 +843,6 @@ const en = {
           "Optional: a reference video you like.",
         ],
       },
-    ],
-    includes: [
-      "Formats for social media and catalogs",
-      "Commercial usage rights",
-      "Delivery in 1 day or on demand",
     ],
     cta: "Get a quote on WhatsApp",
     ctaAria: "Get a quote for images and videos on WhatsApp (opens in a new tab)",

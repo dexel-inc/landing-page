@@ -72,7 +72,7 @@ export default function ServicesPage({ copy, categories, audit, chrome }) {
         </div>
       </section>
 
-      <VisualContent copy={copy.visualContent} includesLabel={copy.categoryLabel} />
+      <VisualContent copy={copy.visualContent} />
 
       <section className="relative z-10 px-4 md:px-6 pt-16 md:pt-24">
         <FaqList
