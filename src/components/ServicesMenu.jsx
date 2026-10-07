@@ -277,8 +277,11 @@ export function ServicesAccordion({ groups, label, indexLabel, onNavigate }) {
                 </button>
               </div>
 
+              {/* `inert` while collapsed: the rows are only clipped, so without it
+                  Tab would land on links nobody can see. */}
               <div
                 id={panelId}
+                inert={!isOpen}
                 className={`grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none ${
                   isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                 }`}
