@@ -1,6 +1,6 @@
 import React, { useEffect, useId, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { Link } from "../router/RouterContext.jsx";
+import { Link, useRouter } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
 
 /**
@@ -13,22 +13,26 @@ import { ROUTE_KEYS } from "../router/routes.js";
  */
 // `py-2` over 12px text keeps the link at about 44px tall without enlarging
 // the type: it's the reasonable minimum for a finger to tap.
-const groupLinkClass =
-  "block py-2.5 text-xs tracking-[0.15em] uppercase font-semibold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-300 transition-colors";
+const focusRing =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 rounded";
+const accent = "text-blue-600 dark:text-blue-400";
+
+const groupLinkClass = `block py-2.5 text-xs tracking-[0.15em] uppercase font-semibold hover:text-blue-600 dark:hover:text-blue-300 focus-visible:text-blue-600 dark:focus-visible:text-blue-300 transition-colors ${focusRing}`;
+// The group of the page you're on takes the accent, so the menu shows where you are.
+const groupInkClass = (active) => (active ? accent : "text-slate-900 dark:text-white");
 
 const itemClass = "block text-sm text-slate-600 dark:text-gray-400 leading-relaxed";
-const itemLinkClass =
-  "block text-sm text-slate-600 dark:text-gray-400 leading-relaxed hover:text-blue-600 dark:hover:text-blue-400 transition-colors";
+const itemLinkClass = `block text-sm text-slate-600 dark:text-gray-400 leading-relaxed hover:text-blue-600 dark:hover:text-blue-400 focus-visible:text-blue-600 dark:focus-visible:text-blue-400 transition-colors ${focusRing}`;
 
 /**
  * A submenu item is a real link when its front has its own page
  * (`routeKey`) and plain text when it doesn't. The panel stays `hidden`
- * and crawlable either way.
+ * and crawlable either way. `hash` points to an anchor inside that page.
  */
 function MenuItem({ item, onClose, small = false }) {
   const textClass = small ? "text-xs text-slate-600 dark:text-gray-400" : itemClass;
   const linkClass = small
-    ? "block text-xs text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+    ? `flex items-center min-h-10 text-xs text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 focus-visible:text-blue-600 dark:focus-visible:text-blue-400 transition-colors ${focusRing}`
     : itemLinkClass;
 
   if (!item.routeKey) {
@@ -37,7 +41,7 @@ function MenuItem({ item, onClose, small = false }) {
 
   return (
     <li>
-      <Link to={item.routeKey} onClick={onClose} className={linkClass}>
+      <Link to={item.routeKey} hash={item.hash} onClick={onClose} className={linkClass}>
         {item.label}
       </Link>
     </li>
@@ -54,9 +58,27 @@ function MenuItem({ item, onClose, small = false }) {
  */
 export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
   const [open, setOpen] = useState(false);
+  // Where the panel's center goes, in px from the left edge of the container.
+  const [centerX, setCenterX] = useState(0);
   const containerRef = useRef(null);
   const triggerRef = useRef(null);
   const panelId = useId();
+  const { routeKey } = useRouter();
+
+  /**
+   * The panel is centered on the viewport, not on the item: four columns at
+   * up to 72rem wouldn't fit hanging off the item's left edge at 1366px.
+   * It's measured when it opens and when the window is resized.
+   */
+  const measure = () => {
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (rect) setCenterX(document.documentElement.clientWidth / 2 - rect.left);
+  };
+
+  const show = () => {
+    measure();
+    setOpen(true);
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -66,9 +88,23 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
       setOpen(false);
       triggerRef.current?.focus();
     };
+    // Touch has no `mouseleave`: a tap outside is what closes it there.
+    const onPointerDown = (event) => {
+      if (!containerRef.current?.contains(event.target)) setOpen(false);
+    };
+    const onResize = () => {
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (rect) setCenterX(document.documentElement.clientWidth / 2 - rect.left);
+    };
 
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("resize", onResize);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("resize", onResize);
+    };
   }, [open]);
 
   // `focusout` on the container: closes when tabbing out of the menu, but
@@ -89,14 +125,16 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
    */
   const handleTriggerClick = () => {
     const hoverOpened = open && window.matchMedia?.("(hover: hover)").matches;
-    if (!hoverOpened) setOpen((value) => !value);
+    if (hoverOpened) return;
+    if (open) setOpen(false);
+    else show();
   };
 
   return (
     <div
       ref={containerRef}
       className="relative"
-      onMouseEnter={() => setOpen(true)}
+      onMouseEnter={show}
       onMouseLeave={close}
       onBlur={handleBlur}
     >
@@ -128,23 +166,32 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
           Centering it on the viewport left that strip uncovered and the
           menu closed right as you went to pick a service.
 
-          The width is capped against the viewport so the card doesn't spill
-          off the right edge: `16rem` is what's left from the viewport's
-          left edge to this item, plus a margin. The earlier overflow was on
-          the left, and with the panel anchored to the item's left it can no
-          longer happen. */}
+          Horizontally it is centered on the viewport (`centerX`, measured
+          from the item) and its width is capped at `100vw - 4rem`, so with
+          four columns it fits at 1366px and never spills off either edge.
+          From `xl` it's four columns in up to 72rem; between `lg` and `xl`
+          it's two by two in up to 56rem. */}
       <div
         id={panelId}
         hidden={!open}
-        className="absolute left-0 top-full pt-4 w-max max-w-[min(56rem,calc(100vw-16rem))]"
+        style={{ left: centerX }}
+        className="absolute top-full -translate-x-1/2 pt-4 w-[min(56rem,calc(100vw-4rem))] xl:w-[min(72rem,calc(100vw-4rem))]"
       >
         {/* Height cap in case the panel grows taller than the viewport —two
             columns on 768px screens, or a language with long names—:
             instead of spilling off the bottom, it scrolls internally. */}
-        <div className="max-h-[calc(100svh-7rem)] overflow-y-auto rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 backdrop-blur-xl shadow-[0_24px_60px_-24px_rgba(15,23,42,0.45)] p-6 grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+        <div className="max-h-[calc(100svh-7rem)] overflow-y-auto rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 backdrop-blur-xl shadow-[0_24px_60px_-24px_rgba(15,23,42,0.45)] p-6 grid grid-cols-2 xl:grid-cols-4 gap-x-8 gap-y-6">
           {groups.map((group) => (
-            <div key={group.key} className="min-w-44">
-              <Link to={group.routeKey} onClick={() => { close(); onNavigate?.(group); }} className={groupLinkClass}>
+            <div key={group.key} className="min-w-0">
+              <Link
+                to={group.routeKey}
+                aria-current={routeKey === group.routeKey ? "page" : undefined}
+                onClick={() => {
+                  close();
+                  onNavigate?.(group);
+                }}
+                className={`${groupLinkClass} ${groupInkClass(routeKey === group.routeKey)}`}
+              >
                 {group.label}
               </Link>
               <div className="w-8 h-0.5 bg-blue-500 mt-2 mb-3" />
@@ -181,6 +228,7 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
  */
 export function ServicesAccordion({ groups, label, indexLabel, onNavigate }) {
   const [openGroup, setOpenGroup] = useState(null);
+  const { routeKey } = useRouter();
 
   return (
     <div>
@@ -188,7 +236,9 @@ export function ServicesAccordion({ groups, label, indexLabel, onNavigate }) {
         {label}
       </p>
 
-      <div className="space-y-1">
+      {/* One column on a phone, two by two from `sm` (640px). `items-start`
+          so opening one card doesn't stretch its neighbor in the row. */}
+      <div className="grid gap-1 sm:grid-cols-2 sm:gap-2 items-start">
         {groups.map((group) => {
           const isOpen = openGroup === group.key;
           const panelId = `services-accordion-${group.key}`;
@@ -201,8 +251,11 @@ export function ServicesAccordion({ groups, label, indexLabel, onNavigate }) {
               <div className="flex items-stretch">
                 <Link
                   to={group.routeKey}
+                  aria-current={routeKey === group.routeKey ? "page" : undefined}
                   onClick={() => onNavigate?.(group)}
-                  className="flex-1 px-4 py-3.5 text-xs uppercase tracking-[0.12em] font-semibold text-slate-800 dark:text-white"
+                  className={`flex-1 flex items-center min-h-11 px-4 py-3 text-xs uppercase tracking-[0.12em] font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-500/40 ${
+                    routeKey === group.routeKey ? accent : "text-slate-800 dark:text-white"
+                  }`}
                 >
                   {group.label}
                 </Link>
@@ -233,7 +286,12 @@ export function ServicesAccordion({ groups, label, indexLabel, onNavigate }) {
                 <div className="overflow-hidden">
                   <ul className="px-4 pb-3 space-y-1">
                     {group.items.map((item) => (
-                      <MenuItem key={item.label} item={item} small />
+                      <MenuItem
+                        key={item.label}
+                        item={item}
+                        small
+                        onClose={() => onNavigate?.(group)}
+                      />
                     ))}
                   </ul>
                 </div>
