@@ -51,6 +51,9 @@ export const messages = {
         "es",
         { from: true },
       )}.`,
+      visualContentTitle: "Imágenes y videos publicitarios | Dexel",
+      visualContentDescription:
+        "Solo lo necesario. Imágenes y videos limpios, sobrios y alineados con su marca.",
       aiAssessmentTitle: "Diagnóstico de IA para empresas | Dexel",
       aiAssessmentDescription: `Dónde aporta la IA en su operación, con qué datos y con qué riesgos, priorizado por retorno. ${formatPrice(
         "aiWorkshop",
@@ -541,6 +544,9 @@ export const messages = {
         "en",
         { from: true },
       )}.`,
+      visualContentTitle: "Advertising images and videos | Dexel",
+      visualContentDescription:
+        "Only what is necessary. Clean, understated images and videos aligned with your brand.",
       aiAssessmentTitle: "AI assessment for companies | Dexel",
       aiAssessmentDescription: `Where AI helps your operation, with what data and what risks, ranked by return. ${formatPrice(
         "aiWorkshop",

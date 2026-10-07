@@ -9,6 +9,7 @@ import CategoryPage from "./pages/CategoryPage.jsx";
 import ServiceDetailPage from "./pages/ServiceDetailPage.jsx";
 import MicropagesDemos from "./components/MicropagesDemos.jsx";
 import AuditPage from "./pages/AuditPage.jsx";
+import VisualContentPage from "./pages/VisualContentPage.jsx";
 import { AuditDeliverables } from "./components/AuditTimeline.jsx";
 import TrainingPage from "./pages/TrainingPage.jsx";
 import PrivacyPage from "./pages/PrivacyPage.jsx";
@@ -383,6 +384,8 @@ function RouteContent() {
       />
     ) : routeKey === ROUTE_KEYS.AUDIT ? (
       <AuditPage copy={copy.audit} process={copy.process} chrome={copy.chrome} />
+    ) : routeKey === ROUTE_KEYS.VISUAL_CONTENT ? (
+      <VisualContentPage copy={copy.services.visualContent} />
     ) : routeKey === ROUTE_KEYS.TRAINING ? (
       <TrainingPage copy={copy.training} chrome={copy.chrome} />
     ) : routeKey === ROUTE_KEYS.PRIVACY ? (

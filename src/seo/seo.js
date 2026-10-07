@@ -37,6 +37,7 @@ const META_KEY = {
   [ROUTE_KEYS.TOOLS_AUDIT]: "toolsAudit",
   [ROUTE_KEYS.SOFTWARE_AUDIT]: "softwareAudit",
   [ROUTE_KEYS.AI_ASSESSMENT]: "aiAssessment",
+  [ROUTE_KEYS.VISUAL_CONTENT]: "visualContent",
   [ROUTE_KEYS.CONTACT]: "contact",
   [ROUTE_KEYS.PRIVACY]: "privacy",
   [ROUTE_KEYS.NOT_FOUND]: "notFound",
