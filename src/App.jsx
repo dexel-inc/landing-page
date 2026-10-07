@@ -9,6 +9,7 @@ import CategoryPage from "./pages/CategoryPage.jsx";
 import ServiceDetailPage from "./pages/ServiceDetailPage.jsx";
 import MicropagesDemos from "./components/MicropagesDemos.jsx";
 import AuditPage from "./pages/AuditPage.jsx";
+import VisualContentPage from "./pages/VisualContentPage.jsx";
 import { AuditDeliverables } from "./components/AuditTimeline.jsx";
 import TrainingPage from "./pages/TrainingPage.jsx";
 import PrivacyPage from "./pages/PrivacyPage.jsx";
@@ -85,6 +86,17 @@ function Navbar() {
   // own, with no effect needed to fix the state after painting.
   const [openForPath, setOpenForPath] = useState(null);
   const mobileOpen = openForPath === path;
+
+  // With the sheet open the page behind it doesn't scroll: the sheet has its
+  // own scroll, and a gesture past its end shouldn't drag the page along.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = overflow;
+    };
+  }, [mobileOpen]);
 
   const groups = serviceMenuGroups(copy);
 
@@ -191,7 +203,7 @@ function Navbar() {
       <div
         id="mobile-nav"
         hidden={!mobileOpen}
-        className="lg:hidden mt-3 rounded-2xl border border-slate-200/90 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md p-4 max-h-[70svh] overflow-y-auto"
+        className="lg:hidden mt-3 rounded-2xl border border-slate-200/90 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md p-4 max-h-[70svh] overflow-y-auto overscroll-contain"
       >
         <div className="flex flex-col gap-1 mb-4">
           {NAV_LINKS.map((link) => (
@@ -209,6 +221,7 @@ function Navbar() {
           groups={groups}
           label={copy.nav.services}
           indexLabel={copy.chrome.menuIndex}
+          onNavigate={() => setOpenForPath(null)}
         />
       </div>
     </header>
@@ -383,6 +396,8 @@ function RouteContent() {
       />
     ) : routeKey === ROUTE_KEYS.AUDIT ? (
       <AuditPage copy={copy.audit} process={copy.process} chrome={copy.chrome} />
+    ) : routeKey === ROUTE_KEYS.VISUAL_CONTENT ? (
+      <VisualContentPage copy={copy.services.visualContent} />
     ) : routeKey === ROUTE_KEYS.TRAINING ? (
       <TrainingPage copy={copy.training} chrome={copy.chrome} />
     ) : routeKey === ROUTE_KEYS.PRIVACY ? (

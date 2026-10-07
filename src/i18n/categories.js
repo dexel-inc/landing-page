@@ -837,7 +837,7 @@ export const categoryChromeCopy = {
 };
 
 /**
- * The three service-menu groups, derived from the same content the pages
+ * The four service-menu groups, derived from the same content the pages
  * render: a new front shows up in the dropdown without touching the
  * component. Audit comes in from `audit` because its content has lived in
  * `services.js` since before categories existed.
@@ -869,6 +869,18 @@ export function serviceMenuGroups(copy) {
       items: copy.audit.fronts.map((front) => ({
         label: front.name,
         routeKey: front.routeKey ?? null,
+      })),
+    },
+    {
+      // Its items are the page's three packages, which are anchors inside it:
+      // each package `id` is the `hash` the page's sections answer to.
+      key: "visualContent",
+      routeKey: ROUTE_KEYS.VISUAL_CONTENT,
+      label: copy.services.visualContent.title,
+      items: copy.services.visualContent.packages.map((pkg) => ({
+        label: pkg.name,
+        routeKey: ROUTE_KEYS.VISUAL_CONTENT,
+        hash: pkg.id,
       })),
     },
   ];

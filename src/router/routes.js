@@ -60,6 +60,12 @@ export const ROUTE_KEYS = {
   TOOLS_AUDIT: "toolsAudit",
   SOFTWARE_AUDIT: "softwareAudit",
   AI_ASSESSMENT: "aiAssessment",
+  /**
+   * Advertising images and videos. Not in `SERVICE_CATEGORIES` either: the
+   * services index keeps its three categories and shows this one as a
+   * summary block, and the menu adds it as a fourth group.
+   */
+  VISUAL_CONTENT: "visualContent",
   CONTACT: "contact",
   PRIVACY: "privacy",
   /** Has no URL of its own: it's what shows when no route matches. */
@@ -99,6 +105,7 @@ export const PATHS = {
     toolsAudit: "/es/servicios/auditoria/herramientas-y-licencias",
     softwareAudit: "/es/servicios/auditoria/software",
     aiAssessment: "/es/servicios/auditoria/diagnostico-ia",
+    visualContent: "/es/servicios/imagenes-y-videos",
     training: "/es/formacion",
     contact: "/es/contacto",
     privacy: "/es/privacidad",
@@ -126,6 +133,7 @@ export const PATHS = {
     toolsAudit: "/en/services/audit/tools-and-licenses",
     softwareAudit: "/en/services/audit/software",
     aiAssessment: "/en/services/audit/ai-assessment",
+    visualContent: "/en/services/images-and-videos",
     training: "/en/training",
     contact: "/en/contact",
     privacy: "/en/privacy",
