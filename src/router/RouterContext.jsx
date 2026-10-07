@@ -84,31 +84,42 @@ function resolveState(pathname) {
  *   prerendering, where `window.location` doesn't exist.
  */
 export function RouterProvider({ children, initialPath }) {
-  const [state, setState] = useState(() =>
-    resolveState(initialPath ?? (isBrowser ? window.location.pathname : ROOT_PATH)),
-  );
+  const [state, setState] = useState(() => ({
+    ...resolveState(initialPath ?? (isBrowser ? window.location.pathname : ROOT_PATH)),
+    hash: isBrowser ? window.location.hash.slice(1) : "",
+    scrollTick: 0,
+  }));
 
   // The effects (history and scroll) sit outside the state updater: React
   // can invoke it twice in strict mode, and doing it there left duplicate
   // history entries and a double scroll.
+  //
+  // `nextPath` may carry a `#anchor`. With one, the scroll goes to that
+  // element (see the effect below) instead of to the top, and navigating to
+  // an anchor of the page we're already on is not a no-op.
   const go = useCallback(
     (nextPath, { replace = false } = {}) => {
-      const next = resolveState(nextPath);
-      if (next.path === state.path) return;
+      const [pathname, hash = ""] = nextPath.split("#");
+      const next = resolveState(pathname);
+      if (next.path === state.path && !hash) return;
 
       if (isBrowser) {
-        window.history[replace ? "replaceState" : "pushState"]({}, "", next.path);
+        window.history[replace ? "replaceState" : "pushState"](
+          {},
+          "",
+          hash ? `${next.path}#${hash}` : next.path,
+        );
         // Instant jump, not `smooth`: with animated scrolling the new page
         // mounts while the scroll is still in progress, and the entrance
         // animations read everything the scroll passes over as "already
         // visible". The result was a page that appeared all at once, with
         // no animation at all.
-        if (!replace) window.scrollTo({ top: 0, behavior: "auto" });
+        if (!replace && !hash) window.scrollTo({ top: 0, behavior: "auto" });
       }
 
-      setState(next);
+      setState({ ...next, hash, scrollTick: state.scrollTick + 1 });
     },
-    [state.path],
+    [state.path, state.scrollTick],
   );
 
   /** Navigates by page key, resolving the URL for the active language. */
@@ -148,10 +159,24 @@ export function RouterProvider({ children, initialPath }) {
   useEffect(() => {
     if (!isBrowser) return;
 
-    const onPopState = () => setState(resolveState(window.location.pathname));
+    const onPopState = () =>
+      setState((prev) => ({
+        ...resolveState(window.location.pathname),
+        hash: window.location.hash.slice(1),
+        scrollTick: prev.scrollTick + 1,
+      }));
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
+
+  // The URL's anchor, whether it comes from a link, from "back" or from
+  // opening the page directly. The tree mounts from scratch over the
+  // prerendered HTML, so the browser's own jump to the anchor doesn't count.
+  // The distance to the header comes from `scroll-margin-top` on `section[id]`.
+  useEffect(() => {
+    if (!isBrowser || !state.hash) return;
+    document.getElementById(state.hash)?.scrollIntoView({ block: "start", behavior: "auto" });
+  }, [state.hash, state.scrollTick]);
 
   const value = useMemo(
     () => ({
@@ -182,9 +207,9 @@ export function useRouter() {
  * resolves the `href` for the active language, so the HTML crawlers see
  * carries the real localized URL and not a `#`.
  */
-export function Link({ to, locale, children, onClick, ...props }) {
+export function Link({ to, locale, hash, children, onClick, ...props }) {
   const { navigate, pathFor: resolve } = useRouter();
-  const href = resolve(to, locale);
+  const href = hash ? `${resolve(to, locale)}#${hash}` : resolve(to, locale);
 
   const handleClick = (event) => {
     // We respect ctrl/cmd-click and middle-click: opening in a new tab is a
