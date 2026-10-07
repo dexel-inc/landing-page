@@ -1,5 +1,9 @@
 import React from "react";
-import { VisualPortfolio, VisualWhatsAppButton } from "../components/VisualContentShared.jsx";
+import {
+  VisualPortfolio,
+  VisualWhatsAppButton,
+  visualFocusClass,
+} from "../components/VisualContentShared.jsx";
 import { Link } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
 
@@ -58,7 +62,7 @@ export default function VisualContent({ copy }) {
             <Link
               to={ROUTE_KEYS.VISUAL_CONTENT}
               aria-label={copy.summaryCtaAria}
-              className="inline-flex min-h-12 items-center justify-center rounded-lg text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[#50A2FF] px-1"
+              className={`inline-flex min-h-12 items-center justify-center rounded-lg text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline px-1 ${visualFocusClass}`}
             >
               {copy.summaryCta}
             </Link>

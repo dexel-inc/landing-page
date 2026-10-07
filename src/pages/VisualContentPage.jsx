@@ -1,6 +1,10 @@
 import React from "react";
 import Reveal from "../components/ui/Reveal.jsx";
-import { VisualPortfolio, VisualWhatsAppButton } from "../components/VisualContentShared.jsx";
+import {
+  VisualPortfolio,
+  VisualWhatsAppButton,
+  visualFocusClass,
+} from "../components/VisualContentShared.jsx";
 import { Link } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
 
@@ -217,7 +221,7 @@ export default function VisualContentPage({ copy }) {
                 <Link
                   to={ROUTE_KEYS.VISUAL_CONTENT}
                   hash={pkg.id}
-                  className="group flex w-full flex-col rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/40 p-5 md:p-6 hover:border-blue-500/30 transition-colors duration-500 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[#50A2FF]"
+                  className={`group flex w-full flex-col rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/40 p-5 md:p-6 hover:border-blue-500/30 transition-colors duration-500 ${visualFocusClass}`}
                 >
                   <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white leading-snug mb-1.5">
                     {pkg.name}

@@ -2,6 +2,7 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Link, useRouter } from "../router/RouterContext.jsx";
 import { ROUTE_KEYS } from "../router/routes.js";
+import { visualFocusClass } from "./VisualContentShared.jsx";
 
 /**
  * Services menu: dropdown on desktop, accordion on mobile.
@@ -17,23 +18,31 @@ const focusRing =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 rounded";
 const accent = "text-blue-600 dark:text-blue-400";
 
-const groupLinkClass = `block py-2.5 text-xs tracking-[0.15em] uppercase font-semibold hover:text-blue-600 dark:hover:text-blue-300 focus-visible:text-blue-600 dark:focus-visible:text-blue-300 transition-colors ${focusRing}`;
+const groupLinkClass = (ring) =>
+  `block py-2.5 text-xs tracking-[0.15em] uppercase font-semibold hover:text-blue-600 dark:hover:text-blue-300 focus-visible:text-blue-600 dark:focus-visible:text-blue-300 transition-colors ${ring}`;
 // The group of the page you're on takes the accent, so the menu shows where you are.
 const groupInkClass = (active) => (active ? accent : "text-slate-900 dark:text-white");
 
 const itemClass = "block text-sm text-slate-600 dark:text-gray-400 leading-relaxed";
-const itemLinkClass = `block text-sm text-slate-600 dark:text-gray-400 leading-relaxed hover:text-blue-600 dark:hover:text-blue-400 focus-visible:text-blue-600 dark:focus-visible:text-blue-400 transition-colors ${focusRing}`;
+const itemLinkClass = (ring) =>
+  `block text-sm text-slate-600 dark:text-gray-400 leading-relaxed hover:text-blue-600 dark:hover:text-blue-400 focus-visible:text-blue-600 dark:focus-visible:text-blue-400 transition-colors ${ring}`;
+
+// The "Advertising images and videos" group is the only one with the
+// prototype's focus (outline 3px, 3px away). The others keep `focusRing`.
+const isVisualGroup = (group) => group.routeKey === ROUTE_KEYS.VISUAL_CONTENT;
+const groupFocus = (group) => (isVisualGroup(group) ? visualFocusClass : focusRing);
 
 /**
  * A submenu item is a real link when its front has its own page
  * (`routeKey`) and plain text when it doesn't. The panel stays `hidden`
  * and crawlable either way. `hash` points to an anchor inside that page.
+ * `ring` is the focus class: the default ring unless the group brings its own.
  */
-function MenuItem({ item, onClose, small = false }) {
+function MenuItem({ item, onClose, small = false, ring = focusRing }) {
   const textClass = small ? "text-xs text-slate-600 dark:text-gray-400" : itemClass;
   const linkClass = small
-    ? `flex items-center min-h-10 text-xs text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 focus-visible:text-blue-600 dark:focus-visible:text-blue-400 transition-colors ${focusRing}`
-    : itemLinkClass;
+    ? `flex items-center min-h-10 text-xs text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 focus-visible:text-blue-600 dark:focus-visible:text-blue-400 transition-colors ${ring}`
+    : itemLinkClass(ring);
 
   if (!item.routeKey) {
     return <li className={textClass}>{item.label}</li>;
@@ -190,14 +199,19 @@ export function ServicesDropdown({ groups, label, indexLabel, onNavigate }) {
                   close();
                   onNavigate?.(group);
                 }}
-                className={`${groupLinkClass} ${groupInkClass(routeKey === group.routeKey)}`}
+                className={`${groupLinkClass(groupFocus(group))} ${groupInkClass(routeKey === group.routeKey)}`}
               >
                 {group.label}
               </Link>
               <div className="w-8 h-0.5 bg-blue-500 mt-2 mb-3" />
               <ul className="space-y-1.5">
                 {group.items.map((item) => (
-                  <MenuItem key={item.label} item={item} onClose={close} />
+                  <MenuItem
+                    key={item.label}
+                    item={item}
+                    onClose={close}
+                    ring={groupFocus(group)}
+                  />
                 ))}
               </ul>
             </div>
@@ -242,6 +256,10 @@ export function ServicesAccordion({ groups, label, indexLabel, onNavigate }) {
         {groups.map((group) => {
           const isOpen = openGroup === group.key;
           const panelId = `services-accordion-${group.key}`;
+          // The card clips with `overflow-hidden`, so an outline drawn outside
+          // the link would be cut off. In the new group the padding moves to a
+          // margin (same 44px row, same text position) to leave room for it.
+          const visual = isVisualGroup(group);
 
           return (
             <div
@@ -253,20 +271,32 @@ export function ServicesAccordion({ groups, label, indexLabel, onNavigate }) {
                   to={group.routeKey}
                   aria-current={routeKey === group.routeKey ? "page" : undefined}
                   onClick={() => onNavigate?.(group)}
-                  className={`flex-1 flex items-center min-h-11 px-4 py-3 text-xs uppercase tracking-[0.12em] font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-500/40 ${
-                    routeKey === group.routeKey ? accent : "text-slate-800 dark:text-white"
-                  }`}
+                  className={`flex-1 flex items-center text-xs uppercase tracking-[0.12em] font-semibold ${
+                    visual
+                      ? `m-1.5 min-h-8 px-2.5 py-1.5 ${visualFocusClass}`
+                      : "min-h-11 px-4 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-500/40"
+                  } ${routeKey === group.routeKey ? accent : "text-slate-800 dark:text-white"}`}
                 >
                   {group.label}
                 </Link>
 
+                {visual && (
+                  <span
+                    aria-hidden="true"
+                    className="w-px bg-slate-200 dark:bg-zinc-800"
+                  />
+                )}
                 <button
                   type="button"
                   aria-expanded={isOpen}
                   aria-controls={panelId}
                   aria-label={group.label}
                   onClick={() => setOpenGroup(isOpen ? null : group.key)}
-                  className="px-4 border-l border-slate-200 dark:border-zinc-800 text-slate-400 dark:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-500/40"
+                  className={`text-slate-400 dark:text-gray-500 ${
+                    visual
+                      ? `m-1.5 px-2.5 ${visualFocusClass}`
+                      : "px-4 border-l border-slate-200 dark:border-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-500/40"
+                  }`}
                 >
                   <ChevronDown
                     size={16}
@@ -287,12 +317,13 @@ export function ServicesAccordion({ groups, label, indexLabel, onNavigate }) {
                 }`}
               >
                 <div className="overflow-hidden">
-                  <ul className="px-4 pb-3 space-y-1">
+                  <ul className={`px-4 pb-3 space-y-1 ${visual ? "pt-1.5" : ""}`}>
                     {group.items.map((item) => (
                       <MenuItem
                         key={item.label}
                         item={item}
                         small
+                        ring={groupFocus(group)}
                         onClose={() => onNavigate?.(group)}
                       />
                     ))}

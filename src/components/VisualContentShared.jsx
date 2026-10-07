@@ -11,6 +11,15 @@ import { INTENT, trackWhatsAppContact, whatsappUrl } from "../contact/whatsapp.j
  * WhatsApp CTA through `trackWhatsAppContact`.
  */
 
+/**
+ * Focus of the approved prototype: 3px solid accent outline, 3px away from the
+ * element, 8px corners. Only the new images-and-videos elements use it. The
+ * `!` makes it win over the ring and `outline-none` that `Button` and the menu
+ * bring by default, and `ring-0` keeps the old ring from adding a second one.
+ */
+export const visualFocusClass =
+  "focus-visible:outline-solid! focus-visible:outline-3! focus-visible:outline-offset-3! focus-visible:outline-[#155DFC]! dark:focus-visible:outline-[#51A2FF]! focus-visible:rounded-lg! focus-visible:ring-0!";
+
 const WHATSAPP_TEXT = "Hola, quiero cotizar imágenes y videos para mi marca";
 const TRACK_LOCATION = "servicios-imagenes-videos";
 
@@ -49,7 +58,7 @@ export function VisualWhatsAppButton({ copy, className = "" }) {
       }
       variant="primary"
       size="lg"
-      className={`w-full sm:w-auto min-h-12 focus-visible:ring-[3px] focus-visible:ring-[#50A2FF]! ${className}`}
+      className={`w-full sm:w-auto min-h-12 ${visualFocusClass} ${className}`}
     >
       <WhatsAppIcon />
       {copy.cta}
